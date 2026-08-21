@@ -1,0 +1,40 @@
+{
+  "case_id": "DEV-001",
+  "split": "development",
+  "complexity": "simple",
+  "title": "Library desk — borrow book",
+  "notes": "Synthetic minimal example for scaffold tests; not a claim of benchmark completeness.",
+  "specification_request": {
+    "project_name": "Library Desk",
+    "project_goal": "Allow patrons to borrow books",
+    "project_description": "A small library circulation desk system for searching and borrowing books.",
+    "functional_requirements": [
+      {
+        "id": "FR-001",
+        "text": "Patron can search the catalog by title",
+        "priority": "must",
+        "tags": ["catalog"]
+      },
+      {
+        "id": "FR-002",
+        "text": "Patron can borrow an available book",
+        "priority": "must",
+        "tags": ["loan"]
+      }
+    ],
+    "non_functional_requirements": [
+      {
+        "id": "NFR-001",
+        "text": "Borrow confirmation must complete within 3 seconds",
+        "category": "performance",
+        "tags": ["latency"]
+      }
+    ],
+    "max_repair_attempts": 2,
+    "metadata": {
+      "source": "synthetic",
+      "created_at": "2026-08-21"
+    }
+  },
+  "gold": null
+}

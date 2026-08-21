@@ -1,0 +1,508 @@
+"""Domain contracts: Pydantic input/output models and LangGraph TypedDict states.
+
+Source of truth for activity diagrams is ActivityDiagram; Mermaid is a derived view.
+Trace links live only in TraceManifest; forward/reverse indexes are derived.
+"""
+
+from __future__ import annotations
+
+from enum import Enum
+from typing import Any, Literal, Required, TypedDict
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+
+
+class StrictModel(BaseModel):
+    """Base for key pipeline contracts: reject unknown fields."""
+
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+
+# ---------------------------------------------------------------------------
+# Enumerations
+# ---------------------------------------------------------------------------
+
+
+class RequirementCoverageStatus(str, Enum):
+    COVERED = "covered"
+    PARTIALLY_COVERED = "partially_covered"
+    UNCOVERED = "uncovered"
+    OUT_OF_SCOPE = "out_of_scope"
+    CONFLICTING = "conflicting"
+
+
+class ScenarioKind(str, Enum):
+    MAIN = "main"
+    ALTERNATIVE = "alternative"
+    EXCEPTION = "exception"
+
+
+class ActivityNodeKind(str, Enum):
+    INITIAL = "initial"
+    FINAL = "final"
+    ACTION = "action"
+    DECISION = "decision"
+    MERGE = "merge"
+    FORK = "fork"
+    JOIN = "join"
+    OBJECT = "object"
+
+
+class TraceOrigin(str, Enum):
+    LLM = "llm"
+    DETERMINISTIC = "deterministic"
+    HUMAN = "human"
+    REPAIR = "repair"
+
+
+class TraceLinkType(str, Enum):
+    FR_TO_UC = "fr_to_uc"
+    FR_TO_STEP = "fr_to_step"
+    UC_TO_US = "uc_to_us"
+    UC_TO_SS = "uc_to_ss"
+    STEP_TO_ACTIVITY_NODE = "step_to_activity_node"
+    STEP_TO_ACTIVITY_EDGE = "step_to_activity_edge"
+    UC_TO_ACTIVITY = "uc_to_activity"
+    NFR_TO_UC = "nfr_to_uc"
+    UNSUPPORTED = "unsupported"
+
+
+class IssueSeverity(str, Enum):
+    ERROR = "error"
+    WARNING = "warning"
+    INFO = "info"
+
+
+class IssueCategory(str, Enum):
+    SCHEMA = "schema"
+    STRUCTURAL = "structural"
+    TRACE = "trace"
+    SEMANTIC = "semantic"
+    REPAIR = "repair"
+    POLICY = "policy"
+
+
+class PipelineStatus(str, Enum):
+    SUCCESS = "success"
+    PARTIAL = "partial"
+    FAILED = "failed"
+
+
+class ElementRefType(str, Enum):
+    FR = "fr"
+    NFR = "nfr"
+    UC = "uc"
+    US = "us"
+    SS = "ss"
+    STEP = "step"
+    ACTOR = "actor"
+    ACTIVITY = "activity"
+    ACTIVITY_NODE = "activity_node"
+    ACTIVITY_EDGE = "activity_edge"
+    PRECONDITION = "precondition"
+    POSTCONDITION = "postcondition"
+
+
+# ---------------------------------------------------------------------------
+# Requirements / request
+# ---------------------------------------------------------------------------
+
+
+class FunctionalRequirement(StrictModel):
+    id: str = Field(pattern=r"^FR-\d{3,}$")
+    text: str = Field(min_length=1)
+    priority: str | None = None
+    tags: list[str] = Field(default_factory=list)
+
+
+class NonFunctionalRequirement(StrictModel):
+    id: str = Field(pattern=r"^NFR-\d{3,}$")
+    text: str = Field(min_length=1)
+    category: str | None = None
+    tags: list[str] = Field(default_factory=list)
+
+
+class SpecificationRequest(StrictModel):
+    """Input specification for the full pipeline (corrected spelling)."""
+
+    project_name: str = Field(min_length=1)
+    project_goal: str = Field(min_length=1)
+    project_description: str = Field(min_length=1)
+    functional_requirements: list[FunctionalRequirement] = Field(min_length=1)
+    non_functional_requirements: list[NonFunctionalRequirement] = Field(default_factory=list)
+    max_repair_attempts: int = Field(default=2, ge=0, le=10)
+    metadata: dict[str, str] = Field(default_factory=dict)
+
+    @field_validator("functional_requirements")
+    @classmethod
+    def unique_fr_ids(cls, value: list[FunctionalRequirement]) -> list[FunctionalRequirement]:
+        ids = [item.id for item in value]
+        if len(ids) != len(set(ids)):
+            raise ValueError("functional requirement IDs must be unique")
+        return value
+
+    @field_validator("non_functional_requirements")
+    @classmethod
+    def unique_nfr_ids(
+        cls, value: list[NonFunctionalRequirement]
+    ) -> list[NonFunctionalRequirement]:
+        ids = [item.id for item in value]
+        if len(ids) != len(set(ids)):
+            raise ValueError("non-functional requirement IDs must be unique")
+        return value
+
+
+# ---------------------------------------------------------------------------
+# Use Case building blocks
+# ---------------------------------------------------------------------------
+
+
+class Actor(StrictModel):
+    id: str = Field(pattern=r"^ACT-\d{3,}$")
+    name: str
+    description: str | None = None
+    is_primary: bool = False
+
+
+class Precondition(StrictModel):
+    id: str = Field(pattern=r"^PRE-[A-Z0-9]+-\d{3,}$")
+    text: str
+
+
+class Postcondition(StrictModel):
+    id: str = Field(pattern=r"^POST-[A-Z0-9]+-\d{3,}$")
+    text: str
+    outcome: Literal["success", "failure"]
+
+
+class UserStory(StrictModel):
+    """Actor-facing need: As a <role>, I want <capability>, so that <benefit>.
+
+    Not a scenario step. Links to a Use Case via TraceManifest (uc_to_us).
+    """
+
+    id: str = Field(pattern=r"^US-\d{3,}$")
+    role: str
+    capability: str
+    benefit: str
+    use_case_id: str = Field(pattern=r"^UC-\d{3,}$")
+
+
+class SystemStory(StrictModel):
+    """System-side responsibility that realizes part of a Use Case.
+
+    Not a scenario step. Distinct from UserStory: focuses on system behaviour,
+    not stakeholder phrasing.
+    """
+
+    id: str = Field(pattern=r"^SS-\d{3,}$")
+    system_action: str
+    responsibility: str
+    use_case_id: str = Field(pattern=r"^UC-\d{3,}$")
+
+
+class ScenarioStep(StrictModel):
+    id: str = Field(pattern=r"^STEP-UC\d{3,}-\d{3,}$")
+    order: int = Field(ge=1)
+    actor_id: str | None = None
+    action: str
+    expected_result: str | None = None
+
+
+class Scenario(StrictModel):
+    id: str = Field(pattern=r"^SCN-UC\d{3,}-[A-Z]+-\d{3,}$")
+    kind: ScenarioKind
+    name: str
+    steps: list[ScenarioStep] = Field(min_length=1)
+    start_from_step_id: str | None = None
+    rejoins_step_id: str | None = None
+
+
+class MissingInformation(StrictModel):
+    id: str = Field(pattern=r"^MI-\d{3,}$")
+    description: str
+    related_element_ids: list[str] = Field(default_factory=list)
+    blocks_generation: bool = False
+
+
+class UnsupportedAssumption(StrictModel):
+    id: str = Field(pattern=r"^UA-\d{3,}$")
+    description: str
+    related_element_ids: list[str] = Field(default_factory=list)
+    justified: bool = False
+
+
+class UseCase(StrictModel):
+    id: str = Field(pattern=r"^UC-\d{3,}$")
+    name: str
+    goal: str
+    primary_actor_id: str
+    secondary_actor_ids: list[str] = Field(default_factory=list)
+    trigger: str
+    preconditions: list[Precondition] = Field(default_factory=list)
+    success_postconditions: list[Postcondition] = Field(default_factory=list)
+    failure_postconditions: list[Postcondition] = Field(default_factory=list)
+    main_success_scenario: Scenario
+    alternative_scenarios: list[Scenario] = Field(default_factory=list)
+    exception_scenarios: list[Scenario] = Field(default_factory=list)
+    user_stories: list[UserStory] = Field(default_factory=list)
+    system_stories: list[SystemStory] = Field(default_factory=list)
+    source_fr_ids: list[str] = Field(min_length=1)
+    source_nfr_ids: list[str] = Field(default_factory=list)
+    missing_information: list[MissingInformation] = Field(default_factory=list)
+    unsupported_assumptions: list[UnsupportedAssumption] = Field(default_factory=list)
+    human_readable_text: str | None = None
+
+    @field_validator("main_success_scenario")
+    @classmethod
+    def main_must_be_main(cls, value: Scenario) -> Scenario:
+        if value.kind != ScenarioKind.MAIN:
+            raise ValueError("main_success_scenario.kind must be 'main'")
+        return value
+
+
+class UseCaseSet(StrictModel):
+    actors: list[Actor] = Field(default_factory=list)
+    use_cases: list[UseCase] = Field(default_factory=list)
+    fr_coverage: dict[str, RequirementCoverageStatus] = Field(default_factory=dict)
+
+
+# ---------------------------------------------------------------------------
+# Activity diagram
+# ---------------------------------------------------------------------------
+
+
+class ActivityPartition(StrictModel):
+    id: str = Field(pattern=r"^PART-UC\d{3,}-\d{3,}$")
+    name: str
+    actor_id: str | None = None
+
+
+class ActivityNode(StrictModel):
+    id: str = Field(pattern=r"^ADN-UC\d{3,}-\d{3,}$")
+    kind: ActivityNodeKind
+    name: str
+    partition_id: str | None = None
+    related_step_ids: list[str] = Field(default_factory=list)
+    unsupported: bool = False
+
+
+class ActivityEdge(StrictModel):
+    id: str = Field(pattern=r"^ADE-UC\d{3,}-\d{3,}$")
+    source_node_id: str
+    target_node_id: str
+    guard: str | None = None
+    label: str | None = None
+    related_step_ids: list[str] = Field(default_factory=list)
+    unsupported: bool = False
+
+
+class ActivityDiagram(StrictModel):
+    id: str = Field(pattern=r"^AD-UC\d{3,}$")
+    use_case_id: str = Field(pattern=r"^UC-\d{3,}$")
+    name: str
+    partitions: list[ActivityPartition] = Field(default_factory=list)
+    nodes: list[ActivityNode] = Field(min_length=2)
+    edges: list[ActivityEdge] = Field(default_factory=list)
+    mermaid_source: str | None = None
+
+
+# ---------------------------------------------------------------------------
+# Traceability
+# ---------------------------------------------------------------------------
+
+
+class TraceLink(StrictModel):
+    id: str = Field(pattern=r"^TL-\d{3,}$")
+    source_type: ElementRefType
+    source_id: str
+    target_type: ElementRefType
+    target_id: str
+    link_type: TraceLinkType
+    origin: TraceOrigin
+    rationale: str | None = None
+
+
+class TraceManifest(StrictModel):
+    """Single store for trace links. Indexes are derived, not duplicated."""
+
+    links: list[TraceLink] = Field(default_factory=list)
+
+    def forward_index(self) -> dict[str, list[TraceLink]]:
+        index: dict[str, list[TraceLink]] = {}
+        for link in self.links:
+            index.setdefault(link.source_id, []).append(link)
+        return index
+
+    def reverse_index(self) -> dict[str, list[TraceLink]]:
+        index: dict[str, list[TraceLink]] = {}
+        for link in self.links:
+            index.setdefault(link.target_id, []).append(link)
+        return index
+
+
+# ---------------------------------------------------------------------------
+# Validation / evaluation
+# ---------------------------------------------------------------------------
+
+
+class ValidationIssue(StrictModel):
+    id: str = Field(pattern=r"^VI-\d{3,}$")
+    severity: IssueSeverity
+    category: IssueCategory
+    code: str
+    message: str
+    element_ids: list[str] = Field(default_factory=list)
+    blocking: bool = True
+
+
+class ValidationReport(StrictModel):
+    passed: bool
+    issues: list[ValidationIssue] = Field(default_factory=list)
+    validator_name: str
+    details: dict[str, Any] = Field(default_factory=dict)
+
+    @property
+    def blocking_issues(self) -> list[ValidationIssue]:
+        return [issue for issue in self.issues if issue.blocking]
+
+
+class MetricResult(StrictModel):
+    name: str
+    value: float | int | bool | str | None
+    higher_is_better: bool | None = None
+    unit: str | None = None
+    notes: str | None = None
+
+
+class EvaluationReport(StrictModel):
+    metrics: list[MetricResult] = Field(default_factory=list)
+    automatic_only: bool = True
+    notes: str | None = None
+
+
+# ---------------------------------------------------------------------------
+# Pipeline outputs
+# ---------------------------------------------------------------------------
+
+
+class ActivityGenerationResult(StrictModel):
+    use_case_id: str
+    activity_diagram: ActivityDiagram | None = None
+    status: PipelineStatus
+    validation_reports: list[ValidationReport] = Field(default_factory=list)
+    repair_attempts_used: int = 0
+    failure_reason: str | None = None
+
+
+class GeneratedSpecification(StrictModel):
+    request: SpecificationRequest
+    use_case_set: UseCaseSet | None = None
+    activity_results: list[ActivityGenerationResult] = Field(default_factory=list)
+    trace_manifest: TraceManifest = Field(default_factory=TraceManifest)
+    validation_reports: list[ValidationReport] = Field(default_factory=list)
+    evaluation_report: EvaluationReport | None = None
+    status: PipelineStatus = PipelineStatus.FAILED
+    failure_reason: str | None = None
+
+
+# ---------------------------------------------------------------------------
+# Graph I/O schemas (Pydantic) and State (TypedDict)
+# ---------------------------------------------------------------------------
+
+
+class UseCaseGenerationArtifact(StrictModel):
+    """Structured generator/repair JSON payload (UseCaseSet + TraceManifest)."""
+
+    use_case_set: UseCaseSet
+    trace_manifest: TraceManifest = Field(default_factory=TraceManifest)
+
+
+class CriticVerdict(StrictModel):
+    """Structured critic response. Critic ≠ deterministic validator."""
+
+    decision: Literal["accept", "repair"]
+    issues: list[ValidationIssue] = Field(default_factory=list)
+    summary: str | None = None
+
+
+class UseCaseGraphInput(StrictModel):
+    request: SpecificationRequest
+
+
+class UseCaseGraphOutput(StrictModel):
+    use_case_set: UseCaseSet | None = None
+    trace_manifest: TraceManifest = Field(default_factory=TraceManifest)
+    validation_reports: list[ValidationReport] = Field(default_factory=list)
+    status: PipelineStatus
+    repair_attempts_used: int = 0
+    failure_reason: str | None = None
+
+
+class ActivityGraphInput(StrictModel):
+    use_case: UseCase
+    actors: list[Actor] = Field(default_factory=list)
+    max_repair_attempts: int = Field(default=2, ge=0, le=10)
+    existing_trace: TraceManifest = Field(default_factory=TraceManifest)
+
+
+class ActivityGraphOutput(StrictModel):
+    result: ActivityGenerationResult
+    trace_manifest: TraceManifest = Field(default_factory=TraceManifest)
+
+
+class PipelineGraphInput(StrictModel):
+    request: SpecificationRequest
+
+
+class PipelineGraphOutput(StrictModel):
+    specification: GeneratedSpecification
+
+
+class UseCaseGraphState(TypedDict, total=False):
+    request: Required[SpecificationRequest]
+    normalized_frs: list[FunctionalRequirement]
+    normalized_nfrs: list[NonFunctionalRequirement]
+    use_case_set: UseCaseSet | None
+    trace_manifest: TraceManifest
+    schema_report: ValidationReport | None
+    deterministic_report: ValidationReport | None
+    critic_report: ValidationReport | None
+    validation_reports: list[ValidationReport]
+    repair_attempt: int
+    max_repair_attempts: int
+    decision: Literal["finalize", "repair", "fail"]
+    status: PipelineStatus
+    failure_reason: str | None
+
+
+class ActivityGraphState(TypedDict, total=False):
+    use_case: Required[UseCase]
+    actors: list[Actor]
+    activity_diagram: ActivityDiagram | None
+    trace_manifest: TraceManifest
+    schema_report: ValidationReport | None
+    deterministic_report: ValidationReport | None
+    critic_report: ValidationReport | None
+    validation_reports: list[ValidationReport]
+    repair_attempt: int
+    max_repair_attempts: int
+    decision: Literal["finalize", "repair", "fail"]
+    mermaid_source: str | None
+    status: PipelineStatus
+    failure_reason: str | None
+
+
+class PipelineGraphState(TypedDict, total=False):
+    request: Required[SpecificationRequest]
+    normalized_frs: list[FunctionalRequirement]
+    normalized_nfrs: list[NonFunctionalRequirement]
+    use_case_set: UseCaseSet | None
+    activity_results: list[ActivityGenerationResult]
+    trace_manifest: TraceManifest
+    validation_reports: list[ValidationReport]
+    evaluation_report: EvaluationReport | None
+    specification: GeneratedSpecification | None
+    status: PipelineStatus
+    failure_reason: str | None
+    max_repair_attempts: int

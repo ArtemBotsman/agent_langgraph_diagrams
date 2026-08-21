@@ -1,0 +1,28 @@
+{
+  "benchmark_version": "0.1.0-scaffold",
+  "created_at": "2026-08-21",
+  "target_freeze_date": "2026-08-26",
+  "frozen": false,
+  "split_policy": {
+    "development": "Open cases for pipeline debugging and metric calibration",
+    "hidden": "Held-out cases for final evaluation; no post-freeze tuning"
+  },
+  "complexity_levels": [
+    "simple",
+    "medium",
+    "hard",
+    "many_frs",
+    "branching",
+    "incomplete_conflict"
+  ],
+  "cases": [
+    {
+      "case_id": "DEV-001",
+      "split": "development",
+      "complexity": "simple",
+      "path": "cases/development/library_desk_v1/case.json",
+      "title": "Library desk borrow book"
+    }
+  ],
+  "notes": "Do not invent a 30-case suite until cases are agreed with the supervisor. This manifest is infrastructure only."
+}
