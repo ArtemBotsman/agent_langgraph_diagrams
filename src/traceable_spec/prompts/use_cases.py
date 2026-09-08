@@ -38,6 +38,7 @@ def build_use_case_generator_messages(request: SpecificationRequest) -> list[dic
     frs = [{"id": fr.id, "text": fr.text} for fr in request.functional_requirements]
     nfrs = [{"id": nfr.id, "text": nfr.text} for nfr in request.non_functional_requirements]
     payload = {
+        "project_task": request.project_task,
         "project_name": request.project_name,
         "project_goal": request.project_goal,
         "project_description": request.project_description,
@@ -89,6 +90,7 @@ def build_use_case_critic_messages(
     )
     user = {
         "specification": {
+            "project_task": request.project_task,
             "project_name": request.project_name,
             "project_goal": request.project_goal,
             "functional_requirements": [
@@ -117,6 +119,7 @@ def build_use_case_repair_messages(
     )
     user = {
         "repair_attempt": repair_attempt,
+        "project_task": request.project_task,
         "project_name": request.project_name,
         "project_goal": request.project_goal,
         "functional_requirements": [

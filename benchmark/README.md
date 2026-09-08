@@ -36,6 +36,8 @@ benchmark/
 | `notes` | string | Необязательные комментарии для разработчика |
 | `gold` | object \| null | Опциональные эталонные артефакты (UC IDs, coverage map); может отсутствовать на ранних этапах |
 
+В `specification_request` обязательно сохраняется исходный `project_task`.
+
 ## Split policy
 
 - **development** — открытые кейсы для отладки pipeline, валидаторов и метрик.

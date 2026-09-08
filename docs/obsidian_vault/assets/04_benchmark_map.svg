@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#f7f9fc"/>
+  <text x="800" y="80" text-anchor="middle" font-family="Arial" font-size="38" font-weight="700" fill="#17324d">Benchmark (тестовый набор): 30 входов</text>
+  <circle cx="800" cy="420" r="155" fill="#17324d"/>
+  <text x="800" y="405" text-anchor="middle" font-family="Arial" font-size="70" font-weight="700" fill="#ffffff">30</text>
+  <text x="800" y="455" text-anchor="middle" font-family="Arial" font-size="22" fill="#dce8f2">SpecificationReq</text>
+  <text x="800" y="487" text-anchor="middle" font-family="Arial" font-size="18" fill="#dce8f2">(входных запросов)</text>
+  <g font-family="Arial" text-anchor="middle">
+    <rect x="110" y="225" width="430" height="160" rx="24" fill="#e7f1fb" stroke="#276da8" stroke-width="4"/><text x="325" y="285" font-size="42" font-weight="700" fill="#174f7c">20 DEV</text><text x="325" y="330" font-size="20" fill="#276da8">development (для разработки)</text>
+    <rect x="1060" y="225" width="430" height="160" rx="24" fill="#fff4dc" stroke="#b57a1d" stroke-width="4"/><text x="1275" y="285" font-size="42" font-weight="700" fill="#85570f">10 HIDDEN</text><text x="1275" y="330" font-size="20" fill="#9a691b">hidden (отложенная проверка)</text>
+    <rect x="110" y="550" width="430" height="160" rx="24" fill="#e9f6ee" stroke="#278357" stroke-width="4"/><text x="325" y="610" font-size="36" font-weight="700" fill="#17643f">13 RU / 17 EN</text><text x="325" y="655" font-size="20" fill="#278357">русские / английские кейсы</text>
+    <rect x="1060" y="550" width="430" height="160" rx="24" fill="#eef2f6" stroke="#657d93" stroke-width="4"/><text x="1275" y="610" font-size="34" font-weight="700" fill="#324b62">8 / 13 / 9</text><text x="1275" y="655" font-size="20" fill="#526b82">простые / средние / сложные</text>
+  </g>
+  <text x="800" y="790" text-anchor="middle" font-family="Arial" font-size="22" fill="#4c6278">Каждый кейс содержит вход, gold (эталон), трассировку и правила эквивалентности</text>
+  <text x="800" y="835" text-anchor="middle" font-family="Arial" font-size="20" font-weight="700" fill="#8f2634">Статус: synthetic, unreviewed, unfrozen (синтетический, не проверен, не заморожен)</text>
+</svg>

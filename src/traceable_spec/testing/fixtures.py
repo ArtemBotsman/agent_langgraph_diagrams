@@ -32,6 +32,7 @@ from traceable_spec.entities import (
 
 def sample_request() -> SpecificationRequest:
     return SpecificationRequest(
+        project_task="Create a small system for searching and borrowing library books.",
         project_name="Library Desk",
         project_goal="Allow patrons to borrow books",
         project_description="A small library circulation desk system.",

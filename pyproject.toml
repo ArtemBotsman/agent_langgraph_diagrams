@@ -2,7 +2,7 @@
 name = "agent-nir"
 version = "0.1.0"
 description = "Traceable LangGraph pipeline for Use Cases and activity diagrams from functional requirements"
-authors = ["Artem Botsman <artem@example.com>"]
+authors = ["Artem Botsman <botsman_artem@mail.ru>"]
 readme = "README.md"
 license = "MIT"
 packages = [{ include = "traceable_spec", from = "src" }]
@@ -17,6 +17,7 @@ typing-extensions = "^4.12"
 pytest = "^8.3"
 ruff = "^0.9"
 mypy = "^1.14"
+pylint = "^4.0"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

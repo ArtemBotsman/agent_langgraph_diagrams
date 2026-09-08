@@ -18,12 +18,14 @@ from traceable_spec.entities import (
     ActivityNodeKind,
     ElementRefType,
     FunctionalRequirement,
+    SpecificationReq,
     SpecificationRequest,
     TraceLink,
     TraceLinkType,
     TraceManifest,
     TraceOrigin,
     UseCase,
+    normalize_specification_req,
 )
 from traceable_spec.graph import compile_pipeline
 from traceable_spec.mermaid import render_mermaid
@@ -46,8 +48,48 @@ from traceable_spec.validators import (
 
 def test_specification_request_valid() -> None:
     req = sample_request()
+    assert req.project_task.startswith("Create a small system")
     assert req.project_name == "Library Desk"
     assert len(req.functional_requirements) == 2
+
+
+def test_supervisor_specification_req_normalizes_stable_ids() -> None:
+    raw: SpecificationReq = {
+        "project_task": "Create an event signup application",
+        "project_name": "Event signup",
+        "project_goal": "Register event participants",
+        "project_description": "A small web application for an event",
+        "functional_requirements": ["Show event details", "Register a participant"],
+        "non_functional_requirements": ["All user-facing text is in Russian"],
+    }
+
+    request = normalize_specification_req(raw)
+
+    assert request.project_task == raw["project_task"]
+    assert [item.id for item in request.functional_requirements] == ["FR-001", "FR-002"]
+    assert [item.id for item in request.non_functional_requirements] == ["NFR-001"]
+    assert request.metadata["source_contract"] == "SpecificationReq"
+
+
+def test_pipeline_accepts_supervisor_specification_req() -> None:
+    raw: SpecificationReq = {
+        "project_task": "Create a library desk application",
+        "project_name": "Library Desk",
+        "project_goal": "Allow patrons to borrow books",
+        "project_description": "A small library circulation desk system",
+        "functional_requirements": [
+            "Patron can search the catalog by title",
+            "Patron can borrow an available book",
+        ],
+        "non_functional_requirements": [
+            "Borrow confirmation must complete within 3 seconds"
+        ],
+    }
+
+    result = compile_pipeline().invoke({"request": raw})
+
+    assert result["specification"].request.project_task == raw["project_task"]
+    assert result["specification"].request.functional_requirements[0].id == "FR-001"
 
 
 def test_specification_request_rejects_unknown_fields() -> None:

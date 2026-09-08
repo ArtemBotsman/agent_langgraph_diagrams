@@ -1,6 +1,6 @@
 # System Design v0.1
 
-Дата: **2026-08-21**
+Дата: **2026-08-21**, входной контракт уточнён **2026-09-08**
 
 ## 1. Цель архитектуры
 
@@ -16,11 +16,11 @@
 ```mermaid
 flowchart TB
   subgraph Input
-    SR[SpecificationRequest]
+    SR[SpecificationReq — raw TypedDict]
   end
 
   subgraph Pipeline["graph.py — root pipeline"]
-    N[normalize_requirements]
+    N[normalize_requirements → SpecificationRequest]
     UC[Use Cases subgraph]
     AD[Activity subgraph per UC]
     T[e2e trace validation]
@@ -82,10 +82,14 @@ flowchart TB
 
 | | Выбранный вариант | Альтернативы |
 |--|-------------------|--------------|
-| Выбор | TypedDict для State; Pydantic v2 для I/O и домена; `extra="forbid"` | Весь State на Pydantic; только dict |
+| Выбор | TypedDict для внешнего `SpecificationReq` и State; Pydantic v2 для нормализованного I/O и домена; `extra="forbid"` | Весь State на Pydantic; только dict |
 | Плюсы | Рекомендация LangGraph по производительности State; жёсткие контракты на границах | — |
 | Минусы | Два слоя типов | Pydantic-State медленнее и тяжелее для reducers |
 | Почему | Значимые артефакты (`use_case_set`, `trace_manifest`, …) явны и сериализуемы | |
+
+Внешний `SpecificationReq` содержит исходный `project_task` и списки строк
+FR/NFR. Первый root-узел присваивает им стабильные `FR-###` / `NFR-###` и
+создаёт внутренний `SpecificationRequest`.
 
 ### 3.3. Единый TraceManifest
 

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#f7f9fc"/>
+  <text x="800" y="75" text-anchor="middle" font-family="Arial" font-size="38" font-weight="700" fill="#17324d">Внутренняя логика каждого агента</text>
+  <text x="800" y="118" text-anchor="middle" font-family="Arial" font-size="21" fill="#4c6278">Critic (критик) — обязательная внутренняя роль, а не отдельный агент</text>
+  <defs><marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#526b82"/></marker></defs>
+  <g font-family="Arial" text-anchor="middle">
+    <rect x="80" y="320" width="235" height="145" rx="22" fill="#ffffff" stroke="#7b91a8" stroke-width="3"/><text x="197" y="375" font-size="25" font-weight="700" fill="#17324d">Input</text><text x="197" y="410" font-size="19" fill="#4c6278">(вход)</text>
+    <rect x="380" y="285" width="250" height="215" rx="22" fill="#e7f1fb" stroke="#276da8" stroke-width="4"/><text x="505" y="350" font-size="25" font-weight="700" fill="#174f7c">Generator</text><text x="505" y="385" font-size="19" fill="#276da8">(генератор)</text><text x="505" y="435" font-size="18" fill="#17324d">предлагает модель</text>
+    <rect x="695" y="285" width="250" height="215" rx="22" fill="#eef2f6" stroke="#657d93" stroke-width="4"/><text x="820" y="350" font-size="25" font-weight="700" fill="#324b62">Validator</text><text x="820" y="385" font-size="19" fill="#526b82">(валидатор)</text><text x="820" y="425" font-size="18" fill="#17324d">проверяет формальные</text><text x="820" y="450" font-size="18" fill="#17324d">инварианты без LLM</text>
+    <rect x="1010" y="285" width="250" height="215" rx="22" fill="#fff4dc" stroke="#b57a1d" stroke-width="4"/><text x="1135" y="350" font-size="25" font-weight="700" fill="#85570f">Critic</text><text x="1135" y="385" font-size="19" fill="#9a691b">(критик)</text><text x="1135" y="425" font-size="18" fill="#17324d">проверяет смысл</text><text x="1135" y="450" font-size="18" fill="#17324d">и полноту</text>
+    <rect x="1325" y="320" width="195" height="145" rx="22" fill="#e9f6ee" stroke="#278357" stroke-width="4"/><text x="1422" y="375" font-size="25" font-weight="700" fill="#17643f">Output</text><text x="1422" y="410" font-size="19" fill="#278357">(выход)</text>
+    <path d="M315 392 L370 392" stroke="#526b82" stroke-width="5" marker-end="url(#a)"/><path d="M630 392 L685 392" stroke="#526b82" stroke-width="5" marker-end="url(#a)"/><path d="M945 392 L1000 392" stroke="#526b82" stroke-width="5" marker-end="url(#a)"/><path d="M1260 392 L1315 392" stroke="#526b82" stroke-width="5" marker-end="url(#a)"/>
+    <rect x="660" y="625" width="320" height="140" rx="22" fill="#fbeaec" stroke="#b33b4a" stroke-width="4"/><text x="820" y="680" font-size="25" font-weight="700" fill="#8f2634">Repair</text><text x="820" y="715" font-size="19" fill="#a53a47">(исправление)</text>
+    <path d="M1135 505 C1135 590 1000 695 990 695" fill="none" stroke="#b33b4a" stroke-width="5" marker-end="url(#a)"/><text x="1135" y="570" font-size="18" fill="#8f2634">ошибка смысла</text>
+    <path d="M695 695 C500 695 505 520 505 510" fill="none" stroke="#b33b4a" stroke-width="5" marker-end="url(#a)"/><text x="555" y="650" font-size="18" fill="#8f2634">повтор с отчётом ошибок</text>
+  </g>
+  <text x="800" y="835" text-anchor="middle" font-family="Arial" font-size="21" fill="#4c6278">Цикл ограничен числом попыток; после Repair (исправления) повторяются все проверки</text>
+</svg>

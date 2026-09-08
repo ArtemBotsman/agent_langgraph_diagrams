@@ -1,13 +1,16 @@
 # ADR-002: TypedDict State + Pydantic contracts
 
 - **Дата:** 2026-08-21
-- **Статус:** Accepted
+- **Статус:** Accepted; amended 2026-09-08
 
 ## Контекст
 Нужны и производительный State LangGraph, и жёсткие внешние контракты.
 
 ## Решение
-TypedDict для внутреннего State; Pydantic v2 (`extra="forbid"`) для SpecificationRequest, доменных сущностей, отчётов.
+TypedDict для внешнего `SpecificationReq` и внутреннего State; Pydantic v2
+(`extra="forbid"`) для нормализованного `SpecificationRequest`, доменных
+сущностей и отчётов. Первый root-узел выполняет детерминированную нормализацию
+строковых требований в стабильные `FR-###` / `NFR-###`.
 
 ## Альтернативы
 Только Pydantic State; только dict.

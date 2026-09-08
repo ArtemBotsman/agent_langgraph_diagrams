@@ -7,7 +7,7 @@ Trace links live only in TraceManifest; forward/reverse indexes are derived.
 from __future__ import annotations
 
 from enum import Enum
-from typing import Any, Literal, Required, TypedDict
+from typing import Any, Literal, Required, TypedDict, cast
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -122,9 +122,26 @@ class NonFunctionalRequirement(StrictModel):
     tags: list[str] = Field(default_factory=list)
 
 
-class SpecificationRequest(StrictModel):
-    """Input specification for the full pipeline (corrected spelling)."""
+class SpecificationReq(TypedDict):
+    """External pipeline input agreed with the research supervisor.
 
+    This boundary contract mirrors the JSON supplied by the supervisor. The
+    pipeline normalizes its string requirements into stable FR/NFR entities
+    before any generation node runs.
+    """
+
+    project_task: str
+    project_name: str
+    project_goal: str
+    project_description: str
+    functional_requirements: list[str]
+    non_functional_requirements: list[str]
+
+
+class SpecificationRequest(StrictModel):
+    """Normalized internal request with stable requirement identifiers."""
+
+    project_task: str = Field(min_length=1)
     project_name: str = Field(min_length=1)
     project_goal: str = Field(min_length=1)
     project_description: str = Field(min_length=1)
@@ -150,6 +167,84 @@ class SpecificationRequest(StrictModel):
         if len(ids) != len(set(ids)):
             raise ValueError("non-functional requirement IDs must be unique")
         return value
+
+
+SpecificationInput = SpecificationReq | SpecificationRequest
+
+
+def normalize_specification_req(value: SpecificationInput) -> SpecificationRequest:
+    """Convert the supervisor-facing ``SpecificationReq`` into the internal model.
+
+    The external JSON deliberately contains plain strings. Stable identifiers
+    are assigned deterministically by list order so identical inputs normalize
+    to identical contracts.
+    """
+
+    if isinstance(value, SpecificationRequest):
+        return value
+    if not isinstance(value, dict):
+        raise TypeError("SpecificationReq must be a mapping or SpecificationRequest")
+    raw = cast(dict[str, object], value)
+
+    expected_fields = {
+        "project_task",
+        "project_name",
+        "project_goal",
+        "project_description",
+        "functional_requirements",
+        "non_functional_requirements",
+    }
+    actual_fields = set(raw)
+    missing_fields = sorted(expected_fields - actual_fields)
+    unexpected_fields = sorted(actual_fields - expected_fields)
+    if missing_fields:
+        raise ValueError(f"SpecificationReq is missing fields: {', '.join(missing_fields)}")
+    if unexpected_fields:
+        raise ValueError(
+            f"SpecificationReq has unexpected fields: {', '.join(unexpected_fields)}"
+        )
+
+    text_fields = (
+        "project_task",
+        "project_name",
+        "project_goal",
+        "project_description",
+    )
+    normalized_text: dict[str, str] = {}
+    for field_name in text_fields:
+        field_value = raw[field_name]
+        if not isinstance(field_value, str) or not field_value.strip():
+            raise ValueError(f"SpecificationReq.{field_name} must be a non-empty string")
+        normalized_text[field_name] = field_value.strip()
+
+    def normalize_requirement_list(field_name: str) -> list[str]:
+        items = raw[field_name]
+        if not isinstance(items, list) or any(
+            not isinstance(item, str) or not item.strip() for item in items
+        ):
+            raise ValueError(f"SpecificationReq.{field_name} must be a list of strings")
+        return [item.strip() for item in items]
+
+    functional_requirements = normalize_requirement_list("functional_requirements")
+    non_functional_requirements = normalize_requirement_list(
+        "non_functional_requirements"
+    )
+
+    return SpecificationRequest(
+        project_task=normalized_text["project_task"],
+        project_name=normalized_text["project_name"],
+        project_goal=normalized_text["project_goal"],
+        project_description=normalized_text["project_description"],
+        functional_requirements=[
+            FunctionalRequirement(id=f"FR-{index:03d}", text=text)
+            for index, text in enumerate(functional_requirements, start=1)
+        ],
+        non_functional_requirements=[
+            NonFunctionalRequirement(id=f"NFR-{index:03d}", text=text)
+            for index, text in enumerate(non_functional_requirements, start=1)
+        ],
+        metadata={"source_contract": "SpecificationReq"},
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -494,7 +589,7 @@ class ActivityGraphState(TypedDict, total=False):
 
 
 class PipelineGraphState(TypedDict, total=False):
-    request: Required[SpecificationRequest]
+    request: Required[SpecificationInput]
     normalized_frs: list[FunctionalRequirement]
     normalized_nfrs: list[NonFunctionalRequirement]
     use_case_set: UseCaseSet | None

@@ -1,0 +1,4686 @@
+[
+  {
+    "case_id": "B1-DEV-001",
+    "split": "development",
+    "title": "Бронирование переговорной",
+    "language": "ru",
+    "complexity": "simple",
+    "specification_req": {
+      "project_task": "Создать сервис бронирования переговорных комнат.",
+      "project_name": "RoomBook",
+      "project_goal": "Снизить число конфликтов при бронировании комнат.",
+      "project_description": "Сотрудник выбирает свободную переговорную и резервирует временной слот.",
+      "functional_requirements": [
+        "Сотрудник просматривает свободные комнаты на выбранное время.",
+        "Сотрудник бронирует свободную комнату.",
+        "Система отклоняет пересекающееся бронирование."
+      ],
+      "non_functional_requirements": [
+        "Подтверждение бронирования должно занимать не более 2 секунд."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Сотрудник",
+          "any_of": [
+            "работник",
+            "пользователь"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Система бронирования",
+          "any_of": [
+            "сервис"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Забронировать переговорную",
+          "name_aliases": [],
+          "primary_actor": "Сотрудник",
+          "required_milestones": [
+            "выбрать время",
+            "найти свободную комнату",
+            "подтвердить бронирование"
+          ],
+          "required_branches": [
+            {
+              "condition": "слот уже занят",
+              "required_outcomes": [
+                "отклонить бронирование",
+                "предложить выбрать другой слот"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-002",
+    "split": "development",
+    "title": "Регистрация на мероприятие",
+    "language": "ru",
+    "complexity": "simple",
+    "specification_req": {
+      "project_task": "Создать приложение регистрации участников мероприятия.",
+      "project_name": "Event Signup",
+      "project_goal": "Собирать подтвержденные регистрации без ручного ввода организатором.",
+      "project_description": "Посетитель просматривает мероприятие, заполняет форму и получает подтверждение.",
+      "functional_requirements": [
+        "Посетитель просматривает описание мероприятия.",
+        "Посетитель отправляет имя и email для регистрации.",
+        "Система не допускает повторную регистрацию одного email."
+      ],
+      "non_functional_requirements": [
+        "Интерфейс должен быть доступен на русском языке.",
+        "Email не должен попадать в журналы приложения в открытом виде."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Посетитель",
+          "any_of": [
+            "участник",
+            "гость"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Организатор",
+          "any_of": [
+            "администратор мероприятия"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Зарегистрироваться на мероприятие",
+          "name_aliases": [],
+          "primary_actor": "Посетитель",
+          "required_milestones": [
+            "просмотреть мероприятие",
+            "ввести регистрационные данные",
+            "получить подтверждение"
+          ],
+          "required_branches": [
+            {
+              "condition": "email уже зарегистрирован",
+              "required_outcomes": [
+                "показать отказ без создания дубликата"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-HID-001",
+    "split": "hidden",
+    "title": "Поиск книги в библиотеке",
+    "language": "ru",
+    "complexity": "simple",
+    "specification_req": {
+      "project_task": "Создать каталог библиотеки с поиском и выдачей книг.",
+      "project_name": "Library Desk",
+      "project_goal": "Упростить читателю поиск и получение доступной книги.",
+      "project_description": "Читатель ищет книгу по названию и оформляет выдачу доступного экземпляра.",
+      "functional_requirements": [
+        "Читатель ищет книгу по названию.",
+        "Система показывает доступность экземпляров.",
+        "Библиотекарь оформляет выдачу доступного экземпляра."
+      ],
+      "non_functional_requirements": [
+        "Поиск должен возвращать ответ не более чем за 3 секунды."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Читатель",
+          "any_of": [
+            "посетитель библиотеки"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Библиотекарь",
+          "any_of": [
+            "оператор выдачи"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Найти и получить книгу",
+          "name_aliases": [],
+          "primary_actor": "Читатель",
+          "required_milestones": [
+            "ввести название",
+            "увидеть доступность",
+            "запросить выдачу",
+            "оформить выдачу"
+          ],
+          "required_branches": [
+            {
+              "condition": "экземпляр недоступен",
+              "required_outcomes": [
+                "сообщить о недоступности"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-003",
+    "split": "development",
+    "title": "Visitor parking permit",
+    "language": "en",
+    "complexity": "simple",
+    "specification_req": {
+      "project_task": "Build a visitor parking permit request service.",
+      "project_name": "ParkPass",
+      "project_goal": "Issue time-limited visitor permits without a paper form.",
+      "project_description": "A resident requests a permit for a visitor vehicle and security verifies it.",
+      "functional_requirements": [
+        "A resident submits the visitor vehicle plate and visit time.",
+        "The system issues a permit when the request is complete.",
+        "Security can verify an active permit by plate number."
+      ],
+      "non_functional_requirements": [
+        "Permit lookup must complete within two seconds."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Resident",
+          "any_of": [
+            "tenant"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Security officer",
+          "any_of": [
+            "guard"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Request visitor permit",
+          "name_aliases": [],
+          "primary_actor": "Resident",
+          "required_milestones": [
+            "enter plate and visit time",
+            "validate required data",
+            "issue permit"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002"
+          ]
+        },
+        {
+          "name": "Verify visitor permit",
+          "name_aliases": [],
+          "primary_actor": "Security officer",
+          "required_milestones": [
+            "enter plate",
+            "show active permit status"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-003"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-004",
+    "split": "development",
+    "title": "Equipment checkout",
+    "language": "en",
+    "complexity": "simple",
+    "specification_req": {
+      "project_task": "Create an equipment checkout application for a media lab.",
+      "project_name": "Media Checkout",
+      "project_goal": "Track who has borrowed each device.",
+      "project_description": "Students request available equipment and staff record checkout and return.",
+      "functional_requirements": [
+        "A student requests an available device.",
+        "A lab assistant records the checkout.",
+        "A lab assistant records the return and device condition."
+      ],
+      "non_functional_requirements": [
+        "Every checkout and return must be auditable."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Student",
+          "any_of": [
+            "borrower"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Lab assistant",
+          "any_of": [
+            "staff member"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Check out equipment",
+          "name_aliases": [],
+          "primary_actor": "Student",
+          "required_milestones": [
+            "select available device",
+            "approve request",
+            "record borrower and due time"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002"
+          ]
+        },
+        {
+          "name": "Return equipment",
+          "name_aliases": [],
+          "primary_actor": "Lab assistant",
+          "required_milestones": [
+            "identify checkout",
+            "record return",
+            "record condition"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-003"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-005",
+    "split": "development",
+    "title": "Заказ пропуска",
+    "language": "ru",
+    "complexity": "simple",
+    "specification_req": {
+      "project_task": "Создать сервис заказа временного пропуска в офис.",
+      "project_name": "Office Pass",
+      "project_goal": "Сократить время оформления посетителей.",
+      "project_description": "Сотрудник приглашает посетителя, а администратор подтверждает выдачу пропуска.",
+      "functional_requirements": [
+        "Сотрудник создаёт приглашение с ФИО и временем визита.",
+        "Администратор подтверждает или отклоняет приглашение.",
+        "Посетителю отправляется итоговый статус."
+      ],
+      "non_functional_requirements": [
+        "Персональные данные должны храниться не дольше 30 дней после визита."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Сотрудник",
+          "any_of": [
+            "приглашающий"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Администратор",
+          "any_of": [
+            "оператор пропусков"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Посетитель",
+          "any_of": [
+            "гость"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Оформить временный пропуск",
+          "name_aliases": [],
+          "primary_actor": "Сотрудник",
+          "required_milestones": [
+            "создать приглашение",
+            "проверить приглашение",
+            "зафиксировать решение",
+            "уведомить посетителя"
+          ],
+          "required_branches": [
+            {
+              "condition": "приглашение отклонено",
+              "required_outcomes": [
+                "сохранить отказ",
+                "уведомить посетителя об отказе"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-HID-002",
+    "split": "hidden",
+    "title": "Simple helpdesk ticket",
+    "language": "en",
+    "complexity": "simple",
+    "specification_req": {
+      "project_task": "Build a small internal helpdesk ticket system.",
+      "project_name": "HelpDesk Lite",
+      "project_goal": "Ensure employee incidents are assigned and tracked.",
+      "project_description": "An employee reports an issue and a support agent resolves it.",
+      "functional_requirements": [
+        "An employee creates a ticket with a category and description.",
+        "The system assigns the ticket to a support queue.",
+        "A support agent resolves the ticket and records a resolution."
+      ],
+      "non_functional_requirements": [
+        "Ticket changes must be recorded in an immutable audit history."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Employee",
+          "any_of": [
+            "requester"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Support agent",
+          "any_of": [
+            "technician"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Submit support ticket",
+          "name_aliases": [],
+          "primary_actor": "Employee",
+          "required_milestones": [
+            "enter issue",
+            "classify issue",
+            "assign support queue"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002"
+          ]
+        },
+        {
+          "name": "Resolve support ticket",
+          "name_aliases": [],
+          "primary_actor": "Support agent",
+          "required_milestones": [
+            "open assigned ticket",
+            "record resolution",
+            "close ticket"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-003"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-006",
+    "split": "development",
+    "title": "Volunteer shift signup",
+    "language": "en",
+    "complexity": "simple",
+    "specification_req": {
+      "project_task": "Create a volunteer shift signup page.",
+      "project_name": "Volunteer Roster",
+      "project_goal": "Fill volunteer shifts without overbooking.",
+      "project_description": "Volunteers select a shift with remaining capacity and receive confirmation.",
+      "functional_requirements": [
+        "A volunteer views shifts with remaining capacity.",
+        "A volunteer signs up for one shift.",
+        "The system rejects signup when the shift is full."
+      ],
+      "non_functional_requirements": [
+        "The signup page must work on a mobile viewport."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Volunteer",
+          "any_of": [
+            "participant"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Coordinator",
+          "any_of": [
+            "organizer"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Sign up for a shift",
+          "name_aliases": [],
+          "primary_actor": "Volunteer",
+          "required_milestones": [
+            "view available shifts",
+            "select shift",
+            "reserve capacity",
+            "receive confirmation"
+          ],
+          "required_branches": [
+            {
+              "condition": "shift is full",
+              "required_outcomes": [
+                "reject signup",
+                "keep capacity unchanged"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-007",
+    "split": "development",
+    "title": "Запись в поликлинику",
+    "language": "ru",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Создать сервис самостоятельной записи пациента к врачу.",
+      "project_name": "Clinic Appointment",
+      "project_goal": "Сократить нагрузку на регистратуру.",
+      "project_description": "Пациент выбирает специальность, врача и свободное время, затем может отменить запись.",
+      "functional_requirements": [
+        "Пациент выбирает медицинскую специальность.",
+        "Система показывает врачей и свободные слоты.",
+        "Пациент подтверждает запись.",
+        "Система запрещает двойное бронирование слота.",
+        "Пациент отменяет будущую запись."
+      ],
+      "non_functional_requirements": [
+        "Медицинские данные должны быть доступны только авторизованному пациенту.",
+        "Подтверждение записи должно занимать не более 3 секунд."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Пациент",
+          "any_of": [
+            "пользователь"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Врач",
+          "any_of": [
+            "специалист"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Записаться к врачу",
+          "name_aliases": [],
+          "primary_actor": "Пациент",
+          "required_milestones": [
+            "выбрать специальность",
+            "выбрать врача и слот",
+            "проверить актуальность слота",
+            "создать запись"
+          ],
+          "required_branches": [
+            {
+              "condition": "слот занят",
+              "required_outcomes": [
+                "не создавать запись",
+                "предложить обновить список слотов"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004"
+          ]
+        },
+        {
+          "name": "Отменить запись",
+          "name_aliases": [],
+          "primary_actor": "Пациент",
+          "required_milestones": [
+            "выбрать будущую запись",
+            "подтвердить отмену",
+            "освободить слот"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-005"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-HID-003",
+    "split": "hidden",
+    "title": "Возврат интернет-заказа",
+    "language": "ru",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Создать процесс оформления возврата товара интернет-магазина.",
+      "project_name": "Easy Return",
+      "project_goal": "Автоматизировать согласование допустимых возвратов.",
+      "project_description": "Покупатель выбирает заказ, причину и способ возврата, система проверяет срок и статус товара.",
+      "functional_requirements": [
+        "Покупатель выбирает полученный заказ и товар.",
+        "Покупатель указывает причину возврата.",
+        "Система проверяет срок возврата.",
+        "Система формирует этикетку для допустимого возврата.",
+        "Сотрудник склада подтверждает получение товара."
+      ],
+      "non_functional_requirements": [
+        "История возврата должна сохраняться для аудита не менее года."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Покупатель",
+          "any_of": [
+            "клиент"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Сотрудник склада",
+          "any_of": [
+            "кладовщик"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Оформить возврат",
+          "name_aliases": [],
+          "primary_actor": "Покупатель",
+          "required_milestones": [
+            "выбрать товар",
+            "указать причину",
+            "проверить срок",
+            "создать возврат",
+            "получить этикетку"
+          ],
+          "required_branches": [
+            {
+              "condition": "срок возврата истёк",
+              "required_outcomes": [
+                "отказать в автоматическом возврате",
+                "показать причину отказа"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004"
+          ]
+        },
+        {
+          "name": "Принять возвращённый товар",
+          "name_aliases": [],
+          "primary_actor": "Сотрудник склада",
+          "required_milestones": [
+            "найти возврат",
+            "зафиксировать получение",
+            "обновить статус возврата"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-005"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-008",
+    "split": "development",
+    "title": "Travel expense approval",
+    "language": "en",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Build a travel expense submission and approval workflow.",
+      "project_name": "Travel Claims",
+      "project_goal": "Reduce manual checking of employee expense claims.",
+      "project_description": "An employee submits receipts; a manager reviews policy exceptions and finance reimburses approved claims.",
+      "functional_requirements": [
+        "An employee creates an expense claim with trip details.",
+        "The employee attaches receipts to expense items.",
+        "The system flags items above policy limits.",
+        "A manager approves or rejects the claim.",
+        "Finance records reimbursement for an approved claim."
+      ],
+      "non_functional_requirements": [
+        "Receipt files must be encrypted at rest.",
+        "All approval decisions must be auditable."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Employee",
+          "any_of": [
+            "claimant"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Manager",
+          "any_of": [
+            "approver"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Finance specialist",
+          "any_of": [
+            "accountant"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Submit travel claim",
+          "name_aliases": [],
+          "primary_actor": "Employee",
+          "required_milestones": [
+            "enter trip details",
+            "add expense items",
+            "attach receipts",
+            "check policy limits",
+            "submit claim"
+          ],
+          "required_branches": [
+            {
+              "condition": "item exceeds policy limit",
+              "required_outcomes": [
+                "flag policy exception"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003"
+          ]
+        },
+        {
+          "name": "Review travel claim",
+          "name_aliases": [],
+          "primary_actor": "Manager",
+          "required_milestones": [
+            "inspect claim and flags",
+            "record approval decision"
+          ],
+          "required_branches": [
+            {
+              "condition": "claim rejected",
+              "required_outcomes": [
+                "record rejection reason",
+                "notify employee"
+              ]
+            }
+          ],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-004"
+          ]
+        },
+        {
+          "name": "Record reimbursement",
+          "name_aliases": [],
+          "primary_actor": "Finance specialist",
+          "required_milestones": [
+            "select approved claim",
+            "record reimbursement",
+            "mark claim paid"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-003",
+          "source_fr_ids": [
+            "FR-005"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-009",
+    "split": "development",
+    "title": "Restaurant reservation",
+    "language": "en",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Create a restaurant table reservation service.",
+      "project_name": "Table Now",
+      "project_goal": "Accept reservations while respecting table capacity.",
+      "project_description": "A guest requests a table; staff can confirm, modify, or cancel reservations.",
+      "functional_requirements": [
+        "A guest searches available times for party size and date.",
+        "A guest submits contact details to reserve a table.",
+        "The system prevents reservations above available capacity.",
+        "Staff can modify an existing reservation.",
+        "Staff can cancel an existing reservation."
+      ],
+      "non_functional_requirements": [
+        "Contact details must not be displayed to unauthorized staff roles."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Guest",
+          "any_of": [
+            "customer"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Host",
+          "any_of": [
+            "restaurant staff"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Reserve a table",
+          "name_aliases": [],
+          "primary_actor": "Guest",
+          "required_milestones": [
+            "enter date and party size",
+            "show available times",
+            "enter contact details",
+            "check capacity",
+            "confirm reservation"
+          ],
+          "required_branches": [
+            {
+              "condition": "capacity unavailable",
+              "required_outcomes": [
+                "reject requested time",
+                "offer available times"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003"
+          ]
+        },
+        {
+          "name": "Manage reservation",
+          "name_aliases": [],
+          "primary_actor": "Host",
+          "required_milestones": [
+            "find reservation",
+            "modify or cancel reservation",
+            "save new status"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-004",
+            "FR-005"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-HID-004",
+    "split": "hidden",
+    "title": "Warehouse picking",
+    "language": "en",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Build a warehouse picking task application.",
+      "project_name": "PickFlow",
+      "project_goal": "Guide pickers and record stock discrepancies.",
+      "project_description": "A picker receives an ordered route, scans items, and reports shortages.",
+      "functional_requirements": [
+        "A picker receives an assigned pick list.",
+        "The system orders stops by warehouse location.",
+        "The picker scans each picked item.",
+        "The system rejects an unexpected item scan.",
+        "The picker records a stock shortage."
+      ],
+      "non_functional_requirements": [
+        "The mobile workflow must tolerate a temporary network loss.",
+        "Every stock change must be auditable."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Picker",
+          "any_of": [
+            "warehouse worker"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Inventory supervisor",
+          "any_of": [
+            "supervisor"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Complete pick list",
+          "name_aliases": [],
+          "primary_actor": "Picker",
+          "required_milestones": [
+            "open assigned list",
+            "follow ordered stops",
+            "scan expected item",
+            "record picked quantity",
+            "complete list"
+          ],
+          "required_branches": [
+            {
+              "condition": "unexpected item scanned",
+              "required_outcomes": [
+                "reject scan",
+                "keep task unchanged"
+              ]
+            },
+            {
+              "condition": "stock is insufficient",
+              "required_outcomes": [
+                "record shortage",
+                "continue remaining items"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-010",
+    "split": "development",
+    "title": "Запись на лабораторное оборудование",
+    "language": "ru",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Создать сервис резервирования лабораторного оборудования.",
+      "project_name": "LabSlot",
+      "project_goal": "Исключить пересечения и неподготовленные запуски оборудования.",
+      "project_description": "Исследователь резервирует установку, указывает проект и подтверждает наличие обучения по безопасности.",
+      "functional_requirements": [
+        "Исследователь просматривает доступность установки.",
+        "Исследователь указывает проект и временной интервал.",
+        "Система проверяет действующее обучение по безопасности.",
+        "Ответственный сотрудник одобряет заявки на особо опасное оборудование.",
+        "Система отменяет неподтвержденную заявку после истечения срока."
+      ],
+      "non_functional_requirements": [
+        "Журнал бронирований и одобрений должен храниться пять лет."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Исследователь",
+          "any_of": [
+            "пользователь оборудования"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Ответственный сотрудник",
+          "any_of": [
+            "лаборант",
+            "владелец установки"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Запросить оборудование",
+          "name_aliases": [],
+          "primary_actor": "Исследователь",
+          "required_milestones": [
+            "выбрать установку и время",
+            "указать проект",
+            "проверить обучение",
+            "создать заявку",
+            "получить решение"
+          ],
+          "required_branches": [
+            {
+              "condition": "обучение недействительно",
+              "required_outcomes": [
+                "отклонить заявку"
+              ]
+            },
+            {
+              "condition": "требуется одобрение",
+              "required_outcomes": [
+                "направить ответственному",
+                "зафиксировать решение"
+              ]
+            },
+            {
+              "condition": "срок подтверждения истёк",
+              "required_outcomes": [
+                "отменить заявку"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-011",
+    "split": "development",
+    "title": "University course registration",
+    "language": "en",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Build a university course registration portal.",
+      "project_name": "CourseSelect",
+      "project_goal": "Let students enroll while enforcing prerequisites and capacity.",
+      "project_description": "Students search courses, enroll or join a waitlist, and drop future courses.",
+      "functional_requirements": [
+        "A student searches courses by term and subject.",
+        "The system checks course prerequisites.",
+        "The system checks remaining capacity.",
+        "A student enrolls in an eligible course.",
+        "A student joins a waitlist when a course is full.",
+        "A student drops a future course."
+      ],
+      "non_functional_requirements": [
+        "Enrollment updates must be serializable to prevent oversubscription."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Student",
+          "any_of": [
+            "learner"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Registrar",
+          "any_of": [
+            "academic administrator"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Enroll in course",
+          "name_aliases": [],
+          "primary_actor": "Student",
+          "required_milestones": [
+            "search course",
+            "check prerequisites",
+            "check capacity",
+            "enroll student"
+          ],
+          "required_branches": [
+            {
+              "condition": "prerequisite missing",
+              "required_outcomes": [
+                "reject enrollment",
+                "show missing prerequisite"
+              ]
+            },
+            {
+              "condition": "course full",
+              "required_outcomes": [
+                "offer waitlist",
+                "record waitlist position"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005"
+          ]
+        },
+        {
+          "name": "Drop course",
+          "name_aliases": [],
+          "primary_actor": "Student",
+          "required_milestones": [
+            "select enrollment",
+            "confirm drop",
+            "release seat"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-006"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered",
+        "FR-006": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-006",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-HID-005",
+    "split": "hidden",
+    "title": "Подписка и оплата",
+    "language": "ru",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Создать управление подпиской цифрового сервиса.",
+      "project_name": "SubControl",
+      "project_goal": "Автоматизировать подключение, продление и отмену подписки.",
+      "project_description": "Клиент выбирает тариф, оплачивает подписку, меняет тариф или отключает автопродление.",
+      "functional_requirements": [
+        "Клиент выбирает доступный тариф.",
+        "Система создаёт платёж через внешний платёжный сервис.",
+        "Система активирует подписку после подтверждения оплаты.",
+        "Клиент меняет тариф со следующего расчётного периода.",
+        "Клиент отключает автопродление."
+      ],
+      "non_functional_requirements": [
+        "Данные банковской карты не должны сохраняться приложением.",
+        "Повторный callback оплаты не должен создавать вторую подписку."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Клиент",
+          "any_of": [
+            "подписчик"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Платёжный сервис",
+          "any_of": [
+            "платёжный провайдер"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Оформить подписку",
+          "name_aliases": [],
+          "primary_actor": "Клиент",
+          "required_milestones": [
+            "выбрать тариф",
+            "создать платёж",
+            "получить подтверждение оплаты",
+            "активировать подписку"
+          ],
+          "required_branches": [
+            {
+              "condition": "оплата отклонена",
+              "required_outcomes": [
+                "не активировать подписку",
+                "показать статус оплаты"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003"
+          ]
+        },
+        {
+          "name": "Изменить подписку",
+          "name_aliases": [],
+          "primary_actor": "Клиент",
+          "required_milestones": [
+            "выбрать изменение",
+            "зафиксировать новый тариф или отключение продления",
+            "показать дату вступления изменения"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-004",
+            "FR-005"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-012",
+    "split": "development",
+    "title": "Parcel delivery tracking",
+    "language": "en",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Create a parcel tracking and delivery confirmation service.",
+      "project_name": "Parcel Track",
+      "project_goal": "Give senders and recipients a reliable parcel status.",
+      "project_description": "Carrier events update parcel status; the recipient confirms delivery or reports a problem.",
+      "functional_requirements": [
+        "A sender creates a shipment with recipient details.",
+        "A carrier posts parcel scan events.",
+        "The system derives the current parcel status from accepted events.",
+        "A recipient views the current status.",
+        "A recipient confirms delivery or reports damage."
+      ],
+      "non_functional_requirements": [
+        "Duplicate carrier events must be idempotent.",
+        "Tracking history must be retained for one year."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Sender",
+          "any_of": [
+            "shipper"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Carrier",
+          "any_of": [
+            "delivery provider"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Recipient",
+          "any_of": [
+            "receiver"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Create shipment",
+          "name_aliases": [],
+          "primary_actor": "Sender",
+          "required_milestones": [
+            "enter recipient details",
+            "create tracking identifier"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001"
+          ]
+        },
+        {
+          "name": "Update tracking status",
+          "name_aliases": [],
+          "primary_actor": "Carrier",
+          "required_milestones": [
+            "receive scan event",
+            "deduplicate event",
+            "derive current status"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-002",
+            "FR-003"
+          ]
+        },
+        {
+          "name": "Review delivery",
+          "name_aliases": [],
+          "primary_actor": "Recipient",
+          "required_milestones": [
+            "view tracking status",
+            "confirm delivery or report damage"
+          ],
+          "required_branches": [
+            {
+              "condition": "parcel damaged",
+              "required_outcomes": [
+                "record damage report"
+              ]
+            }
+          ],
+          "slot_id": "GUC-003",
+          "source_fr_ids": [
+            "FR-004",
+            "FR-005"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-013",
+    "split": "development",
+    "title": "Согласование заявки на закупку",
+    "language": "ru",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Создать workflow заявки на закупку.",
+      "project_name": "ProcureFlow",
+      "project_goal": "Контролировать бюджет и согласования до заказа товара.",
+      "project_description": "Инициатор создаёт заявку, система проверяет бюджет, руководитель и закупщик принимают решения.",
+      "functional_requirements": [
+        "Инициатор добавляет позиции и обоснование закупки.",
+        "Система проверяет доступный бюджет подразделения.",
+        "Руководитель согласует или отклоняет заявку.",
+        "Закупщик выбирает поставщика для согласованной заявки.",
+        "Инициатор видит историю решений."
+      ],
+      "non_functional_requirements": [
+        "Все решения должны иметь автора и временную метку."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Инициатор",
+          "any_of": [
+            "заказчик"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Руководитель",
+          "any_of": [
+            "менеджер"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Закупщик",
+          "any_of": [
+            "специалист по закупкам"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Подать заявку на закупку",
+          "name_aliases": [],
+          "primary_actor": "Инициатор",
+          "required_milestones": [
+            "добавить позиции",
+            "указать обоснование",
+            "проверить бюджет",
+            "отправить заявку"
+          ],
+          "required_branches": [
+            {
+              "condition": "бюджет недостаточен",
+              "required_outcomes": [
+                "остановить отправку",
+                "показать дефицит"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002"
+          ]
+        },
+        {
+          "name": "Согласовать заявку",
+          "name_aliases": [],
+          "primary_actor": "Руководитель",
+          "required_milestones": [
+            "просмотреть заявку",
+            "принять решение",
+            "зафиксировать автора и время",
+            "показать решение инициатору"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-003",
+            "FR-005"
+          ]
+        },
+        {
+          "name": "Выбрать поставщика",
+          "name_aliases": [],
+          "primary_actor": "Закупщик",
+          "required_milestones": [
+            "открыть согласованную заявку",
+            "зафиксировать выбранного поставщика"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-003",
+          "source_fr_ids": [
+            "FR-004"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-HID-006",
+    "split": "hidden",
+    "title": "Online quiz attempt",
+    "language": "en",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Build a timed quiz attempt workflow for a learning platform.",
+      "project_name": "QuizFlow",
+      "project_goal": "Grade objective quizzes consistently and preserve attempt history.",
+      "project_description": "A learner starts a timed quiz, saves answers, submits, and receives an automatic score.",
+      "functional_requirements": [
+        "A learner starts an available quiz attempt.",
+        "The system records the attempt start time.",
+        "The learner saves answers before the deadline.",
+        "The system automatically submits when time expires.",
+        "The system calculates an objective score.",
+        "The learner views the final score."
+      ],
+      "non_functional_requirements": [
+        "A temporary connection loss must not erase previously saved answers."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Learner",
+          "any_of": [
+            "student"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Instructor",
+          "any_of": [
+            "teacher"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Complete quiz attempt",
+          "name_aliases": [],
+          "primary_actor": "Learner",
+          "required_milestones": [
+            "start attempt",
+            "record deadline",
+            "save answers",
+            "submit attempt",
+            "calculate score",
+            "show final score"
+          ],
+          "required_branches": [
+            {
+              "condition": "time expires",
+              "required_outcomes": [
+                "submit current answers automatically",
+                "prevent later changes"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005",
+            "FR-006"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered",
+        "FR-006": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-006",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-014",
+    "split": "development",
+    "title": "Заявка на ремонт дома",
+    "language": "ru",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Создать сервис заявок жильцов на ремонт общедомового имущества.",
+      "project_name": "House Repair",
+      "project_goal": "Прозрачно назначать и закрывать ремонтные работы.",
+      "project_description": "Житель сообщает проблему, диспетчер назначает исполнителя, исполнитель прикладывает результат.",
+      "functional_requirements": [
+        "Житель создаёт заявку с адресом, категорией и описанием.",
+        "Житель прикладывает фотографию проблемы.",
+        "Диспетчер назначает исполнителя и срок.",
+        "Исполнитель меняет статус и прикладывает фотографию результата.",
+        "Житель подтверждает решение или переоткрывает заявку."
+      ],
+      "non_functional_requirements": [
+        "Фотографии должны быть доступны только участникам заявки."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Житель",
+          "any_of": [
+            "заявитель"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Диспетчер",
+          "any_of": [
+            "оператор"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Исполнитель",
+          "any_of": [
+            "мастер"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Создать заявку на ремонт",
+          "name_aliases": [],
+          "primary_actor": "Житель",
+          "required_milestones": [
+            "указать адрес и проблему",
+            "прикрепить фотографию",
+            "отправить заявку"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002"
+          ]
+        },
+        {
+          "name": "Назначить ремонт",
+          "name_aliases": [],
+          "primary_actor": "Диспетчер",
+          "required_milestones": [
+            "просмотреть заявку",
+            "назначить исполнителя и срок"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-003"
+          ]
+        },
+        {
+          "name": "Завершить ремонт",
+          "name_aliases": [],
+          "primary_actor": "Исполнитель",
+          "required_milestones": [
+            "обновить статус",
+            "прикрепить результат",
+            "запросить подтверждение жителя"
+          ],
+          "required_branches": [
+            {
+              "condition": "житель не подтверждает",
+              "required_outcomes": [
+                "переоткрыть заявку",
+                "сохранить комментарий"
+              ]
+            }
+          ],
+          "slot_id": "GUC-003",
+          "source_fr_ids": [
+            "FR-004",
+            "FR-005"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-015",
+    "split": "development",
+    "title": "Insurance claim intake",
+    "language": "en",
+    "complexity": "medium",
+    "specification_req": {
+      "project_task": "Create an insurance claim intake and triage workflow.",
+      "project_name": "Claim Intake",
+      "project_goal": "Collect complete loss reports and route them for review.",
+      "project_description": "A policyholder reports a loss, uploads evidence, and receives a case number; an adjuster triages it.",
+      "functional_requirements": [
+        "A policyholder identifies an active policy.",
+        "The policyholder reports loss date, location, and description.",
+        "The policyholder uploads supporting evidence.",
+        "The system creates a claim number for a complete report.",
+        "An adjuster assigns a severity and review route.",
+        "The policyholder views claim status."
+      ],
+      "non_functional_requirements": [
+        "Uploaded evidence must be malware-scanned.",
+        "Sensitive claim data must be encrypted in transit and at rest."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Policyholder",
+          "any_of": [
+            "claimant"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Adjuster",
+          "any_of": [
+            "claims specialist"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Report insurance claim",
+          "name_aliases": [],
+          "primary_actor": "Policyholder",
+          "required_milestones": [
+            "identify policy",
+            "enter loss details",
+            "upload evidence",
+            "validate completeness",
+            "create claim number"
+          ],
+          "required_branches": [
+            {
+              "condition": "policy is inactive",
+              "required_outcomes": [
+                "do not create claim",
+                "show policy problem"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004"
+          ]
+        },
+        {
+          "name": "Triage insurance claim",
+          "name_aliases": [],
+          "primary_actor": "Adjuster",
+          "required_milestones": [
+            "review claim",
+            "assign severity",
+            "select review route"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-005"
+          ]
+        },
+        {
+          "name": "View claim status",
+          "name_aliases": [],
+          "primary_actor": "Policyholder",
+          "required_milestones": [
+            "identify claim",
+            "show current status"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-003",
+          "source_fr_ids": [
+            "FR-006"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered",
+        "FR-006": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-006",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-HID-007",
+    "split": "hidden",
+    "title": "Microloan application",
+    "language": "en",
+    "complexity": "hard",
+    "specification_req": {
+      "project_task": "Build a microloan application and decision workflow.",
+      "project_name": "MicroLoan",
+      "project_goal": "Produce explainable preliminary lending decisions.",
+      "project_description": "An applicant submits identity, income, and consent; automated checks and an officer produce a decision.",
+      "functional_requirements": [
+        "An applicant submits identity and contact information.",
+        "The applicant submits income and requested loan data.",
+        "The applicant grants consent for credit checks.",
+        "The system validates identity through an external provider.",
+        "The system obtains a credit risk result.",
+        "The system flags inconsistent application data.",
+        "A loan officer approves, rejects, or requests clarification.",
+        "The applicant receives the decision and reasons allowed by policy."
+      ],
+      "non_functional_requirements": [
+        "Every automated and human decision must be explainable and auditable.",
+        "Personal data must be deleted according to the approved retention schedule.",
+        "External provider failure must not produce an automatic approval."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Applicant",
+          "any_of": [
+            "borrower"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Loan officer",
+          "any_of": [
+            "credit officer"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Identity provider",
+          "any_of": [
+            "KYC provider"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-004",
+          "canonical": "Credit bureau",
+          "any_of": [
+            "risk provider"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Submit loan application",
+          "name_aliases": [],
+          "primary_actor": "Applicant",
+          "required_milestones": [
+            "enter identity",
+            "enter loan and income data",
+            "grant consent",
+            "submit application"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003"
+          ]
+        },
+        {
+          "name": "Perform automated checks",
+          "name_aliases": [],
+          "primary_actor": "Identity provider",
+          "required_milestones": [
+            "verify identity",
+            "obtain risk result",
+            "detect inconsistencies",
+            "prepare review package"
+          ],
+          "required_branches": [
+            {
+              "condition": "external check fails",
+              "required_outcomes": [
+                "mark check unavailable",
+                "do not approve automatically"
+              ]
+            },
+            {
+              "condition": "data inconsistent",
+              "required_outcomes": [
+                "flag clarification need"
+              ]
+            }
+          ],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-004",
+            "FR-005",
+            "FR-006"
+          ]
+        },
+        {
+          "name": "Decide loan application",
+          "name_aliases": [],
+          "primary_actor": "Loan officer",
+          "required_milestones": [
+            "review evidence and flags",
+            "record decision",
+            "record permitted reasons",
+            "notify applicant"
+          ],
+          "required_branches": [
+            {
+              "condition": "clarification required",
+              "required_outcomes": [
+                "request clarification",
+                "keep application pending"
+              ]
+            }
+          ],
+          "slot_id": "GUC-003",
+          "source_fr_ids": [
+            "FR-007",
+            "FR-008"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered",
+        "FR-006": "covered",
+        "FR-007": "covered",
+        "FR-008": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-003",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-006",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-007",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        },
+        {
+          "source_fr_id": "FR-008",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-016",
+    "split": "development",
+    "title": "Экстренная диспетчеризация",
+    "language": "ru",
+    "complexity": "hard",
+    "specification_req": {
+      "project_task": "Создать систему регистрации и диспетчеризации экстренных обращений.",
+      "project_name": "Emergency Dispatch",
+      "project_goal": "Быстро передавать проверенные обращения доступной бригаде.",
+      "project_description": "Оператор принимает обращение, определяет место и приоритет, диспетчер назначает бригаду и отслеживает подтверждение.",
+      "functional_requirements": [
+        "Оператор фиксирует контакт, место и описание происшествия.",
+        "Система предлагает категорию и приоритет, но оператор подтверждает их.",
+        "Система проверяет полноту критических данных.",
+        "Диспетчер видит доступные бригады и их местоположение.",
+        "Диспетчер назначает одну бригаду.",
+        "Бригада подтверждает получение назначения.",
+        "При отсутствии подтверждения назначение эскалируется.",
+        "Все изменения обращения сохраняются в журнале."
+      ],
+      "non_functional_requirements": [
+        "Создание карточки обращения должно занимать не более 5 секунд после ввода данных.",
+        "Потеря связи не должна приводить к исчезновению принятого обращения.",
+        "Рекомендация приоритета не может скрывать решение оператора."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Оператор",
+          "any_of": [
+            "принимающий вызов"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Диспетчер",
+          "any_of": [
+            "координатор"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Бригада",
+          "any_of": [
+            "экипаж"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Зарегистрировать обращение",
+          "name_aliases": [],
+          "primary_actor": "Оператор",
+          "required_milestones": [
+            "ввести сведения",
+            "получить рекомендацию",
+            "подтвердить категорию и приоритет",
+            "проверить критические данные",
+            "сохранить обращение"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-008"
+          ]
+        },
+        {
+          "name": "Назначить бригаду",
+          "name_aliases": [],
+          "primary_actor": "Диспетчер",
+          "required_milestones": [
+            "просмотреть доступные бригады",
+            "выбрать бригаду",
+            "зафиксировать назначение",
+            "получить подтверждение"
+          ],
+          "required_branches": [
+            {
+              "condition": "подтверждение не получено",
+              "required_outcomes": [
+                "эскалировать назначение",
+                "сохранить событие в журнале"
+              ]
+            }
+          ],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-004",
+            "FR-005",
+            "FR-006",
+            "FR-007",
+            "FR-008"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered",
+        "FR-006": "covered",
+        "FR-007": "covered",
+        "FR-008": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-003",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-006",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-007",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-008",
+          "allowed_target_uc_slots": [
+            "GUC-001",
+            "GUC-002"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-017",
+    "split": "development",
+    "title": "Marketplace dispute",
+    "language": "en",
+    "complexity": "hard",
+    "specification_req": {
+      "project_task": "Create a marketplace buyer-seller dispute workflow.",
+      "project_name": "FairTrade Disputes",
+      "project_goal": "Resolve order disputes with traceable evidence and deadlines.",
+      "project_description": "A buyer opens a dispute, both parties provide evidence, and a mediator decides or proposes a settlement.",
+      "functional_requirements": [
+        "A buyer opens a dispute for an eligible order.",
+        "The buyer selects a reason and requested outcome.",
+        "The buyer and seller upload evidence before a deadline.",
+        "The system notifies each party about new evidence.",
+        "A mediator reviews order history and evidence.",
+        "A mediator proposes a settlement or records a decision.",
+        "Either party accepts a proposed settlement.",
+        "The system closes the dispute after decision or mutual settlement."
+      ],
+      "non_functional_requirements": [
+        "Evidence must be immutable after the submission deadline.",
+        "A mediator must not access disputes with a declared conflict of interest."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Buyer",
+          "any_of": [
+            "customer"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Seller",
+          "any_of": [
+            "merchant"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Mediator",
+          "any_of": [
+            "dispute specialist"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Open dispute",
+          "name_aliases": [],
+          "primary_actor": "Buyer",
+          "required_milestones": [
+            "select eligible order",
+            "choose reason and outcome",
+            "create dispute"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002"
+          ]
+        },
+        {
+          "name": "Submit dispute evidence",
+          "name_aliases": [],
+          "primary_actor": "Buyer",
+          "required_milestones": [
+            "upload evidence",
+            "record submission time",
+            "notify other party"
+          ],
+          "required_branches": [
+            {
+              "condition": "deadline passed",
+              "required_outcomes": [
+                "reject new evidence"
+              ]
+            }
+          ],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-003",
+            "FR-004"
+          ]
+        },
+        {
+          "name": "Resolve dispute",
+          "name_aliases": [],
+          "primary_actor": "Mediator",
+          "required_milestones": [
+            "check conflict of interest",
+            "review history and evidence",
+            "record proposal or decision",
+            "collect settlement responses",
+            "close dispute"
+          ],
+          "required_branches": [
+            {
+              "condition": "conflict of interest declared",
+              "required_outcomes": [
+                "prevent access",
+                "route to another mediator"
+              ]
+            },
+            {
+              "condition": "both parties accept settlement",
+              "required_outcomes": [
+                "close as settled"
+              ]
+            }
+          ],
+          "slot_id": "GUC-003",
+          "source_fr_ids": [
+            "FR-005",
+            "FR-006",
+            "FR-007",
+            "FR-008"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered",
+        "FR-006": "covered",
+        "FR-007": "covered",
+        "FR-008": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        },
+        {
+          "source_fr_id": "FR-006",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        },
+        {
+          "source_fr_id": "FR-007",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        },
+        {
+          "source_fr_id": "FR-008",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-HID-008",
+    "split": "hidden",
+    "title": "Управление доступом в квартиру",
+    "language": "ru",
+    "complexity": "hard",
+    "specification_req": {
+      "project_task": "Создать сервис временного цифрового доступа в многоквартирный дом.",
+      "project_name": "Smart Access",
+      "project_goal": "Выдавать контролируемый временный доступ гостям и подрядчикам.",
+      "project_description": "Житель создаёт доступ, управляющий ограничивает зоны, гость использует код, события аудируются.",
+      "functional_requirements": [
+        "Житель создаёт приглашение с интервалом действия.",
+        "Житель выбирает гостя или подрядчика.",
+        "Система назначает разрешённые зоны по типу приглашения.",
+        "Управляющий может дополнительно ограничить зоны подрядчика.",
+        "Гость получает одноразовый код.",
+        "Контроллер проверяет время, зону и статус кода.",
+        "После успешного входа одноразовый код блокируется.",
+        "Житель досрочно отзывает приглашение."
+      ],
+      "non_functional_requirements": [
+        "События доступа должны быть защищены от изменения.",
+        "Недоступность сети не должна разрешать просроченный код.",
+        "Код не должен отображаться в обычных логах."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Житель",
+          "any_of": [
+            "резидент"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Управляющий",
+          "any_of": [
+            "администратор дома"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Гость",
+          "any_of": [
+            "посетитель"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-004",
+          "canonical": "Контроллер доступа",
+          "any_of": [
+            "турникет"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Выдать временный доступ",
+          "name_aliases": [],
+          "primary_actor": "Житель",
+          "required_milestones": [
+            "указать интервал и тип гостя",
+            "определить зоны",
+            "применить ограничения",
+            "создать одноразовый код",
+            "передать код гостю"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005"
+          ]
+        },
+        {
+          "name": "Использовать временный доступ",
+          "name_aliases": [],
+          "primary_actor": "Гость",
+          "required_milestones": [
+            "предъявить код",
+            "проверить время зону и статус",
+            "разрешить вход",
+            "заблокировать использованный код"
+          ],
+          "required_branches": [
+            {
+              "condition": "проверка не пройдена",
+              "required_outcomes": [
+                "отказать во входе",
+                "записать событие"
+              ]
+            }
+          ],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-006",
+            "FR-007"
+          ]
+        },
+        {
+          "name": "Отозвать доступ",
+          "name_aliases": [],
+          "primary_actor": "Житель",
+          "required_milestones": [
+            "выбрать активное приглашение",
+            "отозвать приглашение",
+            "заблокировать код"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-003",
+          "source_fr_ids": [
+            "FR-008"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered",
+        "FR-006": "covered",
+        "FR-007": "covered",
+        "FR-008": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-003",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-006",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-007",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-008",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-018",
+    "split": "development",
+    "title": "Data export request",
+    "language": "en",
+    "complexity": "hard",
+    "specification_req": {
+      "project_task": "Build a personal data export request workflow.",
+      "project_name": "Privacy Export",
+      "project_goal": "Fulfil verified export requests within a controlled process.",
+      "project_description": "A user requests an export, verifies identity, and downloads a time-limited archive assembled from multiple services.",
+      "functional_requirements": [
+        "A user requests an export of personal data.",
+        "The system requires recent identity verification.",
+        "The system collects data from registered source services.",
+        "The system records unavailable sources without silently omitting them.",
+        "The system creates an encrypted archive.",
+        "The system sends a time-limited download notification.",
+        "The user downloads the archive after re-authentication.",
+        "The archive is deleted after expiry."
+      ],
+      "non_functional_requirements": [
+        "The export process must complete within the legal service deadline.",
+        "Archive links must be single-user and time-limited.",
+        "Audit records must exclude archive content."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "User",
+          "any_of": [
+            "data subject"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Source service",
+          "any_of": [
+            "data provider"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Privacy operator",
+          "any_of": [
+            "privacy administrator"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Request personal data export",
+          "name_aliases": [],
+          "primary_actor": "User",
+          "required_milestones": [
+            "submit export request",
+            "verify identity",
+            "accept request"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002"
+          ]
+        },
+        {
+          "name": "Assemble data export",
+          "name_aliases": [],
+          "primary_actor": "Source service",
+          "required_milestones": [
+            "collect registered sources",
+            "record source failures",
+            "create encrypted archive",
+            "create expiring link",
+            "notify user"
+          ],
+          "required_branches": [
+            {
+              "condition": "source unavailable",
+              "required_outcomes": [
+                "record unavailable source",
+                "continue according to policy"
+              ]
+            }
+          ],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-003",
+            "FR-004",
+            "FR-005",
+            "FR-006"
+          ]
+        },
+        {
+          "name": "Download and expire export",
+          "name_aliases": [],
+          "primary_actor": "User",
+          "required_milestones": [
+            "re-authenticate",
+            "download archive",
+            "expire link",
+            "delete archive"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-003",
+          "source_fr_ids": [
+            "FR-007",
+            "FR-008"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered",
+        "FR-006": "covered",
+        "FR-007": "covered",
+        "FR-008": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-003",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-006",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-007",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        },
+        {
+          "source_fr_id": "FR-008",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-019",
+    "split": "development",
+    "title": "Муниципальное разрешение",
+    "language": "ru",
+    "complexity": "hard",
+    "specification_req": {
+      "project_task": "Создать процесс подачи и рассмотрения заявки на муниципальное разрешение.",
+      "project_name": "City Permit",
+      "project_goal": "Сделать состояние заявки и причины решений прозрачными заявителю.",
+      "project_description": "Заявитель подаёт документы, система проверяет комплектность, инспектор запрашивает уточнения и принимает решение.",
+      "functional_requirements": [
+        "Заявитель выбирает тип разрешения.",
+        "Заявитель заполняет обязательные поля и прикладывает документы.",
+        "Система проверяет комплектность по типу разрешения.",
+        "Система рассчитывает и принимает обязательную пошлину.",
+        "Инспектор запрашивает уточнение с указанием недостающих данных.",
+        "Заявитель дополняет заявку до срока.",
+        "Инспектор одобряет или отклоняет заявку с причиной.",
+        "Заявитель скачивает выданное разрешение."
+      ],
+      "non_functional_requirements": [
+        "Каждая версия документов должна сохраняться в истории дела.",
+        "Решение должно иметь квалифицированную временную метку."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Заявитель",
+          "any_of": [
+            "гражданин",
+            "организация"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Инспектор",
+          "any_of": [
+            "муниципальный сотрудник"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Платёжный сервис",
+          "any_of": [
+            "провайдер оплаты"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Подать заявку на разрешение",
+          "name_aliases": [],
+          "primary_actor": "Заявитель",
+          "required_milestones": [
+            "выбрать тип",
+            "заполнить поля",
+            "загрузить документы",
+            "проверить комплектность",
+            "оплатить пошлину",
+            "подать заявку"
+          ],
+          "required_branches": [
+            {
+              "condition": "комплект неполный",
+              "required_outcomes": [
+                "не принимать заявку",
+                "показать недостающие данные"
+              ]
+            },
+            {
+              "condition": "оплата не подтверждена",
+              "required_outcomes": [
+                "не переводить заявку на рассмотрение"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004"
+          ]
+        },
+        {
+          "name": "Уточнить заявку",
+          "name_aliases": [],
+          "primary_actor": "Инспектор",
+          "required_milestones": [
+            "сформировать запрос уточнения",
+            "уведомить заявителя",
+            "получить дополнение"
+          ],
+          "required_branches": [
+            {
+              "condition": "срок уточнения истёк",
+              "required_outcomes": [
+                "закрыть заявку по правилу"
+              ]
+            }
+          ],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-005",
+            "FR-006"
+          ]
+        },
+        {
+          "name": "Принять решение",
+          "name_aliases": [],
+          "primary_actor": "Инспектор",
+          "required_milestones": [
+            "рассмотреть актуальную версию",
+            "зафиксировать решение и причину",
+            "создать разрешение при одобрении",
+            "предоставить результат заявителю"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-003",
+          "source_fr_ids": [
+            "FR-007",
+            "FR-008"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered",
+        "FR-006": "covered",
+        "FR-007": "covered",
+        "FR-008": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-006",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-007",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        },
+        {
+          "source_fr_id": "FR-008",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-HID-009",
+    "split": "hidden",
+    "title": "Maintenance scheduling with conflict",
+    "language": "en",
+    "complexity": "hard",
+    "specification_req": {
+      "project_task": "Create a preventive maintenance scheduling workflow for factory machines.",
+      "project_name": "MaintPlan",
+      "project_goal": "Schedule required maintenance without unsafe production overlap.",
+      "project_description": "Planners create maintenance windows, production approves downtime, technicians execute checklists, and overdue work escalates.",
+      "functional_requirements": [
+        "A maintenance planner creates a task from a maintenance rule.",
+        "The planner proposes a machine downtime window.",
+        "A production manager approves or rejects the downtime window.",
+        "The system prevents an approved maintenance window from overlapping an approved production lock.",
+        "A technician starts work only after machine isolation is confirmed.",
+        "The technician records checklist results and parts used.",
+        "A safety officer records release after safety-critical maintenance.",
+        "The system escalates overdue maintenance."
+      ],
+      "non_functional_requirements": [
+        "The specification also says emergency maintenance may override any production lock without naming an approver.",
+        "All safety confirmations must be non-repudiable."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Maintenance planner",
+          "any_of": [
+            "planner"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Production manager",
+          "any_of": [
+            "production approver"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Technician",
+          "any_of": [
+            "maintenance worker"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-004",
+          "canonical": "Safety officer",
+          "any_of": [
+            "safety approver"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Schedule maintenance",
+          "name_aliases": [],
+          "primary_actor": "Maintenance planner",
+          "required_milestones": [
+            "create task",
+            "propose downtime",
+            "obtain production decision",
+            "check overlap",
+            "approve schedule"
+          ],
+          "required_branches": [
+            {
+              "condition": "production rejects window",
+              "required_outcomes": [
+                "return task for rescheduling"
+              ]
+            },
+            {
+              "condition": "approved production lock overlaps",
+              "required_outcomes": [
+                "reject maintenance approval"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004"
+          ]
+        },
+        {
+          "name": "Execute maintenance",
+          "name_aliases": [],
+          "primary_actor": "Technician",
+          "required_milestones": [
+            "confirm machine isolation",
+            "perform checklist",
+            "record results and parts",
+            "obtain safety release"
+          ],
+          "required_branches": [
+            {
+              "condition": "isolation not confirmed",
+              "required_outcomes": [
+                "block work start"
+              ]
+            }
+          ],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-005",
+            "FR-006",
+            "FR-007"
+          ]
+        },
+        {
+          "name": "Escalate overdue maintenance",
+          "name_aliases": [],
+          "primary_actor": "Maintenance planner",
+          "required_milestones": [
+            "detect overdue task",
+            "notify responsible roles"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-003",
+          "source_fr_ids": [
+            "FR-008"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered",
+        "FR-006": "covered",
+        "FR-007": "covered",
+        "FR-008": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "Emergency override names no approving actor and conflicts with overlap prevention; expected status is conflicting/missing information, not an invented approval rule.",
+      "forbidden_assumptions": [
+        "Invent an approver for emergency override",
+        "Silently allow emergency override without audit"
+      ],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-006",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-007",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-008",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-020",
+    "split": "development",
+    "title": "Appointment triage with missing rule",
+    "language": "en",
+    "complexity": "hard",
+    "specification_req": {
+      "project_task": "Build an online symptom triage and appointment routing service.",
+      "project_name": "Triage Route",
+      "project_goal": "Route non-emergency requests while identifying cases needing urgent help.",
+      "project_description": "A patient answers questions; the service gives a routing recommendation and schedules eligible requests.",
+      "functional_requirements": [
+        "A patient selects a symptom category.",
+        "The patient answers category-specific questions.",
+        "The system displays an emergency warning when configured red flags are present.",
+        "The system recommends a care route for non-emergency answers.",
+        "The patient books an offered appointment.",
+        "A clinician reviews submitted answers before the appointment.",
+        "The patient can correct answers before clinician review."
+      ],
+      "non_functional_requirements": [
+        "The service must state that its output is not a diagnosis.",
+        "The requirements do not provide the red-flag rule set.",
+        "Sensitive answers must be accessible only to the patient and assigned clinician."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Patient",
+          "any_of": [
+            "service user"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Clinician",
+          "any_of": [
+            "doctor",
+            "nurse"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Complete symptom triage",
+          "name_aliases": [],
+          "primary_actor": "Patient",
+          "required_milestones": [
+            "select symptom category",
+            "answer questions",
+            "evaluate configured red flags",
+            "show warning or care route"
+          ],
+          "required_branches": [
+            {
+              "condition": "configured red flag present",
+              "required_outcomes": [
+                "show emergency warning",
+                "do not present routine booking as sufficient"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004"
+          ]
+        },
+        {
+          "name": "Book routed appointment",
+          "name_aliases": [],
+          "primary_actor": "Patient",
+          "required_milestones": [
+            "select offered appointment",
+            "confirm booking"
+          ],
+          "required_branches": [],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-005"
+          ]
+        },
+        {
+          "name": "Review triage answers",
+          "name_aliases": [],
+          "primary_actor": "Clinician",
+          "required_milestones": [
+            "open assigned answers",
+            "review latest submitted version"
+          ],
+          "required_branches": [
+            {
+              "condition": "patient corrects before review",
+              "required_outcomes": [
+                "replace current version while preserving audit history"
+              ]
+            }
+          ],
+          "slot_id": "GUC-003",
+          "source_fr_ids": [
+            "FR-006",
+            "FR-007"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered",
+        "FR-006": "covered",
+        "FR-007": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-003",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "Red-flag rules are missing; generation must expose missing information and must not invent clinical thresholds.",
+      "forbidden_assumptions": [
+        "Invent medical red-flag thresholds",
+        "Describe the recommendation as a diagnosis"
+      ],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-006",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        },
+        {
+          "source_fr_id": "FR-007",
+          "allowed_target_uc_slots": [
+            "GUC-003"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "case_id": "B1-HID-010",
+    "split": "hidden",
+    "title": "Fleet charging schedule",
+    "language": "en",
+    "complexity": "hard",
+    "specification_req": {
+      "project_task": "Create an electric fleet charging scheduling workflow.",
+      "project_name": "FleetCharge",
+      "project_goal": "Prepare vehicles for trips while respecting charger and power limits.",
+      "project_description": "A dispatcher supplies trip needs; the system proposes charging sessions and operators handle failures.",
+      "functional_requirements": [
+        "A dispatcher imports next-day vehicle trip requirements.",
+        "The system reads vehicle state of charge.",
+        "The system reads charger availability.",
+        "The system proposes charging sessions before departure deadlines.",
+        "The schedule must not exceed the site power limit.",
+        "An operator approves or edits the schedule.",
+        "A charger reports session start, progress, completion, or failure.",
+        "The system replans remaining sessions after a failure."
+      ],
+      "non_functional_requirements": [
+        "Schedule calculation must finish within five minutes for 500 vehicles.",
+        "Every manual schedule edit must be attributed to an operator."
+      ]
+    },
+    "gold": {
+      "review_status": "synthetic_author_draft",
+      "actor_slots": [
+        {
+          "slot_id": "ACTOR-001",
+          "canonical": "Dispatcher",
+          "any_of": [
+            "fleet planner"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-002",
+          "canonical": "Operator",
+          "any_of": [
+            "charging operator"
+          ]
+        },
+        {
+          "slot_id": "ACTOR-003",
+          "canonical": "Charger",
+          "any_of": [
+            "charging station"
+          ]
+        }
+      ],
+      "use_case_slots": [
+        {
+          "name": "Plan fleet charging",
+          "name_aliases": [],
+          "primary_actor": "Dispatcher",
+          "required_milestones": [
+            "import trip needs",
+            "read charge states",
+            "read charger availability",
+            "propose sessions",
+            "check power limit",
+            "approve or edit schedule"
+          ],
+          "required_branches": [
+            {
+              "condition": "proposal exceeds power limit",
+              "required_outcomes": [
+                "adjust sessions before approval"
+              ]
+            }
+          ],
+          "slot_id": "GUC-001",
+          "source_fr_ids": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005",
+            "FR-006"
+          ]
+        },
+        {
+          "name": "Monitor and replan charging",
+          "name_aliases": [],
+          "primary_actor": "Charger",
+          "required_milestones": [
+            "receive session event",
+            "update session state",
+            "replan remaining sessions when needed"
+          ],
+          "required_branches": [
+            {
+              "condition": "charging session fails",
+              "required_outcomes": [
+                "mark failure",
+                "replan remaining sessions",
+                "notify operator"
+              ]
+            }
+          ],
+          "slot_id": "GUC-002",
+          "source_fr_ids": [
+            "FR-007",
+            "FR-008"
+          ]
+        }
+      ],
+      "fr_coverage": {
+        "FR-001": "covered",
+        "FR-002": "covered",
+        "FR-003": "covered",
+        "FR-004": "covered",
+        "FR-005": "covered",
+        "FR-006": "covered",
+        "FR-007": "covered",
+        "FR-008": "covered"
+      },
+      "nfr_expectations": [
+        {
+          "nfr_id": "NFR-001",
+          "must_be_preserved": true
+        },
+        {
+          "nfr_id": "NFR-002",
+          "must_be_preserved": true
+        }
+      ],
+      "known_ambiguity": "none",
+      "forbidden_assumptions": [],
+      "equivalence_policy": {
+        "allow_renaming": true,
+        "allow_linear_node_split_merge": true,
+        "allow_additional_supported_detail": true,
+        "require_same_actor_goal_milestone_branch_semantics": true,
+        "pixel_layout_ignored": true
+      },
+      "trace_expectations": [
+        {
+          "source_fr_id": "FR-001",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-002",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-003",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-004",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-005",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-006",
+          "allowed_target_uc_slots": [
+            "GUC-001"
+          ]
+        },
+        {
+          "source_fr_id": "FR-007",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        },
+        {
+          "source_fr_id": "FR-008",
+          "allowed_target_uc_slots": [
+            "GUC-002"
+          ]
+        }
+      ]
+    }
+  }
+]

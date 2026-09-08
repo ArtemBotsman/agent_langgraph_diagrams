@@ -1,0 +1,31 @@
+{
+  "benchmark_version": "1.0.0-synthetic-candidate",
+  "created_at": "2026-09-08",
+  "frozen": false,
+  "freeze_blocker": "Supervisor/expert review and written approval are required.",
+  "case_count": 30,
+  "reserve_case_count": 6,
+  "split_counts": {
+    "development": 20,
+    "hidden": 10
+  },
+  "complexity_counts": {
+    "simple": 8,
+    "medium": 13,
+    "hard": 9
+  },
+  "language_counts": {
+    "ru": 13,
+    "en": 17
+  },
+  "cases_sha256": "e7d1e3373ddef6ca39a1ca7e8a8b771c84a404d4f367d4eb1ee33ece154018e9",
+  "hidden_policy": "Hidden means held out from prompt/threshold tuning. Gold exists locally for final evaluation and is not cryptographically secret from the repository owner.",
+  "provenance": "Synthetic cases authored for pipeline development; not supplied or approved by the supervisor.",
+  "required_review": [
+    "domain plausibility",
+    "gold actor and use-case boundaries",
+    "milestone and branch completeness",
+    "ambiguity/conflict labels",
+    "permission to use the set in the final NIR"
+  ]
+}

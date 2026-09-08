@@ -1,4 +1,4 @@
-"""Root pipeline graph: SpecificationRequest -> GeneratedSpecification.
+"""Root pipeline graph: SpecificationReq -> normalization -> GeneratedSpecification.
 
 Flow:
   normalize requirements
@@ -28,7 +28,9 @@ from traceable_spec.entities import (
     GeneratedSpecification,
     PipelineGraphState,
     PipelineStatus,
+    SpecificationRequest,
     TraceManifest,
+    normalize_specification_req,
 )
 from traceable_spec.evaluation.evaluator import evaluate_specification
 from traceable_spec.use_cases_graph import (
@@ -55,8 +57,9 @@ def default_pipeline_deps() -> PipelineDeps:
 
 
 def _normalize_requirements(state: PipelineGraphState) -> dict[str, Any]:
-    request = state["request"]
+    request = normalize_specification_req(state["request"])
     return {
+        "request": request,
         "normalized_frs": list(request.functional_requirements),
         "normalized_nfrs": list(request.non_functional_requirements),
         "max_repair_attempts": request.max_repair_attempts,
@@ -71,9 +74,12 @@ def _run_use_cases_factory(deps: PipelineDeps) -> NodeFn:
     compiled = build_use_cases_graph(deps.use_case_nodes)
 
     def _run_use_cases(state: PipelineGraphState) -> dict[str, Any]:
+        request = state["request"]
+        if not isinstance(request, SpecificationRequest):
+            raise TypeError("request must be normalized before the Use Case stage")
         result = compiled.invoke(
             {
-                "request": state["request"],
+                "request": request,
             }
         )
         return {
@@ -92,6 +98,9 @@ def _run_activities_factory(deps: PipelineDeps) -> NodeFn:
     compiled = build_activity_diagram_graph(deps.activity_nodes)
 
     def _run_activities(state: PipelineGraphState) -> dict[str, Any]:
+        request = state["request"]
+        if not isinstance(request, SpecificationRequest):
+            raise TypeError("request must be normalized before the activity stage")
         use_case_set = state.get("use_case_set")
         if use_case_set is None or state.get("status") == PipelineStatus.FAILED:
             return {
@@ -112,7 +121,7 @@ def _run_activities_factory(deps: PipelineDeps) -> NodeFn:
                     "use_case": use_case,
                     "actors": use_case_set.actors,
                     "max_repair_attempts": state.get("max_repair_attempts")
-                    or state["request"].max_repair_attempts,
+                    or request.max_repair_attempts,
                     "trace_manifest": TraceManifest(links=list(merged_links)),
                 }
             )
@@ -136,8 +145,11 @@ def _run_activities_factory(deps: PipelineDeps) -> NodeFn:
 
 
 def _validate_e2e_trace(state: PipelineGraphState) -> dict[str, Any]:
+    request = state["request"]
+    if not isinstance(request, SpecificationRequest):
+        raise TypeError("request must be normalized before trace validation")
     spec = GeneratedSpecification(
-        request=state["request"],
+        request=request,
         use_case_set=state.get("use_case_set"),
         activity_results=list(state.get("activity_results") or []),
         trace_manifest=state.get("trace_manifest") or TraceManifest(),
@@ -155,8 +167,11 @@ def _validate_e2e_trace(state: PipelineGraphState) -> dict[str, Any]:
 
 
 def _run_evaluator(state: PipelineGraphState) -> dict[str, Any]:
+    request = state["request"]
+    if not isinstance(request, SpecificationRequest):
+        raise TypeError("request must be normalized before evaluation")
     spec = GeneratedSpecification(
-        request=state["request"],
+        request=request,
         use_case_set=state.get("use_case_set"),
         activity_results=list(state.get("activity_results") or []),
         trace_manifest=state.get("trace_manifest") or TraceManifest(),
@@ -170,10 +185,13 @@ def _run_evaluator(state: PipelineGraphState) -> dict[str, Any]:
 
 
 def _finalize_pipeline(state: PipelineGraphState) -> dict[str, Any]:
+    request = state["request"]
+    if not isinstance(request, SpecificationRequest):
+        raise TypeError("request must be normalized before finalization")
     spec = state.get("specification")
     if spec is None:
         spec = GeneratedSpecification(
-            request=state["request"],
+            request=request,
             use_case_set=state.get("use_case_set"),
             activity_results=list(state.get("activity_results") or []),
             trace_manifest=state.get("trace_manifest") or TraceManifest(),
