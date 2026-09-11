@@ -4,6 +4,11 @@
 Ориентир окончания: **2026-09-16**  
 Исходный roadmap: сокращённый шестинедельный (Excel); текущий план — честный catch-up **без** переноса результатов задним числом.
 
+> Исторический план. Фактическое состояние на 2026-09-09: live UC/Activity
+> pipeline реализован, benchmark технически зафиксирован автором, repeated pilot
+> выполнен на одном DEV-кейсе. Актуальные результаты и ограничения приведены в
+> `docs/research/BASELINES_AND_LIVE_EVIDENCE_2026_09_09.md`.
+
 ## Обзор контрольных точек
 
 | Период | Фокус | Контрольная точка |
@@ -83,7 +88,7 @@
 
 ### Задачи
 - Baselines: one-shot UC+Mermaid vs structured pipeline.
-- Ablations: без deterministic validators / без critic / разные `max_repair_attempts`.
+- Component variants: без deterministic validators / без critic / разные `max_repair_attempts`.
 - Измерение RQ1–RQ5 на development и (если есть) hidden **один раз** после freeze.
 - Стабильность: несколько seeded запусков.
 

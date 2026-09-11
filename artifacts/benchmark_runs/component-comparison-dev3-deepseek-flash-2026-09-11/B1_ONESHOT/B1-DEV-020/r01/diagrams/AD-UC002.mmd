@@ -1,0 +1,11 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Clinician"]
+  ADN-UC002-002["Access review interface"]
+  ADN-UC002-003["Review submitted answers"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-004(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004

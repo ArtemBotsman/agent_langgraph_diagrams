@@ -132,7 +132,7 @@
 
   <rect x="75" y="812" width="670" height="52" rx="12" fill="#ffffff" stroke="#c8d9d0"/>
   <text x="95" y="835" class="small">Текущий статус: UC generator/critic/repair имеют LLM-реализацию при явном подключении клиента.</text>
-  <text x="95" y="854" class="small">Root по умолчанию пока использует scripted stub (заглушку), поэтому live wiring ещё требуется.</text>
+  <text x="95" y="854" class="small">Offline root использует stubs безопасно; live root явно подключает DeepSeek через compile_live_pipeline.</text>
 
   <!-- Agent 2 -->
   <rect x="815" y="290" width="750" height="600" rx="24" fill="#fcfaff" stroke="#9a78c8" stroke-width="3" filter="url(#shadow)"/>
@@ -144,7 +144,7 @@
   <g>
     <rect x="855" y="410" width="185" height="78" rx="14" fill="#fce8ef" stroke="#c96a8c" stroke-width="2"/>
     <text x="947" y="439" text-anchor="middle" class="boxTitle">Generator (LLM)</text>
-    <text x="947" y="463" text-anchor="middle" class="boxSub">планируется; сейчас stub</text>
+    <text x="947" y="463" text-anchor="middle" class="boxSub">LLM; реализован и проверен</text>
 
     <rect x="1080" y="410" width="185" height="78" rx="14" fill="#fff3df" stroke="#d79a36" stroke-width="2"/>
     <text x="1172" y="439" text-anchor="middle" class="boxTitle">Schema</text>
@@ -156,7 +156,7 @@
 
     <rect x="1305" y="545" width="220" height="78" rx="14" fill="#fce8ef" stroke="#c96a8c" stroke-width="2"/>
     <text x="1415" y="574" text-anchor="middle" class="boxTitle">Critic (LLM)</text>
-    <text x="1415" y="598" text-anchor="middle" class="boxSub">планируется; сейчас stub</text>
+    <text x="1415" y="598" text-anchor="middle" class="boxSub">LLM; семантическая критика</text>
 
     <polygon points="1172,530 1260,584 1172,638 1084,584" fill="#e8f2fc" stroke="#6b98c4" stroke-width="2"/>
     <text x="1172" y="578" text-anchor="middle" class="boxTitle">Router</text>
@@ -164,7 +164,7 @@
 
     <rect x="855" y="545" width="185" height="78" rx="14" fill="#edf2f7" stroke="#879caf" stroke-width="2"/>
     <text x="947" y="574" text-anchor="middle" class="boxTitle">Repair (LLM)</text>
-    <text x="947" y="598" text-anchor="middle" class="boxSub">планируется; сейчас stub</text>
+    <text x="947" y="598" text-anchor="middle" class="boxSub">LLM; bounded repair</text>
 
     <rect x="945" y="710" width="205" height="72" rx="14" fill="#f1ebfa" stroke="#9a78c8" stroke-width="2"/>
     <text x="1047" y="739" text-anchor="middle" class="boxTitle">Mermaid renderer</text>
@@ -187,8 +187,8 @@
   </g>
 
   <rect x="855" y="812" width="670" height="52" rx="12" fill="#ffffff" stroke="#d9cfea"/>
-  <text x="875" y="835" class="small">Текущий статус: модели, validators и Mermaid renderer реализованы и тестируются.</text>
-  <text x="875" y="854" class="small">Live generator/critic/repair для Activity Diagram ещё должны быть подключены.</text>
+  <text x="875" y="835" class="small">Текущий статус: generator/critic/repair, validators и Mermaid renderer реализованы.</text>
+  <text x="875" y="854" class="small">Live Activity path проверен: 2 диаграммы, bounded repair и 100% trace coverage.</text>
 
   <!-- Legend -->
   <rect x="35" y="920" width="1530" height="55" rx="16" fill="#ffffff" stroke="#c4d1dd"/>

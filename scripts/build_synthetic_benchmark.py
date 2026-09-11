@@ -89,6 +89,7 @@ def benchmark_case(
             "forbidden_assumptions": forbidden_assumptions or [],
             "equivalence_policy": {
                 "allow_renaming": True,
+                "allow_uc_split_merge": True,
                 "allow_linear_node_split_merge": True,
                 "allow_additional_supported_detail": True,
                 "require_same_actor_goal_milestone_branch_semantics": True,

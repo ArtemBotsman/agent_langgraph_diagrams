@@ -24,6 +24,12 @@ def _escape_label(text: str) -> str:
     return text.replace('"', "'").replace("\n", " ")
 
 
+def _escape_edge_label(text: str) -> str:
+    """Escape tokens that Mermaid otherwise parses as edge/shape syntax."""
+
+    return _escape_label(text).replace("|", "'")
+
+
 def _node_line(node_id: str, kind: ActivityNodeKind, name: str) -> str:
     left, right = _NODE_SHAPES[kind]
     label = _escape_label(name)
@@ -71,7 +77,7 @@ def render_mermaid(diagram: ActivityDiagram) -> str:
         label = edge.guard or edge.label
         if label:
             lines.append(
-                f"  {edge.source_node_id} -->|{_escape_label(label)}| {edge.target_node_id}"
+                f'  {edge.source_node_id} -->|"{_escape_edge_label(label)}"| {edge.target_node_id}'
             )
         else:
             lines.append(f"  {edge.source_node_id} --> {edge.target_node_id}")

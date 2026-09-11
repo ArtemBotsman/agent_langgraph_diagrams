@@ -1,0 +1,20 @@
+[
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "schema",
+        "code": "invalid_json",
+        "message": "Response is not valid JSON: Expecting value (line 1)",
+        "element_ids": [],
+        "blocking": true
+      }
+    ],
+    "validator_name": "one_shot_parse",
+    "details": {
+      "raw_preview": ""
+    }
+  }
+]

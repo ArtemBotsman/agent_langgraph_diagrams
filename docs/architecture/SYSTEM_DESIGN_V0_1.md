@@ -1,12 +1,14 @@
 # System Design v0.1
 
-Дата: **2026-08-21**, входной контракт уточнён **2026-09-08**
+Дата: **2026-08-21**, входной контракт уточнён **2026-09-08**, исполняемая
+архитектура актуализирована **2026-09-09**.
 
 ## 1. Цель архитектуры
 
 Управляемый **agentic workflow** (не рой автономных агентов) на LangGraph Graph API:
 
-- LLM-generator / LLM-critic — узлы графа (сейчас stub + Protocol);
+- LLM-generator / LLM-critic / LLM-repair — реальные узлы через `LLMClient`
+  Protocol; stub-реализации оставлены только для быстрых offline-тестов;
 - deterministic validators — обычные Python-функции;
 - repair — цикл с явным `repair_attempt` и `max_repair_attempts`;
 - Mermaid renderer — чистая функция без LLM.
@@ -19,7 +21,7 @@ flowchart TB
     SR[SpecificationReq — raw TypedDict]
   end
 
-  subgraph Pipeline["graph.py — root pipeline"]
+  subgraph Pipeline["orchestration/pipeline.py — root pipeline"]
     N[normalize_requirements → SpecificationRequest]
     UC[Use Cases subgraph]
     AD[Activity subgraph per UC]
@@ -28,7 +30,7 @@ flowchart TB
     OUT[GeneratedSpecification]
   end
 
-  subgraph UCGraph["use_cases_graph.py"]
+  subgraph UCGraph["agents/use_case/graph.py"]
     U1[prepare_requirements]
     U2[generate_use_case_set LLM]
     U3[validate_uc_schema]
@@ -38,13 +40,15 @@ flowchart TB
     U7[repair_use_case_set LLM]
     U8[finalize_use_case_set]
     U9[fail_use_case_generation]
-    U1 --> U2 --> U3 --> U4 --> U5 --> U6
+    U1 --> U2 --> U3 --> U4
+    U4 -->|formal ok| U5 --> U6
+    U4 -->|formal fail: skip critic| U6
     U6 -->|ok| U8
     U6 -->|attempt < max| U7 --> U3
     U6 -->|exhausted| U9
   end
 
-  subgraph ADGraph["activity_diagram_graph.py"]
+  subgraph ADGraph["agents/activity/graph.py"]
     A1[prepare_use_case]
     A2[generate_activity_model LLM]
     A3[validate_activity_schema]
@@ -55,7 +59,9 @@ flowchart TB
     A8[render_mermaid deterministic]
     A9[finalize_activity]
     A10[fail_activity_generation]
-    A1 --> A2 --> A3 --> A4 --> A5 --> A6
+    A1 --> A2 --> A3 --> A4
+    A4 -->|formal ok| A5 --> A6
+    A4 -->|formal fail: skip critic| A6
     A6 -->|ok| A8 --> A9
     A6 -->|attempt < max| A7 --> A3
     A6 -->|exhausted| A10
@@ -116,9 +122,13 @@ FR/NFR. Первый root-узел присваивает им стабильн�
 1. Schema — Pydantic.
 2. Structural — граф сценария/activity.
 3. Trace — целостность и покрытие.
-4. Semantic LLM criticism — позже.
+4. Semantic LLM criticism — реализована; её вывод не заменяет формальные
+   валидаторы или экспертную оценку.
 5. Experimental metrics — evaluator (отдельно от judge/эксперта).
 
 ## 6. Модули
 
-См. `README.md`. Обязательные имена файлов: `entities.py`, `use_cases_graph.py`, `activity_diagram_graph.py`, `graph.py` в пакете `traceable_spec`.
+См. `README.md`. Основная реализация находится в `entities.py`,
+`agents/use_case/graph.py`, `agents/activity/graph.py` и
+`orchestration/pipeline.py`. Старые корневые имена оставлены только как слой
+совместимости импортов.

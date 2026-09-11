@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install Poetry
+        run: python -m pip install poetry==2.3.2
+
+      - name: Install project
+        run: poetry install --no-interaction
+
+      - name: Verify package metadata and lock file
+        run: poetry check --lock
+
+      - name: Lint
+        run: poetry run ruff check .
+
+      - name: Type check
+        run: poetry run mypy src
+
+      - name: Unit and contract tests
+        run: poetry run pytest
+
+      - name: Validate benchmark and frozen hashes
+        run: |
+          poetry run python scripts/validate_synthetic_benchmark.py
+          poetry run python scripts/freeze_synthetic_benchmark.py
+          poetry run python scripts/run_validator_mutation_suite.py --check-existing
+          poetry run python scripts/verify_saved_experiment.py artifacts/benchmark_runs/b0-dev20-r3-2026-09-09
+          poetry run python scripts/verify_saved_experiment.py artifacts/benchmark_runs/repeated-b0-b1-full-dev001-2026-09-09
+
+      - name: Build wheel and source archive
+        run: poetry build

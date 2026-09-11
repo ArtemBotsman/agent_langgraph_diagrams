@@ -1,0 +1,15 @@
+{
+  "functional_requirements": [
+    "An organiser can publish an event with a capacity and registration deadline.",
+    "An attendee can register while registration is open; if capacity is exhausted, the system adds the attendee to a waiting list.",
+    "The system promotes the first waiting attendee when a confirmed registration is cancelled."
+  ],
+  "non_functional_requirements": [
+    "Registration confirmation must be returned within 2 seconds for 95% of requests.",
+    "Personal data must be accessible only to authorised organisers."
+  ],
+  "project_description": "A web service for publishing events, registering attendees, maintaining waiting lists and notifying users.",
+  "project_goal": "Allow attendees to register for events and organisers to control capacity.",
+  "project_name": "Event Signup",
+  "project_task": "Prepare analysis artifacts for an event registration application."
+}

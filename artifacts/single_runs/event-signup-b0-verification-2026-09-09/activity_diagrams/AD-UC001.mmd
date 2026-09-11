@@ -1,0 +1,13 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["User"]
+  ADN-UC001-001(("start"))
+  ADN-UC001-002["An organiser can publish an event with a capacity and registration deadline."]
+  ADN-UC001-003["An attendee can register while registration is open; if capacity is exhausted, the system adds the attendee to a waiting list."]
+  ADN-UC001-004["The system promotes the first waiting attendee when a confirmed registration is cancelled."]
+  ADN-UC001-005(("end"))
+  end
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 --> ADN-UC001-005

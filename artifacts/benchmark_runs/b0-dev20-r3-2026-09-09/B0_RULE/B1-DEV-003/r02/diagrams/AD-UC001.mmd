@@ -1,0 +1,13 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["User"]
+  ADN-UC001-001(("start"))
+  ADN-UC001-002["A resident submits the visitor vehicle plate and visit time."]
+  ADN-UC001-003["The system issues a permit when the request is complete."]
+  ADN-UC001-004["Security can verify an active permit by plate number."]
+  ADN-UC001-005(("end"))
+  end
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 --> ADN-UC001-005

@@ -1,0 +1,38 @@
+[
+  {
+    "condition": "B0_RULE",
+    "repeats": 2,
+    "e2e_success_rate": 1.0,
+    "semantic_composite": 0.6333333333333333,
+    "activity_trace_coverage": 1.0,
+    "hallucination_rate": 0.25,
+    "latency_ms": 1.8715000000000002,
+    "tokens": 0.0,
+    "repairs": 0.0,
+    "score_stability": 1.0
+  },
+  {
+    "condition": "B1_ONESHOT",
+    "repeats": 2,
+    "e2e_success_rate": 0.0,
+    "semantic_composite": 0.7241758241758243,
+    "activity_trace_coverage": 0.8805147058823529,
+    "hallucination_rate": 0.513157894736842,
+    "latency_ms": 18514.910499999998,
+    "tokens": 8969.0,
+    "repairs": 0.0,
+    "score_stability": 0.9054945054945054
+  },
+  {
+    "condition": "FULL",
+    "repeats": 2,
+    "e2e_success_rate": 1.0,
+    "semantic_composite": 0.6704545454545454,
+    "activity_trace_coverage": 1.0,
+    "hallucination_rate": 0.4119047619047619,
+    "latency_ms": 42555.5435,
+    "tokens": 33445.0,
+    "repairs": 2.0,
+    "score_stability": 0.9409090909090909
+  }
+]

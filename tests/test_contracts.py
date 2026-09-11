@@ -25,6 +25,7 @@ from traceable_spec.entities import (
     TraceManifest,
     TraceOrigin,
     UseCase,
+    atomize_functional_requirement,
     normalize_specification_req,
 )
 from traceable_spec.graph import compile_pipeline
@@ -81,9 +82,7 @@ def test_pipeline_accepts_supervisor_specification_req() -> None:
             "Patron can search the catalog by title",
             "Patron can borrow an available book",
         ],
-        "non_functional_requirements": [
-            "Borrow confirmation must complete within 3 seconds"
-        ],
+        "non_functional_requirements": ["Borrow confirmation must complete within 3 seconds"],
     }
 
     result = compile_pipeline().invoke({"request": raw})
@@ -144,8 +143,7 @@ def test_uncovered_fr() -> None:
     report = validate_fr_coverage(["FR-001", "FR-002", "FR-003"], uc_set)
     assert not report.passed
     assert any(
-        issue.code == "fr_uncovered" and "FR-003" in issue.message
-        for issue in report.issues
+        issue.code == "fr_uncovered" and "FR-003" in issue.message for issue in report.issues
     )
 
 
@@ -252,6 +250,25 @@ def test_mermaid_renderer_deterministic() -> None:
     assert "ADN-UC001-003" in first
 
 
+def test_mermaid_renderer_escapes_uml_guard_brackets() -> None:
+    diagram = sample_activity_diagram()
+    diagram.edges[0].guard = "[available]"
+    rendered = render_mermaid(diagram)
+    assert '|"[available]"|' in rendered
+
+
 def test_functional_requirement_id_pattern() -> None:
     with pytest.raises(ValidationError):
         FunctionalRequirement(id="F-1", text="bad id")
+
+
+def test_requirement_atomization_is_conservative_and_stable() -> None:
+    single = atomize_functional_requirement(
+        FunctionalRequirement(id="FR-001", text="User searches and selects a book")
+    )
+    assert [atom.text for atom in single.atoms] == ["User searches and selects a book"]
+    split = atomize_functional_requirement(
+        FunctionalRequirement(id="FR-002", text="Validate input; store the request")
+    )
+    assert [atom.id for atom in split.atoms] == ["FRA-002-001", "FRA-002-002"]
+    assert [atom.text for atom in split.atoms] == ["Validate input", "store the request"]

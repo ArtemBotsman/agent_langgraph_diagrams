@@ -1,0 +1,184 @@
+[
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": true,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "info",
+        "category": "trace",
+        "code": "NFR_TRACE_UNVERIFIED",
+        "message": "Use case references source_nfr_ids NFR-001 and NFR-002, but no NFR definitions are present in the provided specification, so traceability to non-functional requirements cannot be semantically verified.",
+        "element_ids": [
+          "UC-001"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-002",
+        "severity": "info",
+        "category": "semantic",
+        "code": "MAIN_STEP_REDUNDANCY",
+        "message": "Main scenario steps 1 and 2 both trace to FR-001 and describe opening and viewing the event page; they could be merged, but this is a minor stylistic redundancy and does not affect correctness.",
+        "element_ids": [
+          "STEP-UC001-001",
+          "STEP-UC001-002"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-003",
+        "severity": "info",
+        "category": "semantic",
+        "code": "EXCEPTION_START_STEP_IMPLICIT",
+        "message": "The exception scenario for duplicate email has start_from_step_id set to null; it implicitly branches from the main scenario's email uniqueness check (STEP-UC001-005). This is understandable but could be made explicit for clarity.",
+        "element_ids": [
+          "SCN-UC001-EXC-001",
+          "STEP-UC001-005"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "uc_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The use case set is semantically coherent: actors, use case, main success scenario, exception scenario, user stories, and system stories align with FR-001 through FR-003, and all functional requirements are covered. Only minor non-blocking observations remain regarding unverifiable NFR traceability, a redundant main-scenario step, and an implicit exception branch point. No blocking semantic problems found; accept.",
+      "critic_not_deterministic_validator": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 0
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC001-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 0
+    }
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_trace_coverage_below_threshold",
+        "message": "Activity element trace coverage 0.952 is below 1.00",
+        "element_ids": [],
+        "blocking": true
+      }
+    ],
+    "validator_name": "e2e_trace",
+    "details": {
+      "requirement_atomization": {
+        "passed": true,
+        "fr_count": 3,
+        "atom_count": 3
+      },
+      "unique_ids": {
+        "passed": true
+      },
+      "fr_coverage": {
+        "passed": true,
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003"
+        ]
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "declared_trace_bidirectionality": {
+        "passed": true,
+        "expected_relations": 60,
+        "actual_relations": 60
+      },
+      "trace_coverage_thresholds": {
+        "passed": false,
+        "uc_supported": 13,
+        "uc_total": 13,
+        "uc_ratio": 1.0,
+        "activity_supported": 20,
+        "activity_total": 21,
+        "activity_ratio": 0.9523809523809523
+      },
+      "trace_integrity": {
+        "passed": true
+      }
+    }
+  }
+]

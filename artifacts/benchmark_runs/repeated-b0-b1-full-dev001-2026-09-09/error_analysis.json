@@ -1,0 +1,81 @@
+{
+  "experiment_id": "repeated-b0-b1-full-dev001-2026-09-09",
+  "thresholds": {
+    "low_semantic_composite": 0.5,
+    "high_hallucination_rate": 0.4
+  },
+  "by_condition": {
+    "B0_RULE": {
+      "run_count": 2,
+      "exception_failure_count": 0,
+      "controlled_pipeline_failure_count": 0,
+      "end_to_end_failure_count": 0,
+      "low_semantic_below_0_5_count": 0,
+      "high_hallucination_above_0_4_count": 0,
+      "all_detected_blocking_issue_counts": {},
+      "unresolved_blocking_issue_counts": {},
+      "detected_then_repaired_issue_counts": {},
+      "representative_failures": []
+    },
+    "B1_ONESHOT": {
+      "run_count": 2,
+      "exception_failure_count": 0,
+      "controlled_pipeline_failure_count": 2,
+      "end_to_end_failure_count": 2,
+      "low_semantic_below_0_5_count": 0,
+      "high_hallucination_above_0_4_count": 2,
+      "all_detected_blocking_issue_counts": {
+        "activity_edge_untraced": 8,
+        "activity_trace_coverage_below_threshold": 2
+      },
+      "unresolved_blocking_issue_counts": {
+        "activity_edge_untraced": 8,
+        "activity_trace_coverage_below_threshold": 2
+      },
+      "detected_then_repaired_issue_counts": {},
+      "representative_failures": [
+        {
+          "case_id": "B1-DEV-001",
+          "repeat_id": 1,
+          "blocking_codes": [
+            "activity_edge_untraced",
+            "activity_trace_coverage_below_threshold"
+          ],
+          "semantic_composite": 0.7714285714285716,
+          "hallucination_rate": 0.5
+        },
+        {
+          "case_id": "B1-DEV-001",
+          "repeat_id": 2,
+          "blocking_codes": [
+            "activity_edge_untraced",
+            "activity_trace_coverage_below_threshold"
+          ],
+          "semantic_composite": 0.676923076923077,
+          "hallucination_rate": 0.5263157894736842
+        }
+      ]
+    },
+    "FULL": {
+      "run_count": 2,
+      "exception_failure_count": 0,
+      "controlled_pipeline_failure_count": 0,
+      "end_to_end_failure_count": 0,
+      "low_semantic_below_0_5_count": 0,
+      "high_hallucination_above_0_4_count": 1,
+      "all_detected_blocking_issue_counts": {
+        "activity_edge_untraced": 4
+      },
+      "unresolved_blocking_issue_counts": {},
+      "detected_then_repaired_issue_counts": {
+        "activity_edge_untraced": 4
+      },
+      "representative_failures": []
+    }
+  },
+  "global_unresolved_blocking_issue_counts": {
+    "activity_edge_untraced": 8,
+    "activity_trace_coverage_below_threshold": 2
+  },
+  "interpretation_limit": "Automatic categories diagnose saved runs; semantic correctness still requires independent expert review."
+}

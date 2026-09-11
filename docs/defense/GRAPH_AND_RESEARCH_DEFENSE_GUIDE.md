@@ -1,6 +1,6 @@
 # Граф, агенты, исследование и содержание слайдов
 
-Дата фиксации: 2026-09-08
+Дата фиксации: 2026-09-09
 Статус документа: внутренняя версия для подготовки защиты. Факты, подтверждённые
 кодом и тестами, отделены от проектных решений и от внешних согласований.
 
@@ -125,9 +125,9 @@ Mermaid-код вычисляется детерминированно из эт
 ### 3.1. Статический состав
 
 - Корневой граф: 6 рабочих вершин, 7 рёбер. С учётом `START/END` — 8 вершин.
-- UC-подграф: 9 рабочих вершин, 12 рёбер. С учётом `START/END` — 11 вершин.
-- Activity-подграф: 10 рабочих вершин, 13 рёбер. С учётом `START/END` — 12 вершин.
-- Всего в трёх определениях: 25 рабочих вершин и 32 ребра.
+- UC-подграф: 9 рабочих вершин, 13 рёбер. С учётом `START/END` — 11 вершин.
+- Activity-подграф: 10 рабочих вершин, 14 рёбер. С учётом `START/END` — 12 вершин.
+- Всего в трёх определениях: 25 рабочих вершин и 34 ребра.
 
 Это число описывает статическую схему. Во время выполнения Activity-подграф
 вызывается отдельно для каждого Use Case, а repair-рёбра могут проходиться
@@ -168,17 +168,20 @@ Mermaid-код вычисляется детерминированно из эт
 
 - UC-роли подключаются через `LLMClient`; офлайн-тесты используют
   `ScriptedLLMClient`.
-- Activity Generator/Critic/Repair пока являются sample/stub-функциями.
+- Activity Generator/Critic/Repair подключены к тому же `LLMClient`; offline-
+  тесты используют scripted responses, live-пилот — DeepSeek.
 - Детерминированные validators, router, renderer и evaluator агентами не
   считаются.
-- По умолчанию корневой граф не делает живых API-вызовов.
+- По умолчанию корневой граф остаётся безопасным offline-вариантом; live-вариант
+  собирается явно через `compile_live_pipeline`.
 
 ### Что поместить на слайд 3
 
-- Крупные числа: `2 агента`, `3 графа`, `25 рабочих вершин`, `32 ребра`.
+- Крупные числа: `2 агента`, `3 графа`, `25 рабочих вершин`, `34 ребра`.
 - Мелкая подпись: `6 LLM-ролей внутри двух агентов`.
 - Подпись: «Управляемый workflow, а не автономная мультиагентная система».
-- Отдельная отметка: «UC live-ready; Activity LLM path — следующий этап».
+- Отдельная отметка: «UC и Activity live path проверены на DEV-001; результат
+  всего DEV/hidden ещё не получен».
 
 ## 4. Корневой граф: вершины
 
@@ -289,7 +292,7 @@ UC Repair получает предыдущий артефакт, список b
 Формирует контролируемый `failed` с причиной и числами repair/max repair вместо
 бесконечного цикла или исключения без результата.
 
-## 7. UC-подграф: двенадцать рёбер
+## 7. UC-подграф: тринадцать рёбер
 
 1. `START → prepare_requirements`: начало локального workflow.
 2. `prepare_requirements → generate_use_case_set`: передача подготовленного State.
@@ -297,18 +300,20 @@ UC Repair получает предыдущий артефакт, список b
    проходит schema gate.
 4. `validate_uc_schema → validate_uc_deterministic`: структурные правила
    проверяются после схемы.
-5. `validate_uc_deterministic → criticize_use_case_set`: critic видит
-   машинно обнаруженные дефекты.
-6. `criticize_use_case_set → decide_uc_result`: объединение трёх решений.
-7. `decide_uc_result → finalize_use_case_set`: условное ребро при полном успехе.
-8. `decide_uc_result → repair_use_case_set`: условное ребро при исправимой
+5. `validate_uc_deterministic → criticize_use_case_set`: условный переход к
+   semantic critic только после успешных формальных проверок.
+6. `validate_uc_deterministic → decide_uc_result`: известный формальный дефект
+   пропускает платный critic и сразу маршрутизируется к repair/fail.
+7. `criticize_use_case_set → decide_uc_result`: объединение трёх решений.
+8. `decide_uc_result → finalize_use_case_set`: условное ребро при полном успехе.
+9. `decide_uc_result → repair_use_case_set`: условное ребро при исправимой
    ошибке и оставшемся лимите.
-9. `decide_uc_result → fail_use_case_generation`: условное ребро при
+10. `decide_uc_result → fail_use_case_generation`: условное ребро при
    исчерпании лимита.
-10. `repair_use_case_set → validate_uc_schema`: цикл повторной проверки; repair
+11. `repair_use_case_set → validate_uc_schema`: цикл повторной проверки; repair
     не может сам объявить себя успешным.
-11. `finalize_use_case_set → END`: успешный выход.
-12. `fail_use_case_generation → END`: контролируемый неуспешный выход.
+12. `finalize_use_case_set → END`: успешный выход.
+13. `fail_use_case_generation → END`: контролируемый неуспешный выход.
 
 ## 8. Activity-подграф: десять вершин
 
@@ -319,9 +324,9 @@ State конкретной диаграммы.
 
 ### 8.2. `generate_activity_model`
 
-Activity Generator должен преобразовать основной, альтернативные и
+Activity Generator преобразует основной, альтернативные и
 исключительные сценарии UC в `ActivityDiagram`: partitions, typed nodes, edges,
-guards и связи со steps. Сейчас это stub, возвращающий фиксированный пример.
+guards и связи со steps. Доступны scripted и live реализации.
 
 ### 8.3. `validate_activity_schema`
 
@@ -335,9 +340,9 @@ guards и связи со steps. Сейчас это stub, возвращающ�
 
 ### 8.5. `criticize_activity_model`
 
-Activity Critic должен оценивать соответствие сценариям, корректность смысловых
-ветвлений, partitions и отсутствие придуманных действий. Сейчас это accepting
-stub и не является доказательством качества.
+Activity Critic оценивает соответствие сценариям, корректность смысловых
+ветвлений, partitions и отсутствие придуманных действий. Формальные дефекты до
+него обрабатываются Python-валидатором.
 
 ### 8.6. `decide_activity_result`
 
@@ -345,8 +350,8 @@ stub и не является доказательством качества.
 
 ### 8.7. `repair_activity_model`
 
-Activity Repair должен исправлять модель по найденным дефектам. Сейчас
-возвращает sample activity.
+Activity Repair исправляет типизированную модель по конкретным blocking issues;
+после этого обязательна полная повторная проверка.
 
 ### 8.8. `render_mermaid`
 
@@ -361,30 +366,33 @@ Activity Repair должен исправлять модель по найден
 
 Возвращает контролируемый failure после исчерпания repair.
 
-## 9. Activity-подграф: тринадцать рёбер
+## 9. Activity-подграф: четырнадцать рёбер
 
 1. `START → prepare_use_case`.
 2. `prepare_use_case → generate_activity_model`.
 3. `generate_activity_model → validate_activity_schema`.
 4. `validate_activity_schema → validate_activity_deterministic`.
-5. `validate_activity_deterministic → criticize_activity_model`.
-6. `criticize_activity_model → decide_activity_result`.
-7. `decide_activity_result → render_mermaid`: условный успешный путь.
-8. `decide_activity_result → repair_activity_model`: условный repair.
-9. `decide_activity_result → fail_activity_generation`: условный failure.
-10. `repair_activity_model → validate_activity_schema`: повторная полная
+5. `validate_activity_deterministic → criticize_activity_model`: условный путь
+   после успешных формальных проверок.
+6. `validate_activity_deterministic → decide_activity_result`: короткий путь к
+   repair/fail при уже известном формальном дефекте.
+7. `criticize_activity_model → decide_activity_result`.
+8. `decide_activity_result → render_mermaid`: условный успешный путь.
+9. `decide_activity_result → repair_activity_model`: условный repair.
+10. `decide_activity_result → fail_activity_generation`: условный failure.
+11. `repair_activity_model → validate_activity_schema`: повторная полная
     проверка исправленного артефакта.
-11. `render_mermaid → finalize_activity`: Mermaid прикрепляется к модели.
-12. `finalize_activity → END`.
-13. `fail_activity_generation → END`.
+12. `render_mermaid → finalize_activity`: Mermaid прикрепляется к модели.
+13. `finalize_activity → END`.
+14. `fail_activity_generation → END`.
 
 ### Что поместить на слайды 4–6
 
 - Слайд 4: root graph, 6 вершин и один линейный поток.
 - Слайд 5: UC loop с тремя цветово различимыми классами: LLM, deterministic,
   routing/output.
-- Слайд 6: Activity loop; рядом честная отметка `LLM path — stub`,
-  `typed model → deterministic Mermaid — реализовано`.
+- Слайд 6: Activity loop; рядом `live LLM → typed model → validation → bounded
+  repair → deterministic Mermaid`.
 - Полный список рёбер оставить в приложении презентации, а устно объяснить
   четыре типа переходов: прямой, validation gate, conditional route, repair
   back-edge.
@@ -607,21 +615,21 @@ PlantUML/XMI. Mermaid останется пользовательским пре
 ### Доказательства
 
 - `src/traceable_spec/entities.py`;
-- `src/traceable_spec/graph.py`;
-- `src/traceable_spec/use_cases_graph.py`;
-- `src/traceable_spec/activity_diagram_graph.py`;
+- `src/traceable_spec/orchestration/pipeline.py`;
+- `src/traceable_spec/agents/use_case/graph.py`;
+- `src/traceable_spec/agents/activity/graph.py`;
 - `src/traceable_spec/validators/__init__.py`;
 - `src/traceable_spec/mermaid/__init__.py`;
 - `docs/architecture/*` и `docs/decisions/*`;
-- compiled graph introspection: 25 рабочих вершин и 32 ребра;
+- compiled graph introspection: 25 рабочих вершин и 34 ребра;
 - автоматические tests.
 
 ### Статус
 
 Внутренняя проектная документация этапа: **100%**.
-Формальный DoD: **95%** до утверждения моделей руководителем. Реализация
-Activity live path и persistence относится к следующему этапу pipeline, но их
-контракты и место в архитектуре здесь определены.
+Формальный DoD: **95%** до утверждения моделей руководителем. Activity live path,
+атомизация FR, двусторонняя trace materialization и SQLite persistence/resume
+реализованы и проверены; внешнее утверждение не имитируется.
 
 ### Что поместить на слайд 9
 
@@ -650,8 +658,8 @@ Hidden означает «не использовать для настройк�
 Это не криптографически секретный набор для владельца репозитория. Gold hidden
 хранится локально для финального evaluator.
 
-Benchmark имеет статус `1.0.0-synthetic-candidate`, а не «набор руководителя».
-Он не должен называться frozen до внешнего ревью.
+Benchmark имеет статус `1.0.0-synthetic-candidate` с технической author freeze
+и SHA-256. Это не «набор руководителя» и не scientific freeze до внешнего ревью.
 
 ### 15.2. Gold каждого кейса
 
@@ -782,8 +790,10 @@ adjudication. До оценки эксперты проходят калибро
 
 Техническая подготовка synthetic candidate, gold, split, evaluator и
 methodology sanity experiment: **100%**.
-Формальный научный DoD: **85%**. До 100% нужны supervisor/expert review,
-письменный freeze, реальный pilot и запрет tuning по hidden после freeze.
+Формальный научный DoD: **90%**. До 100% нужны supervisor/expert review,
+scientific freeze/tag, полный DEV-run и единственный финальный hidden-run.
+Repeated live pilot B0/B1/FULL уже выполнен на DEV-001; подробности и рисунки —
+в `docs/research/BASELINES_AND_LIVE_EVIDENCE_2026_09_09.md`.
 
 ### Что поместить на слайды 10–12
 
@@ -934,12 +944,41 @@ Provider limits и цены нельзя выдумывать и навсегд�
 ## 20. Короткий ответ для защиты
 
 «Я разработал управляемый LangGraph-пайплайн из трёх графов. В нём 25 рабочих
-вершин и 32 перехода. Шесть LLM-ролей предлагают, критикуют и исправляют Use
+вершин и 34 перехода. Шесть LLM-ролей предлагают, критикуют и исправляют Use
 Cases и activity-модели, но ни одна роль не может сама подтвердить корректность.
 Каждый артефакт проходит Pydantic-, structural- и trace-проверки; исправления
 ограничены числом попыток. Источником истины является типизированная модель, а
 Mermaid строится детерминированно. Для исследования подготовлен синтетический
 benchmark-кандидат из 30 кейсов, gold semantic slots, development/hidden split,
-две baseline-конфигурации и экспертная шкала. Проведён офлайн mutation test
-evaluator; реальные сравнительные результаты будут получены только после
-freeze benchmark и подключения разрешённого API».
+две baseline-конфигурации и экспертная шкала. Проведены офлайн mutation tests
+15/15 и repeated live pilot: FULL прошёл 2/2, one-shot — 0/2 из-за trace
+дефектов. Полный вывод требует двух экспертов, всех 20 DEV и финального hidden».
+
+## 21. Release-candidate increment — 09.09.2026
+
+Добавлена единая команда `traceable-spec`: она принимает произвольный
+`SpecificationReq`, запускает B0 либо полный двухагентный граф и сохраняет UC,
+user/system stories, Activity Mermaid, TraceManifest, validation/evaluation
+reports и безопасный run manifest в одном каталоге. FULL требует явного
+`--allow-live`; непустой каталог не перезаписывается; неуспех возвращает exit
+code 2 и остаётся видимым в артефактах.
+
+Offline quality gate теперь включает CI, 52 теста, Ruff, mypy, проверку всех
+30 benchmark cases, freeze hashes, mutation suite 15/15 и сборку wheel/sdist.
+
+`B0_RULE` выполнен на всём DEV20: 20 кейсов × 3 повтора = 60/60 завершений,
+стабильность 1,0 и 0 LLM-токенов. Semantic composite = 0,408, case-level
+bootstrap 95% CI `[0,356; 0,463]`; hallucination proxy = 0,493. Вывод: B0
+доказывает воспроизводимость формальной части, но его смысловое качество
+недостаточно. Для вывода о FULL всё ещё нужны полный платный DEV, эксперты,
+scientific freeze и однократный hidden-run.
+
+Что поместить на слайд: `docs/obsidian_vault/assets/13_b0_dev20_quality.png`,
+числа `60/60`, `0 токенов`, `0,408 [0,356; 0,463]` и подпись «формальная
+валидность не равна смысловой точности».
+
+Исполняемые варианты без отдельных компонентов подготовлены как `FULL_NO_CRITIC` и `FULL_NO_REPAIR`.
+Вместе с `FULL` это три конфигурации собственной системы. B0/B1 остаются
+baseline. Вариант без отдельного компонента без детерминированных валидаторов не используется: она
+нарушает обязательный safety gate; вклад валидаторов проверяется mutation-suite
+15/15.

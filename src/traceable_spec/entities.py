@@ -6,6 +6,7 @@ Trace links live only in TraceManifest; forward/reverse indexes are derived.
 
 from __future__ import annotations
 
+import re
 from enum import Enum
 from typing import Any, Literal, Required, TypedDict, cast
 
@@ -56,6 +57,9 @@ class TraceOrigin(str, Enum):
 
 
 class TraceLinkType(str, Enum):
+    FR_TO_ATOM = "fr_to_atom"
+    ATOM_TO_UC = "atom_to_uc"
+    ATOM_TO_STEP = "atom_to_step"
     FR_TO_UC = "fr_to_uc"
     FR_TO_STEP = "fr_to_step"
     UC_TO_US = "uc_to_us"
@@ -90,6 +94,7 @@ class PipelineStatus(str, Enum):
 
 class ElementRefType(str, Enum):
     FR = "fr"
+    FR_ATOM = "fr_atom"
     NFR = "nfr"
     UC = "uc"
     US = "us"
@@ -108,11 +113,21 @@ class ElementRefType(str, Enum):
 # ---------------------------------------------------------------------------
 
 
+class FunctionalRequirementAtom(StrictModel):
+    """Smallest conservatively extracted, independently traceable FR clause."""
+
+    id: str = Field(pattern=r"^FRA-\d{3,}-\d{3,}$")
+    parent_fr_id: str = Field(pattern=r"^FR-\d{3,}$")
+    text: str = Field(min_length=1)
+    extraction_rule: Literal["whole_requirement", "semicolon", "line_or_list"]
+
+
 class FunctionalRequirement(StrictModel):
     id: str = Field(pattern=r"^FR-\d{3,}$")
     text: str = Field(min_length=1)
     priority: str | None = None
     tags: list[str] = Field(default_factory=list)
+    atoms: list[FunctionalRequirementAtom] = Field(default_factory=list)
 
 
 class NonFunctionalRequirement(StrictModel):
@@ -172,6 +187,59 @@ class SpecificationRequest(StrictModel):
 SpecificationInput = SpecificationReq | SpecificationRequest
 
 
+_LIST_MARKER_RE = re.compile(r"(?:^|\n)\s*(?:[-*•]|\d+[.)])\s+")
+
+
+def atomize_functional_requirement(
+    requirement: FunctionalRequirement,
+) -> FunctionalRequirement:
+    """Conservatively split an FR only at explicit list/line or semicolon boundaries.
+
+    Coordinating words such as ``and`` / ``и`` are intentionally not split: doing
+    that without a parser can change business meaning. A requirement that has no
+    explicit boundary remains one atom, so every FR is still traceable.
+    """
+
+    if requirement.atoms:
+        return requirement
+    text = requirement.text.strip()
+    extraction_rule: Literal["whole_requirement", "semicolon", "line_or_list"]
+    if "\n" in text or _LIST_MARKER_RE.search(text):
+        normalized = _LIST_MARKER_RE.sub("\n", text)
+        parts = [part.strip(" \t\r\n-•") for part in normalized.splitlines() if part.strip()]
+        extraction_rule = "line_or_list"
+    elif ";" in text:
+        parts = [part.strip() for part in text.split(";") if part.strip()]
+        extraction_rule = "semicolon"
+    else:
+        parts = [text]
+        extraction_rule = "whole_requirement"
+    fr_number = requirement.id.removeprefix("FR-")
+    atoms = [
+        FunctionalRequirementAtom(
+            id=f"FRA-{fr_number}-{index:03d}",
+            parent_fr_id=requirement.id,
+            text=part,
+            extraction_rule=extraction_rule,
+        )
+        for index, part in enumerate(parts, start=1)
+    ]
+    return requirement.model_copy(update={"atoms": atoms})
+
+
+def ensure_requirement_atoms(request: SpecificationRequest) -> SpecificationRequest:
+    """Return a request in which every functional requirement has ≥1 atom."""
+
+    return request.model_copy(
+        update={
+            "functional_requirements": [
+                atomize_functional_requirement(requirement)
+                for requirement in request.functional_requirements
+            ]
+        }
+    )
+
+
 def normalize_specification_req(value: SpecificationInput) -> SpecificationRequest:
     """Convert the supervisor-facing ``SpecificationReq`` into the internal model.
 
@@ -181,7 +249,7 @@ def normalize_specification_req(value: SpecificationInput) -> SpecificationReque
     """
 
     if isinstance(value, SpecificationRequest):
-        return value
+        return ensure_requirement_atoms(value)
     if not isinstance(value, dict):
         raise TypeError("SpecificationReq must be a mapping or SpecificationRequest")
     raw = cast(dict[str, object], value)
@@ -200,9 +268,7 @@ def normalize_specification_req(value: SpecificationInput) -> SpecificationReque
     if missing_fields:
         raise ValueError(f"SpecificationReq is missing fields: {', '.join(missing_fields)}")
     if unexpected_fields:
-        raise ValueError(
-            f"SpecificationReq has unexpected fields: {', '.join(unexpected_fields)}"
-        )
+        raise ValueError(f"SpecificationReq has unexpected fields: {', '.join(unexpected_fields)}")
 
     text_fields = (
         "project_task",
@@ -226,11 +292,9 @@ def normalize_specification_req(value: SpecificationInput) -> SpecificationReque
         return [item.strip() for item in items]
 
     functional_requirements = normalize_requirement_list("functional_requirements")
-    non_functional_requirements = normalize_requirement_list(
-        "non_functional_requirements"
-    )
+    non_functional_requirements = normalize_requirement_list("non_functional_requirements")
 
-    return SpecificationRequest(
+    request = SpecificationRequest(
         project_task=normalized_text["project_task"],
         project_name=normalized_text["project_name"],
         project_goal=normalized_text["project_goal"],
@@ -245,6 +309,7 @@ def normalize_specification_req(value: SpecificationInput) -> SpecificationReque
         ],
         metadata={"source_contract": "SpecificationReq"},
     )
+    return ensure_requirement_atoms(request)
 
 
 # ---------------------------------------------------------------------------
@@ -302,6 +367,7 @@ class ScenarioStep(StrictModel):
     actor_id: str | None = None
     action: str
     expected_result: str | None = None
+    source_fr_ids: list[str] = Field(default_factory=list)
 
 
 class Scenario(StrictModel):
@@ -497,6 +563,7 @@ class GeneratedSpecification(StrictModel):
     trace_manifest: TraceManifest = Field(default_factory=TraceManifest)
     validation_reports: list[ValidationReport] = Field(default_factory=list)
     evaluation_report: EvaluationReport | None = None
+    uc_repair_attempts_used: int = 0
     status: PipelineStatus = PipelineStatus.FAILED
     failure_reason: str | None = None
 
@@ -510,6 +577,21 @@ class UseCaseGenerationArtifact(StrictModel):
     """Structured generator/repair JSON payload (UseCaseSet + TraceManifest)."""
 
     use_case_set: UseCaseSet
+    trace_manifest: TraceManifest = Field(default_factory=TraceManifest)
+
+
+class ActivityGenerationArtifact(StrictModel):
+    """Structured generator/repair payload for one activity diagram."""
+
+    activity_diagram: ActivityDiagram
+    trace_manifest: TraceManifest = Field(default_factory=TraceManifest)
+
+
+class OneShotGenerationArtifact(StrictModel):
+    """B1 payload: complete semantic artifacts returned by exactly one LLM call."""
+
+    use_case_set: UseCaseSet
+    activity_diagrams: list[ActivityDiagram]
     trace_manifest: TraceManifest = Field(default_factory=TraceManifest)
 
 
@@ -601,3 +683,4 @@ class PipelineGraphState(TypedDict, total=False):
     status: PipelineStatus
     failure_reason: str | None
     max_repair_attempts: int
+    uc_repair_attempts_used: int

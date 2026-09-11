@@ -32,6 +32,7 @@ venv/
 # Experiment outputs (generated later)
 artifacts/runs/
 artifacts/tmp/
+.private_experiment_evidence/
 *.log
 
 # OS

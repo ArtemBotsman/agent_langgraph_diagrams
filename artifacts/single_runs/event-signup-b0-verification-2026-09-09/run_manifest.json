@@ -1,0 +1,16 @@
+{
+  "api_base": null,
+  "artifact_contract_version": "1.0",
+  "created_at_utc": "2026-09-09T12:25:58.429247+00:00",
+  "failure_reason": null,
+  "git_commit": "dd8bdc3d945336d006d108ca824a85e500aa9f82",
+  "git_dirty": true,
+  "mode": "B0_RULE",
+  "model": null,
+  "normalized_input_sha256": "3fa9f308a550bd8502931d36b666e23a2b1ff1edd07ccd2195d70f3c8fde1fbd",
+  "pipeline_status": "success",
+  "provider": null,
+  "raw_prompts_or_responses_persisted": false,
+  "temperature": null,
+  "thread_id": "single-specification-run"
+}

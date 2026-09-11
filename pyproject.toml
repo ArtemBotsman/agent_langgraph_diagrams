@@ -1,23 +1,36 @@
-[tool.poetry]
+[project]
 name = "agent-nir"
 version = "0.1.0"
 description = "Traceable LangGraph pipeline for Use Cases and activity diagrams from functional requirements"
-authors = ["Artem Botsman <botsman_artem@mail.ru>"]
+authors = [{ name = "Artem Botsman", email = "botsman_artem@mail.ru" }]
 readme = "README.md"
 license = "MIT"
-packages = [{ include = "traceable_spec", from = "src" }]
+requires-python = ">=3.11,<4.0"
+dependencies = [
+    "pydantic>=2.7,<3.0",
+    "langgraph>=1.0,<2.0",
+    "langgraph-checkpoint-sqlite>=3.0,<4.0",
+    "typing-extensions>=4.12,<5.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-pydantic = "^2.7"
-langgraph = "^0.4"
-typing-extensions = "^4.12"
+[project.scripts]
+traceable-spec = "traceable_spec.cli:main"
+
+[tool.poetry]
+packages = [{ include = "traceable_spec", from = "src" }]
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3"
 ruff = "^0.9"
 mypy = "^1.14"
 pylint = "^4.0"
+
+[tool.poetry.group.evaluation]
+optional = true
+
+[tool.poetry.group.evaluation.dependencies]
+sentence-transformers = "^5.2"
+numpy = ">=1.26,<2.4"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -39,6 +52,11 @@ mypy_path = "src"
 
 [[tool.mypy.overrides]]
 module = ["langgraph.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["sentence_transformers", "sentence_transformers.*", "numpy", "numpy.*"]
+follow_imports = "skip"
 ignore_missing_imports = true
 
 [build-system]

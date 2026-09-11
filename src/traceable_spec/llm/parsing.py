@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from typing import Any, TypeVar
 
@@ -55,7 +56,10 @@ def parse_json_model(
             passed=False,
             issues=issues,
             validator_name=validator_name,
-            details={"raw_preview": text[:500]},
+            details={
+                "raw_sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
+                "raw_char_count": len(text),
+            },
         )
 
     if not isinstance(data, dict):

@@ -1,0 +1,9 @@
+[
+  {
+    "benefit": "the project goal is achieved",
+    "capability": "Allow attendees to register for events and organisers to control capacity.",
+    "id": "US-001",
+    "role": "User",
+    "use_case_id": "UC-001"
+  }
+]

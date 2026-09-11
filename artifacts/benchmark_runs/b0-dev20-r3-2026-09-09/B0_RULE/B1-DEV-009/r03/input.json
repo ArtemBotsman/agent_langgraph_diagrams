@@ -1,0 +1,16 @@
+{
+  "project_task": "Create a restaurant table reservation service.",
+  "project_name": "Table Now",
+  "project_goal": "Accept reservations while respecting table capacity.",
+  "project_description": "A guest requests a table; staff can confirm, modify, or cancel reservations.",
+  "functional_requirements": [
+    "A guest searches available times for party size and date.",
+    "A guest submits contact details to reserve a table.",
+    "The system prevents reservations above available capacity.",
+    "Staff can modify an existing reservation.",
+    "Staff can cancel an existing reservation."
+  ],
+  "non_functional_requirements": [
+    "Contact details must not be displayed to unauthorized staff roles."
+  ]
+}

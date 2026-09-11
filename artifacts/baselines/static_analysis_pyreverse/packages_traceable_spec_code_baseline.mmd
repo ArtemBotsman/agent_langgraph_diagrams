@@ -3,13 +3,41 @@ classDiagram
   }
   class activity_diagram_graph {
   }
+  class agents {
+  }
+  class activity {
+  }
+  class graph {
+  }
+  class prompts {
+  }
+  class use_case {
+  }
+  class graph {
+  }
+  class prompts {
+  }
+  class baselines {
+  }
+  class cli {
+  }
   class entities {
   }
   class evaluation {
   }
+  class aggregation {
+  }
   class benchmark {
   }
+  class error_analysis {
+  }
   class evaluator {
+  }
+  class reproducibility {
+  }
+  class similarity {
+  }
+  class exporting {
   }
   class graph {
   }
@@ -25,9 +53,27 @@ classDiagram
   }
   class mermaid {
   }
+  class orchestration {
+  }
+  class component_variants {
+  }
+  class persistence {
+  }
+  class pipeline {
+  }
+  class persistence {
+  }
   class prompts {
   }
+  class activities {
+  }
+  class one_shot {
+  }
   class use_cases {
+  }
+  class reference_methods {
+  }
+  class baselines {
   }
   class rendering {
   }
@@ -39,41 +85,88 @@ classDiagram
   }
   class scripted_uc_responses {
   }
+  class traceability {
+  }
   class use_cases_graph {
   }
   class validators {
   }
-  activity_diagram_graph --> entities
-  activity_diagram_graph --> mermaid
-  activity_diagram_graph --> fixtures
-  activity_diagram_graph --> validators
+  activity_diagram_graph --> graph
+  activity --> graph
+  graph --> entities
+  graph --> parsing
+  graph --> protocol
+  graph --> mermaid
+  graph --> activities
+  graph --> fixtures
+  graph --> validators
+  prompts --> activities
+  use_case --> graph
+  graph --> entities
+  graph --> parsing
+  graph --> protocol
+  graph --> use_cases
+  graph --> use_case_text
+  graph --> fixtures
+  graph --> traceability
+  graph --> validators
+  prompts --> use_cases
+  baselines --> baselines
+  cli --> entities
+  cli --> exporting
+  cli --> openai_compatible
+  cli --> persistence
+  cli --> pipeline
+  cli --> reference_methods
   evaluation --> evaluator
   evaluator --> entities
-  graph --> activity_diagram_graph
-  graph --> entities
-  graph --> evaluator
-  graph --> use_cases_graph
-  graph --> validators
+  reproducibility --> aggregation
+  exporting --> entities
+  exporting --> mermaid
+  exporting --> rendering
+  graph --> pipeline
   llm --> parsing
   llm --> protocol
   llm --> scripted
   openai_compatible --> protocol
+  openai_compatible --> use_cases
   parsing --> entities
   scripted --> use_cases
   mermaid --> entities
+  orchestration --> component_variants
+  orchestration --> pipeline
+  component_variants --> entities
+  component_variants --> protocol
+  component_variants --> pipeline
+  pipeline --> graph
+  pipeline --> graph
+  pipeline --> entities
+  pipeline --> evaluator
+  pipeline --> protocol
+  pipeline --> traceability
+  pipeline --> validators
+  persistence --> persistence
   prompts --> use_cases
+  activities --> entities
+  one_shot --> entities
   use_cases --> entities
+  reference_methods --> baselines
+  baselines --> entities
+  baselines --> evaluator
+  baselines --> parsing
+  baselines --> protocol
+  baselines --> mermaid
+  baselines --> one_shot
+  baselines --> use_case_text
+  baselines --> traceability
+  baselines --> validators
   rendering --> use_case_text
   use_case_text --> entities
   testing --> fixtures
   fixtures --> entities
   scripted_uc_responses --> entities
   scripted_uc_responses --> fixtures
-  use_cases_graph --> entities
-  use_cases_graph --> parsing
-  use_cases_graph --> protocol
-  use_cases_graph --> use_cases
-  use_cases_graph --> use_case_text
-  use_cases_graph --> fixtures
-  use_cases_graph --> validators
+  traceability --> entities
+  use_cases_graph --> graph
   validators --> entities
+  validators --> traceability

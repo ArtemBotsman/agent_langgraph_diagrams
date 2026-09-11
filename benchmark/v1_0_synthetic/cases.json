@@ -80,6 +80,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -192,6 +193,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -299,6 +301,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -411,6 +414,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -524,6 +528,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -639,6 +644,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -752,6 +758,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -860,6 +867,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -993,6 +1001,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -1134,6 +1143,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -1307,6 +1317,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -1448,6 +1459,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -1587,6 +1599,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -1727,6 +1740,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -1877,6 +1891,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -2028,6 +2043,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -2190,6 +2206,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -2351,6 +2368,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -2482,6 +2500,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -2647,6 +2666,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -2809,6 +2829,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -3018,6 +3039,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -3205,6 +3227,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -3413,6 +3436,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -3620,6 +3644,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -3820,6 +3845,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -4030,6 +4056,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -4246,6 +4273,7 @@
       ],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -4443,6 +4471,7 @@
       ],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,
@@ -4626,6 +4655,7 @@
       "forbidden_assumptions": [],
       "equivalence_policy": {
         "allow_renaming": true,
+        "allow_uc_split_merge": true,
         "allow_linear_node_split_merge": true,
         "allow_additional_supported_detail": true,
         "require_same_actor_goal_milestone_branch_semantics": true,

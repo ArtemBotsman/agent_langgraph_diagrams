@@ -1,0 +1,17 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["User"]
+  ADN-UC001-001(("start"))
+  ADN-UC001-002["A guest searches available times for party size and date."]
+  ADN-UC001-003["A guest submits contact details to reserve a table."]
+  ADN-UC001-004["The system prevents reservations above available capacity."]
+  ADN-UC001-005["Staff can modify an existing reservation."]
+  ADN-UC001-006["Staff can cancel an existing reservation."]
+  ADN-UC001-007(("end"))
+  end
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 --> ADN-UC001-005
+  ADN-UC001-005 --> ADN-UC001-006
+  ADN-UC001-006 --> ADN-UC001-007

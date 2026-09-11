@@ -75,7 +75,18 @@ def validate() -> dict[str, Any]:
     if digest != manifest.get("cases_sha256"):
         errors.append("cases_sha256 differs from manifest")
     if manifest.get("frozen") is not False:
-        errors.append("synthetic candidate must remain unfrozen until external approval")
+        errors.append("scientific frozen flag must remain false until external approval")
+    if manifest.get("technical_frozen") is not True:
+        errors.append("author-level technical freeze is missing")
+    freeze_record_path = BENCHMARK_DIR / str(manifest.get("freeze_record", ""))
+    if not freeze_record_path.is_file():
+        errors.append("freeze_record.json is missing")
+    else:
+        freeze_record = json.loads(freeze_record_path.read_text(encoding="utf-8"))
+        if freeze_record.get("cases_sha256") != digest:
+            errors.append("freeze record cases_sha256 differs from cases.json")
+        if freeze_record.get("hidden_tuning_allowed") is not False:
+            errors.append("freeze record must prohibit hidden tuning")
 
     result = {
         "passed": not errors,

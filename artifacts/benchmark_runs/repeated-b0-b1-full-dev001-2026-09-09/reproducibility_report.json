@@ -1,0 +1,23 @@
+{
+  "experiment_id": "repeated-b0-b1-full-dev001-2026-09-09",
+  "passed": true,
+  "results_sha256": "51b9abf2998a6939d0ba778c73b9f25e7ef239b859214e2780e95d8cee9de6b5",
+  "saved_row_count": 6,
+  "expected_row_count": 6,
+  "complete_run_bundles": 6,
+  "failure_only_bundles": 0,
+  "summary_recalculation_identical": true,
+  "stability_recalculation_identical": true,
+  "additional_recomputed_fields": {
+    "B0_RULE": [
+      "mean_stability_multi_run"
+    ],
+    "B1_ONESHOT": [
+      "mean_stability_multi_run"
+    ],
+    "FULL": [
+      "mean_stability_multi_run"
+    ]
+  },
+  "issues": []
+}

@@ -1,0 +1,474 @@
+[
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": true,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "FR_TRACE_MISSING",
+        "message": "FR-007 (patient can correct answers before clinician review) is listed as a source FR for UC-001, but the correction step (STEP-UC001-006) is placed in an alternative scenario that starts from STEP-UC001-002 and rejoins at STEP-UC001-003. This means the correction path bypasses the red-flag evaluation and care-route recommendation steps, so the corrected answers are never re-evaluated. The use case does not actually demonstrate that corrected answers flow through triage, leaving FR-007 only partially traced.",
+        "element_ids": [
+          "FR-007",
+          "STEP-UC001-006",
+          "SCN-UC001-ALT-002",
+          "STEP-UC001-003",
+          "STEP-UC001-004"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-002",
+        "severity": "error",
+        "category": "semantic",
+        "code": "ALT_SCENARIO_REJOIN_INCONSISTENT",
+        "message": "SCN-UC001-ALT-002 rejoins at STEP-UC001-003, but its only step (STEP-UC001-006) is a patient correction action. Rejoining at the red-flag evaluation step skips the care-route recommendation (STEP-UC001-004) for the corrected answers, so the alternative scenario does not produce a coherent end-to-end outcome. The rejoin point should be after the correction is incorporated and re-evaluated, or the scenario should explicitly re-run steps 3-4.",
+        "element_ids": [
+          "SCN-UC001-ALT-002",
+          "STEP-UC001-006",
+          "STEP-UC001-003",
+          "STEP-UC001-004"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-003",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "EMERGENCY_ALT_NO_TERMINAL_OUTCOME",
+        "message": "SCN-UC001-ALT-001 (emergency red flags present) ends after displaying the emergency warning but does not define a terminal outcome or postcondition. The success postcondition POST-UC001-001 mentions 'routing recommendation or emergency warning', but the emergency path is not clearly distinguished as a success or failure outcome, leaving the emergency branch semantically ambiguous.",
+        "element_ids": [
+          "SCN-UC001-ALT-001",
+          "STEP-UC001-005",
+          "POST-UC001-001"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-004",
+        "severity": "warning",
+        "category": "trace",
+        "code": "SS_TRACE_GAP",
+        "message": "SS-003 ('State that output is not a diagnosis') is a system story under UC-001 but has no corresponding step in any scenario and no source FR. It is not traceable to a functional requirement or scenario step, so its inclusion is unsupported.",
+        "element_ids": [
+          "SS-003",
+          "UC-001"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-005",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "UC002_PRECONDITION_DEPENDENCY_UNDEFINED",
+        "message": "UC-002 precondition PRE-UC002-001 requires the patient to have received a care route recommendation with an offered appointment, but UC-002 does not reference UC-001 as a prerequisite use case. The dependency between UC-001 and UC-002 is implicit and not modeled, which may cause sequencing ambiguity.",
+        "element_ids": [
+          "UC-002",
+          "PRE-UC002-001",
+          "UC-001"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-006",
+        "severity": "info",
+        "category": "semantic",
+        "code": "UC003_PRECONDITION_APPOINTMENT_ASSUMPTION",
+        "message": "UC-003 precondition PRE-UC003-001 assumes an appointment is scheduled, but FR-006 only states a clinician reviews submitted answers before the appointment. The linkage between booking (UC-002) and clinician review (UC-003) is not explicitly modeled, though it is a reasonable assumption.",
+        "element_ids": [
+          "UC-003",
+          "PRE-UC003-001",
+          "UC-002"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "uc_llm_critic",
+    "details": {
+      "decision": "repair",
+      "summary": "The use case set is structurally sound and passes deterministic validation, but two blocking semantic issues remain: (1) FR-007's correction path in SCN-UC001-ALT-002 rejoins at STEP-UC001-003, causing corrected answers to bypass re-evaluation and the care-route recommendation, so FR-007 is not fully traced; (2) the same alternative scenario's rejoin point is inconsistent with its intent, producing an incoherent outcome. Additional non-blocking warnings concern the emergency alternative's undefined terminal outcome, an untraceable system story (SS-003), and implicit inter-use-case dependencies. Repair is recommended to fix the correction scenario's flow and rejoin point, and to clarify the emergency branch outcome.",
+      "critic_not_deterministic_validator": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": true,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "semantic",
+        "code": "ALT_SCENARIO_REJOIN_MISSING",
+        "message": "SCN-UC001-ALT-001 (Emergency red flags present) starts from STEP-UC001-003 but has no rejoin step and no terminal outcome. After the emergency warning is displayed, the scenario neither rejoins the main flow nor explicitly terminates the use case, leaving the flow ambiguous. It should either rejoin at a defined step or be modeled as a terminating alternative with a clear end state.",
+        "element_ids": [
+          "SCN-UC001-ALT-001",
+          "STEP-UC001-005"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-002",
+        "severity": "error",
+        "category": "semantic",
+        "code": "ALT_SCENARIO_REJOIN_MISSING",
+        "message": "SCN-UC001-ALT-002 (Patient corrects answers before clinician review) starts from STEP-UC001-002 but has no rejoin step. Its steps re-perform red-flag evaluation and care-route recommendation, duplicating the main scenario's steps 3-4 without rejoining them, which creates an inconsistent and redundant flow.",
+        "element_ids": [
+          "SCN-UC001-ALT-002",
+          "STEP-UC001-006",
+          "STEP-UC001-007",
+          "STEP-UC001-008"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-003",
+        "severity": "error",
+        "category": "semantic",
+        "code": "FR007_PRECONDITION_MISMATCH",
+        "message": "FR-007 states the patient can correct answers before clinician review, but UC-001's precondition only requires access to the service and its main scenario never establishes that answers have been submitted or that clinician review is pending. The correction alternative (SCN-UC001-ALT-002) therefore lacks the necessary precondition context to be valid.",
+        "element_ids": [
+          "FR-007",
+          "PRE-UC001-001",
+          "SCN-UC001-ALT-002"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-004",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "EMERGENCY_WARNING_ACTOR_MISMATCH",
+        "message": "FR-003 says the system displays an emergency warning, but in SCN-UC001-ALT-001 the warning is only an expected_result of a system step; no step shows the patient receiving or acting on the warning. The patient-facing outcome of the emergency path is not represented.",
+        "element_ids": [
+          "FR-003",
+          "STEP-UC001-005",
+          "SCN-UC001-ALT-001"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-005",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "UC002_PRECONDITION_DEPENDENCY_UNDEFINED",
+        "message": "UC-002's precondition requires a care route recommendation with an offered appointment, but no use case or step explicitly produces an 'offered appointment'. UC-001 only recommends a care route. The linkage between UC-001 output and UC-002 precondition is not modeled.",
+        "element_ids": [
+          "PRE-UC002-001",
+          "UC-001",
+          "UC-002"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-006",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "UC003_PRECONDITION_DEPENDENCY_UNDEFINED",
+        "message": "UC-003's precondition requires an appointment to be scheduled, but UC-002's success postcondition only states the appointment is booked. The relationship between booking and scheduling is not defined, leaving the precondition unverifiable.",
+        "element_ids": [
+          "PRE-UC003-001",
+          "POST-UC002-001",
+          "UC-003"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-007",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "SS003_NOT_REALIZED_IN_SCENARIO",
+        "message": "SS-003 requires the service to state that output is not a diagnosis, but no step in any scenario realizes this responsibility. The system story is unfulfilled by the use case flows.",
+        "element_ids": [
+          "SS-003",
+          "UC-001"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-008",
+        "severity": "info",
+        "category": "semantic",
+        "code": "MISSING_EXCEPTION_SCENARIOS",
+        "message": "UC-001, UC-002, and UC-003 have empty exception_scenarios despite failure postconditions. For a healthcare triage service, exceptions such as service unavailability, invalid answers, or booking conflicts would be expected.",
+        "element_ids": [
+          "UC-001",
+          "UC-002",
+          "UC-003"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "uc_llm_critic",
+    "details": {
+      "decision": "repair",
+      "summary": "The use case set is structurally sound and covers all functional requirements, but several semantic flow issues block acceptance: both alternative scenarios in UC-001 lack rejoin/termination semantics, and FR-007's correction capability is not properly grounded in UC-001's preconditions. Additional warnings concern unmodeled dependencies between use cases and an unrealized system story.",
+      "critic_not_deterministic_validator": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": true,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "semantic",
+        "code": "PRECONDITION_CONTRADICTS_GOAL",
+        "message": "UC-001 precondition PRE-UC001-002 states 'The patient has submitted answers and clinician review is pending', but the use case goal and main scenario are about the patient selecting a category and answering questions for the first time. This precondition contradicts the use case's own flow and would make the main scenario impossible to start.",
+        "element_ids": [
+          "UC-001",
+          "PRE-UC001-002",
+          "SCN-UC001-MAIN-001"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-002",
+        "severity": "error",
+        "category": "semantic",
+        "code": "ALT_SCENARIO_REJOIN_INCONSISTENT",
+        "message": "SCN-UC001-ALT-002 starts from STEP-UC001-002 and rejoins at STEP-UC001-004, but its steps re-perform red-flag evaluation (STEP-UC001-007) and care-route recommendation (STEP-UC001-008), duplicating the main scenario's steps 3 and 4. The rejoin point should be consistent with the steps performed, or the scenario should not re-execute the main flow steps.",
+        "element_ids": [
+          "SCN-UC001-ALT-002",
+          "STEP-UC001-007",
+          "STEP-UC001-008",
+          "STEP-UC001-004"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-003",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "ALT_SCENARIO_START_INCONSISTENT",
+        "message": "SCN-UC001-ALT-001 starts from STEP-UC001-003 but its single step (STEP-UC001-005) describes detecting red flags, which is the same action as STEP-UC001-003. The alternative scenario should branch from the point where the main flow's outcome differs (i.e., after evaluation), not re-perform the evaluation step.",
+        "element_ids": [
+          "SCN-UC001-ALT-001",
+          "STEP-UC001-005",
+          "STEP-UC001-003"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-004",
+        "severity": "warning",
+        "category": "trace",
+        "code": "SYSTEM_STORY_NOT_TRACED",
+        "message": "SS-003 ('State that output is not a diagnosis') has no corresponding step in any scenario of UC-001, so the responsibility is not realized in the use case flow.",
+        "element_ids": [
+          "SS-003",
+          "UC-001"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-005",
+        "severity": "warning",
+        "category": "trace",
+        "code": "FR_NOT_TRACED_TO_STEP",
+        "message": "FR-007 is listed as a source FR for UC-001 and appears in SCN-UC001-ALT-002, but the main success scenario does not include any step for correcting answers. Since FR-007 is a core functional requirement, it should be represented in the main flow or explicitly noted as an alternative-only capability.",
+        "element_ids": [
+          "FR-007",
+          "UC-001",
+          "SCN-UC001-MAIN-001"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-006",
+        "severity": "info",
+        "category": "semantic",
+        "code": "MISSING_EMERGENCY_ROUTING_OUTCOME",
+        "message": "UC-001's alternative scenario SCN-UC001-ALT-001 displays an emergency warning but does not define any follow-up routing or postcondition for the emergency case (e.g., directing the patient to emergency services). The failure postcondition POST-UC001-002 only covers 'no recommendation or warning', leaving the emergency outcome semantically incomplete.",
+        "element_ids": [
+          "SCN-UC001-ALT-001",
+          "POST-UC001-002"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "uc_llm_critic",
+    "details": {
+      "decision": "repair",
+      "summary": "The use case set is structurally sound and covers all FRs, but UC-001 has semantic inconsistencies: a precondition that contradicts the main flow, alternative scenarios that duplicate main-flow steps while declaring rejoin points, and an untraced system story. These blocking issues require repair before acceptance.",
+      "critic_not_deterministic_validator": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 2,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "e2e_trace",
+    "details": {
+      "requirement_atomization": {
+        "passed": true,
+        "fr_count": 7,
+        "atom_count": 7
+      },
+      "unique_ids": {
+        "passed": true
+      },
+      "fr_coverage": {
+        "passed": true,
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004",
+          "FR-005",
+          "FR-006",
+          "FR-007"
+        ]
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "declared_trace_bidirectionality": {
+        "passed": true,
+        "expected_relations": 59,
+        "actual_relations": 59
+      },
+      "trace_coverage_thresholds": {
+        "passed": true,
+        "uc_supported": 26,
+        "uc_total": 26,
+        "uc_ratio": 1.0,
+        "activity_supported": 0,
+        "activity_total": 0,
+        "activity_ratio": 1.0
+      },
+      "trace_integrity": {
+        "passed": true
+      }
+    }
+  }
+]

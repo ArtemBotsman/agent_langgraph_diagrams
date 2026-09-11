@@ -44,7 +44,7 @@ def test_scripted_uc_accept_without_repair() -> None:
     assert not any(c["role"] == ROLE_REPAIR for c in client.calls)
 
 
-def test_scripted_uc_trace_error_detected() -> None:
+def test_missing_trace_is_detectable_and_pipeline_materializes_it() -> None:
     from traceable_spec.entities import TraceManifest
     from traceable_spec.testing.fixtures import sample_use_case_set
 
@@ -61,11 +61,12 @@ def test_scripted_uc_trace_error_detected() -> None:
     )
     request = sample_request().model_copy(update={"max_repair_attempts": 1})
     output, state = _run(client, request)
-    assert any(
+    assert not any(
         issue.code == "missing_fr_to_uc_link"
         for report in state["validation_reports"]
         for issue in report.issues
     )
+    assert any(link.link_type.value == "fr_to_uc" for link in output.trace_manifest.links)
     assert output.status == PipelineStatus.SUCCESS
 
 

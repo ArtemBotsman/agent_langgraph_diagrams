@@ -1,0 +1,1692 @@
+{
+  "request": {
+    "project_task": "Создать сервис резервирования лабораторного оборудования.",
+    "project_name": "LabSlot",
+    "project_goal": "Исключить пересечения и неподготовленные запуски оборудования.",
+    "project_description": "Исследователь резервирует установку, указывает проект и подтверждает наличие обучения по безопасности.",
+    "functional_requirements": [
+      {
+        "id": "FR-001",
+        "text": "Исследователь просматривает доступность установки.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-001-001",
+            "parent_fr_id": "FR-001",
+            "text": "Исследователь просматривает доступность установки.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-002",
+        "text": "Исследователь указывает проект и временной интервал.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-002-001",
+            "parent_fr_id": "FR-002",
+            "text": "Исследователь указывает проект и временной интервал.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-003",
+        "text": "Система проверяет действующее обучение по безопасности.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-003-001",
+            "parent_fr_id": "FR-003",
+            "text": "Система проверяет действующее обучение по безопасности.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-004",
+        "text": "Ответственный сотрудник одобряет заявки на особо опасное оборудование.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-004-001",
+            "parent_fr_id": "FR-004",
+            "text": "Ответственный сотрудник одобряет заявки на особо опасное оборудование.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-005",
+        "text": "Система отменяет неподтвержденную заявку после истечения срока.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-005-001",
+            "parent_fr_id": "FR-005",
+            "text": "Система отменяет неподтвержденную заявку после истечения срока.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      }
+    ],
+    "non_functional_requirements": [
+      {
+        "id": "NFR-001",
+        "text": "Журнал бронирований и одобрений должен храниться пять лет.",
+        "category": null,
+        "tags": []
+      }
+    ],
+    "max_repair_attempts": 2,
+    "metadata": {
+      "source_contract": "SpecificationReq"
+    }
+  },
+  "use_case_set": {
+    "actors": [
+      {
+        "id": "ACT-001",
+        "name": "Исследователь",
+        "description": "Сотрудник, который резервирует лабораторное оборудование для проведения экспериментов.",
+        "is_primary": true
+      },
+      {
+        "id": "ACT-002",
+        "name": "Ответственный сотрудник",
+        "description": "Сотрудник, уполномоченный одобрять заявки на особо опасное оборудование.",
+        "is_primary": true
+      },
+      {
+        "id": "ACT-003",
+        "name": "Система",
+        "description": "Сервис LabSlot, автоматически выполняющий проверки и отмены.",
+        "is_primary": false
+      }
+    ],
+    "use_cases": [
+      {
+        "id": "UC-001",
+        "name": "Резервирование лабораторного оборудования",
+        "goal": "Исследователь резервирует установку на выбранный временной интервал с указанием проекта и подтверждением обучения по безопасности.",
+        "primary_actor_id": "ACT-001",
+        "secondary_actor_ids": [
+          "ACT-002",
+          "ACT-003"
+        ],
+        "trigger": "Исследователь решает зарезервировать лабораторное оборудование.",
+        "preconditions": [
+          {
+            "id": "PRE-UC001-001",
+            "text": "Исследователь аутентифицирован в системе LabSlot."
+          },
+          {
+            "id": "PRE-UC001-002",
+            "text": "В системе доступен список лабораторного оборудования."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC001-001",
+            "text": "Бронирование создано и подтверждено (или одобрено ответственным сотрудником для особо опасного оборудования).",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC001-002",
+            "text": "Бронирование не создано; исследователь уведомлён о причине отказа.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC001-MAIN-001",
+          "kind": "main",
+          "name": "Успешное резервирование оборудования",
+          "steps": [
+            {
+              "id": "STEP-UC001-001",
+              "order": 1,
+              "actor_id": "ACT-001",
+              "action": "Исследователь просматривает доступность установки.",
+              "expected_result": "Система отображает календарь доступности выбранной установки.",
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            },
+            {
+              "id": "STEP-UC001-002",
+              "order": 2,
+              "actor_id": "ACT-001",
+              "action": "Исследователь указывает проект и временной интервал.",
+              "expected_result": "Система принимает данные проекта и интервала.",
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            },
+            {
+              "id": "STEP-UC001-003",
+              "order": 3,
+              "actor_id": "ACT-003",
+              "action": "Система проверяет действующее обучение по безопасности исследователя.",
+              "expected_result": "Обучение подтверждено.",
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC001-004",
+              "order": 4,
+              "actor_id": "ACT-003",
+              "action": "Система создаёт бронирование и уведомляет исследователя.",
+              "expected_result": "Бронирование успешно создано.",
+              "source_fr_ids": [
+                "FR-001",
+                "FR-002",
+                "FR-003"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [
+          {
+            "id": "SCN-UC001-ALT-001",
+            "kind": "alternative",
+            "name": "Одобрение заявки на особо опасное оборудование",
+            "steps": [
+              {
+                "id": "STEP-UC001-005",
+                "order": 1,
+                "actor_id": "ACT-003",
+                "action": "Система определяет, что оборудование относится к особо опасному, и направляет заявку ответственному сотруднику.",
+                "expected_result": "Заявка ожидает одобрения.",
+                "source_fr_ids": [
+                  "FR-004"
+                ]
+              },
+              {
+                "id": "STEP-UC001-006",
+                "order": 2,
+                "actor_id": "ACT-002",
+                "action": "Ответственный сотрудник одобряет заявку.",
+                "expected_result": "Заявка одобрена.",
+                "source_fr_ids": [
+                  "FR-004"
+                ]
+              }
+            ],
+            "start_from_step_id": "STEP-UC001-003",
+            "rejoins_step_id": "STEP-UC001-004"
+          }
+        ],
+        "exception_scenarios": [
+          {
+            "id": "SCN-UC001-EXC-001",
+            "kind": "exception",
+            "name": "Отсутствие действующего обучения по безопасности",
+            "steps": [
+              {
+                "id": "STEP-UC001-007",
+                "order": 1,
+                "actor_id": "ACT-003",
+                "action": "Система обнаруживает, что обучение по безопасности не действительно.",
+                "expected_result": "Система отказывает в создании бронирования и уведомляет исследователя.",
+                "source_fr_ids": [
+                  "FR-003"
+                ]
+              }
+            ],
+            "start_from_step_id": "STEP-UC001-003",
+            "rejoins_step_id": null
+          },
+          {
+            "id": "SCN-UC001-EXC-002",
+            "kind": "exception",
+            "name": "Отказ ответственного сотрудника в одобрении заявки",
+            "steps": [
+              {
+                "id": "STEP-UC001-008",
+                "order": 1,
+                "actor_id": "ACT-002",
+                "action": "Ответственный сотрудник отклоняет заявку на особо опасное оборудование.",
+                "expected_result": "Заявка отклонена, исследователь уведомлён.",
+                "source_fr_ids": [
+                  "FR-004"
+                ]
+              }
+            ],
+            "start_from_step_id": "STEP-UC001-005",
+            "rejoins_step_id": null
+          }
+        ],
+        "user_stories": [
+          {
+            "id": "US-001",
+            "role": "Исследователь",
+            "capability": "просматривать доступность установки",
+            "benefit": "выбрать подходящее время для эксперимента",
+            "use_case_id": "UC-001"
+          },
+          {
+            "id": "US-002",
+            "role": "Исследователь",
+            "capability": "указывать проект и временной интервал",
+            "benefit": "зарезервировать оборудование под конкретную задачу",
+            "use_case_id": "UC-001"
+          },
+          {
+            "id": "US-003",
+            "role": "Ответственный сотрудник",
+            "capability": "одобрять заявки на особо опасное оборудование",
+            "benefit": "обеспечить безопасность и контроль доступа",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-001",
+            "system_action": "Проверка действующего обучения по безопасности",
+            "responsibility": "Система проверяет наличие и срок действия обучения исследователя перед созданием бронирования.",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004"
+        ],
+        "source_nfr_ids": [
+          "NFR-001"
+        ],
+        "missing_information": [
+          {
+            "id": "MI-001",
+            "description": "Не указан срок, после которого неподтверждённая заявка отменяется.",
+            "related_element_ids": [
+              "FR-005",
+              "UC-002"
+            ],
+            "blocks_generation": false
+          },
+          {
+            "id": "MI-002",
+            "description": "Не указано, как определяется 'особо опасное оборудование'.",
+            "related_element_ids": [
+              "FR-004",
+              "UC-001"
+            ],
+            "blocks_generation": false
+          }
+        ],
+        "unsupported_assumptions": [
+          {
+            "id": "UA-001",
+            "description": "Предполагается, что исследователь аутентифицирован в системе до начала резервирования.",
+            "related_element_ids": [
+              "UC-001"
+            ],
+            "justified": true
+          },
+          {
+            "id": "UA-002",
+            "description": "Предполагается, что система уведомляет исследователя о результате резервирования.",
+            "related_element_ids": [
+              "UC-001"
+            ],
+            "justified": true
+          }
+        ],
+        "human_readable_text": "Исследователь просматривает доступность установки, указывает проект и временной интервал. Система проверяет действующее обучение по безопасности. Для особо опасного оборудования заявка направляется ответственному сотруднику на одобрение. Если обучение недействительно или ответственный сотрудник отклоняет заявку, бронирование не создаётся."
+      },
+      {
+        "id": "UC-002",
+        "name": "Автоматическая отмена неподтверждённой заявки",
+        "goal": "Система автоматически отменяет заявку на особо опасное оборудование, если она не подтверждена в установленный срок.",
+        "primary_actor_id": "ACT-003",
+        "secondary_actor_ids": [
+          "ACT-001"
+        ],
+        "trigger": "Истечение срока подтверждения заявки на особо опасное оборудование.",
+        "preconditions": [
+          {
+            "id": "PRE-UC002-001",
+            "text": "Существует заявка на особо опасное оборудование в статусе ожидания одобрения."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC002-001",
+            "text": "Неподтверждённая заявка отменена, исследователь уведомлён.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC002-002",
+            "text": "Заявка остаётся в ожидании; система фиксирует ошибку отмены.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC002-MAIN-001",
+          "kind": "main",
+          "name": "Отмена заявки по истечении срока",
+          "steps": [
+            {
+              "id": "STEP-UC002-001",
+              "order": 1,
+              "actor_id": "ACT-003",
+              "action": "Система отслеживает срок подтверждения заявки на особо опасное оборудование.",
+              "expected_result": "Срок истёк.",
+              "source_fr_ids": [
+                "FR-005"
+              ]
+            },
+            {
+              "id": "STEP-UC002-002",
+              "order": 2,
+              "actor_id": "ACT-003",
+              "action": "Система отменяет неподтверждённую заявку.",
+              "expected_result": "Заявка отменена, исследователь уведомлён.",
+              "source_fr_ids": [
+                "FR-005"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [],
+        "user_stories": [],
+        "system_stories": [
+          {
+            "id": "SS-003",
+            "system_action": "Автоматическая отмена неподтверждённой заявки",
+            "responsibility": "Система отслеживает срок подтверждения заявок на особо опасное оборудование и отменяет их по истечении срока.",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-005"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [
+          {
+            "id": "MI-003",
+            "description": "Не указан срок, после которого неподтверждённая заявка отменяется.",
+            "related_element_ids": [
+              "FR-005",
+              "UC-002"
+            ],
+            "blocks_generation": false
+          }
+        ],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Система отслеживает срок подтверждения заявок на особо опасное оборудование и автоматически отменяет их по истечении срока, уведомляя исследователя."
+      },
+      {
+        "id": "UC-003",
+        "name": "Одобрение заявки на особо опасное оборудование",
+        "goal": "Ответственный сотрудник рассматривает и одобряет или отклоняет заявку на особо опасное оборудование.",
+        "primary_actor_id": "ACT-002",
+        "secondary_actor_ids": [
+          "ACT-001",
+          "ACT-003"
+        ],
+        "trigger": "Система направляет заявку на особо опасное оборудование ответственному сотруднику.",
+        "preconditions": [
+          {
+            "id": "PRE-UC003-001",
+            "text": "Существует заявка на особо опасное оборудование в статусе ожидания одобрения."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC003-001",
+            "text": "Заявка одобрена, бронирование подтверждено.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC003-002",
+            "text": "Заявка отклонена, исследователь уведомлён.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC003-MAIN-001",
+          "kind": "main",
+          "name": "Одобрение заявки ответственным сотрудником",
+          "steps": [
+            {
+              "id": "STEP-UC003-001",
+              "order": 1,
+              "actor_id": "ACT-002",
+              "action": "Ответственный сотрудник рассматривает заявку на особо опасное оборудование.",
+              "expected_result": "Заявка отображена с деталями.",
+              "source_fr_ids": [
+                "FR-004"
+              ]
+            },
+            {
+              "id": "STEP-UC003-002",
+              "order": 2,
+              "actor_id": "ACT-002",
+              "action": "Ответственный сотрудник одобряет заявку.",
+              "expected_result": "Заявка одобрена, бронирование подтверждено.",
+              "source_fr_ids": [
+                "FR-004"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [
+          {
+            "id": "SCN-UC003-EXC-001",
+            "kind": "exception",
+            "name": "Отказ ответственного сотрудника в одобрении заявки",
+            "steps": [
+              {
+                "id": "STEP-UC003-003",
+                "order": 1,
+                "actor_id": "ACT-002",
+                "action": "Ответственный сотрудник отклоняет заявку на особо опасное оборудование.",
+                "expected_result": "Заявка отклонена, исследователь уведомлён.",
+                "source_fr_ids": [
+                  "FR-004"
+                ]
+              }
+            ],
+            "start_from_step_id": "STEP-UC003-001",
+            "rejoins_step_id": null
+          }
+        ],
+        "user_stories": [
+          {
+            "id": "US-004",
+            "role": "Ответственный сотрудник",
+            "capability": "одобрять заявки на особо опасное оборудование",
+            "benefit": "обеспечить безопасность и контроль доступа",
+            "use_case_id": "UC-003"
+          }
+        ],
+        "system_stories": [],
+        "source_fr_ids": [
+          "FR-004"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [
+          {
+            "id": "MI-004",
+            "description": "Не указано, как определяется 'особо опасное оборудование'.",
+            "related_element_ids": [
+              "FR-004",
+              "UC-003"
+            ],
+            "blocks_generation": false
+          }
+        ],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Ответственный сотрудник рассматривает заявку на особо опасное оборудование и одобряет или отклоняет её. При одобрении бронирование подтверждается, при отклонении исследователь уведомляется."
+      }
+    ],
+    "fr_coverage": {
+      "FR-001": "covered",
+      "FR-002": "covered",
+      "FR-003": "covered",
+      "FR-004": "covered",
+      "FR-005": "covered"
+    }
+  },
+  "activity_results": [],
+  "trace_manifest": {
+    "links": [
+      {
+        "id": "TL-001",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-002",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-003",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-004",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-005",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-006",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-007",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-007",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-008",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-005",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-009",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-006",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-010",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-008",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-011",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-012",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-013",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-014",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-015",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-016",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-017",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-018",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-019",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-020",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-021",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-022",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "fr_atom",
+        "target_id": "FRA-001-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-023",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "fr_atom",
+        "target_id": "FRA-002-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-024",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "fr_atom",
+        "target_id": "FRA-003-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-025",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "fr_atom",
+        "target_id": "FRA-004-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-026",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "fr_atom",
+        "target_id": "FRA-005-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-027",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-028",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-029",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-030",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-031",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC001-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-032",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-033",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC001-007",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-034",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC001-005",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-035",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC001-006",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-036",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC001-008",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-037",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC003-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-038",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC003-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-039",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC003-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-040",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-041",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-042",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-043",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-044",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-045",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-046",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-047",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-048",
+        "source_type": "nfr",
+        "source_id": "NFR-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source."
+      },
+      {
+        "id": "TL-049",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "ss",
+        "target_id": "SS-001",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-050",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "ss",
+        "target_id": "SS-003",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-051",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "us",
+        "target_id": "US-001",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-052",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "us",
+        "target_id": "US-002",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-053",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "us",
+        "target_id": "US-003",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-054",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "us",
+        "target_id": "US-004",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      }
+    ]
+  },
+  "validation_reports": [
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_deterministic_aggregate",
+      "details": {
+        "requirement_atomization": true,
+        "unique_ids": true,
+        "use_case_structure": true,
+        "uc_fr_references": true,
+        "fr_coverage": true,
+        "fr_to_uc_trace": true,
+        "trace_link_contracts": true,
+        "declared_trace_bidirectionality": true,
+        "trace_coverage_thresholds": true,
+        "trace_integrity": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "semantic",
+          "code": "EXCEPTION_SCENARIO_MISPLACED",
+          "message": "Сценарий SCN-UC001-EXC-002 'Отмена неподтверждённой заявки по истечении срока' не является исключением основного потока UC-001. Он не привязан к шагу основного сценария (start_from_step_id = null) и описывает автономный временной триггер, а не отклонение от основного успешного пути. Это отдельный вариант использования или системный сценарий, а не exception UC-001.",
+          "element_ids": [
+            "SCN-UC001-EXC-002",
+            "STEP-UC001-008",
+            "STEP-UC001-009",
+            "FR-005"
+          ],
+          "blocking": true
+        },
+        {
+          "id": "VI-002",
+          "severity": "error",
+          "category": "semantic",
+          "code": "ALT_SCENARIO_REJOIN_INCONSISTENT",
+          "message": "Альтернативный сценарий SCN-UC001-ALT-001 начинается с шага STEP-UC001-003 (проверка обучения) и воссоединяется с STEP-UC001-004 (создание бронирования). Однако шаг STEP-UC001-005 выполняется системой (ACT-003) и переводит заявку в ожидание одобрения, а STEP-UC001-006 — одобрение ответственным сотрудником. После этого поток возвращается к шагу создания бронирования, но не описано, что происходит при отказе ответственного сотрудника, что делает альтернативный путь неполным относительно FR-004.",
+          "element_ids": [
+            "SCN-UC001-ALT-001",
+            "STEP-UC001-005",
+            "STEP-UC001-006",
+            "FR-004"
+          ],
+          "blocking": true
+        },
+        {
+          "id": "VI-003",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "ACTOR_ROLE_CONFUSION",
+          "message": "ACT-003 'Система' указан как secondary_actor и как исполнитель шагов (STEP-UC001-003, STEP-UC001-004, STEP-UC001-005, STEP-UC001-007, STEP-UC001-008, STEP-UC001-009). Система не является актором в смысле use case modeling; системные действия должны быть отражены как ответственность системы (system_stories) или как шаги, инициируемые системой, но не как отдельный актор. Это размывает границу между акторами и системой.",
+          "element_ids": [
+            "ACT-003",
+            "STEP-UC001-003",
+            "STEP-UC001-004",
+            "STEP-UC001-005",
+            "STEP-UC001-007",
+            "STEP-UC001-008",
+            "STEP-UC001-009"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-004",
+          "severity": "warning",
+          "category": "trace",
+          "code": "FR_TRACE_INCOMPLETE",
+          "message": "FR-004 (одобрение особо опасного оборудования) покрыт только альтернативным сценарием, но в success_postconditions POST-UC001-001 указано 'или одобрено ответственным сотрудником'. При этом основной успешный сценарий не содержит шага одобрения, а альтернативный сценарий не описывает ветку отказа. Трассировка FR-004 неполна: отсутствует сценарий отказа в одобрении.",
+          "element_ids": [
+            "FR-004",
+            "POST-UC001-001",
+            "SCN-UC001-ALT-001"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-005",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "MISSING_INFO_BLOCKS_COMPLETENESS",
+          "message": "MI-001 (срок отмены неподтверждённой заявки) и MI-002 (критерий 'особо опасное оборудование') помечены как blocks_generation=false, однако без этих данных невозможно корректно специфицировать поведение FR-004 и FR-005. Рекомендуется либо уточнить эти данные, либо явно зафиксировать их как предположения с обоснованием.",
+          "element_ids": [
+            "MI-001",
+            "MI-002",
+            "FR-004",
+            "FR-005"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-006",
+          "severity": "info",
+          "category": "semantic",
+          "code": "PRECONDITION_OVERLAP",
+          "message": "PRE-UC001-001 (аутентификация) дублируется с UA-001 (предположение об аутентификации). Рекомендуется устранить дублирование: либо оставить как предусловие, либо как обоснованное предположение, но не оба одновременно.",
+          "element_ids": [
+            "PRE-UC001-001",
+            "UA-001"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "uc_llm_critic",
+      "details": {
+        "decision": "repair",
+        "summary": "Набор use case в целом покрывает все FR, но содержит семантические проблемы: сценарий отмены по истечении срока оформлен как exception основного потока, хотя является автономным временным триггером; альтернативный сценарий одобрения не описывает ветку отказа; система указана как актор. Требуется доработка перед принятием.",
+        "critic_not_deterministic_validator": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_deterministic_aggregate",
+      "details": {
+        "requirement_atomization": true,
+        "unique_ids": true,
+        "use_case_structure": true,
+        "uc_fr_references": true,
+        "fr_coverage": true,
+        "fr_to_uc_trace": true,
+        "trace_link_contracts": true,
+        "declared_trace_bidirectionality": true,
+        "trace_coverage_thresholds": true,
+        "trace_integrity": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "semantic",
+          "code": "MISSING_ALT_SCENARIO_FOR_FR",
+          "message": "FR-004 (одобрение заявок на особо опасное оборудование) реализован только как альтернативный сценарий внутри UC-001, но не имеет собственного use case. Ответственный сотрудник (ACT-002) не является primary actor ни в одном use case, что делает его роль неполноценной и снижает трассируемость требования.",
+          "element_ids": [
+            "FR-004",
+            "ACT-002",
+            "UC-001",
+            "SCN-UC001-ALT-001"
+          ],
+          "blocking": true
+        },
+        {
+          "id": "VI-002",
+          "severity": "error",
+          "category": "trace",
+          "code": "FR_NOT_IN_SOURCE_FR_IDS",
+          "message": "FR-005 (отмена неподтверждённой заявки) не включён в source_fr_ids для UC-001, хотя SS-002 в UC-001 описывает именно эту ответственность. Это создаёт несогласованность трассировки между системной историей и покрытием требований.",
+          "element_ids": [
+            "FR-005",
+            "UC-001",
+            "SS-002"
+          ],
+          "blocking": true
+        },
+        {
+          "id": "VI-003",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "DUPLICATE_SYSTEM_STORY",
+          "message": "SS-002 (UC-001) и SS-003 (UC-002) описывают одну и ту же ответственность системы — автоматическую отмену неподтверждённой заявки. Дублирование системных историй в разных use case размывает границы ответственности.",
+          "element_ids": [
+            "SS-002",
+            "SS-003",
+            "UC-001",
+            "UC-002"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-004",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "MISSING_ALT_SCENARIO_FOR_FR",
+          "message": "FR-005 покрыт только основным сценарием UC-002. Отсутствуют альтернативные и исключительные сценарии (например, ошибка отмены, повторная попытка), что снижает полноту описания поведения системы.",
+          "element_ids": [
+            "FR-005",
+            "UC-002",
+            "SCN-UC002-MAIN-001"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-005",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "MISSING_USER_STORIES",
+          "message": "UC-002 не содержит пользовательских историй, хотя вторичный актор ACT-001 (Исследователь) затронут результатом отмены. Отсутствие user stories для UC-002 снижает ценностную ориентацию use case.",
+          "element_ids": [
+            "UC-002",
+            "ACT-001"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-006",
+          "severity": "info",
+          "category": "semantic",
+          "code": "UNRESOLVED_MISSING_INFORMATION",
+          "message": "MI-001/MI-003 (срок отмены) и MI-002 (критерий 'особо опасное оборудование') остаются неразрешёнными, но помечены как не блокирующие генерацию. Рекомендуется уточнить их до реализации, так как они влияют на поведение UC-001 и UC-002.",
+          "element_ids": [
+            "MI-001",
+            "MI-002",
+            "MI-003",
+            "UC-001",
+            "UC-002"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "uc_llm_critic",
+      "details": {
+        "decision": "repair",
+        "summary": "Набор use case в целом согласован и покрывает FR-001..FR-005, однако выявлены блокирующие семантические и трассировочные проблемы: FR-004 не выделен в отдельный use case с ACT-002 в роли primary actor, а FR-005 отсутствует в source_fr_ids UC-001 при наличии SS-002. Также присутствуют дублирование системных историй и пробелы в альтернативных сценариях/историях. Требуется доработка.",
+        "critic_not_deterministic_validator": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 1,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_deterministic_aggregate",
+      "details": {
+        "requirement_atomization": true,
+        "unique_ids": true,
+        "use_case_structure": true,
+        "uc_fr_references": true,
+        "fr_coverage": true,
+        "fr_to_uc_trace": true,
+        "trace_link_contracts": true,
+        "declared_trace_bidirectionality": true,
+        "trace_coverage_thresholds": true,
+        "trace_integrity": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "semantic",
+          "code": "DUPLICATE_USE_CASE_OVERLAP",
+          "message": "UC-003 (Одобрение заявки на особо опасное оборудование) полностью дублирует альтернативный сценарий SCN-UC001-ALT-001 и исключение SCN-UC001-EXC-002 внутри UC-001. Один и тот же поток одобрения ответственным сотрудником описан и как отдельный use case, и как часть UC-001, что создаёт противоречивую модель: неясно, является ли одобрение самостоятельным use case или шагом резервирования. Следует либо удалить UC-003 и оставить одобрение как альтернативу/исключение в UC-001, либо убрать соответствующие сценарии из UC-001 и оставить UC-003 как отдельный use case.",
+          "element_ids": [
+            "UC-001",
+            "UC-003",
+            "SCN-UC001-ALT-001",
+            "SCN-UC001-EXC-002",
+            "SCN-UC003-MAIN-001"
+          ],
+          "blocking": true
+        },
+        {
+          "id": "VI-002",
+          "severity": "error",
+          "category": "semantic",
+          "code": "ACTOR_ROLE_CONFLICT",
+          "message": "ACT-003 'Система' объявлен актором (is_primary=false) и одновременно используется как primary_actor_id в UC-002. Система не является внешним актором; автоматическая отмена по таймеру — это системная функция, а не use case с актором-системой. Это размывает границу системы и делает UC-002 неполноценным use case. Следует либо ввести внешнего актора (например, планировщик/администратор) или переформулировать UC-002 как системную функцию/SS, либо явно задокументировать, что 'Система' — это time-actor.",
+          "element_ids": [
+            "ACT-003",
+            "UC-002"
+          ],
+          "blocking": true
+        },
+        {
+          "id": "VI-003",
+          "severity": "warning",
+          "category": "trace",
+          "code": "FR_COVERAGE_MISMATCH",
+          "message": "FR-005 (отмена неподтверждённой заявки) покрыт только UC-002, но UC-002 не связан с UC-001/UC-003 через общий жизненный цикл заявки. Нет трассировки между заявкой, созданной в UC-001, и её отменой в UC-002, что делает покрытие FR-005 формальным. Рекомендуется добавить ссылку на статусную модель заявки или связать UC-002 с UC-001/UC-003.",
+          "element_ids": [
+            "FR-005",
+            "UC-001",
+            "UC-002",
+            "UC-003"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-004",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "MISSING_ALTERNATIVE_FOR_APPROVAL_TIMEOUT",
+          "message": "В UC-003 отсутствует альтернативный/исключительный сценарий истечения срока подтверждения, хотя FR-005 прямо предусматривает такую ситуацию. UC-002 покрывает это отдельно, но без явной связи с UC-003 остаётся разрыв: неясно, что происходит с заявкой в UC-003 при истечении срока.",
+          "element_ids": [
+            "UC-003",
+            "FR-005",
+            "UC-002"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-005",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "MISSING_INFORMATION_NOT_ACTIONABLE",
+          "message": "MI-001 и MI-003 дублируют друг друга (срок отмены неподтверждённой заявки), а MI-002 и MI-004 дублируют определение 'особо опасное оборудование'. Дублирование missing_information снижает качество спецификации; следует объединить их и указать, какие элементы затронуты.",
+          "element_ids": [
+            "MI-001",
+            "MI-002",
+            "MI-003",
+            "MI-004"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-006",
+          "severity": "info",
+          "category": "semantic",
+          "code": "UNSUPPORTED_ASSUMPTION_NOT_TRACED",
+          "message": "UA-001 и UA-002 помечены justified=true, но не указано, на каких FR/элементах они основаны. Для прослеживаемости стоит добавить ссылки на FR-001/FR-002 (аутентификация) и FR-003/FR-004 (уведомления).",
+          "element_ids": [
+            "UA-001",
+            "UA-002"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "uc_llm_critic",
+      "details": {
+        "decision": "repair",
+        "summary": "Спецификация в целом полная и покрывает все FR, но содержит блокирующие семантические проблемы: UC-003 дублирует альтернативный сценарий и исключение внутри UC-001, а ACT-003 'Система' используется как primary actor в UC-002, что размывает границу системы. Требуется устранить дублирование use case и переопределить актора для автоматической отмены.",
+        "critic_not_deterministic_validator": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 2,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "e2e_trace",
+      "details": {
+        "requirement_atomization": {
+          "passed": true,
+          "fr_count": 5,
+          "atom_count": 5
+        },
+        "unique_ids": {
+          "passed": true
+        },
+        "fr_coverage": {
+          "passed": true,
+          "covered": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005"
+          ]
+        },
+        "trace_link_contracts": {
+          "passed": true
+        },
+        "declared_trace_bidirectionality": {
+          "passed": true,
+          "expected_relations": 54,
+          "actual_relations": 54
+        },
+        "trace_coverage_thresholds": {
+          "passed": true,
+          "uc_supported": 22,
+          "uc_total": 22,
+          "uc_ratio": 1.0,
+          "activity_supported": 0,
+          "activity_total": 0,
+          "activity_ratio": 1.0
+        },
+        "trace_integrity": {
+          "passed": true
+        }
+      }
+    }
+  ],
+  "evaluation_report": {
+    "metrics": [
+      {
+        "name": "schema_validity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Share of schema validators that passed"
+      },
+      {
+        "name": "fr_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "|FRs referenced by ≥1 UC| / |FRs|"
+      },
+      {
+        "name": "orphan_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "duplicate_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "trace_reference_integrity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "1 - dangling_links / max(links,1) (approx from validation issues)"
+      },
+      {
+        "name": "trace_completeness",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "activity_structural_validity",
+        "value": 0.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "mermaid_generation_success",
+        "value": 0.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "end_to_end_success",
+        "value": 0.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": null
+      },
+      {
+        "name": "repair_attempts",
+        "value": 2,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": "Use Case repair attempts plus all Activity repair attempts"
+      },
+      {
+        "name": "uc_element_trace_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "activity_element_trace_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "unsupported_trace_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "blocking_error_classes",
+        "value": 6,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": null
+      },
+      {
+        "name": "stability_multi_run",
+        "value": null,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Requires ≥2 seeded runs; not computed in scaffold"
+      },
+      {
+        "name": "latency_ms",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "ms",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "token_usage",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "tokens",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "cost_usd",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "usd",
+        "notes": "Filled when LLM nodes are wired"
+      }
+    ],
+    "automatic_only": true,
+    "notes": "Automatic metrics only; LLM-as-a-judge and expert scores are separate tracks"
+  },
+  "uc_repair_attempts_used": 2,
+  "status": "failed",
+  "failure_reason": "Use Case generation failed after validation/repair limit (repair_attempt=2, max_repair_attempts=2)"
+}

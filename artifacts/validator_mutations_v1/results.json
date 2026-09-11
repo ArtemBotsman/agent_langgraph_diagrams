@@ -1,0 +1,158 @@
+{
+  "experiment_id": "validator-mutations-v1",
+  "experiment_type": "deterministic_validator_mutation_test",
+  "llm_calls": 0,
+  "mutation_count": 15,
+  "detected_count": 15,
+  "detection_rate": 1.0,
+  "claim_limit": "Detection applies only to the 15 predefined structural/trace mutation classes.",
+  "rows": [
+    {
+      "mutation_id": "MUT-001",
+      "error_class": "identifier uniqueness",
+      "expected_code": "duplicate_id",
+      "detected": true,
+      "observed_codes": [
+        "dangling_trace_target",
+        "duplicate_id",
+        "undeclared_reverse_trace"
+      ]
+    },
+    {
+      "mutation_id": "MUT-002",
+      "error_class": "FR atom parent",
+      "expected_code": "atom_parent_mismatch",
+      "detected": true,
+      "observed_codes": [
+        "atom_parent_mismatch",
+        "dangling_trace_target",
+        "undeclared_reverse_trace"
+      ]
+    },
+    {
+      "mutation_id": "MUT-003",
+      "error_class": "missing forward link",
+      "expected_code": "missing_declared_trace",
+      "detected": true,
+      "observed_codes": [
+        "missing_declared_trace"
+      ]
+    },
+    {
+      "mutation_id": "MUT-004",
+      "error_class": "unsupported reverse link",
+      "expected_code": "undeclared_reverse_trace",
+      "detected": true,
+      "observed_codes": [
+        "undeclared_reverse_trace"
+      ]
+    },
+    {
+      "mutation_id": "MUT-005",
+      "error_class": "endpoint type",
+      "expected_code": "trace_endpoint_type_mismatch",
+      "detected": true,
+      "observed_codes": [
+        "trace_endpoint_type_mismatch"
+      ]
+    },
+    {
+      "mutation_id": "MUT-006",
+      "error_class": "dangling endpoint",
+      "expected_code": "dangling_trace_target",
+      "detected": true,
+      "observed_codes": [
+        "dangling_trace_target",
+        "missing_declared_trace",
+        "undeclared_reverse_trace"
+      ]
+    },
+    {
+      "mutation_id": "MUT-007",
+      "error_class": "initial cardinality",
+      "expected_code": "initial_node_count",
+      "detected": true,
+      "observed_codes": [
+        "initial_node_count",
+        "unknown_edge_source"
+      ]
+    },
+    {
+      "mutation_id": "MUT-008",
+      "error_class": "edge endpoint",
+      "expected_code": "unknown_edge_target",
+      "detected": true,
+      "observed_codes": [
+        "final_unreachable",
+        "unknown_edge_target",
+        "unreachable_from_initial"
+      ]
+    },
+    {
+      "mutation_id": "MUT-009",
+      "error_class": "decision guard",
+      "expected_code": "decision_missing_guard",
+      "detected": true,
+      "observed_codes": [
+        "decision_missing_guard"
+      ]
+    },
+    {
+      "mutation_id": "MUT-010",
+      "error_class": "node provenance",
+      "expected_code": "activity_node_untraced",
+      "detected": true,
+      "observed_codes": [
+        "activity_node_untraced"
+      ]
+    },
+    {
+      "mutation_id": "MUT-011",
+      "error_class": "edge provenance",
+      "expected_code": "activity_edge_untraced",
+      "detected": true,
+      "observed_codes": [
+        "activity_edge_untraced"
+      ]
+    },
+    {
+      "mutation_id": "MUT-012",
+      "error_class": "partition reference",
+      "expected_code": "unknown_node_partition",
+      "detected": true,
+      "observed_codes": [
+        "unknown_node_partition"
+      ]
+    },
+    {
+      "mutation_id": "MUT-013",
+      "error_class": "step FR scope",
+      "expected_code": "step_fr_outside_uc_scope",
+      "detected": true,
+      "observed_codes": [
+        "dangling_trace_target",
+        "missing_declared_trace",
+        "step_fr_outside_uc_scope",
+        "undeclared_reverse_trace"
+      ]
+    },
+    {
+      "mutation_id": "MUT-014",
+      "error_class": "step reference",
+      "expected_code": "activity_step_missing",
+      "detected": true,
+      "observed_codes": [
+        "activity_step_missing"
+      ]
+    },
+    {
+      "mutation_id": "MUT-015",
+      "error_class": "unsupported provenance",
+      "expected_code": "unsupported_without_rationale",
+      "detected": true,
+      "observed_codes": [
+        "unsupported_without_rationale"
+      ]
+    }
+  ]
+}

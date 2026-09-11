@@ -58,9 +58,7 @@ def main() -> None:
     state = graph.invoke({"request": request})
     output = use_case_graph_output_from_state(state)
 
-    uc_ids = (
-        [uc.id for uc in output.use_case_set.use_cases] if output.use_case_set else []
-    )
+    uc_ids = [uc.id for uc in output.use_case_set.use_cases] if output.use_case_set else []
     print(f"status: {output.status.value}")
     print(f"repair_attempts_used: {output.repair_attempts_used}")
     print(f"use_cases: {uc_ids}")

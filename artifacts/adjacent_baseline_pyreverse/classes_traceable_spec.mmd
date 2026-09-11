@@ -1,0 +1,483 @@
+classDiagram
+  class ActivityDiagram {
+    edges : Optional[list[ActivityEdge]]
+    id : Optional[str]
+    mermaid_source : str | None
+    name : str
+    nodes : Optional[list[ActivityNode]]
+    partitions : Optional[list[ActivityPartition]]
+    use_case_id : Optional[str]
+  }
+  class ActivityEdge {
+    guard : str | None
+    id : Optional[str]
+    label : str | None
+    related_step_ids : Optional[list[str]]
+    source_node_id : str
+    target_node_id : str
+    unsupported : bool
+  }
+  class ActivityGenerationArtifact {
+    activity_diagram
+    trace_manifest : Optional[TraceManifest]
+  }
+  class ActivityGenerationResult {
+    activity_diagram : ActivityDiagram | None
+    failure_reason : str | None
+    repair_attempts_used : int
+    status
+    use_case_id : str
+    validation_reports : Optional[list[ValidationReport]]
+  }
+  class ActivityGraphInput {
+    actors : Optional[list[Actor]]
+    existing_trace : Optional[TraceManifest]
+    max_repair_attempts : Optional[int]
+    use_case
+  }
+  class ActivityGraphOutput {
+    result
+    trace_manifest : Optional[TraceManifest]
+  }
+  class ActivityGraphState {
+    activity_diagram : ActivityDiagram | None
+    actors : list[Actor]
+    critic_report : ValidationReport | None
+    decision : Literal['finalize', 'repair', 'fail']
+    deterministic_report : ValidationReport | None
+    failure_reason : str | None
+    max_repair_attempts : int
+    mermaid_source : str | None
+    repair_attempt : int
+    schema_report : ValidationReport | None
+    status
+    trace_manifest
+    use_case : Required[UseCase]
+    validation_reports : list[ValidationReport]
+  }
+  class ActivityNode {
+    id : Optional[str]
+    kind
+    name : str
+    partition_id : str | None
+    related_step_ids : Optional[list[str]]
+    unsupported : bool
+  }
+  class ActivityNodeFns {
+    criticize_activity_model : Callable
+    decide_activity_result : Callable
+    fail_activity_generation : Callable
+    finalize_activity : Callable
+    generate_activity_model : Callable
+    prepare_use_case : Callable
+    render_mermaid : Callable
+    repair_activity_model : Callable
+    validate_activity_deterministic : Callable
+    validate_activity_schema : Callable
+  }
+  class ActivityNodeKind {
+    name
+  }
+  class ActivityPartition {
+    actor_id : str | None
+    id : Optional[str]
+    name : str
+  }
+  class Actor {
+    description : str | None
+    id : Optional[str]
+    is_primary : bool
+    name : str
+  }
+  class CriticVerdict {
+    decision : Literal['accept', 'repair']
+    issues : Optional[list[ValidationIssue]]
+    summary : str | None
+  }
+  class DeclaredRelation {
+    link_type
+    rationale : str
+    source_id : str
+    source_type
+    target_id : str
+    target_type
+  }
+  class ElementRefType {
+    name
+  }
+  class EvaluationReport {
+    automatic_only : bool
+    metrics : Optional[list[MetricResult]]
+    notes : str | None
+  }
+  class FunctionalRequirement {
+    atoms : Optional[list[FunctionalRequirementAtom]]
+    id : Optional[str]
+    priority : str | None
+    tags : Optional[list[str]]
+    text : Optional[str]
+  }
+  class FunctionalRequirementAtom {
+    extraction_rule : Literal['whole_requirement', 'semicolon', 'line_or_list']
+    id : Optional[str]
+    parent_fr_id : Optional[str]
+    text : Optional[str]
+  }
+  class GeneratedSpecification {
+    activity_results : Optional[list[ActivityGenerationResult]]
+    evaluation_report : EvaluationReport | None
+    failure_reason : str | None
+    request
+    status
+    trace_manifest : Optional[TraceManifest]
+    uc_repair_attempts_used : int
+    use_case_set : UseCaseSet | None
+    validation_reports : Optional[list[ValidationReport]]
+  }
+  class IssueCategory {
+    name
+  }
+  class IssueSeverity {
+    name
+  }
+  class LLMBudgetExceededError {
+  }
+  class LLMClient {
+    complete() str
+  }
+  class LLMNotConfiguredError {
+  }
+  class LLMOutputTruncatedError {
+  }
+  class MetricResult {
+    higher_is_better : bool | None
+    name : str
+    notes : str | None
+    unit : str | None
+    value : float | int | bool | str | None
+  }
+  class MissingInformation {
+    blocks_generation : bool
+    description : str
+    id : Optional[str]
+    related_element_ids : Optional[list[str]]
+  }
+  class MultilingualSentenceSimilarity {
+    name : str
+  }
+  class NonFunctionalRequirement {
+    category : str | None
+    id : Optional[str]
+    tags : Optional[list[str]]
+    text : Optional[str]
+  }
+  class OneShotGenerationArtifact {
+    activity_diagrams : list[ActivityDiagram]
+    trace_manifest : Optional[TraceManifest]
+    use_case_set
+  }
+  class OpenAICompatibleConfig {
+    api_base : str
+    api_key : str
+    input_price_usd_per_million : float | None
+    max_calls_per_process : int
+    max_output_tokens : int
+    max_retries : int
+    max_total_tokens_per_process : int
+    model : str
+    output_price_usd_per_million : float | None
+    provider : str
+    telemetry_path : Path | None
+    thinking_enabled : bool
+    timeout_seconds : float
+    from_env() OpenAICompatibleConfig
+  }
+  class OpenAICompatibleLLMClient {
+    calls : list[dict[str, Any]]
+    config
+    total_cost_usd : float
+    total_tokens : int
+    complete() str
+  }
+  class PipelineDeps {
+    activity_nodes
+    use_case_nodes
+  }
+  class PipelineGraphInput {
+    request
+  }
+  class PipelineGraphOutput {
+    specification
+  }
+  class PipelineGraphState {
+    activity_results : list[ActivityGenerationResult]
+    evaluation_report : EvaluationReport | None
+    failure_reason : str | None
+    max_repair_attempts : int
+    normalized_frs : list[FunctionalRequirement]
+    normalized_nfrs : list[NonFunctionalRequirement]
+    request : Required[SpecificationInput]
+    specification : GeneratedSpecification | None
+    status
+    trace_manifest
+    uc_repair_attempts_used : int
+    use_case_set : UseCaseSet | None
+    validation_reports : list[ValidationReport]
+  }
+  class PipelineStatus {
+    name
+  }
+  class Postcondition {
+    id : Optional[str]
+    outcome : Literal['success', 'failure']
+    text : str
+  }
+  class Precondition {
+    id : Optional[str]
+    text : str
+  }
+  class RequirementCoverageStatus {
+    name
+  }
+  class Scenario {
+    id : Optional[str]
+    kind
+    name : str
+    rejoins_step_id : str | None
+    start_from_step_id : str | None
+    steps : Optional[list[ScenarioStep]]
+  }
+  class ScenarioKind {
+    name
+  }
+  class ScenarioStep {
+    action : str
+    actor_id : str | None
+    expected_result : str | None
+    id : Optional[str]
+    order : Optional[int]
+    source_fr_ids : Optional[list[str]]
+  }
+  class ScriptedLLMClient {
+    calls : list[dict[str, Any]]
+    complete() str
+    enqueue(role: str, response: str) None
+  }
+  class SpecificationReq {
+    functional_requirements : list[str]
+    non_functional_requirements : list[str]
+    project_description : str
+    project_goal : str
+    project_name : str
+    project_task : str
+  }
+  class SpecificationRequest {
+    functional_requirements : Optional[list[FunctionalRequirement]]
+    max_repair_attempts : Optional[int]
+    metadata : Optional[dict[str, str]]
+    non_functional_requirements : Optional[list[NonFunctionalRequirement]]
+    project_description : Optional[str]
+    project_goal : Optional[str]
+    project_name : Optional[str]
+    project_task : Optional[str]
+    unique_fr_ids(value: list[FunctionalRequirement]) list[FunctionalRequirement]
+    unique_nfr_ids(value: list[NonFunctionalRequirement]) list[NonFunctionalRequirement]
+  }
+  class StrictModel {
+    model_config : ConfigDict
+  }
+  class SystemStory {
+    id : Optional[str]
+    responsibility : str
+    system_action : str
+    use_case_id : Optional[str]
+  }
+  class TraceLink {
+    id : Optional[str]
+    link_type
+    origin
+    rationale : str | None
+    source_id : str
+    source_type
+    target_id : str
+    target_type
+  }
+  class TraceLinkType {
+    name
+  }
+  class TraceManifest {
+    links : Optional[list[TraceLink]]
+    forward_index() dict[str, list[TraceLink]]
+    reverse_index() dict[str, list[TraceLink]]
+  }
+  class TraceOrigin {
+    name
+  }
+  class UnsupportedAssumption {
+    description : str
+    id : Optional[str]
+    justified : bool
+    related_element_ids : Optional[list[str]]
+  }
+  class UseCase {
+    alternative_scenarios : Optional[list[Scenario]]
+    exception_scenarios : Optional[list[Scenario]]
+    failure_postconditions : Optional[list[Postcondition]]
+    goal : str
+    human_readable_text : str | None
+    id : Optional[str]
+    main_success_scenario
+    missing_information : Optional[list[MissingInformation]]
+    name : str
+    preconditions : Optional[list[Precondition]]
+    primary_actor_id : str
+    secondary_actor_ids : Optional[list[str]]
+    source_fr_ids : Optional[list[str]]
+    source_nfr_ids : Optional[list[str]]
+    success_postconditions : Optional[list[Postcondition]]
+    system_stories : Optional[list[SystemStory]]
+    trigger : str
+    unsupported_assumptions : Optional[list[UnsupportedAssumption]]
+    user_stories : Optional[list[UserStory]]
+    main_must_be_main(value: Scenario) Scenario
+  }
+  class UseCaseGenerationArtifact {
+    trace_manifest : Optional[TraceManifest]
+    use_case_set
+  }
+  class UseCaseGraphInput {
+    request
+  }
+  class UseCaseGraphOutput {
+    failure_reason : str | None
+    repair_attempts_used : int
+    status
+    trace_manifest : Optional[TraceManifest]
+    use_case_set : UseCaseSet | None
+    validation_reports : Optional[list[ValidationReport]]
+  }
+  class UseCaseGraphState {
+    critic_report : ValidationReport | None
+    decision : Literal['finalize', 'repair', 'fail']
+    deterministic_report : ValidationReport | None
+    failure_reason : str | None
+    max_repair_attempts : int
+    normalized_frs : list[FunctionalRequirement]
+    normalized_nfrs : list[NonFunctionalRequirement]
+    repair_attempt : int
+    request : Required[SpecificationRequest]
+    schema_report : ValidationReport | None
+    status
+    trace_manifest
+    use_case_set : UseCaseSet | None
+    validation_reports : list[ValidationReport]
+  }
+  class UseCaseNodeFns {
+    criticize_use_case_set : Callable
+    decide_uc_result : Callable
+    fail_use_case_generation : Callable
+    finalize_use_case_set : Callable
+    generate_use_case_set : Callable
+    prepare_requirements : Callable
+    repair_use_case_set : Callable
+    validate_uc_deterministic : Callable
+    validate_uc_schema : Callable
+  }
+  class UseCaseSet {
+    actors : Optional[list[Actor]]
+    fr_coverage : Optional[dict[str, RequirementCoverageStatus]]
+    use_cases : Optional[list[UseCase]]
+  }
+  class UserStory {
+    benefit : str
+    capability : str
+    id : Optional[str]
+    role : str
+    use_case_id : Optional[str]
+  }
+  class ValidationIssue {
+    blocking : bool
+    category
+    code : str
+    element_ids : Optional[list[str]]
+    id : Optional[str]
+    message : str
+    severity
+  }
+  class ValidationReport {
+    blocking_issues : list[ValidationIssue]
+    details : Optional[dict[str, Any]]
+    issues : Optional[list[ValidationIssue]]
+    passed : bool
+    validator_name : str
+  }
+  ActivityDiagram --|> StrictModel
+  ActivityEdge --|> StrictModel
+  ActivityGenerationArtifact --|> StrictModel
+  ActivityGenerationResult --|> StrictModel
+  ActivityGraphInput --|> StrictModel
+  ActivityGraphOutput --|> StrictModel
+  ActivityNode --|> StrictModel
+  ActivityPartition --|> StrictModel
+  Actor --|> StrictModel
+  CriticVerdict --|> StrictModel
+  EvaluationReport --|> StrictModel
+  FunctionalRequirement --|> StrictModel
+  FunctionalRequirementAtom --|> StrictModel
+  GeneratedSpecification --|> StrictModel
+  MetricResult --|> StrictModel
+  MissingInformation --|> StrictModel
+  NonFunctionalRequirement --|> StrictModel
+  OneShotGenerationArtifact --|> StrictModel
+  PipelineGraphInput --|> StrictModel
+  PipelineGraphOutput --|> StrictModel
+  Postcondition --|> StrictModel
+  Precondition --|> StrictModel
+  Scenario --|> StrictModel
+  ScenarioStep --|> StrictModel
+  SpecificationRequest --|> StrictModel
+  SystemStory --|> StrictModel
+  TraceLink --|> StrictModel
+  TraceManifest --|> StrictModel
+  UnsupportedAssumption --|> StrictModel
+  UseCase --|> StrictModel
+  UseCaseGenerationArtifact --|> StrictModel
+  UseCaseGraphInput --|> StrictModel
+  UseCaseGraphOutput --|> StrictModel
+  UseCaseSet --|> StrictModel
+  UserStory --|> StrictModel
+  ValidationIssue --|> StrictModel
+  ValidationReport --|> StrictModel
+  PipelineDeps --> ActivityNodeFns : activity_nodes
+  ActivityGenerationArtifact --> ActivityDiagram : activity_diagram
+  ActivityGraphOutput --> ActivityGenerationResult : result
+  ActivityNode --> ActivityNodeKind : kind
+  TraceLink --> ElementRefType : source_type
+  TraceLink --> ElementRefType : target_type
+  DeclaredRelation --> ElementRefType : source_type
+  DeclaredRelation --> ElementRefType : target_type
+  PipelineGraphOutput --> GeneratedSpecification : specification
+  ValidationIssue --> IssueCategory : category
+  ValidationIssue --> IssueSeverity : severity
+  ActivityGenerationResult --> PipelineStatus : status
+  ActivityGraphState --> PipelineStatus : status
+  GeneratedSpecification --> PipelineStatus : status
+  PipelineGraphState --> PipelineStatus : status
+  UseCaseGraphOutput --> PipelineStatus : status
+  UseCaseGraphState --> PipelineStatus : status
+  UseCase --> Scenario : main_success_scenario
+  Scenario --> ScenarioKind : kind
+  GeneratedSpecification --> SpecificationRequest : request
+  PipelineGraphInput --> SpecificationRequest : request
+  UseCaseGraphInput --> SpecificationRequest : request
+  TraceLink --> TraceLinkType : link_type
+  DeclaredRelation --> TraceLinkType : link_type
+  ActivityGraphState --> TraceManifest : trace_manifest
+  PipelineGraphState --> TraceManifest : trace_manifest
+  UseCaseGraphState --> TraceManifest : trace_manifest
+  TraceLink --> TraceOrigin : origin
+  ActivityGraphInput --> UseCase : use_case
+  OneShotGenerationArtifact --> UseCaseSet : use_case_set
+  UseCaseGenerationArtifact --> UseCaseSet : use_case_set
+  PipelineDeps --> UseCaseNodeFns : use_case_nodes
+  OpenAICompatibleConfig --o OpenAICompatibleLLMClient : config

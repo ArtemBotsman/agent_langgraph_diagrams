@@ -1,0 +1,18 @@
+{
+  "experiment_id": "b1-live-pilot-nonthinking-2026-09-09",
+  "condition": "B1_ONESHOT",
+  "case_id": "B1-DEV-001",
+  "split": "development",
+  "repeat_id": 1,
+  "benchmark_version": "1.0.0-synthetic-author-freeze",
+  "cases_sha256": "e7d1e3373ddef6ca39a1ca7e8a8b771c84a404d4f367d4eb1ee33ece154018e9",
+  "git_commit": "dd8bdc3d945336d006d108ca824a85e500aa9f82",
+  "git_dirty": true,
+  "provider": "deepseek",
+  "api_base": "https://api.deepseek.com",
+  "model": "deepseek-v4-flash",
+  "temperature": 0,
+  "prompt_version": "2026-09-09-v1",
+  "schema_version": "0.2.0",
+  "raw_prompts_or_responses_persisted": false
+}

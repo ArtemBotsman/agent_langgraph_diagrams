@@ -60,6 +60,7 @@ def sample_use_case_set() -> UseCaseSet:
             actor_id="ACT-001",
             action="Enter book title",
             expected_result="Search form accepted",
+            source_fr_ids=["FR-001"],
         ),
         ScenarioStep(
             id="STEP-UC001-002",
@@ -67,6 +68,7 @@ def sample_use_case_set() -> UseCaseSet:
             actor_id="ACT-001",
             action="Select available copy and confirm borrow",
             expected_result="Loan recorded",
+            source_fr_ids=["FR-002"],
         ),
     ]
     uc = UseCase(
@@ -110,6 +112,7 @@ def sample_use_case_set() -> UseCaseSet:
                         order=1,
                         actor_id="ACT-001",
                         action="System reports copy unavailable",
+                        source_fr_ids=["FR-002"],
                     )
                 ],
                 start_from_step_id="STEP-UC001-002",
@@ -201,33 +204,39 @@ def sample_activity_diagram() -> ActivityDiagram:
                 id="ADE-UC001-001",
                 source_node_id="ADN-UC001-001",
                 target_node_id="ADN-UC001-002",
+                related_step_ids=["STEP-UC001-001"],
             ),
             ActivityEdge(
                 id="ADE-UC001-002",
                 source_node_id="ADN-UC001-002",
                 target_node_id="ADN-UC001-003",
+                related_step_ids=["STEP-UC001-002"],
             ),
             ActivityEdge(
                 id="ADE-UC001-003",
                 source_node_id="ADN-UC001-003",
                 target_node_id="ADN-UC001-004",
                 guard="yes",
+                related_step_ids=["STEP-UC001-002"],
             ),
             ActivityEdge(
                 id="ADE-UC001-004",
                 source_node_id="ADN-UC001-003",
                 target_node_id="ADN-UC001-005",
                 guard="no",
+                related_step_ids=["STEP-UC001-003"],
             ),
             ActivityEdge(
                 id="ADE-UC001-005",
                 source_node_id="ADN-UC001-004",
                 target_node_id="ADN-UC001-006",
+                related_step_ids=["STEP-UC001-002"],
             ),
             ActivityEdge(
                 id="ADE-UC001-006",
                 source_node_id="ADN-UC001-005",
                 target_node_id="ADN-UC001-006",
+                related_step_ids=["STEP-UC001-003"],
             ),
         ],
     )

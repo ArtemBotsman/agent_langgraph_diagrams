@@ -1,0 +1,13 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Triage Route Service"]
+  ADN-UC002-002["Offer appointment based on care route recommendation"]
+  end
+  subgraph PART-UC002-002["Patient"]
+  ADN-UC002-003["Patient books the offered appointment"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-004(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004

@@ -1,0 +1,13 @@
+{
+  "experiment_id": "b0-dev20-r3-2026-09-09",
+  "passed": true,
+  "results_sha256": "6348fde9ee3bf48cda5948c6fc5092cc681524e9c6165fbe1e3c811c9d99cc24",
+  "saved_row_count": 60,
+  "expected_row_count": 60,
+  "complete_run_bundles": 60,
+  "failure_only_bundles": 0,
+  "summary_recalculation_identical": true,
+  "stability_recalculation_identical": true,
+  "additional_recomputed_fields": {},
+  "issues": []
+}

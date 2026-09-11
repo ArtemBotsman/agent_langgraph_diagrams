@@ -1,0 +1,185 @@
+{
+  "basis": {
+    "pilot_experiment_id": "repeated-b0-b1-full-dev001-2026-09-09",
+    "pilot_case": "B1-DEV-001",
+    "pilot_repeats": 2,
+    "pilot_fr_count": 3,
+    "development_average_fr_count": 5.2,
+    "price_source": "https://api-docs.deepseek.com/quick_start/pricing/",
+    "price_checked": "2026-09-09",
+    "peak_cache_miss_input_usd_per_million": 0.44,
+    "peak_output_usd_per_million": 1.32
+  },
+  "method": "Observed mean prompt/output tokens and calls per DEV-001 run, multiplied by case count, repeats and the ratio of mean FR count to DEV-001 FR count. Recommended hard guards are rounded above the estimate.",
+  "limitations": [
+    "Only one pilot case is available; generated UC counts and repair rates may differ.",
+    "Provider prices and cache behavior may change.",
+    "The cost threshold is a soft stop checked before the next call and can overshoot by one call."
+  ],
+  "stages": [
+    {
+      "stage": "representative_3_cases_once",
+      "conditions": {
+        "B1_ONESHOT": {
+          "estimated_prompt_tokens": 21815,
+          "estimated_completion_tokens": 23030,
+          "estimated_total_tokens": 44845,
+          "estimated_calls": 5,
+          "estimated_peak_cost_usd": 0.04,
+          "estimated_off_peak_cost_usd": 0.02
+        },
+        "FULL": {
+          "estimated_prompt_tokens": 121595,
+          "estimated_completion_tokens": 45630,
+          "estimated_total_tokens": 167225,
+          "estimated_calls": 40,
+          "estimated_peak_cost_usd": 0.1137,
+          "estimated_off_peak_cost_usd": 0.0569
+        }
+      },
+      "case_ids": [
+        "B1-DEV-002",
+        "B1-DEV-010",
+        "B1-DEV-020"
+      ],
+      "case_count": 3,
+      "repeats": 1,
+      "average_fr_count": 5.0,
+      "recommended_max_calls": 60,
+      "recommended_max_tokens": 450000,
+      "recommended_max_estimated_cost_usd": 0.4,
+      "complexity_factor_vs_dev001": 1.6667,
+      "combined_estimate": {
+        "total_tokens": 212070,
+        "calls": 45,
+        "peak_cost_usd": 0.1537,
+        "off_peak_cost_usd": 0.0769
+      }
+    },
+    {
+      "stage": "full_dev20_once",
+      "conditions": {
+        "B1_ONESHOT": {
+          "estimated_prompt_tokens": 151251,
+          "estimated_completion_tokens": 159675,
+          "estimated_total_tokens": 310925,
+          "estimated_calls": 35,
+          "estimated_peak_cost_usd": 0.2773,
+          "estimated_off_peak_cost_usd": 0.1387
+        },
+        "FULL": {
+          "estimated_prompt_tokens": 843059,
+          "estimated_completion_tokens": 316368,
+          "estimated_total_tokens": 1159427,
+          "estimated_calls": 277,
+          "estimated_peak_cost_usd": 0.7886,
+          "estimated_off_peak_cost_usd": 0.3943
+        }
+      },
+      "case_ids": "all development",
+      "case_count": 20,
+      "repeats": 1,
+      "average_fr_count": 5.2,
+      "recommended_max_calls": 350,
+      "recommended_max_tokens": 3000000,
+      "recommended_max_estimated_cost_usd": 2.2,
+      "complexity_factor_vs_dev001": 1.7333,
+      "combined_estimate": {
+        "total_tokens": 1470352,
+        "calls": 312,
+        "peak_cost_usd": 1.0659,
+        "off_peak_cost_usd": 0.533
+      }
+    },
+    {
+      "stage": "full_dev20_three_repeats",
+      "conditions": {
+        "B1_ONESHOT": {
+          "estimated_prompt_tokens": 453752,
+          "estimated_completion_tokens": 479024,
+          "estimated_total_tokens": 932776,
+          "estimated_calls": 104,
+          "estimated_peak_cost_usd": 0.832,
+          "estimated_off_peak_cost_usd": 0.416
+        },
+        "FULL": {
+          "estimated_prompt_tokens": 2529176,
+          "estimated_completion_tokens": 949104,
+          "estimated_total_tokens": 3478280,
+          "estimated_calls": 832,
+          "estimated_peak_cost_usd": 2.3657,
+          "estimated_off_peak_cost_usd": 1.1828
+        }
+      },
+      "case_ids": "all development",
+      "case_count": 20,
+      "repeats": 3,
+      "average_fr_count": 5.2,
+      "recommended_max_calls": 1000,
+      "recommended_max_tokens": 9000000,
+      "recommended_max_estimated_cost_usd": 7.0,
+      "complexity_factor_vs_dev001": 1.7333,
+      "combined_estimate": {
+        "total_tokens": 4411056,
+        "calls": 936,
+        "peak_cost_usd": 3.1977,
+        "off_peak_cost_usd": 1.5988
+      }
+    },
+    {
+      "stage": "representative_3_cases_all_live_conditions_once",
+      "conditions": {
+        "B1_ONESHOT": {
+          "estimated_prompt_tokens": 21815,
+          "estimated_completion_tokens": 23030,
+          "estimated_total_tokens": 44845,
+          "estimated_calls": 5,
+          "estimated_peak_cost_usd": 0.04,
+          "estimated_off_peak_cost_usd": 0.02
+        },
+        "FULL": {
+          "estimated_prompt_tokens": 121595,
+          "estimated_completion_tokens": 45630,
+          "estimated_total_tokens": 167225,
+          "estimated_calls": 40,
+          "estimated_peak_cost_usd": 0.1137,
+          "estimated_off_peak_cost_usd": 0.0569
+        },
+        "FULL_NO_CRITIC": {
+          "estimated_prompt_tokens": 121595,
+          "estimated_completion_tokens": 45630,
+          "estimated_total_tokens": 167225,
+          "estimated_calls": 40,
+          "estimated_peak_cost_usd": 0.1137,
+          "estimated_off_peak_cost_usd": 0.0569
+        },
+        "FULL_NO_REPAIR": {
+          "estimated_prompt_tokens": 121595,
+          "estimated_completion_tokens": 45630,
+          "estimated_total_tokens": 167225,
+          "estimated_calls": 40,
+          "estimated_peak_cost_usd": 0.1137,
+          "estimated_off_peak_cost_usd": 0.0569
+        }
+      },
+      "case_ids": [
+        "B1-DEV-002",
+        "B1-DEV-010",
+        "B1-DEV-020"
+      ],
+      "case_count": 3,
+      "repeats": 1,
+      "average_fr_count": 5.0,
+      "recommended_max_calls": 160,
+      "recommended_max_tokens": 1200000,
+      "recommended_max_estimated_cost_usd": 0.9,
+      "complexity_factor_vs_dev001": 1.6667,
+      "combined_estimate": {
+        "total_tokens": 546520,
+        "calls": 125,
+        "peak_cost_usd": 0.3811,
+        "off_peak_cost_usd": 0.1905
+      }
+    }
+  ]
+}

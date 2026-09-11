@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430">
+<rect width="1200" height="430" fill="#ffffff"/>
+<text x="55" y="58" font-family="Arial" font-size="28" font-weight="700" fill="#111827">Validator mutation suite v1</text>
+<text x="55" y="88" font-family="Arial" font-size="16" fill="#4b5563">15 predefined structural and trace error classes; no LLM calls</text>
+<rect x="55" y="145" width="1000" height="62" rx="6" fill="#e5e7eb"/>
+<rect x="55" y="145" width="1000.0" height="62" rx="6" fill="#0f766e"/>
+<text x="55" y="253" font-family="Arial" font-size="46" font-weight="700" fill="#0f766e">15/15 detected (100%)</text>
+<text x="55" y="302" font-family="Arial" font-size="17" fill="#111827">Covered: IDs, FR atoms, forward/reverse links, endpoint types, dangling links, control flow, guards, partitions and provenance.</text>
+<text x="55" y="354" font-family="Arial" font-size="15" fill="#991b1b">Scope limit: this result does not prove semantic correctness or detection of unenumerated error classes.</text>
+</svg>

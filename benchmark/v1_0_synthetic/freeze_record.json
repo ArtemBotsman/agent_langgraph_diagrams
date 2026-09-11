@@ -1,0 +1,16 @@
+{
+  "freeze_level": "author_technical_freeze",
+  "frozen_at_utc": "2026-09-09T00:55:50.628940+00:00",
+  "benchmark_version": "1.0.0-synthetic-author-freeze",
+  "cases_sha256": "af8dc532d4d283db43687850213e5795ca227c0d6d054327727462e0ab170917",
+  "development_cases_sha256": "a560de189289bc28091ee095d5f49793b534fb0adc8bc62b6593cf46f69e0264",
+  "hidden_inputs_sha256": "34e7b62c2b158d8d8e9cd72d1ca3337c245af319a8f94441fcea84a982bab8f8",
+  "sealed_hidden_gold_sha256": "20e1dc3b09981d0364f9ee5e07622a361493e0ea3d96716d243a45fd78b96942",
+  "development_count": 20,
+  "hidden_count": 10,
+  "hidden_tuning_allowed": false,
+  "expert_reviews_complete": false,
+  "supervisor_approved": false,
+  "recommended_git_tag": "benchmark-v1.0.0-synthetic-author-freeze",
+  "claim_limit": "The bytes and split are frozen by the author. Scientific approval remains pending until two experts and the supervisor sign off."
+}

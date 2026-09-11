@@ -1,0 +1,17 @@
+{
+  "project_task": "Build a university course registration portal.",
+  "project_name": "CourseSelect",
+  "project_goal": "Let students enroll while enforcing prerequisites and capacity.",
+  "project_description": "Students search courses, enroll or join a waitlist, and drop future courses.",
+  "functional_requirements": [
+    "A student searches courses by term and subject.",
+    "The system checks course prerequisites.",
+    "The system checks remaining capacity.",
+    "A student enrolls in an eligible course.",
+    "A student joins a waitlist when a course is full.",
+    "A student drops a future course."
+  ],
+  "non_functional_requirements": [
+    "Enrollment updates must be serializable to prevent oversubscription."
+  ]
+}

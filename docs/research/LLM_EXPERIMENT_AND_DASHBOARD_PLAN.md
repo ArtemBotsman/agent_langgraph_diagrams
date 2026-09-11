@@ -2,6 +2,23 @@
 
 Дата проверки: 2026-09-08.
 
+> Обновление 09.09.2026: этот файл сохраняется как исторический план до live-
+> реализации. Текущий факт: DeepSeek adapter, UC/Activity live nodes,
+> SQLite persistence, B0/B1/FULL и repeated DEV-001 pilot реализованы. Актуальные
+> числа и выводы находятся в `BASELINES_AND_LIVE_EVIDENCE_2026_09_09.md`;
+> benchmark — в `docs/benchmark/BENCHMARK_AND_METRICS_V0_1.md`. Утверждения ниже
+> «LLM не подключена» и «есть один кейс» описывают состояние на 08.09 и больше не
+> являются текущими.
+
+> Актуализация 09.09.2026: фактический основной провайдер — DeepSeek
+> `deepseek-v4-flash`. Исполняемый runner теперь поддерживает `B0_RULE`,
+> `B1_ONESHOT`, `FULL`, `FULL_NO_CRITIC` и `FULL_NO_REPAIR`. Удаление
+> детерминированного validator из production path отклонено: оно делает
+> структурно ошибочный результат неотличимым от успешного. Вместо этого вклад
+> validator доказывается mutation-suite 15/15, а две безопасные варианты без отдельных компонентов измеряют
+> вклад critic и repair. Старый Qwen/Groq-дизайн ниже сохранён как история
+> планирования и возможный отдельный robustness pilot.
+
 Документ относится к текущей НИР: генерации структурированных Use Cases и
 activity-диаграмм из `SpecificationReq`. Старый проект полного SDLC в scope не
 входит.
@@ -335,7 +352,7 @@ limit и repeat IDs нужно фиксировать.
 5. `ONESHOT_GPT_OSS`: one-shot сильной модели другого семейства через Groq.
 6. `ONESHOT_GEMINI`: one-shot `gemini-3.7-flash` с тем же контрактом.
 
-Дополнительная абляция, если хватает квоты:
+Дополнительная вариант без отдельного компонента, если хватает квоты:
 
 - `NO_REPAIR`: generator + validators + critic, но без повторной генерации.
 
@@ -507,7 +524,7 @@ Final `18 hidden × 3 repeats` при той же матрице — около 
 
 1. **Main comparison** — condition, model, cases, repeats, success rate, FR F1,
    UC F1, trace F1, activity score, hallucination rate, tokens, latency.
-2. **Ablation deltas** — отличие каждого ablation от `FULL_QWEN` с 95% CI.
+2. **Component variant deltas** — отличие каждого component variant от `FULL_QWEN` с 95% CI.
 3. **Complexity breakdown** — показатели по шести классам сложности.
 4. **Stability** — mean, SD, min/max, trace Jaccard и partition ARI.
 5. **Efficiency** — calls, prompt/output/total tokens, latency p50/p95, retries,
@@ -531,7 +548,7 @@ Final `18 hidden × 3 repeats` при той же матрице — около 
 - quality-versus-token scatter;
 - подпись: experiment ID, benchmark version, commit и дата.
 
-### Страница 2 — Ablations
+### Страница 2 — Component variants
 
 - delta bars относительно `FULL_QWEN`;
 - quality gain и дополнительное число calls/tokens;

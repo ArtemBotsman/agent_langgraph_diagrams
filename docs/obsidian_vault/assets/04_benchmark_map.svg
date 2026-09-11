@@ -12,5 +12,5 @@
     <rect x="1060" y="550" width="430" height="160" rx="24" fill="#eef2f6" stroke="#657d93" stroke-width="4"/><text x="1275" y="610" font-size="34" font-weight="700" fill="#324b62">8 / 13 / 9</text><text x="1275" y="655" font-size="20" fill="#526b82">простые / средние / сложные</text>
   </g>
   <text x="800" y="790" text-anchor="middle" font-family="Arial" font-size="22" fill="#4c6278">Каждый кейс содержит вход, gold (эталон), трассировку и правила эквивалентности</text>
-  <text x="800" y="835" text-anchor="middle" font-family="Arial" font-size="20" font-weight="700" fill="#8f2634">Статус: synthetic, unreviewed, unfrozen (синтетический, не проверен, не заморожен)</text>
+  <text x="800" y="835" text-anchor="middle" font-family="Arial" font-size="20" font-weight="700" fill="#8f5f16">Статус: author-frozen candidate; ожидается проверка двух экспертов</text>
 </svg>

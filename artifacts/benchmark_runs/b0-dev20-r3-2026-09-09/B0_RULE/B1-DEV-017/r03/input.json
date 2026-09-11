@@ -1,0 +1,20 @@
+{
+  "project_task": "Create a marketplace buyer-seller dispute workflow.",
+  "project_name": "FairTrade Disputes",
+  "project_goal": "Resolve order disputes with traceable evidence and deadlines.",
+  "project_description": "A buyer opens a dispute, both parties provide evidence, and a mediator decides or proposes a settlement.",
+  "functional_requirements": [
+    "A buyer opens a dispute for an eligible order.",
+    "The buyer selects a reason and requested outcome.",
+    "The buyer and seller upload evidence before a deadline.",
+    "The system notifies each party about new evidence.",
+    "A mediator reviews order history and evidence.",
+    "A mediator proposes a settlement or records a decision.",
+    "Either party accepts a proposed settlement.",
+    "The system closes the dispute after decision or mutual settlement."
+  ],
+  "non_functional_requirements": [
+    "Evidence must be immutable after the submission deadline.",
+    "A mediator must not access disputes with a declared conflict of interest."
+  ]
+}

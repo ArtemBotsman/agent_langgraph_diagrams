@@ -8,10 +8,12 @@ from human/LLM-as-a-judge evaluation.
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from difflib import SequenceMatcher
 from typing import Any
 
 WORD_RE = re.compile(r"[\w]+", flags=re.UNICODE)
+SimilarityFn = Callable[[str, str], float]
 
 
 def _normalize(text: str) -> str:
@@ -43,6 +45,7 @@ def _max_slot_matches(
     gold_slots: list[dict[str, Any]],
     *,
     threshold: float = 0.62,
+    similarity: SimilarityFn = _similarity,
 ) -> tuple[int, dict[int, int]]:
     """Greedy one-to-one label/alias matching with deterministic tie breaking."""
 
@@ -51,7 +54,7 @@ def _max_slot_matches(
         for gold_idx, slot in enumerate(gold_slots):
             accepted = [slot.get("canonical") or slot.get("name") or ""]
             accepted.extend(slot.get("any_of") or slot.get("name_aliases") or [])
-            score = max((_similarity(label, item) for item in accepted), default=0.0)
+            score = max((similarity(label, item) for item in accepted), default=0.0)
             if score >= threshold:
                 candidates.append((score, pred_idx, gold_idx))
 
@@ -67,9 +70,57 @@ def _max_slot_matches(
     return len(mapping), mapping
 
 
+def _map_use_cases(
+    predicted: list[dict[str, Any]],
+    gold: list[dict[str, Any]],
+    *,
+    allow_split_merge: bool,
+    similarity: SimilarityFn,
+) -> tuple[dict[str, float], dict[int, int]]:
+    """Match UC semantics and optionally accept supported split/merge boundaries."""
+
+    if not allow_split_merge:
+        matched, one_to_one_mapping = _max_slot_matches(
+            [str(item.get("name", "")) for item in predicted],
+            gold,
+            threshold=0.55,
+            similarity=similarity,
+        )
+        return _prf(matched, len(predicted), len(gold)), one_to_one_mapping
+
+    mapping: dict[int, int] = {}
+    for pred_idx, predicted_uc in enumerate(predicted):
+        predicted_frs = {str(item) for item in predicted_uc.get("source_fr_ids", [])}
+        candidates: list[tuple[float, int]] = []
+        for gold_idx, gold_uc in enumerate(gold):
+            gold_frs = {str(item) for item in gold_uc.get("source_fr_ids", [])}
+            intersection = len(predicted_frs & gold_frs)
+            union = len(predicted_frs | gold_frs)
+            fr_jaccard = intersection / union if union else 0.0
+            names = [str(gold_uc.get("name", "")), *map(str, gold_uc.get("name_aliases", []))]
+            name_score = max(
+                (similarity(str(predicted_uc.get("name", "")), name) for name in names),
+                default=0.0,
+            )
+            supported_boundary = bool(intersection) and (
+                predicted_frs <= gold_frs or gold_frs <= predicted_frs
+            )
+            if name_score >= 0.55 or supported_boundary:
+                candidates.append((0.65 * fr_jaccard + 0.35 * name_score, gold_idx))
+        if candidates:
+            mapping[pred_idx] = max(candidates, key=lambda item: (item[0], -item[1]))[1]
+    precision = len(mapping) / len(predicted) if predicted else (1.0 if not gold else 0.0)
+    recall = len(set(mapping.values())) / len(gold) if gold else 1.0
+    f1 = 0.0 if precision + recall == 0 else 2 * precision * recall / (precision + recall)
+    return {"precision": precision, "recall": recall, "f1": f1}, mapping
+
+
 def evaluate_semantic_projection(
     prediction: dict[str, Any],
     gold: dict[str, Any],
+    *,
+    similarity: SimilarityFn | None = None,
+    similarity_name: str = "lexical_sequence_candidate",
 ) -> dict[str, float | str]:
     """Score a provider-neutral projection against semantic gold slots.
 
@@ -79,19 +130,27 @@ def evaluate_semantic_projection(
     Mermaid syntax, generated IDs and harmless action-node splitting are ignored.
     """
 
+    similarity_fn = similarity or _similarity
     predicted_actors = [str(item) for item in prediction.get("actors", [])]
     actor_slots = list(gold.get("actor_slots", []))
-    actor_matches, _ = _max_slot_matches(predicted_actors, actor_slots)
+    actor_matches, _ = _max_slot_matches(
+        predicted_actors,
+        actor_slots,
+        similarity=similarity_fn,
+    )
     actor_scores = _prf(actor_matches, len(predicted_actors), len(actor_slots))
 
     predicted_ucs = list(prediction.get("use_cases", []))
     gold_ucs = list(gold.get("use_case_slots", []))
-    uc_matches, uc_mapping = _max_slot_matches(
-        [str(item.get("name", "")) for item in predicted_ucs],
+    uc_scores, uc_mapping = _map_use_cases(
+        predicted_ucs,
         gold_ucs,
-        threshold=0.55,
+        allow_split_merge=bool(
+            gold.get("equivalence_policy", {}).get("allow_uc_split_merge", False)
+        ),
+        similarity=similarity_fn,
     )
-    uc_scores = _prf(uc_matches, len(predicted_ucs), len(gold_ucs))
+    uc_matches = len(uc_mapping)
 
     matched_milestones = 0
     predicted_milestones = sum(len(uc.get("milestones", [])) for uc in predicted_ucs)
@@ -106,16 +165,25 @@ def evaluate_semantic_projection(
         for fr_id in gold_uc.get("source_fr_ids", []):
             expected_trace.add((str(fr_id), str(gold_uc["slot_id"])))
 
-    for pred_idx, predicted_uc in enumerate(predicted_ucs):
-        if pred_idx not in uc_mapping:
+    for gold_idx, gold_uc in enumerate(gold_ucs):
+        mapped_predictions = [
+            predicted_uc
+            for pred_idx, predicted_uc in enumerate(predicted_ucs)
+            if uc_mapping.get(pred_idx) == gold_idx
+        ]
+        if not mapped_predictions:
             continue
-        gold_uc = gold_ucs[uc_mapping[pred_idx]]
         milestone_slots = [
             {"canonical": item, "any_of": []} for item in gold_uc.get("required_milestones", [])
         ]
         current_matches, _ = _max_slot_matches(
-            [str(item) for item in predicted_uc.get("milestones", [])],
+            [
+                str(item)
+                for predicted_uc in mapped_predictions
+                for item in predicted_uc.get("milestones", [])
+            ],
             milestone_slots,
+            similarity=similarity_fn,
         )
         matched_milestones += current_matches
 
@@ -131,17 +199,20 @@ def evaluate_semantic_projection(
         ]
         predicted_branch_labels = [
             " ".join([str(item.get("condition", "")), *map(str, item.get("outcomes", []))])
+            for predicted_uc in mapped_predictions
             for item in predicted_uc.get("branches", [])
         ]
         current_branch_matches, _ = _max_slot_matches(
             predicted_branch_labels,
             branch_slots,
             threshold=0.55,
+            similarity=similarity_fn,
         )
         matched_branches += current_branch_matches
 
-        for fr_id in predicted_uc.get("source_fr_ids", []):
-            predicted_trace.add((str(fr_id), str(gold_uc["slot_id"])))
+        for predicted_uc in mapped_predictions:
+            for fr_id in predicted_uc.get("source_fr_ids", []):
+                predicted_trace.add((str(fr_id), str(gold_uc["slot_id"])))
 
     milestone_scores = _prf(
         matched_milestones,
@@ -193,4 +264,5 @@ def evaluate_semantic_projection(
         "hallucination_rate": hallucination_rate,
         "semantic_composite": composite,
         "metric_status": "automatic_slot_match_candidate",
+        "semantic_similarity_backend": similarity_name,
     }

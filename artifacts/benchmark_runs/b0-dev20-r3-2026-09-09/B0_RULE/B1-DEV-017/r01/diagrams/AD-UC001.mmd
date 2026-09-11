@@ -1,0 +1,23 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["User"]
+  ADN-UC001-001(("start"))
+  ADN-UC001-002["A buyer opens a dispute for an eligible order."]
+  ADN-UC001-003["The buyer selects a reason and requested outcome."]
+  ADN-UC001-004["The buyer and seller upload evidence before a deadline."]
+  ADN-UC001-005["The system notifies each party about new evidence."]
+  ADN-UC001-006["A mediator reviews order history and evidence."]
+  ADN-UC001-007["A mediator proposes a settlement or records a decision."]
+  ADN-UC001-008["Either party accepts a proposed settlement."]
+  ADN-UC001-009["The system closes the dispute after decision or mutual settlement."]
+  ADN-UC001-010(("end"))
+  end
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 --> ADN-UC001-005
+  ADN-UC001-005 --> ADN-UC001-006
+  ADN-UC001-006 --> ADN-UC001-007
+  ADN-UC001-007 --> ADN-UC001-008
+  ADN-UC001-008 --> ADN-UC001-009
+  ADN-UC001-009 --> ADN-UC001-010

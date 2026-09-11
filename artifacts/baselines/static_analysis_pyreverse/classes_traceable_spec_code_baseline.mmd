@@ -17,6 +17,10 @@ classDiagram
     target_node_id : str
     unsupported : bool
   }
+  class ActivityGenerationArtifact {
+    activity_diagram
+    trace_manifest : Optional[TraceManifest]
+  }
   class ActivityGenerationResult {
     activity_diagram : ActivityDiagram | None
     failure_reason : str | None
@@ -90,6 +94,14 @@ classDiagram
     issues : Optional[list[ValidationIssue]]
     summary : str | None
   }
+  class DeclaredRelation {
+    link_type
+    rationale : str
+    source_id : str
+    source_type
+    target_id : str
+    target_type
+  }
   class ElementRefType {
     name
   }
@@ -99,9 +111,16 @@ classDiagram
     notes : str | None
   }
   class FunctionalRequirement {
+    atoms : Optional[list[FunctionalRequirementAtom]]
     id : Optional[str]
     priority : str | None
     tags : Optional[list[str]]
+    text : Optional[str]
+  }
+  class FunctionalRequirementAtom {
+    extraction_rule : Literal['whole_requirement', 'semicolon', 'line_or_list']
+    id : Optional[str]
+    parent_fr_id : Optional[str]
     text : Optional[str]
   }
   class GeneratedSpecification {
@@ -111,6 +130,7 @@ classDiagram
     request
     status
     trace_manifest : Optional[TraceManifest]
+    uc_repair_attempts_used : int
     use_case_set : UseCaseSet | None
     validation_reports : Optional[list[ValidationReport]]
   }
@@ -125,7 +145,14 @@ classDiagram
   class LLMClient {
     complete() str
   }
+  class LLMHTTPStatusError {
+    response_body : bytes | None
+    retry_after_seconds : float | None
+    status_code : int
+  }
   class LLMNotConfiguredError {
+  }
+  class LLMOutputTruncatedError {
   }
   class MetricResult {
     higher_is_better : bool | None
@@ -140,28 +167,45 @@ classDiagram
     id : Optional[str]
     related_element_ids : Optional[list[str]]
   }
+  class MultilingualSentenceSimilarity {
+    name : str
+  }
   class NonFunctionalRequirement {
     category : str | None
     id : Optional[str]
     tags : Optional[list[str]]
     text : Optional[str]
   }
+  class OneShotGenerationArtifact {
+    activity_diagrams : list[ActivityDiagram]
+    trace_manifest : Optional[TraceManifest]
+    use_case_set
+  }
   class OpenAICompatibleConfig {
     api_base : str
     api_key : str
+    input_price_usd_per_million : float | None
     max_calls_per_process : int
+    max_estimated_cost_usd : float | None
     max_output_tokens : int
     max_retries : int
+    max_retry_delay_seconds : float
     max_total_tokens_per_process : int
     model : str
+    output_price_usd_per_million : float | None
     provider : str
+    raw_capture_dir : Path | None
+    reasoning_effort : str | None
+    retry_base_delay_seconds : float
     telemetry_path : Path | None
+    thinking_enabled : bool
     timeout_seconds : float
     from_env() OpenAICompatibleConfig
   }
   class OpenAICompatibleLLMClient {
     calls : list[dict[str, Any]]
     config
+    total_cost_usd : float
     total_tokens : int
     complete() str
   }
@@ -186,6 +230,7 @@ classDiagram
     specification : GeneratedSpecification | None
     status
     trace_manifest
+    uc_repair_attempts_used : int
     use_case_set : UseCaseSet | None
     validation_reports : list[ValidationReport]
   }
@@ -221,6 +266,7 @@ classDiagram
     expected_result : str | None
     id : Optional[str]
     order : Optional[int]
+    source_fr_ids : Optional[list[str]]
   }
   class ScriptedLLMClient {
     calls : list[dict[str, Any]]
@@ -377,6 +423,7 @@ classDiagram
   }
   ActivityDiagram --|> StrictModel
   ActivityEdge --|> StrictModel
+  ActivityGenerationArtifact --|> StrictModel
   ActivityGenerationResult --|> StrictModel
   ActivityGraphInput --|> StrictModel
   ActivityGraphOutput --|> StrictModel
@@ -386,10 +433,12 @@ classDiagram
   CriticVerdict --|> StrictModel
   EvaluationReport --|> StrictModel
   FunctionalRequirement --|> StrictModel
+  FunctionalRequirementAtom --|> StrictModel
   GeneratedSpecification --|> StrictModel
   MetricResult --|> StrictModel
   MissingInformation --|> StrictModel
   NonFunctionalRequirement --|> StrictModel
+  OneShotGenerationArtifact --|> StrictModel
   PipelineGraphInput --|> StrictModel
   PipelineGraphOutput --|> StrictModel
   Postcondition --|> StrictModel
@@ -410,10 +459,14 @@ classDiagram
   ValidationIssue --|> StrictModel
   ValidationReport --|> StrictModel
   PipelineDeps --> ActivityNodeFns : activity_nodes
+  PipelineDeps --> UseCaseNodeFns : use_case_nodes
+  ActivityGenerationArtifact --> ActivityDiagram : activity_diagram
   ActivityGraphOutput --> ActivityGenerationResult : result
   ActivityNode --> ActivityNodeKind : kind
   TraceLink --> ElementRefType : source_type
   TraceLink --> ElementRefType : target_type
+  DeclaredRelation --> ElementRefType : source_type
+  DeclaredRelation --> ElementRefType : target_type
   PipelineGraphOutput --> GeneratedSpecification : specification
   ValidationIssue --> IssueCategory : category
   ValidationIssue --> IssueSeverity : severity
@@ -429,11 +482,12 @@ classDiagram
   PipelineGraphInput --> SpecificationRequest : request
   UseCaseGraphInput --> SpecificationRequest : request
   TraceLink --> TraceLinkType : link_type
+  DeclaredRelation --> TraceLinkType : link_type
   ActivityGraphState --> TraceManifest : trace_manifest
   PipelineGraphState --> TraceManifest : trace_manifest
   UseCaseGraphState --> TraceManifest : trace_manifest
   TraceLink --> TraceOrigin : origin
   ActivityGraphInput --> UseCase : use_case
+  OneShotGenerationArtifact --> UseCaseSet : use_case_set
   UseCaseGenerationArtifact --> UseCaseSet : use_case_set
-  PipelineDeps --> UseCaseNodeFns : use_case_nodes
   OpenAICompatibleConfig --o OpenAICompatibleLLMClient : config

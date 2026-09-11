@@ -11,12 +11,14 @@ from pydantic import BaseModel, ValidationError
 from traceable_spec.entities import (
     ActivityDiagram,
     ActivityNodeKind,
+    ElementRefType,
     GeneratedSpecification,
     IssueCategory,
     IssueSeverity,
     PipelineStatus,
     RequirementCoverageStatus,
     ScenarioKind,
+    SpecificationRequest,
     TraceLinkType,
     TraceManifest,
     UseCase,
@@ -24,6 +26,7 @@ from traceable_spec.entities import (
     ValidationIssue,
     ValidationReport,
 )
+from traceable_spec.traceability import declared_relations, iter_use_case_steps
 
 ModelT = TypeVar("ModelT", bound=BaseModel)
 
@@ -98,11 +101,7 @@ def collect_ids(use_case_set: UseCaseSet, diagrams: Iterable[ActivityDiagram] = 
             ids.append(user_story.id)
         for system_story in uc.system_stories:
             ids.append(system_story.id)
-        scenarios = (
-            [uc.main_success_scenario]
-            + uc.alternative_scenarios
-            + uc.exception_scenarios
-        )
+        scenarios = [uc.main_success_scenario] + uc.alternative_scenarios + uc.exception_scenarios
         for scenario in scenarios:
             ids.append(scenario.id)
             for step in scenario.steps:
@@ -261,6 +260,56 @@ def validate_use_case_structure(use_case_set: UseCaseSet) -> ValidationReport:
             )
             seq += 1
 
+        for user_story in uc.user_stories:
+            if user_story.use_case_id != uc.id:
+                issues.append(
+                    _issue(
+                        seq=seq,
+                        severity=IssueSeverity.ERROR,
+                        category=IssueCategory.TRACE,
+                        code="user_story_uc_mismatch",
+                        message=(
+                            f"User story {user_story.id} points to "
+                            f"{user_story.use_case_id}, not {uc.id}"
+                        ),
+                        element_ids=[uc.id, user_story.id, user_story.use_case_id],
+                    )
+                )
+                seq += 1
+        for system_story in uc.system_stories:
+            if system_story.use_case_id != uc.id:
+                issues.append(
+                    _issue(
+                        seq=seq,
+                        severity=IssueSeverity.ERROR,
+                        category=IssueCategory.TRACE,
+                        code="system_story_uc_mismatch",
+                        message=(
+                            f"System story {system_story.id} points to "
+                            f"{system_story.use_case_id}, not {uc.id}"
+                        ),
+                        element_ids=[uc.id, system_story.id, system_story.use_case_id],
+                    )
+                )
+                seq += 1
+        for step in iter_use_case_steps(uc):
+            unknown_step_sources = sorted(set(step.source_fr_ids) - set(uc.source_fr_ids))
+            if unknown_step_sources:
+                issues.append(
+                    _issue(
+                        seq=seq,
+                        severity=IssueSeverity.ERROR,
+                        category=IssueCategory.TRACE,
+                        code="step_fr_outside_uc_scope",
+                        message=(
+                            f"Step {step.id} references FRs outside {uc.id}: "
+                            f"{', '.join(unknown_step_sources)}"
+                        ),
+                        element_ids=[uc.id, step.id, *unknown_step_sources],
+                    )
+                )
+                seq += 1
+
         for assumption in uc.unsupported_assumptions:
             if not assumption.justified:
                 issues.append(
@@ -324,9 +373,7 @@ def validate_fr_to_uc_trace_links(
                         severity=IssueSeverity.ERROR,
                         category=IssueCategory.TRACE,
                         code="missing_fr_to_uc_link",
-                        message=(
-                            f"Missing TraceManifest FR_TO_UC link for {fr_id} → {uc.id}"
-                        ),
+                        message=(f"Missing TraceManifest FR_TO_UC link for {fr_id} → {uc.id}"),
                         element_ids=[fr_id, uc.id],
                     )
                 )
@@ -415,10 +462,295 @@ def validate_trace_integrity(
     return _report("trace_integrity", issues)
 
 
+_TRACE_ENDPOINT_TYPES: dict[
+    TraceLinkType,
+    tuple[ElementRefType, ElementRefType],
+] = {
+    TraceLinkType.FR_TO_ATOM: (ElementRefType.FR, ElementRefType.FR_ATOM),
+    TraceLinkType.ATOM_TO_UC: (ElementRefType.FR_ATOM, ElementRefType.UC),
+    TraceLinkType.ATOM_TO_STEP: (ElementRefType.FR_ATOM, ElementRefType.STEP),
+    TraceLinkType.FR_TO_UC: (ElementRefType.FR, ElementRefType.UC),
+    TraceLinkType.FR_TO_STEP: (ElementRefType.FR, ElementRefType.STEP),
+    TraceLinkType.UC_TO_US: (ElementRefType.UC, ElementRefType.US),
+    TraceLinkType.UC_TO_SS: (ElementRefType.UC, ElementRefType.SS),
+    TraceLinkType.STEP_TO_ACTIVITY_NODE: (
+        ElementRefType.STEP,
+        ElementRefType.ACTIVITY_NODE,
+    ),
+    TraceLinkType.STEP_TO_ACTIVITY_EDGE: (
+        ElementRefType.STEP,
+        ElementRefType.ACTIVITY_EDGE,
+    ),
+    TraceLinkType.UC_TO_ACTIVITY: (ElementRefType.UC, ElementRefType.ACTIVITY),
+    TraceLinkType.NFR_TO_UC: (ElementRefType.NFR, ElementRefType.UC),
+}
+
+
+def validate_requirement_atomization(request: SpecificationRequest) -> ValidationReport:
+    """Every FR must have stable, non-empty atoms that point back to that FR."""
+
+    issues: list[ValidationIssue] = []
+    seq = 1
+    atom_ids: list[str] = []
+    for requirement in request.functional_requirements:
+        if not requirement.atoms:
+            issues.append(
+                _issue(
+                    seq=seq,
+                    severity=IssueSeverity.ERROR,
+                    category=IssueCategory.TRACE,
+                    code="fr_without_atoms",
+                    message=f"Functional requirement {requirement.id} has no traceable atoms",
+                    element_ids=[requirement.id],
+                )
+            )
+            seq += 1
+        for atom in requirement.atoms:
+            atom_ids.append(atom.id)
+            if atom.parent_fr_id != requirement.id:
+                issues.append(
+                    _issue(
+                        seq=seq,
+                        severity=IssueSeverity.ERROR,
+                        category=IssueCategory.TRACE,
+                        code="atom_parent_mismatch",
+                        message=(
+                            f"Atom {atom.id} declares parent {atom.parent_fr_id}, "
+                            f"but is nested under {requirement.id}"
+                        ),
+                        element_ids=[requirement.id, atom.id, atom.parent_fr_id],
+                    )
+                )
+                seq += 1
+    for atom_id, count in sorted((item, atom_ids.count(item)) for item in set(atom_ids)):
+        if count > 1:
+            issues.append(
+                _issue(
+                    seq=seq,
+                    severity=IssueSeverity.ERROR,
+                    category=IssueCategory.STRUCTURAL,
+                    code="duplicate_atom_id",
+                    message=f"Requirement atom ID {atom_id} appears {count} times",
+                    element_ids=[atom_id],
+                )
+            )
+            seq += 1
+    return _report(
+        "requirement_atomization",
+        issues,
+        details={"fr_count": len(request.functional_requirements), "atom_count": len(atom_ids)},
+    )
+
+
+def validate_trace_link_contracts(trace: TraceManifest) -> ValidationReport:
+    """Check link-type endpoint types, duplicate relations and unsupported rationale."""
+
+    issues: list[ValidationIssue] = []
+    seq = 1
+    seen: set[tuple[TraceLinkType, str, str]] = set()
+    for link in trace.links:
+        relation_key = (link.link_type, link.source_id, link.target_id)
+        if relation_key in seen:
+            issues.append(
+                _issue(
+                    seq=seq,
+                    severity=IssueSeverity.ERROR,
+                    category=IssueCategory.TRACE,
+                    code="duplicate_trace_relation",
+                    message=(
+                        f"Trace relation {link.link_type.value} "
+                        f"{link.source_id} → {link.target_id} is duplicated"
+                    ),
+                    element_ids=[link.id, link.source_id, link.target_id],
+                )
+            )
+            seq += 1
+        seen.add(relation_key)
+        expected = _TRACE_ENDPOINT_TYPES.get(link.link_type)
+        if expected is not None and (link.source_type, link.target_type) != expected:
+            issues.append(
+                _issue(
+                    seq=seq,
+                    severity=IssueSeverity.ERROR,
+                    category=IssueCategory.TRACE,
+                    code="trace_endpoint_type_mismatch",
+                    message=(
+                        f"{link.link_type.value} requires {expected[0].value} → "
+                        f"{expected[1].value}, got {link.source_type.value} → "
+                        f"{link.target_type.value}"
+                    ),
+                    element_ids=[link.id],
+                )
+            )
+            seq += 1
+        if link.link_type == TraceLinkType.UNSUPPORTED and not (link.rationale or "").strip():
+            issues.append(
+                _issue(
+                    seq=seq,
+                    severity=IssueSeverity.ERROR,
+                    category=IssueCategory.TRACE,
+                    code="unsupported_without_rationale",
+                    message=f"Unsupported trace {link.id} requires a rationale",
+                    element_ids=[link.id],
+                )
+            )
+            seq += 1
+    return _report("trace_link_contracts", issues)
+
+
+def validate_declared_trace_bidirectionality(
+    request: SpecificationRequest,
+    use_case_set: UseCaseSet,
+    diagrams: Iterable[ActivityDiagram],
+    trace: TraceManifest,
+) -> ValidationReport:
+    """Compare typed forward declarations with reverse manifest lookups.
+
+    The check is called bidirectional because it detects both missing manifest
+    links for declared references and extra manifest links unsupported by typed
+    artifacts. ``UNSUPPORTED`` links are the explicit exception.
+    """
+
+    expected = {
+        (item.link_type, item.source_id, item.target_id)
+        for item in declared_relations(request, use_case_set, diagrams)
+    }
+    actual = {
+        (link.link_type, link.source_id, link.target_id)
+        for link in trace.links
+        if link.link_type != TraceLinkType.UNSUPPORTED
+    }
+    issues: list[ValidationIssue] = []
+    seq = 1
+    for link_type, source_id, target_id in sorted(
+        expected - actual,
+        key=lambda item: (item[0].value, item[1], item[2]),
+    ):
+        issues.append(
+            _issue(
+                seq=seq,
+                severity=IssueSeverity.ERROR,
+                category=IssueCategory.TRACE,
+                code="missing_declared_trace",
+                message=(
+                    f"Declared relation {link_type.value} {source_id} → {target_id} "
+                    "is absent from TraceManifest"
+                ),
+                element_ids=[source_id, target_id],
+            )
+        )
+        seq += 1
+    for link_type, source_id, target_id in sorted(
+        actual - expected,
+        key=lambda item: (item[0].value, item[1], item[2]),
+    ):
+        issues.append(
+            _issue(
+                seq=seq,
+                severity=IssueSeverity.ERROR,
+                category=IssueCategory.TRACE,
+                code="undeclared_reverse_trace",
+                message=(
+                    f"TraceManifest relation {link_type.value} {source_id} → {target_id} "
+                    "has no matching typed declaration"
+                ),
+                element_ids=[source_id, target_id],
+            )
+        )
+        seq += 1
+    return _report(
+        "declared_trace_bidirectionality",
+        issues,
+        details={"expected_relations": len(expected), "actual_relations": len(actual)},
+    )
+
+
+def validate_trace_coverage_thresholds(
+    use_case_set: UseCaseSet,
+    diagrams: Iterable[ActivityDiagram],
+) -> ValidationReport:
+    """Enforce 95% UC-element and 100% activity-element provenance targets."""
+
+    uc_total = 0
+    uc_supported = 0
+    diagram_total = 0
+    diagram_supported = 0
+    for use_case in use_case_set.use_cases:
+        uc_total += 1
+        uc_supported += int(bool(use_case.source_fr_ids))
+        for user_story in use_case.user_stories:
+            uc_total += 1
+            uc_supported += int(
+                user_story.use_case_id == use_case.id and bool(use_case.source_fr_ids)
+            )
+        for system_story in use_case.system_stories:
+            uc_total += 1
+            uc_supported += int(
+                system_story.use_case_id == use_case.id and bool(use_case.source_fr_ids)
+            )
+        for step in iter_use_case_steps(use_case):
+            uc_total += 1
+            uc_supported += int(bool(step.source_fr_ids))
+
+    for diagram in diagrams:
+        diagram_total += 1
+        diagram_supported += int(bool(diagram.use_case_id))
+        for node in diagram.nodes:
+            diagram_total += 1
+            structural = node.kind in {
+                ActivityNodeKind.INITIAL,
+                ActivityNodeKind.FINAL,
+                ActivityNodeKind.MERGE,
+                ActivityNodeKind.FORK,
+                ActivityNodeKind.JOIN,
+            }
+            diagram_supported += int(bool(node.related_step_ids) or node.unsupported or structural)
+        for edge in diagram.edges:
+            diagram_total += 1
+            diagram_supported += int(bool(edge.related_step_ids) or edge.unsupported)
+
+    uc_ratio = uc_supported / uc_total if uc_total else 0.0
+    diagram_ratio = diagram_supported / diagram_total if diagram_total else 1.0
+    issues: list[ValidationIssue] = []
+    if uc_ratio < 0.95:
+        issues.append(
+            _issue(
+                seq=1,
+                severity=IssueSeverity.ERROR,
+                category=IssueCategory.TRACE,
+                code="uc_trace_coverage_below_threshold",
+                message=f"UC element trace coverage {uc_ratio:.3f} is below 0.95",
+            )
+        )
+    if diagram_ratio < 1.0:
+        issues.append(
+            _issue(
+                seq=len(issues) + 1,
+                severity=IssueSeverity.ERROR,
+                category=IssueCategory.TRACE,
+                code="activity_trace_coverage_below_threshold",
+                message=f"Activity element trace coverage {diagram_ratio:.3f} is below 1.00",
+            )
+        )
+    return _report(
+        "trace_coverage_thresholds",
+        issues,
+        details={
+            "uc_supported": uc_supported,
+            "uc_total": uc_total,
+            "uc_ratio": uc_ratio,
+            "activity_supported": diagram_supported,
+            "activity_total": diagram_total,
+            "activity_ratio": diagram_ratio,
+        },
+    )
+
+
 def validate_activity_structure(diagram: ActivityDiagram) -> ValidationReport:
     issues: list[ValidationIssue] = []
     seq = 1
     nodes = {node.id: node for node in diagram.nodes}
+    partition_ids = {partition.id for partition in diagram.partitions}
     initials = [n for n in diagram.nodes if n.kind == ActivityNodeKind.INITIAL]
     finals = [n for n in diagram.nodes if n.kind == ActivityNodeKind.FINAL]
 
@@ -457,6 +789,18 @@ def validate_activity_structure(diagram: ActivityDiagram) -> ValidationReport:
                     code="unknown_edge_source",
                     message=f"Edge {edge.id} source '{edge.source_node_id}' is unknown",
                     element_ids=[edge.id, edge.source_node_id],
+                )
+            )
+            seq += 1
+        if not edge.related_step_ids and not edge.unsupported:
+            issues.append(
+                _issue(
+                    seq=seq,
+                    severity=IssueSeverity.ERROR,
+                    category=IssueCategory.TRACE,
+                    code="activity_edge_untraced",
+                    message=f"Edge {edge.id} must link to UC step(s) or be marked unsupported",
+                    element_ids=[edge.id],
                 )
             )
             seq += 1
@@ -508,6 +852,18 @@ def validate_activity_structure(diagram: ActivityDiagram) -> ValidationReport:
                 seq += 1
 
     for node in diagram.nodes:
+        if node.partition_id is not None and node.partition_id not in partition_ids:
+            issues.append(
+                _issue(
+                    seq=seq,
+                    severity=IssueSeverity.ERROR,
+                    category=IssueCategory.STRUCTURAL,
+                    code="unknown_node_partition",
+                    message=f"Node {node.id} references unknown partition {node.partition_id}",
+                    element_ids=[node.id, node.partition_id],
+                )
+            )
+            seq += 1
         if node.kind in {ActivityNodeKind.ACTION, ActivityNodeKind.DECISION} and not (
             node.related_step_ids or node.unsupported
         ):
@@ -517,9 +873,7 @@ def validate_activity_structure(diagram: ActivityDiagram) -> ValidationReport:
                     severity=IssueSeverity.ERROR,
                     category=IssueCategory.TRACE,
                     code="activity_node_untraced",
-                    message=(
-                        f"Node {node.id} must link to UC step(s) or be marked unsupported"
-                    ),
+                    message=(f"Node {node.id} must link to UC step(s) or be marked unsupported"),
                     element_ids=[node.id],
                 )
             )
@@ -602,19 +956,29 @@ def validate_repair_limit(attempt: int, max_attempts: int) -> ValidationReport:
 
 def validate_use_case_set_deterministic(
     use_case_set: UseCaseSet,
-    fr_ids: Iterable[str],
+    request: SpecificationRequest,
     trace: TraceManifest,
 ) -> ValidationReport:
     """Aggregate deterministic UC checks into one report."""
-    fr_id_list = list(fr_ids)
+    fr_id_list = [item.id for item in request.functional_requirements]
+    atom_ids = {
+        atom.id for requirement in request.functional_requirements for atom in requirement.atoms
+    }
     reports = [
+        validate_requirement_atomization(request),
         validate_unique_ids(use_case_set, trace=trace),
         validate_use_case_structure(use_case_set),
         validate_uc_fr_references(use_case_set, fr_id_list),
         validate_fr_coverage(fr_id_list, use_case_set),
         validate_fr_to_uc_trace_links(use_case_set, trace),
+        validate_trace_link_contracts(trace),
+        validate_declared_trace_bidirectionality(request, use_case_set, (), trace),
+        validate_trace_coverage_thresholds(use_case_set, ()),
         validate_trace_integrity(
-            set(collect_ids(use_case_set)) | set(fr_id_list),
+            set(collect_ids(use_case_set))
+            | set(fr_id_list)
+            | atom_ids
+            | {item.id for item in request.non_functional_requirements},
             trace,
         ),
     ]
@@ -632,14 +996,28 @@ def validate_activity_deterministic(
     diagram: ActivityDiagram,
     use_case: UseCase,
 ) -> ValidationReport:
-    step_ids = {
-        step.id
-        for step in use_case.main_success_scenario.steps
-    }
+    issues: list[ValidationIssue] = []
+    if diagram.use_case_id != use_case.id:
+        issues.append(
+            _issue(
+                seq=1,
+                severity=IssueSeverity.ERROR,
+                category=IssueCategory.TRACE,
+                code="activity_use_case_mismatch",
+                message=(
+                    f"Diagram {diagram.id} points to {diagram.use_case_id}, expected {use_case.id}"
+                ),
+                element_ids=[diagram.id, diagram.use_case_id, use_case.id],
+            )
+        )
+    step_ids = {step.id for step in use_case.main_success_scenario.steps}
     for scenario in use_case.alternative_scenarios + use_case.exception_scenarios:
         step_ids.update(step.id for step in scenario.steps)
 
-    issues = list(validate_activity_structure(diagram).issues)
+    issues.extend(validate_activity_structure(diagram).issues)
+    issues = [
+        issue.model_copy(update={"id": f"VI-{index:03d}"}) for index, issue in enumerate(issues, 1)
+    ]
     seq = len(issues) + 1
     for node in diagram.nodes:
         for step_id in node.related_step_ids:
@@ -652,6 +1030,20 @@ def validate_activity_deterministic(
                         code="activity_step_missing",
                         message=f"Node {node.id} references unknown step {step_id}",
                         element_ids=[node.id, step_id],
+                    )
+                )
+                seq += 1
+    for edge in diagram.edges:
+        for step_id in edge.related_step_ids:
+            if step_id not in step_ids:
+                issues.append(
+                    _issue(
+                        seq=seq,
+                        severity=IssueSeverity.ERROR,
+                        category=IssueCategory.TRACE,
+                        code="activity_edge_step_missing",
+                        message=f"Edge {edge.id} references unknown step {step_id}",
+                        element_ids=[edge.id, step_id],
                     )
                 )
                 seq += 1
@@ -679,10 +1071,24 @@ def validate_end_to_end_trace(spec: GeneratedSpecification) -> ValidationReport:
     ]
     fr_ids = [fr.id for fr in spec.request.functional_requirements]
     known = set(collect_ids(spec.use_case_set, diagrams)) | set(fr_ids)
+    known.update(
+        atom.id
+        for requirement in spec.request.functional_requirements
+        for atom in requirement.atoms
+    )
     known.update(nfr.id for nfr in spec.request.non_functional_requirements)
     reports = [
+        validate_requirement_atomization(spec.request),
         validate_unique_ids(spec.use_case_set, diagrams, spec.trace_manifest),
         validate_fr_coverage(fr_ids, spec.use_case_set),
+        validate_trace_link_contracts(spec.trace_manifest),
+        validate_declared_trace_bidirectionality(
+            spec.request,
+            spec.use_case_set,
+            diagrams,
+            spec.trace_manifest,
+        ),
+        validate_trace_coverage_thresholds(spec.use_case_set, diagrams),
         validate_trace_integrity(known, spec.trace_manifest),
     ]
     merged: list[ValidationIssue] = []
@@ -691,7 +1097,13 @@ def validate_end_to_end_trace(spec: GeneratedSpecification) -> ValidationReport:
         for issue in report.issues:
             merged.append(issue.model_copy(update={"id": f"VI-{seq:03d}"}))
             seq += 1
-    return _report("e2e_trace", merged)
+    return _report(
+        "e2e_trace",
+        merged,
+        details={
+            report.validator_name: {"passed": report.passed, **report.details} for report in reports
+        },
+    )
 
 
 def all_reports_passed(reports: Iterable[ValidationReport]) -> bool:

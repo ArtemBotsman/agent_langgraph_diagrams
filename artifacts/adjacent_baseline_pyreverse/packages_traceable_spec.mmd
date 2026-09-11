@@ -1,0 +1,111 @@
+classDiagram
+  class traceable_spec {
+  }
+  class activity_diagram_graph {
+  }
+  class baselines {
+  }
+  class entities {
+  }
+  class evaluation {
+  }
+  class benchmark {
+  }
+  class evaluator {
+  }
+  class similarity {
+  }
+  class graph {
+  }
+  class llm {
+  }
+  class openai_compatible {
+  }
+  class parsing {
+  }
+  class protocol {
+  }
+  class scripted {
+  }
+  class mermaid {
+  }
+  class persistence {
+  }
+  class prompts {
+  }
+  class activities {
+  }
+  class one_shot {
+  }
+  class use_cases {
+  }
+  class rendering {
+  }
+  class use_case_text {
+  }
+  class testing {
+  }
+  class fixtures {
+  }
+  class scripted_uc_responses {
+  }
+  class traceability {
+  }
+  class use_cases_graph {
+  }
+  class validators {
+  }
+  activity_diagram_graph --> entities
+  activity_diagram_graph --> parsing
+  activity_diagram_graph --> protocol
+  activity_diagram_graph --> mermaid
+  activity_diagram_graph --> activities
+  activity_diagram_graph --> fixtures
+  activity_diagram_graph --> validators
+  baselines --> entities
+  baselines --> evaluator
+  baselines --> parsing
+  baselines --> protocol
+  baselines --> mermaid
+  baselines --> one_shot
+  baselines --> use_case_text
+  baselines --> traceability
+  baselines --> validators
+  evaluation --> evaluator
+  evaluator --> entities
+  graph --> activity_diagram_graph
+  graph --> entities
+  graph --> evaluator
+  graph --> protocol
+  graph --> traceability
+  graph --> use_cases_graph
+  graph --> validators
+  llm --> parsing
+  llm --> protocol
+  llm --> scripted
+  openai_compatible --> protocol
+  openai_compatible --> use_cases
+  parsing --> entities
+  scripted --> use_cases
+  mermaid --> entities
+  prompts --> use_cases
+  activities --> entities
+  one_shot --> entities
+  use_cases --> entities
+  rendering --> use_case_text
+  use_case_text --> entities
+  testing --> fixtures
+  fixtures --> entities
+  scripted_uc_responses --> entities
+  scripted_uc_responses --> fixtures
+  traceability --> entities
+  use_cases_graph --> entities
+  use_cases_graph --> parsing
+  use_cases_graph --> protocol
+  use_cases_graph --> use_cases
+  use_cases_graph --> use_case_text
+  use_cases_graph --> fixtures
+  use_cases_graph --> traceability
+  use_cases_graph --> validators
+  validators --> entities
+  validators --> traceability

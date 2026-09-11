@@ -1,60 +1,62 @@
-# Benchmark scaffold for Agent NIR
+# Benchmark v1.0 candidate
 
-Каркас benchmark для оценки трассируемого pipeline генерации Use Cases и
-activity-диаграмм. **Полноценный набор из ~30 кейсов пока не утверждён** —
-здесь только инфраструктура и один синтетический development-пример.
+Канонический benchmark (тестовый набор) текущей НИР находится в
+`v1_0_synthetic/`. Старые `manifest.json` и `cases/development/library_desk_v1/`
+сохранены как исторический G0-scaffold и не используются финальным evaluator.
 
-Дата фиксации каркаса: **2026-08-21**.
+## Состав
 
-## Структура
-
-```
+```text
 benchmark/
-  README.md                 # этот файл
-  manifest.json             # реестр кейсов и split policy
-  FREEZE_POLICY.md          # правила заморозки
-  cases/
-    development/
-      library_desk_v1/      # один synthetic example
-        case.json
-        expected_notes.md
-    hidden/                 # пусто до появления согласованных кейсов
-      .gitkeep
+├── v1_0_synthetic/
+│   ├── cases.json              # 30 SpecificationReq + author gold
+│   ├── development_cases.json  # 20 открытых DEV-кейсов
+│   ├── hidden_inputs.json      # 10 hidden-входов без gold
+│   ├── sealed_hidden_gold.json # отделённый hidden gold
+│   ├── manifest.json           # версия, распределения и source hash
+│   └── freeze_record.json      # контрольные SHA-256
+├── expert_review/
+│   ├── RUBRIC.md
+│   ├── expert_1_blank.csv
+│   └── expert_2_blank.csv
+├── CHANGELOG.md
+└── FREEZE_POLICY.md
 ```
 
-## Формат benchmark case (`case.json`)
+Набор содержит 20 development и 10 hidden cases, 8 simple / 13 medium / 9 hard,
+13 русских / 17 английских. Каждый `specification_req` имеет шесть полей,
+включая `project_task`, ФТ и НФТ.
 
-Минимальные поля:
+## Gold и несколько правильных ответов
 
-| Поле | Тип | Описание |
-|------|-----|----------|
-| `case_id` | string | Стабильный ID, например `DEV-001` |
-| `split` | `development` \| `hidden` | Split policy |
-| `complexity` | enum | `simple`, `medium`, `hard`, `many_frs`, `branching`, `incomplete_conflict` |
-| `title` | string | Краткое название |
-| `specification_request` | object | Соответствует `SpecificationRequest` |
-| `notes` | string | Необязательные комментарии для разработчика |
-| `gold` | object \| null | Опциональные эталонные артефакты (UC IDs, coverage map); может отсутствовать на ранних этапах |
-
-В `specification_request` обязательно сохраняется исходный `project_task`.
+Gold (эталон) задаёт не координаты пикселей и не единственный Mermaid-текст, а
+семантические slots (ожидаемые элементы): акторы, цели UC, обязательные
+milestones, ветвления, связи FR→UC, сохранение NFR и запрещённые предположения.
+`equivalence_policy` разрешает переименование, эквивалентное split/merge UC и
+линейных activity nodes, если сохраняется смысл.
 
 ## Split policy
 
-- **development** — открытые кейсы для отладки pipeline, валидаторов и метрик.
-- **hidden** — скрытые кейсы для финальной оценки. **Запрещено** настраивать систему
-  по hidden-результатам после freeze (см. `FREEZE_POLICY.md`).
+- `development` разрешён для отладки pipeline, prompts и метрик до scientific
+  freeze.
+- `hidden_inputs.json` не содержит gold и не должен использоваться для
+  настройки.
+- `sealed_hidden_gold.json` открывается только для финального однократного
+  расчёта после согласования руководителя и scientific freeze.
 
-## Уровни сложности
+## Текущий freeze
 
-1. `simple` — 1–3 ФТ, один основной сценарий.
-2. `medium` — несколько UC, альтернативы.
-3. `hard` — исключения, несколько акторов, НФТ.
-4. `many_frs` — большое число ФТ, риск orphan/duplicate UC.
-5. `branching` — decision/merge/fork в activity.
-6. `incomplete_conflict` — намеренно неполные или конфликтующие требования.
+`freeze_record.json` фиксирует author technical freeze: байты и split защищены
+SHA-256, но экспертная проверка и approval руководителя ещё не завершены. Это
+не следует называть утверждённым научным benchmark.
 
-## Заморозка
+Проверка без изменения файлов:
 
-Целевой freeze **benchmark v1.0**: до **2026-08-26**. До freeze состав кейсов
-может меняться; после freeze — только bugfix формата без изменения семантики
-gold/hidden.
+```bash
+poetry run python scripts/validate_synthetic_benchmark.py
+poetry run python scripts/freeze_synthetic_benchmark.py
+```
+
+Намеренное обновление author freeze допускается только после документированного
+изменения benchmark и выполняется с `--force`. Все изменения фиксируются в
+`CHANGELOG.md`.

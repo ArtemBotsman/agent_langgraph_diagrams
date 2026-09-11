@@ -1,0 +1,19 @@
+{
+  "experiment_id": "repeated-b0-b1-full-dev001-2026-09-09",
+  "condition": "B1_ONESHOT",
+  "case_id": "B1-DEV-001",
+  "split": "development",
+  "repeat_id": 2,
+  "benchmark_version": "1.0.0-synthetic-author-freeze",
+  "cases_sha256": "af8dc532d4d283db43687850213e5795ca227c0d6d054327727462e0ab170917",
+  "git_commit": "dd8bdc3d945336d006d108ca824a85e500aa9f82",
+  "git_dirty": true,
+  "provider": "deepseek",
+  "api_base": "https://api.deepseek.com",
+  "model": "deepseek-v4-flash",
+  "temperature": 0,
+  "prompt_version": "2026-09-09-v1",
+  "schema_version": "0.2.0",
+  "semantic_similarity_backend": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "raw_prompts_or_responses_persisted": false
+}

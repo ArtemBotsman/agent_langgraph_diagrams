@@ -1,0 +1,21 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["User"]
+  ADN-UC001-001(("start"))
+  ADN-UC001-002["A patient selects a symptom category."]
+  ADN-UC001-003["The patient answers category-specific questions."]
+  ADN-UC001-004["The system displays an emergency warning when configured red flags are present."]
+  ADN-UC001-005["The system recommends a care route for non-emergency answers."]
+  ADN-UC001-006["The patient books an offered appointment."]
+  ADN-UC001-007["A clinician reviews submitted answers before the appointment."]
+  ADN-UC001-008["The patient can correct answers before clinician review."]
+  ADN-UC001-009(("end"))
+  end
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 --> ADN-UC001-005
+  ADN-UC001-005 --> ADN-UC001-006
+  ADN-UC001-006 --> ADN-UC001-007
+  ADN-UC001-007 --> ADN-UC001-008
+  ADN-UC001-008 --> ADN-UC001-009

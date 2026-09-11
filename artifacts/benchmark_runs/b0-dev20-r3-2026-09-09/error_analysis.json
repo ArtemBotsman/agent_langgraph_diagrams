@@ -1,0 +1,23 @@
+{
+  "experiment_id": "b0-dev20-r3-2026-09-09",
+  "thresholds": {
+    "low_semantic_composite": 0.5,
+    "high_hallucination_rate": 0.4
+  },
+  "by_condition": {
+    "B0_RULE": {
+      "run_count": 60,
+      "exception_failure_count": 0,
+      "controlled_pipeline_failure_count": 0,
+      "end_to_end_failure_count": 0,
+      "low_semantic_below_0_5_count": 45,
+      "high_hallucination_above_0_4_count": 48,
+      "all_detected_blocking_issue_counts": {},
+      "unresolved_blocking_issue_counts": {},
+      "detected_then_repaired_issue_counts": {},
+      "representative_failures": []
+    }
+  },
+  "global_unresolved_blocking_issue_counts": {},
+  "interpretation_limit": "Automatic categories diagnose saved runs; semantic correctness still requires independent expert review."
+}

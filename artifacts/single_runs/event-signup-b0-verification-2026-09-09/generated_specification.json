@@ -1,0 +1,793 @@
+{
+  "activity_results": [
+    {
+      "activity_diagram": {
+        "edges": [
+          {
+            "guard": null,
+            "id": "ADE-UC001-001",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "source_node_id": "ADN-UC001-001",
+            "target_node_id": "ADN-UC001-002",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-002",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "source_node_id": "ADN-UC001-002",
+            "target_node_id": "ADN-UC001-003",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-003",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "source_node_id": "ADN-UC001-003",
+            "target_node_id": "ADN-UC001-004",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-004",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "source_node_id": "ADN-UC001-004",
+            "target_node_id": "ADN-UC001-005",
+            "unsupported": false
+          }
+        ],
+        "id": "AD-UC001",
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC001 uc:UC-001\n  subgraph PART-UC001-001[\"User\"]\n  ADN-UC001-001((\"start\"))\n  ADN-UC001-002[\"An organiser can publish an event with a capacity and registration deadline.\"]\n  ADN-UC001-003[\"An attendee can register while registration is open; if capacity is exhausted, the system adds the attendee to a waiting list.\"]\n  ADN-UC001-004[\"The system promotes the first waiting attendee when a confirmed registration is cancelled.\"]\n  ADN-UC001-005((\"end\"))\n  end\n  ADN-UC001-001 --> ADN-UC001-002\n  ADN-UC001-002 --> ADN-UC001-003\n  ADN-UC001-003 --> ADN-UC001-004\n  ADN-UC001-004 --> ADN-UC001-005\n",
+        "name": "Event Signup: rule-based activity",
+        "nodes": [
+          {
+            "id": "ADN-UC001-001",
+            "kind": "initial",
+            "name": "start",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-002",
+            "kind": "action",
+            "name": "An organiser can publish an event with a capacity and registration deadline.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-003",
+            "kind": "action",
+            "name": "An attendee can register while registration is open; if capacity is exhausted, the system adds the attendee to a waiting list.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-004",
+            "kind": "action",
+            "name": "The system promotes the first waiting attendee when a confirmed registration is cancelled.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-005",
+            "kind": "final",
+            "name": "end",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "partitions": [
+          {
+            "actor_id": "ACT-001",
+            "id": "PART-UC001-001",
+            "name": "User"
+          }
+        ],
+        "use_case_id": "UC-001"
+      },
+      "failure_reason": null,
+      "repair_attempts_used": 0,
+      "status": "success",
+      "use_case_id": "UC-001",
+      "validation_reports": [
+        {
+          "details": {},
+          "issues": [],
+          "passed": true,
+          "validator_name": "activity_deterministic"
+        }
+      ]
+    }
+  ],
+  "evaluation_report": {
+    "automatic_only": true,
+    "metrics": [
+      {
+        "higher_is_better": true,
+        "name": "schema_validity",
+        "notes": "Share of schema validators that passed",
+        "unit": null,
+        "value": 1.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "fr_coverage",
+        "notes": "|FRs referenced by ≥1 UC| / |FRs|",
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": false,
+        "name": "orphan_uc_rate",
+        "notes": null,
+        "unit": "ratio",
+        "value": 0.0
+      },
+      {
+        "higher_is_better": false,
+        "name": "duplicate_uc_rate",
+        "notes": null,
+        "unit": "ratio",
+        "value": 0.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "trace_reference_integrity",
+        "notes": "1 - dangling_links / max(links,1) (approx from validation issues)",
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "trace_completeness",
+        "notes": null,
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "activity_structural_validity",
+        "notes": null,
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "mermaid_generation_success",
+        "notes": null,
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "end_to_end_success",
+        "notes": null,
+        "unit": null,
+        "value": 1.0
+      },
+      {
+        "higher_is_better": false,
+        "name": "repair_attempts",
+        "notes": "Use Case repair attempts plus all Activity repair attempts",
+        "unit": "count",
+        "value": 0
+      },
+      {
+        "higher_is_better": true,
+        "name": "uc_element_trace_coverage",
+        "notes": "Computed by the end-to-end trace coverage validator",
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "activity_element_trace_coverage",
+        "notes": "Computed by the end-to-end trace coverage validator",
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": false,
+        "name": "unsupported_trace_rate",
+        "notes": null,
+        "unit": "ratio",
+        "value": 0.0
+      },
+      {
+        "higher_is_better": false,
+        "name": "blocking_error_classes",
+        "notes": null,
+        "unit": "count",
+        "value": 0
+      },
+      {
+        "higher_is_better": true,
+        "name": "stability_multi_run",
+        "notes": "Requires ≥2 seeded runs; not computed in scaffold",
+        "unit": null,
+        "value": null
+      },
+      {
+        "higher_is_better": false,
+        "name": "latency_ms",
+        "notes": "Filled when LLM nodes are wired",
+        "unit": "ms",
+        "value": null
+      },
+      {
+        "higher_is_better": false,
+        "name": "token_usage",
+        "notes": "Filled when LLM nodes are wired",
+        "unit": "tokens",
+        "value": null
+      },
+      {
+        "higher_is_better": false,
+        "name": "cost_usd",
+        "notes": "Filled when LLM nodes are wired",
+        "unit": "usd",
+        "value": null
+      }
+    ],
+    "notes": "Automatic metrics only; LLM-as-a-judge and expert scores are separate tracks"
+  },
+  "failure_reason": null,
+  "request": {
+    "functional_requirements": [
+      {
+        "atoms": [
+          {
+            "extraction_rule": "whole_requirement",
+            "id": "FRA-001-001",
+            "parent_fr_id": "FR-001",
+            "text": "An organiser can publish an event with a capacity and registration deadline."
+          }
+        ],
+        "id": "FR-001",
+        "priority": null,
+        "tags": [],
+        "text": "An organiser can publish an event with a capacity and registration deadline."
+      },
+      {
+        "atoms": [
+          {
+            "extraction_rule": "semicolon",
+            "id": "FRA-002-001",
+            "parent_fr_id": "FR-002",
+            "text": "An attendee can register while registration is open"
+          },
+          {
+            "extraction_rule": "semicolon",
+            "id": "FRA-002-002",
+            "parent_fr_id": "FR-002",
+            "text": "if capacity is exhausted, the system adds the attendee to a waiting list."
+          }
+        ],
+        "id": "FR-002",
+        "priority": null,
+        "tags": [],
+        "text": "An attendee can register while registration is open; if capacity is exhausted, the system adds the attendee to a waiting list."
+      },
+      {
+        "atoms": [
+          {
+            "extraction_rule": "whole_requirement",
+            "id": "FRA-003-001",
+            "parent_fr_id": "FR-003",
+            "text": "The system promotes the first waiting attendee when a confirmed registration is cancelled."
+          }
+        ],
+        "id": "FR-003",
+        "priority": null,
+        "tags": [],
+        "text": "The system promotes the first waiting attendee when a confirmed registration is cancelled."
+      }
+    ],
+    "max_repair_attempts": 2,
+    "metadata": {
+      "source_contract": "SpecificationReq"
+    },
+    "non_functional_requirements": [
+      {
+        "category": null,
+        "id": "NFR-001",
+        "tags": [],
+        "text": "Registration confirmation must be returned within 2 seconds for 95% of requests."
+      },
+      {
+        "category": null,
+        "id": "NFR-002",
+        "tags": [],
+        "text": "Personal data must be accessible only to authorised organisers."
+      }
+    ],
+    "project_description": "A web service for publishing events, registering attendees, maintaining waiting lists and notifying users.",
+    "project_goal": "Allow attendees to register for events and organisers to control capacity.",
+    "project_name": "Event Signup",
+    "project_task": "Prepare analysis artifacts for an event registration application."
+  },
+  "status": "success",
+  "trace_manifest": {
+    "links": [
+      {
+        "id": "TL-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-001-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-001",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-002-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-002",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-002-002",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-002",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-003-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-003",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-005",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-001-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-006",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-002-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-007",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-002-002",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-008",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-003-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-009",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-001",
+        "source_type": "fr",
+        "target_id": "FRA-001-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-010",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-002",
+        "source_type": "fr",
+        "target_id": "FRA-002-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-011",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-002",
+        "source_type": "fr",
+        "target_id": "FRA-002-002",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-012",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-003",
+        "source_type": "fr",
+        "target_id": "FRA-003-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-013",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-001",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-001",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-014",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-002",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-002",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-015",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-003",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-003",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-016",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-001",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-017",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-002",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-018",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-003",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-019",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-001",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-020",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-002",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-021",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-001",
+        "source_type": "step",
+        "target_id": "ADE-UC001-001",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-022",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-002",
+        "source_type": "step",
+        "target_id": "ADE-UC001-002",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-023",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-003",
+        "source_type": "step",
+        "target_id": "ADE-UC001-003",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-024",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-003",
+        "source_type": "step",
+        "target_id": "ADE-UC001-004",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-025",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-001",
+        "source_type": "step",
+        "target_id": "ADN-UC001-002",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-026",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-002",
+        "source_type": "step",
+        "target_id": "ADN-UC001-003",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-027",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-003",
+        "source_type": "step",
+        "target_id": "ADN-UC001-004",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-028",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case.",
+        "source_id": "UC-001",
+        "source_type": "uc",
+        "target_id": "AD-UC001",
+        "target_type": "activity"
+      },
+      {
+        "id": "TL-029",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract.",
+        "source_id": "UC-001",
+        "source_type": "uc",
+        "target_id": "SS-001",
+        "target_type": "ss"
+      },
+      {
+        "id": "TL-030",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract.",
+        "source_id": "UC-001",
+        "source_type": "uc",
+        "target_id": "US-001",
+        "target_type": "us"
+      }
+    ]
+  },
+  "uc_repair_attempts_used": 0,
+  "use_case_set": {
+    "actors": [
+      {
+        "description": "Generic actor used by the rule-based baseline",
+        "id": "ACT-001",
+        "is_primary": true,
+        "name": "User"
+      }
+    ],
+    "fr_coverage": {
+      "FR-001": "covered",
+      "FR-002": "covered",
+      "FR-003": "covered"
+    },
+    "use_cases": [
+      {
+        "alternative_scenarios": [],
+        "exception_scenarios": [],
+        "failure_postconditions": [],
+        "goal": "Allow attendees to register for events and organisers to control capacity.",
+        "human_readable_text": "Use Case: UC-001 — Allow attendees to register for events and organisers to control capacity.\nGoal: Allow attendees to register for events and organisers to control capacity.\nPrimary actor: ACT-001\nTrigger: User starts the requested process\nPreconditions:\nMain success scenario:\n  1. [STEP-UC001-001] An organiser can publish an event with a capacity and registration deadline.\n  2. [STEP-UC001-002] An attendee can register while registration is open; if capacity is exhausted, the system adds the attendee to a waiting list.\n  3. [STEP-UC001-003] The system promotes the first waiting attendee when a confirmed registration is cancelled.\nSource FRs: FR-001, FR-002, FR-003\n",
+        "id": "UC-001",
+        "main_success_scenario": {
+          "id": "SCN-UC001-MAIN-001",
+          "kind": "main",
+          "name": "Requirements in input order",
+          "rejoins_step_id": null,
+          "start_from_step_id": null,
+          "steps": [
+            {
+              "action": "An organiser can publish an event with a capacity and registration deadline.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-001",
+              "order": 1,
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            },
+            {
+              "action": "An attendee can register while registration is open; if capacity is exhausted, the system adds the attendee to a waiting list.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-002",
+              "order": 2,
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            },
+            {
+              "action": "The system promotes the first waiting attendee when a confirmed registration is cancelled.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-003",
+              "order": 3,
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            }
+          ]
+        },
+        "missing_information": [],
+        "name": "Allow attendees to register for events and organisers to control capacity.",
+        "preconditions": [],
+        "primary_actor_id": "ACT-001",
+        "secondary_actor_ids": [],
+        "source_fr_ids": [
+          "FR-001",
+          "FR-002",
+          "FR-003"
+        ],
+        "source_nfr_ids": [
+          "NFR-001",
+          "NFR-002"
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC001-001",
+            "outcome": "success",
+            "text": "All listed functional requirements have been processed"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-001",
+            "responsibility": "Provide a deterministic comparison artifact",
+            "system_action": "Process functional requirements in input order",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "trigger": "User starts the requested process",
+        "unsupported_assumptions": [],
+        "user_stories": [
+          {
+            "benefit": "the project goal is achieved",
+            "capability": "Allow attendees to register for events and organisers to control capacity.",
+            "id": "US-001",
+            "role": "User",
+            "use_case_id": "UC-001"
+          }
+        ]
+      }
+    ]
+  },
+  "validation_reports": [
+    {
+      "details": {},
+      "issues": [],
+      "passed": true,
+      "validator_name": "activity_deterministic"
+    },
+    {
+      "details": {
+        "declared_trace_bidirectionality": {
+          "actual_relations": 30,
+          "expected_relations": 30,
+          "passed": true
+        },
+        "fr_coverage": {
+          "covered": [
+            "FR-001",
+            "FR-002",
+            "FR-003"
+          ],
+          "passed": true
+        },
+        "requirement_atomization": {
+          "atom_count": 4,
+          "fr_count": 3,
+          "passed": true
+        },
+        "trace_coverage_thresholds": {
+          "activity_ratio": 1.0,
+          "activity_supported": 10,
+          "activity_total": 10,
+          "passed": true,
+          "uc_ratio": 1.0,
+          "uc_supported": 6,
+          "uc_total": 6
+        },
+        "trace_integrity": {
+          "passed": true
+        },
+        "trace_link_contracts": {
+          "passed": true
+        },
+        "unique_ids": {
+          "passed": true
+        }
+      },
+      "issues": [],
+      "passed": true,
+      "validator_name": "e2e_trace"
+    }
+  ]
+}

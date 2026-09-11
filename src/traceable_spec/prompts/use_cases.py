@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 
 from traceable_spec.entities import (
+    CriticVerdict,
     SpecificationRequest,
+    UseCaseGenerationArtifact,
     UseCaseSet,
     ValidationReport,
 )
@@ -23,14 +26,14 @@ def _role_system(role: str, body: str) -> dict[str, str]:
 
 
 def detect_llm_role(messages: list[dict[str, str]]) -> str | None:
-    """Extract role marker from scripted/real prompts (first matching system message)."""
+    """Extract any project role marker from the first matching system message."""
     for message in messages:
         if message.get("role") != "system":
             continue
         content = message.get("content") or ""
-        for role in (ROLE_GENERATOR, ROLE_CRITIC, ROLE_REPAIR):
-            if _ROLE_MARKER.format(role=role) in content:
-                return role
+        match = re.search(r"\[\[llm_role:([a-z0-9_]+)\]\]", content)
+        if match:
+            return match.group(1)
     return None
 
 
@@ -51,11 +54,14 @@ def build_use_case_generator_messages(request: SpecificationRequest) -> list[dic
         "Rules:\n"
         "- Output ONLY valid JSON (no markdown).\n"
         "- Every Use Case must list source_fr_ids for one or more given FRs.\n"
-        "- Include TraceManifest FR_TO_UC links for each FR→UC pair.\n"
+        "- Every scenario step should list the specific source_fr_ids it realizes.\n"
+        "- TraceManifest may be empty: Python materializes links from typed references.\n"
         "- Do not invent requirements; mark unsupported assumptions explicitly "
         "with UnsupportedAssumption and justified=true only when necessary.\n"
         "- Uncovered FRs must appear in fr_coverage as uncovered/out_of_scope/"
-        "conflicting."
+        "conflicting.\n"
+        "JSON Schema: "
+        f"{json.dumps(UseCaseGenerationArtifact.model_json_schema(), ensure_ascii=False)}"
     )
     user = (
         "Generate structured Use Cases for this specification:\n"
@@ -71,6 +77,7 @@ def build_use_case_critic_messages(
     request: SpecificationRequest,
     use_case_set: UseCaseSet,
     deterministic_reports: list[ValidationReport],
+    review_round: int = 0,
 ) -> list[dict[str, str]]:
     reports_payload: list[dict[str, Any]] = [
         {
@@ -82,13 +89,23 @@ def build_use_case_critic_messages(
     ]
     system = (
         "You are a Use Case critic (semantic review), NOT a deterministic validator.\n"
-        "Return ONLY JSON: {\"decision\": \"accept\"|\"repair\", \"issues\": [...], "
-        "\"summary\": string|null}.\n"
-        "Each issue must match ValidationIssue fields "
-        "(id VI-###, severity, category, code, message, element_ids, blocking).\n"
-        "Choose repair if blocking problems remain; otherwise accept."
+        "Return ONLY JSON matching the supplied CriticVerdict schema.\n"
+        "Use only enum values declared by the schema; severity is error, warning, or info.\n"
+        "Use a conservative, evidence-grounded gate. Choose repair only when at least one "
+        "concrete blocking defect is directly proved by the supplied FR text. A blocking "
+        "issue MUST have severity=error, blocking=true, non-empty element_ids, and a message "
+        "that names the violated FR id. Allowed blocking codes are FR_OMISSION, "
+        "FR_CONTRADICTION, UNSUPPORTED_BUSINESS_RULE, SCENARIO_OUTCOME_MISSING, and "
+        "ACTOR_RESPONSIBILITY_CONTRADICTION. Treat wording, optional decomposition, actor "
+        "generalization, and modeling preferences as non-blocking warnings and choose accept. "
+        "Do not invent a missing requirement. Return at most three issues. On a repeated review, "
+        "do not introduce a new blocking criterion unless it proves a direct FR contradiction or "
+        "omission. Choose accept whenever no evidence-grounded blocking issue remains.\n"
+        "JSON Schema: "
+        f"{json.dumps(CriticVerdict.model_json_schema(), ensure_ascii=False)}"
     )
     user = {
+        "review_round": review_round,
         "specification": {
             "project_task": request.project_task,
             "project_name": request.project_name,
@@ -114,8 +131,15 @@ def build_use_case_repair_messages(
 ) -> list[dict[str, str]]:
     system = (
         "You repair a UseCaseSet and TraceManifest.\n"
-        "Output ONLY JSON with keys use_case_set and trace_manifest.\n"
-        "Fix the listed issues; keep valid FR→UC trace links; do not invent FRs."
+        "Output ONLY JSON with exactly the keys use_case_set and trace_manifest.\n"
+        'trace_manifest must be {"links": []}; Python rebuilds all trace links from '
+        "typed references. Never emit a traces key.\n"
+        "Every scenario step source_fr_ids must be a subset of the containing Use Case "
+        "source_fr_ids. If a step legitimately depends on an FR, add that FR to the Use Case; "
+        "otherwise remove it from the step.\n"
+        "Fix the listed issues; keep valid FR references; do not invent FRs.\n"
+        "JSON Schema: "
+        f"{json.dumps(UseCaseGenerationArtifact.model_json_schema(), ensure_ascii=False)}"
     )
     user = {
         "repair_attempt": repair_attempt,

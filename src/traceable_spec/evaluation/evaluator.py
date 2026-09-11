@@ -9,6 +9,7 @@ from traceable_spec.entities import (
     GeneratedSpecification,
     MetricResult,
     PipelineStatus,
+    TraceLinkType,
 )
 
 
@@ -93,17 +94,17 @@ def evaluate_specification(spec: GeneratedSpecification) -> EvaluationReport:
         metrics.append(_metric("orphan_uc_rate", 1.0, higher_is_better=False, unit="ratio"))
         metrics.append(_metric("duplicate_uc_rate", 0.0, higher_is_better=False, unit="ratio"))
 
-    dangling = sum(
-        1
+    dangling_link_ids = {
+        issue.element_ids[0]
         for report in spec.validation_reports
         for issue in report.issues
-        if issue.code in {"dangling_trace_source", "dangling_trace_target"}
-    )
+        if issue.code in {"dangling_trace_source", "dangling_trace_target"} and issue.element_ids
+    }
     link_count = max(len(spec.trace_manifest.links), 1)
     metrics.append(
         _metric(
             "trace_reference_integrity",
-            1.0 - (dangling / link_count),
+            max(0.0, 1.0 - (len(dangling_link_ids) / link_count)),
             higher_is_better=True,
             unit="ratio",
             notes="1 - dangling_links / max(links,1) (approx from validation issues)",
@@ -111,13 +112,15 @@ def evaluate_specification(spec: GeneratedSpecification) -> EvaluationReport:
     )
 
     expected_links = len(fr_ids)
-    actual_fr_links = sum(
-        1 for link in spec.trace_manifest.links if link.source_id.startswith("FR-")
-    )
+    traced_fr_ids = {
+        link.source_id
+        for link in spec.trace_manifest.links
+        if link.link_type == TraceLinkType.FR_TO_UC
+    }
     metrics.append(
         _metric(
             "trace_completeness",
-            min(actual_fr_links / expected_links, 1.0) if expected_links else 0.0,
+            len(traced_fr_ids & set(fr_ids)) / expected_links if expected_links else 0.0,
             higher_is_better=True,
             unit="ratio",
         )
@@ -151,14 +154,61 @@ def evaluate_specification(spec: GeneratedSpecification) -> EvaluationReport:
     e2e = spec.status == PipelineStatus.SUCCESS
     metrics.append(_metric("end_to_end_success", 1.0 if e2e else 0.0, higher_is_better=True))
 
-    repair_sum = sum(r.repair_attempts_used for r in spec.activity_results)
+    repair_sum = spec.uc_repair_attempts_used + sum(
+        r.repair_attempts_used for r in spec.activity_results
+    )
     metrics.append(
         _metric(
             "repair_attempts",
             repair_sum,
             higher_is_better=False,
             unit="count",
-            notes="Sum of activity repair attempts; UC repairs tracked in validation details",
+            notes="Use Case repair attempts plus all Activity repair attempts",
+        )
+    )
+
+    coverage_reports = [
+        report for report in spec.validation_reports if report.validator_name == "e2e_trace"
+    ]
+    e2e_details = coverage_reports[-1].details if coverage_reports else {}
+    for metric_name, detail_name in (
+        ("uc_element_trace_coverage", "uc_ratio"),
+        ("activity_element_trace_coverage", "activity_ratio"),
+    ):
+        value = e2e_details.get("trace_coverage_thresholds", {}).get(detail_name)
+        metrics.append(
+            _metric(
+                metric_name,
+                value,
+                higher_is_better=True,
+                unit="ratio",
+                notes="Computed by the end-to-end trace coverage validator",
+            )
+        )
+
+    unsupported_count = sum(
+        1 for link in spec.trace_manifest.links if link.link_type == TraceLinkType.UNSUPPORTED
+    )
+    metrics.append(
+        _metric(
+            "unsupported_trace_rate",
+            unsupported_count / link_count,
+            higher_is_better=False,
+            unit="ratio",
+        )
+    )
+    blocking_issue_codes = {
+        issue.code
+        for report in spec.validation_reports
+        for issue in report.issues
+        if issue.blocking
+    }
+    metrics.append(
+        _metric(
+            "blocking_error_classes",
+            len(blocking_issue_codes),
+            higher_is_better=False,
+            unit="count",
         )
     )
 

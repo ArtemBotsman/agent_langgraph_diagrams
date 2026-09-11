@@ -1,0 +1,16 @@
+mutation_id,error_class,expected_code,detected,observed_codes
+MUT-001,identifier uniqueness,duplicate_id,True,dangling_trace_target;duplicate_id;undeclared_reverse_trace
+MUT-002,FR atom parent,atom_parent_mismatch,True,atom_parent_mismatch;dangling_trace_target;undeclared_reverse_trace
+MUT-003,missing forward link,missing_declared_trace,True,missing_declared_trace
+MUT-004,unsupported reverse link,undeclared_reverse_trace,True,undeclared_reverse_trace
+MUT-005,endpoint type,trace_endpoint_type_mismatch,True,trace_endpoint_type_mismatch
+MUT-006,dangling endpoint,dangling_trace_target,True,dangling_trace_target;missing_declared_trace;undeclared_reverse_trace
+MUT-007,initial cardinality,initial_node_count,True,initial_node_count;unknown_edge_source
+MUT-008,edge endpoint,unknown_edge_target,True,final_unreachable;unknown_edge_target;unreachable_from_initial
+MUT-009,decision guard,decision_missing_guard,True,decision_missing_guard
+MUT-010,node provenance,activity_node_untraced,True,activity_node_untraced
+MUT-011,edge provenance,activity_edge_untraced,True,activity_edge_untraced
+MUT-012,partition reference,unknown_node_partition,True,unknown_node_partition
+MUT-013,step FR scope,step_fr_outside_uc_scope,True,dangling_trace_target;missing_declared_trace;step_fr_outside_uc_scope;undeclared_reverse_trace
+MUT-014,step reference,activity_step_missing,True,activity_step_missing
+MUT-015,unsupported provenance,unsupported_without_rationale,True,unsupported_without_rationale
