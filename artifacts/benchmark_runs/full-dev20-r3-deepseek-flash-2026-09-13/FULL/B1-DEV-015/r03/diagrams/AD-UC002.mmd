@@ -1,0 +1,15 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Adjuster"]
+  ADN-UC002-002["Adjuster opens a submitted claim"]
+  ADN-UC002-003["Adjuster assigns a severity and review route"]
+  end
+  subgraph PART-UC002-002["System"]
+  ADN-UC002-004["System updates the claim with triage information"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-005(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004
+  ADN-UC002-004 --> ADN-UC002-005

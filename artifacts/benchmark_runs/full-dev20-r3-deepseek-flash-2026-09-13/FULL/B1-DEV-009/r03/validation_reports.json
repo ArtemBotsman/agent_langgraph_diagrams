@@ -1,0 +1,425 @@
+[
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": true,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "All five functional requirements are covered by use cases with traceable steps and outcomes. FR-001 maps to UC-001, FR-002 and FR-003 to UC-002 (with capacity exception), FR-004 to UC-003, and FR-005 to UC-004. Actor responsibilities are consistent, and no direct FR omission or contradiction is evidenced. Deterministic validators pass.",
+      "critic_not_deterministic_validator": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC001-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram faithfully represents the UC-001 main success scenario and the 'No available times' exception. All three main steps (STEP-UC001-001 through STEP-UC001-003) and the exception step (STEP-UC001-004) are mapped to activities, and the decision node correctly branches to the success and failure outcomes. No unsupported business actions or step-level omissions/contradictions were found."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC002-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram faithfully represents the UC-002 main success scenario and the capacity-exceeded exception. All four main steps (STEP-UC002-001 through STEP-UC002-004) and the exception step (STEP-UC002-005) are mapped to activities, with a decision node correctly branching to reservation creation or error display. No unsupported business actions or step-level omissions/contradictions were found."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC003-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram faithfully represents UC-003: all main success steps (search/select, modify details, validate and check capacity, update reservation) and the capacity-exceeded exception are present with correct actor partitions and control flow. The decision node and its Yes/No branches correctly model the validation outcome without introducing unsupported business actions. No blocking semantic issues found."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC004-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC004-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram faithfully represents all four main-success-scenario steps of UC-004 in order, with each action node traceable to its corresponding UC step and partitioned correctly between Staff and System. No alternative or exception scenarios exist in the UC, so no branch outcomes are missing. No unsupported business actions were added. No blocking semantic issues found."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "e2e_trace",
+    "details": {
+      "requirement_atomization": {
+        "passed": true,
+        "fr_count": 5,
+        "atom_count": 5
+      },
+      "unique_ids": {
+        "passed": true
+      },
+      "fr_coverage": {
+        "passed": true,
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004",
+          "FR-005"
+        ]
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "declared_trace_bidirectionality": {
+        "passed": true,
+        "expected_relations": 124,
+        "actual_relations": 124
+      },
+      "trace_coverage_thresholds": {
+        "passed": true,
+        "uc_supported": 32,
+        "uc_total": 32,
+        "uc_ratio": 1.0,
+        "activity_supported": 61,
+        "activity_total": 61,
+        "activity_ratio": 1.0
+      },
+      "trace_integrity": {
+        "passed": true
+      }
+    }
+  }
+]

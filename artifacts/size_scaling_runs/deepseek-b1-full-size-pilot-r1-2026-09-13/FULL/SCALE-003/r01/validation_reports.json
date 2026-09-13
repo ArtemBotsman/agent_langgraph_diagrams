@@ -1,0 +1,307 @@
+[
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "uc_generator_parse"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "uc_schema"
+  },
+  {
+    "details": {
+      "declared_trace_bidirectionality": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "requirement_atomization": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true,
+      "trace_link_contracts": true,
+      "uc_fr_references": true,
+      "unique_ids": true,
+      "use_case_structure": true
+    },
+    "issues": [],
+    "passed": true,
+    "validator_name": "uc_deterministic_aggregate"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "uc_critic_parse"
+  },
+  {
+    "details": {
+      "critic_not_deterministic_validator": true,
+      "decision": "accept",
+      "summary": "Все восемь функциональных требований покрыты сценариями UC-001 и UC-002; акторы, предусловия, постусловия и шаги согласованы с текстом FR. Блокирующих семантических дефектов не обнаружено."
+    },
+    "issues": [],
+    "passed": true,
+    "validator_name": "uc_llm_critic"
+  },
+  {
+    "details": {
+      "attempt": 0,
+      "max": 2
+    },
+    "issues": [],
+    "passed": true,
+    "validator_name": "repair_limit"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_generator_parse"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_schema"
+  },
+  {
+    "details": {},
+    "issues": [
+      {
+        "blocking": true,
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "element_ids": [
+          "ADE-UC001-001"
+        ],
+        "id": "VI-001",
+        "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+        "severity": "error"
+      }
+    ],
+    "passed": false,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {
+      "attempt": 0,
+      "max": 2
+    },
+    "issues": [],
+    "passed": true,
+    "validator_name": "repair_limit"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_repair_parse"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_schema"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_critic_parse"
+  },
+  {
+    "details": {
+      "decision": "accept",
+      "summary": "Диаграмма сохраняет основной, альтернативный и оба исключительных сценария UC-001 без пропусков шагов и без необоснованных бизнес-действий. Выявленные замечания касаются декомпозиции потока управления и не являются блокирующими."
+    },
+    "issues": [
+      {
+        "blocking": false,
+        "category": "semantic",
+        "code": "UC_BRANCH_OUTCOME_MISSING",
+        "element_ids": [
+          "STEP-UC001-012",
+          "ADN-UC001-014"
+        ],
+        "id": "VI-001",
+        "message": "Узел решения ADN-UC001-014 'Серверная ошибка?' не имеет явного пути для случая, когда серверная ошибка не возникает, но данные уже прошли валидацию; ветка 'ошибки нет' ведёт к ADN-UC001-016, что семантически совпадает с успешным исходом, однако сам узел решения введён как отдельная проверка серверной ошибки, не описанная отдельным шагом UC. Это не блокирует, так как эквивалентно декомпозиции потока управления.",
+        "severity": "warning"
+      },
+      {
+        "blocking": false,
+        "category": "trace",
+        "code": "EQUIVALENT_DECOMPOSITION",
+        "element_ids": [
+          "STEP-UC001-004",
+          "ADN-UC001-005"
+        ],
+        "id": "VI-002",
+        "message": "Шаг STEP-UC001-004 (изменение/удаление позиций) представлен как решение ADN-UC001-005 с ветками к ADN-UC001-006/007 и слиянием ADN-UC001-008; это эквивалентная декомпозиция альтернативного сценария SCN-UC001-ALT-001 и не является противоречием.",
+        "severity": "info"
+      }
+    ],
+    "passed": true,
+    "validator_name": "activity_llm_critic"
+  },
+  {
+    "details": {
+      "attempt": 1,
+      "max": 2
+    },
+    "issues": [],
+    "passed": true,
+    "validator_name": "repair_limit"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_generator_parse"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_schema"
+  },
+  {
+    "details": {},
+    "issues": [
+      {
+        "blocking": true,
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "element_ids": [
+          "ADE-UC002-001"
+        ],
+        "id": "VI-001",
+        "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+        "severity": "error"
+      }
+    ],
+    "passed": false,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {
+      "attempt": 0,
+      "max": 2
+    },
+    "issues": [],
+    "passed": true,
+    "validator_name": "repair_limit"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_repair_parse"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_schema"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_critic_parse"
+  },
+  {
+    "details": {
+      "decision": "accept",
+      "summary": "All main-scenario steps (STEP-UC002-001..006) and the exception step (STEP-UC002-007) are represented by activities/decisions with matching control flow; the failure outcome (show reason) is preserved. No unsupported business actions were added. The only observation is a non-blocking semantic nuance in how the exception guard is modeled."
+    },
+    "issues": [
+      {
+        "blocking": false,
+        "category": "semantic",
+        "code": "DECISION_GUARD_SEMANTICS",
+        "element_ids": [
+          "STEP-UC002-007",
+          "ADN-UC002-005",
+          "ADN-UC002-007",
+          "ADN-UC002-009",
+          "ADN-UC002-011"
+        ],
+        "id": "VI-001",
+        "message": "Decision nodes 'Статус изменён на «принят»?' etc. model the exception check as a post-action verification of the status change, whereas STEP-UC002-007 describes an attempt to set a status outside the allowed sequence. This is an equivalent control-flow decomposition of the same exception behavior and does not omit or contradict any UC step, so it is non-blocking.",
+        "severity": "warning"
+      }
+    ],
+    "passed": true,
+    "validator_name": "activity_llm_critic"
+  },
+  {
+    "details": {
+      "attempt": 1,
+      "max": 2
+    },
+    "issues": [],
+    "passed": true,
+    "validator_name": "repair_limit"
+  },
+  {
+    "details": {
+      "declared_trace_bidirectionality": {
+        "actual_relations": 190,
+        "expected_relations": 190,
+        "passed": true
+      },
+      "fr_coverage": {
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004",
+          "FR-005",
+          "FR-006",
+          "FR-007",
+          "FR-008"
+        ],
+        "passed": true
+      },
+      "requirement_atomization": {
+        "atom_count": 8,
+        "fr_count": 8,
+        "passed": true
+      },
+      "trace_coverage_thresholds": {
+        "activity_ratio": 1.0,
+        "activity_supported": 69,
+        "activity_total": 69,
+        "passed": true,
+        "uc_ratio": 1.0,
+        "uc_supported": 38,
+        "uc_total": 38
+      },
+      "trace_integrity": {
+        "passed": true
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "unique_ids": {
+        "passed": true
+      }
+    },
+    "issues": [],
+    "passed": true,
+    "validator_name": "e2e_trace"
+  }
+]

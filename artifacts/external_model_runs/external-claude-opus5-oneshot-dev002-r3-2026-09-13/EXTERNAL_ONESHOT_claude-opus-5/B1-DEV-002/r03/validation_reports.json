@@ -1,0 +1,63 @@
+[
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "one_shot_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "e2e_trace",
+    "details": {
+      "requirement_atomization": {
+        "passed": true,
+        "fr_count": 3,
+        "atom_count": 3
+      },
+      "unique_ids": {
+        "passed": true
+      },
+      "fr_coverage": {
+        "passed": true,
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003"
+        ]
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "declared_trace_bidirectionality": {
+        "passed": true,
+        "expected_relations": 68,
+        "actual_relations": 68
+      },
+      "trace_coverage_thresholds": {
+        "passed": true,
+        "uc_supported": 14,
+        "uc_total": 14,
+        "uc_ratio": 1.0,
+        "activity_supported": 34,
+        "activity_total": 34,
+        "activity_ratio": 1.0
+      },
+      "trace_integrity": {
+        "passed": true
+      }
+    }
+  }
+]

@@ -1,0 +1,2634 @@
+{
+  "request": {
+    "project_task": "Create an equipment checkout application for a media lab.",
+    "project_name": "Media Checkout",
+    "project_goal": "Track who has borrowed each device.",
+    "project_description": "Students request available equipment and staff record checkout and return.",
+    "functional_requirements": [
+      {
+        "id": "FR-001",
+        "text": "A student requests an available device.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-001-001",
+            "parent_fr_id": "FR-001",
+            "text": "A student requests an available device.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-002",
+        "text": "A lab assistant records the checkout.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-002-001",
+            "parent_fr_id": "FR-002",
+            "text": "A lab assistant records the checkout.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-003",
+        "text": "A lab assistant records the return and device condition.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-003-001",
+            "parent_fr_id": "FR-003",
+            "text": "A lab assistant records the return and device condition.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      }
+    ],
+    "non_functional_requirements": [
+      {
+        "id": "NFR-001",
+        "text": "Every checkout and return must be auditable.",
+        "category": null,
+        "tags": []
+      }
+    ],
+    "max_repair_attempts": 2,
+    "metadata": {
+      "source_contract": "SpecificationReq"
+    }
+  },
+  "use_case_set": {
+    "actors": [
+      {
+        "id": "ACT-001",
+        "name": "Student",
+        "description": "A student who requests available equipment from the media lab.",
+        "is_primary": true
+      },
+      {
+        "id": "ACT-002",
+        "name": "Lab Assistant",
+        "description": "A lab assistant who records equipment checkout and return.",
+        "is_primary": true
+      }
+    ],
+    "use_cases": [
+      {
+        "id": "UC-001",
+        "name": "Request Available Device",
+        "goal": "Allow a student to request an available device from the media lab.",
+        "primary_actor_id": "ACT-001",
+        "secondary_actor_ids": [],
+        "trigger": "Student decides to borrow an available device.",
+        "preconditions": [
+          {
+            "id": "PRE-UC001-001",
+            "text": "The student is authenticated and authorized to request equipment."
+          },
+          {
+            "id": "PRE-UC001-002",
+            "text": "At least one device is available for checkout."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC001-001",
+            "text": "The student's request for an available device is recorded.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC001-002",
+            "text": "No request is recorded because no device is available or the request is invalid.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC001-MAIN-001",
+          "kind": "main",
+          "name": "Student successfully requests an available device",
+          "steps": [
+            {
+              "id": "STEP-UC001-001",
+              "order": 1,
+              "actor_id": "ACT-001",
+              "action": "Student initiates a request for an available device.",
+              "expected_result": "The system presents available devices.",
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            },
+            {
+              "id": "STEP-UC001-002",
+              "order": 2,
+              "actor_id": "ACT-001",
+              "action": "Student selects an available device and submits the request.",
+              "expected_result": "The system records the request and confirms it to the student.",
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [
+          {
+            "id": "SCN-UC001-EXC-001",
+            "kind": "exception",
+            "name": "No device available",
+            "steps": [
+              {
+                "id": "STEP-UC001-003",
+                "order": 1,
+                "actor_id": "ACT-001",
+                "action": "Student initiates a request for an available device.",
+                "expected_result": "The system determines that no device is available.",
+                "source_fr_ids": [
+                  "FR-001"
+                ]
+              },
+              {
+                "id": "STEP-UC001-004",
+                "order": 2,
+                "actor_id": "ACT-001",
+                "action": "Student is informed that no device is available.",
+                "expected_result": "The request is not recorded and the student is notified.",
+                "source_fr_ids": [
+                  "FR-001"
+                ]
+              }
+            ],
+            "start_from_step_id": null,
+            "rejoins_step_id": null
+          }
+        ],
+        "user_stories": [
+          {
+            "id": "US-001",
+            "role": "Student",
+            "capability": "request an available device",
+            "benefit": "I can borrow equipment for my media project",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-001",
+            "system_action": "Present available devices and record the student's request.",
+            "responsibility": "Maintain an up-to-date list of available devices and persist the request.",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-001"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-001 — Request Available Device\nGoal: Allow a student to request an available device from the media lab.\nPrimary actor: ACT-001\nTrigger: Student decides to borrow an available device.\nPreconditions:\n  - PRE-UC001-001: The student is authenticated and authorized to request equipment.\n  - PRE-UC001-002: At least one device is available for checkout.\nMain success scenario:\n  1. [STEP-UC001-001] Student initiates a request for an available device.\n  2. [STEP-UC001-002] Student selects an available device and submits the request.\nException scenarios:\n  - SCN-UC001-EXC-001: No device available\nSource FRs: FR-001\n"
+      },
+      {
+        "id": "UC-002",
+        "name": "Record Equipment Checkout",
+        "goal": "Allow a lab assistant to record the checkout of a device to a student.",
+        "primary_actor_id": "ACT-002",
+        "secondary_actor_ids": [
+          "ACT-001"
+        ],
+        "trigger": "A student requests to check out an available device.",
+        "preconditions": [
+          {
+            "id": "PRE-UC002-001",
+            "text": "The lab assistant is authenticated and authorized to record checkouts."
+          },
+          {
+            "id": "PRE-UC002-002",
+            "text": "The student has requested an available device."
+          },
+          {
+            "id": "PRE-UC002-003",
+            "text": "The device is available for checkout."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC002-001",
+            "text": "The checkout is recorded, associating the device with the student.",
+            "outcome": "success"
+          },
+          {
+            "id": "POST-UC002-002",
+            "text": "The device is marked as checked out and no longer available.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC002-003",
+            "text": "The checkout is not recorded and the device remains available.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC002-MAIN-001",
+          "kind": "main",
+          "name": "Lab assistant records a checkout",
+          "steps": [
+            {
+              "id": "STEP-UC002-001",
+              "order": 1,
+              "actor_id": "ACT-002",
+              "action": "Lab assistant selects the student's request for an available device.",
+              "expected_result": "The system displays the request details and device availability.",
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            },
+            {
+              "id": "STEP-UC002-002",
+              "order": 2,
+              "actor_id": "ACT-002",
+              "action": "Lab assistant confirms the checkout of the device to the student.",
+              "expected_result": "The system records the checkout, marks the device as checked out, and confirms the transaction.",
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [
+          {
+            "id": "SCN-UC002-EXC-001",
+            "kind": "exception",
+            "name": "Device no longer available",
+            "steps": [
+              {
+                "id": "STEP-UC002-003",
+                "order": 1,
+                "actor_id": "ACT-002",
+                "action": "Lab assistant selects the student's request for an available device.",
+                "expected_result": "The system determines that the device is no longer available.",
+                "source_fr_ids": [
+                  "FR-002"
+                ]
+              },
+              {
+                "id": "STEP-UC002-004",
+                "order": 2,
+                "actor_id": "ACT-002",
+                "action": "Lab assistant is informed that the device is no longer available.",
+                "expected_result": "The checkout is not recorded and the lab assistant is notified.",
+                "source_fr_ids": [
+                  "FR-002"
+                ]
+              }
+            ],
+            "start_from_step_id": null,
+            "rejoins_step_id": null
+          }
+        ],
+        "user_stories": [
+          {
+            "id": "US-002",
+            "role": "Lab Assistant",
+            "capability": "record the checkout of a device to a student",
+            "benefit": "I can track who has borrowed each device",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-002",
+            "system_action": "Record the checkout and update device availability.",
+            "responsibility": "Persist checkout details and ensure the device is marked as checked out.",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-002"
+        ],
+        "source_nfr_ids": [
+          "NFR-001"
+        ],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-002 — Record Equipment Checkout\nGoal: Allow a lab assistant to record the checkout of a device to a student.\nPrimary actor: ACT-002\nTrigger: A student requests to check out an available device.\nPreconditions:\n  - PRE-UC002-001: The lab assistant is authenticated and authorized to record checkouts.\n  - PRE-UC002-002: The student has requested an available device.\n  - PRE-UC002-003: The device is available for checkout.\nMain success scenario:\n  1. [STEP-UC002-001] Lab assistant selects the student's request for an available device.\n  2. [STEP-UC002-002] Lab assistant confirms the checkout of the device to the student.\nException scenarios:\n  - SCN-UC002-EXC-001: Device no longer available\nSource FRs: FR-002\n"
+      },
+      {
+        "id": "UC-003",
+        "name": "Record Equipment Return and Condition",
+        "goal": "Allow a lab assistant to record the return of a device and its condition.",
+        "primary_actor_id": "ACT-002",
+        "secondary_actor_ids": [
+          "ACT-001"
+        ],
+        "trigger": "A student returns a checked-out device.",
+        "preconditions": [
+          {
+            "id": "PRE-UC003-001",
+            "text": "The lab assistant is authenticated and authorized to record returns."
+          },
+          {
+            "id": "PRE-UC003-002",
+            "text": "The device is currently checked out."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC003-001",
+            "text": "The return is recorded, including the device condition.",
+            "outcome": "success"
+          },
+          {
+            "id": "POST-UC003-002",
+            "text": "The device is marked as available for checkout.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC003-003",
+            "text": "The return is not recorded and the device remains checked out.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC003-MAIN-001",
+          "kind": "main",
+          "name": "Lab assistant records a return and condition",
+          "steps": [
+            {
+              "id": "STEP-UC003-001",
+              "order": 1,
+              "actor_id": "ACT-002",
+              "action": "Lab assistant selects the checked-out device to be returned.",
+              "expected_result": "The system displays the checkout details for the device.",
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC003-002",
+              "order": 2,
+              "actor_id": "ACT-002",
+              "action": "Lab assistant records the return and notes the device condition.",
+              "expected_result": "The system records the return and condition, marks the device as available, and confirms the transaction.",
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [
+          {
+            "id": "SCN-UC003-EXC-001",
+            "kind": "exception",
+            "name": "Device not checked out",
+            "steps": [
+              {
+                "id": "STEP-UC003-003",
+                "order": 1,
+                "actor_id": "ACT-002",
+                "action": "Lab assistant attempts to record a return for a device that is not checked out.",
+                "expected_result": "The system determines that the device is not checked out.",
+                "source_fr_ids": [
+                  "FR-003"
+                ]
+              },
+              {
+                "id": "STEP-UC003-004",
+                "order": 2,
+                "actor_id": "ACT-002",
+                "action": "Lab assistant is informed that the device is not checked out.",
+                "expected_result": "The return is not recorded and the lab assistant is notified.",
+                "source_fr_ids": [
+                  "FR-003"
+                ]
+              }
+            ],
+            "start_from_step_id": null,
+            "rejoins_step_id": null
+          }
+        ],
+        "user_stories": [
+          {
+            "id": "US-003",
+            "role": "Lab Assistant",
+            "capability": "record the return of a device and its condition",
+            "benefit": "I can track device availability and condition",
+            "use_case_id": "UC-003"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-003",
+            "system_action": "Record the return and device condition, and update device availability.",
+            "responsibility": "Persist return details and condition, and mark the device as available.",
+            "use_case_id": "UC-003"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-003"
+        ],
+        "source_nfr_ids": [
+          "NFR-001"
+        ],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-003 — Record Equipment Return and Condition\nGoal: Allow a lab assistant to record the return of a device and its condition.\nPrimary actor: ACT-002\nTrigger: A student returns a checked-out device.\nPreconditions:\n  - PRE-UC003-001: The lab assistant is authenticated and authorized to record returns.\n  - PRE-UC003-002: The device is currently checked out.\nMain success scenario:\n  1. [STEP-UC003-001] Lab assistant selects the checked-out device to be returned.\n  2. [STEP-UC003-002] Lab assistant records the return and notes the device condition.\nException scenarios:\n  - SCN-UC003-EXC-001: Device not checked out\nSource FRs: FR-003\n"
+      }
+    ],
+    "fr_coverage": {
+      "FR-001": "covered",
+      "FR-002": "covered",
+      "FR-003": "covered"
+    }
+  },
+  "activity_results": [
+    {
+      "use_case_id": "UC-001",
+      "activity_diagram": {
+        "id": "AD-UC001",
+        "use_case_id": "UC-001",
+        "name": "Request Available Device",
+        "partitions": [
+          {
+            "id": "PART-UC001-001",
+            "name": "Student",
+            "actor_id": "ACT-001"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC001-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-002",
+            "kind": "action",
+            "name": "Student initiates a request for an available device.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-003",
+            "kind": "decision",
+            "name": "Device available?",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-001",
+              "STEP-UC001-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-004",
+            "kind": "action",
+            "name": "Student selects an available device and submits the request.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-005",
+            "kind": "action",
+            "name": "Student is informed that no device is available.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-006",
+            "kind": "final",
+            "name": "End",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC001-001",
+            "source_node_id": "ADN-UC001-001",
+            "target_node_id": "ADN-UC001-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-002",
+            "source_node_id": "ADN-UC001-002",
+            "target_node_id": "ADN-UC001-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-003",
+            "source_node_id": "ADN-UC001-003",
+            "target_node_id": "ADN-UC001-004",
+            "guard": "device available",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-004",
+            "source_node_id": "ADN-UC001-003",
+            "target_node_id": "ADN-UC001-005",
+            "guard": "no device available",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-003",
+              "STEP-UC001-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-005",
+            "source_node_id": "ADN-UC001-004",
+            "target_node_id": "ADN-UC001-006",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-006",
+            "source_node_id": "ADN-UC001-005",
+            "target_node_id": "ADN-UC001-006",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-004"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC001 uc:UC-001\n  subgraph PART-UC001-001[\"Student\"]\n  ADN-UC001-001((\"start\"))\n  ADN-UC001-002[\"Student initiates a request for an available device.\"]\n  ADN-UC001-003{\"Device available?\"}\n  ADN-UC001-004[\"Student selects an available device and submits the request.\"]\n  ADN-UC001-005[\"Student is informed that no device is available.\"]\n  ADN-UC001-006((\"end\"))\n  end\n  ADN-UC001-001 --> ADN-UC001-002\n  ADN-UC001-002 --> ADN-UC001-003\n  ADN-UC001-003 -->|\"device available\"| ADN-UC001-004\n  ADN-UC001-003 -->|\"no device available\"| ADN-UC001-005\n  ADN-UC001-004 --> ADN-UC001-006\n  ADN-UC001-005 --> ADN-UC001-006\n"
+      },
+      "status": "success",
+      "validation_reports": [
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_generator_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC001-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 0,
+            "max": 2
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_repair_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_critic_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "warning",
+              "category": "semantic",
+              "code": "PARTITION_ACTOR_MISMATCH",
+              "message": "The exception step STEP-UC001-004 ('Student is informed that no device is available') is modeled as an action in the Student partition, but the informing is a system response; this is a modeling style preference and does not omit or contradict any UC step.",
+              "element_ids": [
+                "STEP-UC001-004",
+                "ADN-UC001-005"
+              ],
+              "blocking": false
+            },
+            {
+              "id": "VI-002",
+              "severity": "info",
+              "category": "trace",
+              "code": "DECISION_STEP_ATTRIBUTION",
+              "message": "The decision node ADN-UC001-003 is attributed to STEP-UC001-001 and STEP-UC001-003; the availability check is an implicit system determination rather than an explicit UC step, but it is consistent with the exception scenario's expected result and introduces no unsupported business action.",
+              "element_ids": [
+                "ADN-UC001-003",
+                "STEP-UC001-001",
+                "STEP-UC001-003"
+              ],
+              "blocking": false
+            }
+          ],
+          "validator_name": "activity_llm_critic",
+          "details": {
+            "decision": "accept",
+            "summary": "The activity diagram preserves both main success steps (STEP-UC001-001, STEP-UC001-002) and the no-device exception steps (STEP-UC001-003, STEP-UC001-004), with correct success and failure outcomes. No UC step is omitted or contradicted, and no unsupported business action is added. Remaining observations are non-blocking modeling-style notes."
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 1,
+            "max": 2
+          }
+        }
+      ],
+      "repair_attempts_used": 1,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-002",
+      "activity_diagram": {
+        "id": "AD-UC002",
+        "use_case_id": "UC-002",
+        "name": "Record Equipment Checkout",
+        "partitions": [
+          {
+            "id": "PART-UC002-001",
+            "name": "Lab Assistant",
+            "actor_id": "ACT-002"
+          },
+          {
+            "id": "PART-UC002-002",
+            "name": "System",
+            "actor_id": null
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC002-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-002",
+            "kind": "action",
+            "name": "Lab assistant selects the student's request for an available device",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-003",
+            "kind": "decision",
+            "name": "Device available?",
+            "partition_id": "PART-UC002-002",
+            "related_step_ids": [
+              "STEP-UC002-001",
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-004",
+            "kind": "action",
+            "name": "Lab assistant confirms the checkout of the device to the student",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-005",
+            "kind": "action",
+            "name": "System records the checkout, marks the device as checked out, and confirms the transaction",
+            "partition_id": "PART-UC002-002",
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-006",
+            "kind": "action",
+            "name": "Lab assistant is informed that the device is no longer available",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-007",
+            "kind": "final",
+            "name": "End",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC002-001",
+            "source_node_id": "ADN-UC002-001",
+            "target_node_id": "ADN-UC002-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-002",
+            "source_node_id": "ADN-UC002-002",
+            "target_node_id": "ADN-UC002-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-003",
+            "source_node_id": "ADN-UC002-003",
+            "target_node_id": "ADN-UC002-004",
+            "guard": "Device available",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-004",
+            "source_node_id": "ADN-UC002-003",
+            "target_node_id": "ADN-UC002-006",
+            "guard": "Device not available",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-005",
+            "source_node_id": "ADN-UC002-004",
+            "target_node_id": "ADN-UC002-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-006",
+            "source_node_id": "ADN-UC002-005",
+            "target_node_id": "ADN-UC002-007",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-007",
+            "source_node_id": "ADN-UC002-006",
+            "target_node_id": "ADN-UC002-007",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC002 uc:UC-002\n  subgraph PART-UC002-001[\"Lab Assistant\"]\n  ADN-UC002-002[\"Lab assistant selects the student's request for an available device\"]\n  ADN-UC002-004[\"Lab assistant confirms the checkout of the device to the student\"]\n  ADN-UC002-006[\"Lab assistant is informed that the device is no longer available\"]\n  end\n  subgraph PART-UC002-002[\"System\"]\n  ADN-UC002-003{\"Device available?\"}\n  ADN-UC002-005[\"System records the checkout, marks the device as checked out, and confirms the transaction\"]\n  end\n  ADN-UC002-001((\"start\"))\n  ADN-UC002-007((\"end\"))\n  ADN-UC002-001 --> ADN-UC002-002\n  ADN-UC002-002 --> ADN-UC002-003\n  ADN-UC002-003 -->|\"Device available\"| ADN-UC002-004\n  ADN-UC002-003 -->|\"Device not available\"| ADN-UC002-006\n  ADN-UC002-004 --> ADN-UC002-005\n  ADN-UC002-005 --> ADN-UC002-007\n  ADN-UC002-006 --> ADN-UC002-007\n"
+      },
+      "status": "success",
+      "validation_reports": [
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_generator_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC002-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 0,
+            "max": 2
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_repair_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_critic_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "warning",
+              "category": "semantic",
+              "code": "EQUIVALENT_DECOMPOSITION",
+              "message": "The diagram decomposes STEP-UC002-002 into a user action (confirm checkout) and a system action (record checkout, mark device checked out, confirm transaction). This is an equivalent control-flow decomposition of the step's action and expected result, not an omission or contradiction.",
+              "element_ids": [
+                "STEP-UC002-002",
+                "ADN-UC002-004",
+                "ADN-UC002-005"
+              ],
+              "blocking": false
+            },
+            {
+              "id": "VI-002",
+              "severity": "info",
+              "category": "trace",
+              "code": "DECISION_TRACE_OVERLAP",
+              "message": "The decision node ADN-UC002-003 is related to both STEP-UC002-001 and STEP-UC002-003. This reflects the shared selection action and the exception's availability determination; it is a trace annotation choice, not a semantic defect.",
+              "element_ids": [
+                "ADN-UC002-003",
+                "STEP-UC002-001",
+                "STEP-UC002-003"
+              ],
+              "blocking": false
+            }
+          ],
+          "validator_name": "activity_llm_critic",
+          "details": {
+            "decision": "accept",
+            "summary": "The activity diagram preserves the main success scenario and the device-unavailable exception. The main path selects the request, confirms checkout, records the checkout, and ends. The exception path selects the request, detects unavailability, informs the lab assistant, and ends without recording the checkout. No UC step is omitted or contradicted, and no unsupported business action is added. Non-blocking notes concern equivalent decomposition and trace annotation only."
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 1,
+            "max": 2
+          }
+        }
+      ],
+      "repair_attempts_used": 1,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-003",
+      "activity_diagram": {
+        "id": "AD-UC003",
+        "use_case_id": "UC-003",
+        "name": "Record Equipment Return and Condition",
+        "partitions": [
+          {
+            "id": "PART-UC003-001",
+            "name": "Lab Assistant",
+            "actor_id": "ACT-002"
+          },
+          {
+            "id": "PART-UC003-002",
+            "name": "System",
+            "actor_id": null
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC003-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-002",
+            "kind": "action",
+            "name": "Select checked-out device to be returned",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-003",
+            "kind": "decision",
+            "name": "Device checked out?",
+            "partition_id": "PART-UC003-002",
+            "related_step_ids": [
+              "STEP-UC003-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-004",
+            "kind": "action",
+            "name": "Record return and note device condition",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-005",
+            "kind": "action",
+            "name": "Mark device as available and confirm transaction",
+            "partition_id": "PART-UC003-002",
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-006",
+            "kind": "action",
+            "name": "Notify lab assistant that device is not checked out",
+            "partition_id": "PART-UC003-002",
+            "related_step_ids": [
+              "STEP-UC003-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-007",
+            "kind": "final",
+            "name": "End",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC003-001",
+            "source_node_id": "ADN-UC003-001",
+            "target_node_id": "ADN-UC003-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-002",
+            "source_node_id": "ADN-UC003-002",
+            "target_node_id": "ADN-UC003-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-003",
+            "source_node_id": "ADN-UC003-003",
+            "target_node_id": "ADN-UC003-004",
+            "guard": "Device is checked out",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-004",
+            "source_node_id": "ADN-UC003-003",
+            "target_node_id": "ADN-UC003-006",
+            "guard": "Device is not checked out",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-003",
+              "STEP-UC003-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-005",
+            "source_node_id": "ADN-UC003-004",
+            "target_node_id": "ADN-UC003-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-006",
+            "source_node_id": "ADN-UC003-005",
+            "target_node_id": "ADN-UC003-007",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-007",
+            "source_node_id": "ADN-UC003-006",
+            "target_node_id": "ADN-UC003-007",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-004"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC003 uc:UC-003\n  subgraph PART-UC003-001[\"Lab Assistant\"]\n  ADN-UC003-002[\"Select checked-out device to be returned\"]\n  ADN-UC003-004[\"Record return and note device condition\"]\n  end\n  subgraph PART-UC003-002[\"System\"]\n  ADN-UC003-003{\"Device checked out?\"}\n  ADN-UC003-005[\"Mark device as available and confirm transaction\"]\n  ADN-UC003-006[\"Notify lab assistant that device is not checked out\"]\n  end\n  ADN-UC003-001((\"start\"))\n  ADN-UC003-007((\"end\"))\n  ADN-UC003-001 --> ADN-UC003-002\n  ADN-UC003-002 --> ADN-UC003-003\n  ADN-UC003-003 -->|\"Device is checked out\"| ADN-UC003-004\n  ADN-UC003-003 -->|\"Device is not checked out\"| ADN-UC003-006\n  ADN-UC003-004 --> ADN-UC003-005\n  ADN-UC003-005 --> ADN-UC003-007\n  ADN-UC003-006 --> ADN-UC003-007\n"
+      },
+      "status": "success",
+      "validation_reports": [
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_generator_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC003-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 0,
+            "max": 2
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_repair_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_critic_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_llm_critic",
+          "details": {
+            "decision": "accept",
+            "summary": "The activity diagram faithfully represents the UC-003 main success scenario and the 'Device not checked out' exception. All UC steps (STEP-UC003-001 through STEP-UC003-004) are mapped to activities, the decision node correctly branches on the precondition, and no unsupported business actions are introduced. Layout and decomposition choices are non-blocking."
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 1,
+            "max": 2
+          }
+        }
+      ],
+      "repair_attempts_used": 1,
+      "failure_reason": null
+    }
+  ],
+  "trace_manifest": {
+    "links": [
+      {
+        "id": "TL-001",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-002",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-003",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-004",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-005",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-006",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-007",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-008",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-009",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-010",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-011",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-012",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-013",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-014",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-015",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-016",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "fr_atom",
+        "target_id": "FRA-001-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-017",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "fr_atom",
+        "target_id": "FRA-002-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-018",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "fr_atom",
+        "target_id": "FRA-003-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-019",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-020",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-021",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-022",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-023",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-024",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-025",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-026",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-027",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC003-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-028",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC003-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-029",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC003-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-030",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC003-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-031",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-032",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-033",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-034",
+        "source_type": "nfr",
+        "source_id": "NFR-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source."
+      },
+      {
+        "id": "TL-035",
+        "source_type": "nfr",
+        "source_id": "NFR-001",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source."
+      },
+      {
+        "id": "TL-036",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-037",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-038",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-039",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-040",
+        "source_type": "step",
+        "source_id": "STEP-UC001-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-041",
+        "source_type": "step",
+        "source_id": "STEP-UC001-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-042",
+        "source_type": "step",
+        "source_id": "STEP-UC001-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-043",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-044",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-045",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-046",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-047",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-048",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-049",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-007",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-050",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-051",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-052",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-053",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-054",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-055",
+        "source_type": "step",
+        "source_id": "STEP-UC003-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-056",
+        "source_type": "step",
+        "source_id": "STEP-UC003-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-057",
+        "source_type": "step",
+        "source_id": "STEP-UC003-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-007",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-058",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-059",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-060",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-061",
+        "source_type": "step",
+        "source_id": "STEP-UC001-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-062",
+        "source_type": "step",
+        "source_id": "STEP-UC001-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-063",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-064",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-065",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-066",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-067",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-068",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-006",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-069",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-070",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-071",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-072",
+        "source_type": "step",
+        "source_id": "STEP-UC003-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-073",
+        "source_type": "step",
+        "source_id": "STEP-UC003-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-006",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-074",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "activity",
+        "target_id": "AD-UC001",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-075",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "activity",
+        "target_id": "AD-UC002",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-076",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "activity",
+        "target_id": "AD-UC003",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-077",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "ss",
+        "target_id": "SS-001",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-078",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "ss",
+        "target_id": "SS-002",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-079",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "ss",
+        "target_id": "SS-003",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-080",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "us",
+        "target_id": "US-001",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-081",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "us",
+        "target_id": "US-002",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-082",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "us",
+        "target_id": "US-003",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      }
+    ]
+  },
+  "validation_reports": [
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_deterministic_aggregate",
+      "details": {
+        "requirement_atomization": true,
+        "unique_ids": true,
+        "use_case_structure": true,
+        "uc_fr_references": true,
+        "fr_coverage": true,
+        "fr_to_uc_trace": true,
+        "trace_link_contracts": true,
+        "declared_trace_bidirectionality": true,
+        "trace_coverage_thresholds": true,
+        "trace_integrity": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "warning",
+          "category": "trace",
+          "code": "UNSUPPORTED_NFR_REFERENCE",
+          "message": "UC-002 and UC-003 list source_nfr_ids ['NFR-001'], but no NFR-001 is defined in the supplied specification. This is a non-blocking traceability warning because it does not contradict any functional requirement.",
+          "element_ids": [
+            "UC-002",
+            "UC-003"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-002",
+          "severity": "info",
+          "category": "semantic",
+          "code": "ACTOR_GENERALIZATION_NOTE",
+          "message": "UC-002 and UC-003 list ACT-001 (Student) as a secondary actor, while the main scenarios are driven by ACT-002 (Lab Assistant). This is a modeling preference and does not contradict FR-002 or FR-003.",
+          "element_ids": [
+            "UC-002",
+            "UC-003"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "uc_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "All three functional requirements (FR-001, FR-002, FR-003) are covered by use cases with matching actors, scenarios, and outcomes. No evidence-grounded blocking defect was found; only non-blocking traceability and modeling notes remain.",
+        "critic_not_deterministic_validator": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC001-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "PARTITION_ACTOR_MISMATCH",
+          "message": "The exception step STEP-UC001-004 ('Student is informed that no device is available') is modeled as an action in the Student partition, but the informing is a system response; this is a modeling style preference and does not omit or contradict any UC step.",
+          "element_ids": [
+            "STEP-UC001-004",
+            "ADN-UC001-005"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-002",
+          "severity": "info",
+          "category": "trace",
+          "code": "DECISION_STEP_ATTRIBUTION",
+          "message": "The decision node ADN-UC001-003 is attributed to STEP-UC001-001 and STEP-UC001-003; the availability check is an implicit system determination rather than an explicit UC step, but it is consistent with the exception scenario's expected result and introduces no unsupported business action.",
+          "element_ids": [
+            "ADN-UC001-003",
+            "STEP-UC001-001",
+            "STEP-UC001-003"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "activity_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "The activity diagram preserves both main success steps (STEP-UC001-001, STEP-UC001-002) and the no-device exception steps (STEP-UC001-003, STEP-UC001-004), with correct success and failure outcomes. No UC step is omitted or contradicted, and no unsupported business action is added. Remaining observations are non-blocking modeling-style notes."
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 1,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC002-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "EQUIVALENT_DECOMPOSITION",
+          "message": "The diagram decomposes STEP-UC002-002 into a user action (confirm checkout) and a system action (record checkout, mark device checked out, confirm transaction). This is an equivalent control-flow decomposition of the step's action and expected result, not an omission or contradiction.",
+          "element_ids": [
+            "STEP-UC002-002",
+            "ADN-UC002-004",
+            "ADN-UC002-005"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-002",
+          "severity": "info",
+          "category": "trace",
+          "code": "DECISION_TRACE_OVERLAP",
+          "message": "The decision node ADN-UC002-003 is related to both STEP-UC002-001 and STEP-UC002-003. This reflects the shared selection action and the exception's availability determination; it is a trace annotation choice, not a semantic defect.",
+          "element_ids": [
+            "ADN-UC002-003",
+            "STEP-UC002-001",
+            "STEP-UC002-003"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "activity_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "The activity diagram preserves the main success scenario and the device-unavailable exception. The main path selects the request, confirms checkout, records the checkout, and ends. The exception path selects the request, detects unavailability, informs the lab assistant, and ends without recording the checkout. No UC step is omitted or contradicted, and no unsupported business action is added. Non-blocking notes concern equivalent decomposition and trace annotation only."
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 1,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC003-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "The activity diagram faithfully represents the UC-003 main success scenario and the 'Device not checked out' exception. All UC steps (STEP-UC003-001 through STEP-UC003-004) are mapped to activities, the decision node correctly branches on the precondition, and no unsupported business actions are introduced. Layout and decomposition choices are non-blocking."
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 1,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "e2e_trace",
+      "details": {
+        "requirement_atomization": {
+          "passed": true,
+          "fr_count": 3,
+          "atom_count": 3
+        },
+        "unique_ids": {
+          "passed": true
+        },
+        "fr_coverage": {
+          "passed": true,
+          "covered": [
+            "FR-001",
+            "FR-002",
+            "FR-003"
+          ]
+        },
+        "trace_link_contracts": {
+          "passed": true
+        },
+        "declared_trace_bidirectionality": {
+          "passed": true,
+          "expected_relations": 82,
+          "actual_relations": 82
+        },
+        "trace_coverage_thresholds": {
+          "passed": true,
+          "uc_supported": 21,
+          "uc_total": 21,
+          "uc_ratio": 1.0,
+          "activity_supported": 43,
+          "activity_total": 43,
+          "activity_ratio": 1.0
+        },
+        "trace_integrity": {
+          "passed": true
+        }
+      }
+    }
+  ],
+  "evaluation_report": {
+    "metrics": [
+      {
+        "name": "schema_validity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Share of schema validators that passed"
+      },
+      {
+        "name": "fr_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "|FRs referenced by ≥1 UC| / |FRs|"
+      },
+      {
+        "name": "orphan_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "duplicate_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "trace_reference_integrity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "1 - dangling_links / max(links,1) (approx from validation issues)"
+      },
+      {
+        "name": "trace_completeness",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "activity_structural_validity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "mermaid_generation_success",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "end_to_end_success",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": null
+      },
+      {
+        "name": "repair_attempts",
+        "value": 3,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": "Use Case repair attempts plus all Activity repair attempts"
+      },
+      {
+        "name": "uc_element_trace_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "activity_element_trace_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "unsupported_trace_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "blocking_error_classes",
+        "value": 1,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": null
+      },
+      {
+        "name": "stability_multi_run",
+        "value": null,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Requires ≥2 seeded runs; not computed in scaffold"
+      },
+      {
+        "name": "latency_ms",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "ms",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "token_usage",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "tokens",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "cost_usd",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "usd",
+        "notes": "Filled when LLM nodes are wired"
+      }
+    ],
+    "automatic_only": true,
+    "notes": "Automatic metrics only; LLM-as-a-judge and expert scores are separate tracks"
+  },
+  "uc_repair_attempts_used": 0,
+  "status": "success",
+  "failure_reason": null
+}

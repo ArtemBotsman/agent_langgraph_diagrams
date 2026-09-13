@@ -1,0 +1,420 @@
+[
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": true,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "warning",
+        "category": "trace",
+        "code": "UNSUPPORTED_NFR_REFERENCE",
+        "message": "UC-002 and UC-003 list source_nfr_ids ['NFR-001'], but no NFR-001 is defined in the supplied specification. This is a non-blocking traceability warning because it does not contradict any functional requirement.",
+        "element_ids": [
+          "UC-002",
+          "UC-003"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-002",
+        "severity": "info",
+        "category": "semantic",
+        "code": "ACTOR_GENERALIZATION_NOTE",
+        "message": "UC-002 and UC-003 list ACT-001 (Student) as a secondary actor, while the main scenarios are driven by ACT-002 (Lab Assistant). This is a modeling preference and does not contradict FR-002 or FR-003.",
+        "element_ids": [
+          "UC-002",
+          "UC-003"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "uc_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "All three functional requirements (FR-001, FR-002, FR-003) are covered by use cases with matching actors, scenarios, and outcomes. No evidence-grounded blocking defect was found; only non-blocking traceability and modeling notes remain.",
+      "critic_not_deterministic_validator": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC001-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "PARTITION_ACTOR_MISMATCH",
+        "message": "The exception step STEP-UC001-004 ('Student is informed that no device is available') is modeled as an action in the Student partition, but the informing is a system response; this is a modeling style preference and does not omit or contradict any UC step.",
+        "element_ids": [
+          "STEP-UC001-004",
+          "ADN-UC001-005"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-002",
+        "severity": "info",
+        "category": "trace",
+        "code": "DECISION_STEP_ATTRIBUTION",
+        "message": "The decision node ADN-UC001-003 is attributed to STEP-UC001-001 and STEP-UC001-003; the availability check is an implicit system determination rather than an explicit UC step, but it is consistent with the exception scenario's expected result and introduces no unsupported business action.",
+        "element_ids": [
+          "ADN-UC001-003",
+          "STEP-UC001-001",
+          "STEP-UC001-003"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram preserves both main success steps (STEP-UC001-001, STEP-UC001-002) and the no-device exception steps (STEP-UC001-003, STEP-UC001-004), with correct success and failure outcomes. No UC step is omitted or contradicted, and no unsupported business action is added. Remaining observations are non-blocking modeling-style notes."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC002-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "EQUIVALENT_DECOMPOSITION",
+        "message": "The diagram decomposes STEP-UC002-002 into a user action (confirm checkout) and a system action (record checkout, mark device checked out, confirm transaction). This is an equivalent control-flow decomposition of the step's action and expected result, not an omission or contradiction.",
+        "element_ids": [
+          "STEP-UC002-002",
+          "ADN-UC002-004",
+          "ADN-UC002-005"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-002",
+        "severity": "info",
+        "category": "trace",
+        "code": "DECISION_TRACE_OVERLAP",
+        "message": "The decision node ADN-UC002-003 is related to both STEP-UC002-001 and STEP-UC002-003. This reflects the shared selection action and the exception's availability determination; it is a trace annotation choice, not a semantic defect.",
+        "element_ids": [
+          "ADN-UC002-003",
+          "STEP-UC002-001",
+          "STEP-UC002-003"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram preserves the main success scenario and the device-unavailable exception. The main path selects the request, confirms checkout, records the checkout, and ends. The exception path selects the request, detects unavailability, informs the lab assistant, and ends without recording the checkout. No UC step is omitted or contradicted, and no unsupported business action is added. Non-blocking notes concern equivalent decomposition and trace annotation only."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC003-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram faithfully represents the UC-003 main success scenario and the 'Device not checked out' exception. All UC steps (STEP-UC003-001 through STEP-UC003-004) are mapped to activities, the decision node correctly branches on the precondition, and no unsupported business actions are introduced. Layout and decomposition choices are non-blocking."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "e2e_trace",
+    "details": {
+      "requirement_atomization": {
+        "passed": true,
+        "fr_count": 3,
+        "atom_count": 3
+      },
+      "unique_ids": {
+        "passed": true
+      },
+      "fr_coverage": {
+        "passed": true,
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003"
+        ]
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "declared_trace_bidirectionality": {
+        "passed": true,
+        "expected_relations": 82,
+        "actual_relations": 82
+      },
+      "trace_coverage_thresholds": {
+        "passed": true,
+        "uc_supported": 21,
+        "uc_total": 21,
+        "uc_ratio": 1.0,
+        "activity_supported": 43,
+        "activity_total": 43,
+        "activity_ratio": 1.0
+      },
+      "trace_integrity": {
+        "passed": true
+      }
+    }
+  }
+]

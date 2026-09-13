@@ -1,0 +1,18 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Carrier"]
+  ADN-UC002-002["Post parcel scan event"]
+  end
+  subgraph PART-UC002-002["System"]
+  ADN-UC002-003{"Duplicate event?"}
+  ADN-UC002-004["Ignore duplicate event"]
+  ADN-UC002-005["Accept and store event"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-006(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 -->|"duplicate"| ADN-UC002-004
+  ADN-UC002-003 -->|"not duplicate"| ADN-UC002-005
+  ADN-UC002-004 --> ADN-UC002-006
+  ADN-UC002-005 --> ADN-UC002-006

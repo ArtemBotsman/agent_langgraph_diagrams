@@ -1,0 +1,2173 @@
+{
+  "request": {
+    "project_task": "Создать сервис заказа временного пропуска в офис.",
+    "project_name": "Office Pass",
+    "project_goal": "Сократить время оформления посетителей.",
+    "project_description": "Сотрудник приглашает посетителя, а администратор подтверждает выдачу пропуска.",
+    "functional_requirements": [
+      {
+        "id": "FR-001",
+        "text": "Сотрудник создаёт приглашение с ФИО и временем визита.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-001-001",
+            "parent_fr_id": "FR-001",
+            "text": "Сотрудник создаёт приглашение с ФИО и временем визита.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-002",
+        "text": "Администратор подтверждает или отклоняет приглашение.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-002-001",
+            "parent_fr_id": "FR-002",
+            "text": "Администратор подтверждает или отклоняет приглашение.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-003",
+        "text": "Посетителю отправляется итоговый статус.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-003-001",
+            "parent_fr_id": "FR-003",
+            "text": "Посетителю отправляется итоговый статус.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      }
+    ],
+    "non_functional_requirements": [
+      {
+        "id": "NFR-001",
+        "text": "Персональные данные должны храниться не дольше 30 дней после визита.",
+        "category": null,
+        "tags": []
+      }
+    ],
+    "max_repair_attempts": 2,
+    "metadata": {
+      "source_contract": "SpecificationReq"
+    }
+  },
+  "use_case_set": {
+    "actors": [
+      {
+        "id": "ACT-001",
+        "name": "Сотрудник",
+        "description": "Сотрудник офиса, приглашающий посетителя.",
+        "is_primary": true
+      },
+      {
+        "id": "ACT-002",
+        "name": "Администратор",
+        "description": "Администратор, подтверждающий или отклоняющий приглашения.",
+        "is_primary": true
+      },
+      {
+        "id": "ACT-003",
+        "name": "Посетитель",
+        "description": "Посетитель, получающий итоговый статус приглашения.",
+        "is_primary": false
+      }
+    ],
+    "use_cases": [
+      {
+        "id": "UC-001",
+        "name": "Создание приглашения посетителя",
+        "goal": "Сотрудник создаёт приглашение с ФИО и временем визита.",
+        "primary_actor_id": "ACT-001",
+        "secondary_actor_ids": [],
+        "trigger": "Сотрудник решает пригласить посетителя в офис.",
+        "preconditions": [
+          {
+            "id": "PRE-UC001-001",
+            "text": "Сотрудник авторизован в системе."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC001-001",
+            "text": "Приглашение создано и сохранено со статусом 'Ожидает подтверждения'.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC001-002",
+            "text": "Приглашение не создано; сотрудник уведомлён об ошибке.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC001-MAIN-001",
+          "kind": "main",
+          "name": "Успешное создание приглашения",
+          "steps": [
+            {
+              "id": "STEP-UC001-001",
+              "order": 1,
+              "actor_id": "ACT-001",
+              "action": "Сотрудник вводит ФИО посетителя и время визита.",
+              "expected_result": "Данные приняты системой.",
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            },
+            {
+              "id": "STEP-UC001-002",
+              "order": 2,
+              "actor_id": "ACT-001",
+              "action": "Сотрудник отправляет приглашение.",
+              "expected_result": "Система сохраняет приглашение и присваивает статус 'Ожидает подтверждения'.",
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [],
+        "user_stories": [
+          {
+            "id": "US-001",
+            "role": "Сотрудник",
+            "capability": "создать приглашение с ФИО и временем визита",
+            "benefit": "посетитель мог быть приглашён в офис",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-001",
+            "system_action": "Сохранить приглашение с ФИО и временем визита.",
+            "responsibility": "Обеспечить сохранение данных приглашения.",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-001"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-001 — Создание приглашения посетителя\nGoal: Сотрудник создаёт приглашение с ФИО и временем визита.\nPrimary actor: ACT-001\nTrigger: Сотрудник решает пригласить посетителя в офис.\nPreconditions:\n  - PRE-UC001-001: Сотрудник авторизован в системе.\nMain success scenario:\n  1. [STEP-UC001-001] Сотрудник вводит ФИО посетителя и время визита.\n  2. [STEP-UC001-002] Сотрудник отправляет приглашение.\nSource FRs: FR-001\n"
+      },
+      {
+        "id": "UC-002",
+        "name": "Подтверждение или отклонение приглашения",
+        "goal": "Администратор подтверждает или отклоняет приглашение.",
+        "primary_actor_id": "ACT-002",
+        "secondary_actor_ids": [],
+        "trigger": "Поступило новое приглашение, ожидающее подтверждения.",
+        "preconditions": [
+          {
+            "id": "PRE-UC002-001",
+            "text": "Администратор авторизован в системе."
+          },
+          {
+            "id": "PRE-UC002-002",
+            "text": "Существует приглашение со статусом 'Ожидает подтверждения'."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC002-001",
+            "text": "Приглашение подтверждено или отклонено; статус обновлён.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC002-002",
+            "text": "Статус приглашения не изменён; администратор уведомлён об ошибке.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC002-MAIN-001",
+          "kind": "main",
+          "name": "Успешное подтверждение приглашения",
+          "steps": [
+            {
+              "id": "STEP-UC002-001",
+              "order": 1,
+              "actor_id": "ACT-002",
+              "action": "Администратор просматривает приглашение.",
+              "expected_result": "Отображаются детали приглашения.",
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            },
+            {
+              "id": "STEP-UC002-002",
+              "order": 2,
+              "actor_id": "ACT-002",
+              "action": "Администратор подтверждает приглашение.",
+              "expected_result": "Статус приглашения изменён на 'Подтверждено'.",
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [
+          {
+            "id": "SCN-UC002-ALT-001",
+            "kind": "alternative",
+            "name": "Отклонение приглашения",
+            "steps": [
+              {
+                "id": "STEP-UC002-003",
+                "order": 1,
+                "actor_id": "ACT-002",
+                "action": "Администратор просматривает приглашение.",
+                "expected_result": "Отображаются детали приглашения.",
+                "source_fr_ids": [
+                  "FR-002"
+                ]
+              },
+              {
+                "id": "STEP-UC002-004",
+                "order": 2,
+                "actor_id": "ACT-002",
+                "action": "Администратор отклоняет приглашение.",
+                "expected_result": "Статус приглашения изменён на 'Отклонено'.",
+                "source_fr_ids": [
+                  "FR-002"
+                ]
+              }
+            ],
+            "start_from_step_id": null,
+            "rejoins_step_id": null
+          }
+        ],
+        "exception_scenarios": [],
+        "user_stories": [
+          {
+            "id": "US-002",
+            "role": "Администратор",
+            "capability": "подтвердить или отклонить приглашение",
+            "benefit": "контролировать доступ посетителей в офис",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-002",
+            "system_action": "Обновить статус приглашения на 'Подтверждено' или 'Отклонено'.",
+            "responsibility": "Обеспечить изменение статуса приглашения.",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-002"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-002 — Подтверждение или отклонение приглашения\nGoal: Администратор подтверждает или отклоняет приглашение.\nPrimary actor: ACT-002\nTrigger: Поступило новое приглашение, ожидающее подтверждения.\nPreconditions:\n  - PRE-UC002-001: Администратор авторизован в системе.\n  - PRE-UC002-002: Существует приглашение со статусом 'Ожидает подтверждения'.\nMain success scenario:\n  1. [STEP-UC002-001] Администратор просматривает приглашение.\n  2. [STEP-UC002-002] Администратор подтверждает приглашение.\nAlternative scenarios:\n  - SCN-UC002-ALT-001: Отклонение приглашения\nSource FRs: FR-002\n"
+      },
+      {
+        "id": "UC-003",
+        "name": "Отправка итогового статуса посетителю",
+        "goal": "Посетителю отправляется итоговый статус приглашения.",
+        "primary_actor_id": "ACT-003",
+        "secondary_actor_ids": [],
+        "trigger": "Статус приглашения изменён на 'Подтверждено' или 'Отклонено'.",
+        "preconditions": [
+          {
+            "id": "PRE-UC003-001",
+            "text": "Приглашение имеет итоговый статус ('Подтверждено' или 'Отклонено')."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC003-001",
+            "text": "Посетитель получил уведомление с итоговым статусом.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC003-002",
+            "text": "Уведомление не отправлено; система зафиксировала ошибку.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC003-MAIN-001",
+          "kind": "main",
+          "name": "Успешная отправка статуса",
+          "steps": [
+            {
+              "id": "STEP-UC003-001",
+              "order": 1,
+              "actor_id": null,
+              "action": "Система формирует уведомление с итоговым статусом.",
+              "expected_result": "Уведомление сформировано.",
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC003-002",
+              "order": 2,
+              "actor_id": null,
+              "action": "Система отправляет уведомление посетителю.",
+              "expected_result": "Посетитель получает уведомление.",
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [],
+        "user_stories": [
+          {
+            "id": "US-003",
+            "role": "Посетитель",
+            "capability": "получить итоговый статус приглашения",
+            "benefit": "знать, подтверждён ли визит",
+            "use_case_id": "UC-003"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-003",
+            "system_action": "Отправить уведомление с итоговым статусом посетителю.",
+            "responsibility": "Обеспечить доставку уведомления.",
+            "use_case_id": "UC-003"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-003"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-003 — Отправка итогового статуса посетителю\nGoal: Посетителю отправляется итоговый статус приглашения.\nPrimary actor: ACT-003\nTrigger: Статус приглашения изменён на 'Подтверждено' или 'Отклонено'.\nPreconditions:\n  - PRE-UC003-001: Приглашение имеет итоговый статус ('Подтверждено' или 'Отклонено').\nMain success scenario:\n  1. [STEP-UC003-001] Система формирует уведомление с итоговым статусом.\n  2. [STEP-UC003-002] Система отправляет уведомление посетителю.\nSource FRs: FR-003\n"
+      }
+    ],
+    "fr_coverage": {
+      "FR-001": "covered",
+      "FR-002": "covered",
+      "FR-003": "covered"
+    }
+  },
+  "activity_results": [
+    {
+      "use_case_id": "UC-001",
+      "activity_diagram": {
+        "id": "AD-UC001",
+        "use_case_id": "UC-001",
+        "name": "Создание приглашения посетителя",
+        "partitions": [
+          {
+            "id": "PART-UC001-001",
+            "name": "Сотрудник",
+            "actor_id": "ACT-001"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC001-001",
+            "kind": "initial",
+            "name": "Начало",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-002",
+            "kind": "action",
+            "name": "Ввод ФИО посетителя и времени визита",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-003",
+            "kind": "action",
+            "name": "Отправка приглашения",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-004",
+            "kind": "action",
+            "name": "Сохранение приглашения со статусом 'Ожидает подтверждения'",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-005",
+            "kind": "final",
+            "name": "Завершение",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC001-001",
+            "source_node_id": "ADN-UC001-001",
+            "target_node_id": "ADN-UC001-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-002",
+            "source_node_id": "ADN-UC001-002",
+            "target_node_id": "ADN-UC001-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-003",
+            "source_node_id": "ADN-UC001-003",
+            "target_node_id": "ADN-UC001-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-004",
+            "source_node_id": "ADN-UC001-004",
+            "target_node_id": "ADN-UC001-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC001 uc:UC-001\n  subgraph PART-UC001-001[\"Сотрудник\"]\n  ADN-UC001-001((\"start\"))\n  ADN-UC001-002[\"Ввод ФИО посетителя и времени визита\"]\n  ADN-UC001-003[\"Отправка приглашения\"]\n  ADN-UC001-004[\"Сохранение приглашения со статусом 'Ожидает подтверждения'\"]\n  ADN-UC001-005((\"end\"))\n  end\n  ADN-UC001-001 --> ADN-UC001-002\n  ADN-UC001-002 --> ADN-UC001-003\n  ADN-UC001-003 --> ADN-UC001-004\n  ADN-UC001-004 --> ADN-UC001-005\n"
+      },
+      "status": "success",
+      "validation_reports": [
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_generator_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC001-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 0,
+            "max": 2
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_repair_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_critic_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "warning",
+              "category": "semantic",
+              "code": "PARTITION_ASSIGNMENT_IMPRECISE",
+              "message": "Узел 'Сохранение приглашения со статусом Ожидает подтверждения' (ADN-UC001-004) размещён в партиции 'Сотрудник', хотя это системное действие (SS-001). Это неточность распределения ответственности, но не противоречит шагам UC и не является блокирующим.",
+              "element_ids": [
+                "ADN-UC001-004",
+                "PART-UC001-001"
+              ],
+              "blocking": false
+            }
+          ],
+          "validator_name": "activity_llm_critic",
+          "details": {
+            "decision": "accept",
+            "summary": "Диаграмма сохраняет оба шага основного сценария UC-001 (ввод данных и отправка приглашения) и корректно отражает успешный исход с сохранением статуса 'Ожидает подтверждения'. Альтернативных и исключительных сценариев в UC нет, поэтому их отсутствие на диаграмме не является пропуском. Единственное замечание — размещение системного действия сохранения в партиции актора; это стилистическая неточность, не блокирующая приёмку."
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 1,
+            "max": 2
+          }
+        }
+      ],
+      "repair_attempts_used": 1,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-002",
+      "activity_diagram": {
+        "id": "AD-UC002",
+        "use_case_id": "UC-002",
+        "name": "Подтверждение или отклонение приглашения",
+        "partitions": [
+          {
+            "id": "PART-UC002-001",
+            "name": "Администратор",
+            "actor_id": "ACT-002"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC002-001",
+            "kind": "initial",
+            "name": "Начало",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-002",
+            "kind": "action",
+            "name": "Просмотреть приглашение",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-001",
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-003",
+            "kind": "decision",
+            "name": "Решение по приглашению",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-002",
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-004",
+            "kind": "action",
+            "name": "Подтвердить приглашение",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-005",
+            "kind": "action",
+            "name": "Отклонить приглашение",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-006",
+            "kind": "final",
+            "name": "Конец",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC002-001",
+            "source_node_id": "ADN-UC002-001",
+            "target_node_id": "ADN-UC002-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-001",
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-002",
+            "source_node_id": "ADN-UC002-002",
+            "target_node_id": "ADN-UC002-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-001",
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-003",
+            "source_node_id": "ADN-UC002-003",
+            "target_node_id": "ADN-UC002-004",
+            "guard": "Подтвердить",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-004",
+            "source_node_id": "ADN-UC002-003",
+            "target_node_id": "ADN-UC002-005",
+            "guard": "Отклонить",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-005",
+            "source_node_id": "ADN-UC002-004",
+            "target_node_id": "ADN-UC002-006",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-006",
+            "source_node_id": "ADN-UC002-005",
+            "target_node_id": "ADN-UC002-006",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC002 uc:UC-002\n  subgraph PART-UC002-001[\"Администратор\"]\n  ADN-UC002-001((\"start\"))\n  ADN-UC002-002[\"Просмотреть приглашение\"]\n  ADN-UC002-003{\"Решение по приглашению\"}\n  ADN-UC002-004[\"Подтвердить приглашение\"]\n  ADN-UC002-005[\"Отклонить приглашение\"]\n  ADN-UC002-006((\"end\"))\n  end\n  ADN-UC002-001 --> ADN-UC002-002\n  ADN-UC002-002 --> ADN-UC002-003\n  ADN-UC002-003 -->|\"Подтвердить\"| ADN-UC002-004\n  ADN-UC002-003 -->|\"Отклонить\"| ADN-UC002-005\n  ADN-UC002-004 --> ADN-UC002-006\n  ADN-UC002-005 --> ADN-UC002-006\n"
+      },
+      "status": "success",
+      "validation_reports": [
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_generator_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC002-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 0,
+            "max": 2
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_repair_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_critic_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_llm_critic",
+          "details": {
+            "decision": "accept",
+            "summary": "Activity diagram preserves all UC-002 steps: viewing the invitation (STEP-UC002-001/003), the confirm branch (STEP-UC002-002) and reject branch (STEP-UC002-004), with no unsupported business actions. The decision node merging the two alternative paths is an equivalent control-flow decomposition and is non-blocking."
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 1,
+            "max": 2
+          }
+        }
+      ],
+      "repair_attempts_used": 1,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-003",
+      "activity_diagram": {
+        "id": "AD-UC003",
+        "use_case_id": "UC-003",
+        "name": "Отправка итогового статуса посетителю",
+        "partitions": [
+          {
+            "id": "PART-UC003-001",
+            "name": "Система",
+            "actor_id": null
+          },
+          {
+            "id": "PART-UC003-002",
+            "name": "Посетитель",
+            "actor_id": "ACT-003"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC003-001",
+            "kind": "initial",
+            "name": "Начало",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-002",
+            "kind": "action",
+            "name": "Система формирует уведомление с итоговым статусом.",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-003",
+            "kind": "action",
+            "name": "Система отправляет уведомление посетителю.",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-004",
+            "kind": "action",
+            "name": "Посетитель получает уведомление.",
+            "partition_id": "PART-UC003-002",
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-005",
+            "kind": "final",
+            "name": "Конец",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC003-001",
+            "source_node_id": "ADN-UC003-001",
+            "target_node_id": "ADN-UC003-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-002",
+            "source_node_id": "ADN-UC003-002",
+            "target_node_id": "ADN-UC003-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-003",
+            "source_node_id": "ADN-UC003-003",
+            "target_node_id": "ADN-UC003-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-004",
+            "source_node_id": "ADN-UC003-004",
+            "target_node_id": "ADN-UC003-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC003 uc:UC-003\n  subgraph PART-UC003-001[\"Система\"]\n  ADN-UC003-001((\"start\"))\n  ADN-UC003-002[\"Система формирует уведомление с итоговым статусом.\"]\n  ADN-UC003-003[\"Система отправляет уведомление посетителю.\"]\n  ADN-UC003-005((\"end\"))\n  end\n  subgraph PART-UC003-002[\"Посетитель\"]\n  ADN-UC003-004[\"Посетитель получает уведомление.\"]\n  end\n  ADN-UC003-001 --> ADN-UC003-002\n  ADN-UC003-002 --> ADN-UC003-003\n  ADN-UC003-003 --> ADN-UC003-004\n  ADN-UC003-004 --> ADN-UC003-005\n"
+      },
+      "status": "success",
+      "validation_reports": [
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_generator_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC003-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 0,
+            "max": 2
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_repair_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_critic_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "info",
+              "category": "semantic",
+              "code": "EQUIVALENT_DECOMPOSITION",
+              "message": "Activity ADN-UC003-004 ('Посетитель получает уведомление.') is an additional action node derived from the expected_result of STEP-UC003-002 rather than a separate UC step. This is an equivalent control-flow decomposition of the same step and does not introduce unsupported business behavior.",
+              "element_ids": [
+                "STEP-UC003-002",
+                "ADN-UC003-004"
+              ],
+              "blocking": false
+            }
+          ],
+          "validator_name": "activity_llm_critic",
+          "details": {
+            "decision": "accept",
+            "summary": "The activity diagram preserves both main-scenario steps (STEP-UC003-001, STEP-UC003-002) in order, with no alternative or exception scenarios defined in the UC. The extra action node for the visitor receiving the notification is a benign decomposition of the step's expected result, not an unsupported business action. No evidence-grounded blocking issue remains."
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 1,
+            "max": 2
+          }
+        }
+      ],
+      "repair_attempts_used": 1,
+      "failure_reason": null
+    }
+  ],
+  "trace_manifest": {
+    "links": [
+      {
+        "id": "TL-001",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-002",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-003",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-004",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-005",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-006",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-007",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-008",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-009",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-010",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-011",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-012",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "fr_atom",
+        "target_id": "FRA-001-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-013",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "fr_atom",
+        "target_id": "FRA-002-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-014",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "fr_atom",
+        "target_id": "FRA-003-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-015",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-016",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-017",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-018",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-019",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-020",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-021",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC003-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-022",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC003-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-023",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-024",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-025",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-026",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-027",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-028",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-029",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-030",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-031",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-032",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-033",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-034",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-035",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-036",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-037",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-038",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-039",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-040",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-041",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-042",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-043",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-044",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-045",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-046",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-047",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-048",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-049",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-050",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-051",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-052",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-053",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-054",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "activity",
+        "target_id": "AD-UC001",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-055",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "activity",
+        "target_id": "AD-UC002",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-056",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "activity",
+        "target_id": "AD-UC003",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-057",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "ss",
+        "target_id": "SS-001",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-058",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "ss",
+        "target_id": "SS-002",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-059",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "ss",
+        "target_id": "SS-003",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-060",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "us",
+        "target_id": "US-001",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-061",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "us",
+        "target_id": "US-002",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-062",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "us",
+        "target_id": "US-003",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      }
+    ]
+  },
+  "validation_reports": [
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_deterministic_aggregate",
+      "details": {
+        "requirement_atomization": true,
+        "unique_ids": true,
+        "use_case_structure": true,
+        "uc_fr_references": true,
+        "fr_coverage": true,
+        "fr_to_uc_trace": true,
+        "trace_link_contracts": true,
+        "declared_trace_bidirectionality": true,
+        "trace_coverage_thresholds": true,
+        "trace_integrity": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "ACTOR_RESPONSIBILITY_WARNING",
+          "message": "UC-003 назначен primary_actor_id=ACT-003 (Посетитель), но все шаги сценария выполняет система (actor_id=null). Посетитель является получателем уведомления, а не инициатором; это не противоречит FR-003, но модель актёра можно уточнить.",
+          "element_ids": [
+            "UC-003",
+            "ACT-003"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "uc_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "Все три FR покрыты соответствующими use case'ами без противоречий и пропусков. Замечание по модели актёра в UC-003 носит неблокирующий характер.",
+        "critic_not_deterministic_validator": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC001-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "PARTITION_ASSIGNMENT_IMPRECISE",
+          "message": "Узел 'Сохранение приглашения со статусом Ожидает подтверждения' (ADN-UC001-004) размещён в партиции 'Сотрудник', хотя это системное действие (SS-001). Это неточность распределения ответственности, но не противоречит шагам UC и не является блокирующим.",
+          "element_ids": [
+            "ADN-UC001-004",
+            "PART-UC001-001"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "activity_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "Диаграмма сохраняет оба шага основного сценария UC-001 (ввод данных и отправка приглашения) и корректно отражает успешный исход с сохранением статуса 'Ожидает подтверждения'. Альтернативных и исключительных сценариев в UC нет, поэтому их отсутствие на диаграмме не является пропуском. Единственное замечание — размещение системного действия сохранения в партиции актора; это стилистическая неточность, не блокирующая приёмку."
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 1,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC002-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "Activity diagram preserves all UC-002 steps: viewing the invitation (STEP-UC002-001/003), the confirm branch (STEP-UC002-002) and reject branch (STEP-UC002-004), with no unsupported business actions. The decision node merging the two alternative paths is an equivalent control-flow decomposition and is non-blocking."
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 1,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC003-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "info",
+          "category": "semantic",
+          "code": "EQUIVALENT_DECOMPOSITION",
+          "message": "Activity ADN-UC003-004 ('Посетитель получает уведомление.') is an additional action node derived from the expected_result of STEP-UC003-002 rather than a separate UC step. This is an equivalent control-flow decomposition of the same step and does not introduce unsupported business behavior.",
+          "element_ids": [
+            "STEP-UC003-002",
+            "ADN-UC003-004"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "activity_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "The activity diagram preserves both main-scenario steps (STEP-UC003-001, STEP-UC003-002) in order, with no alternative or exception scenarios defined in the UC. The extra action node for the visitor receiving the notification is a benign decomposition of the step's expected result, not an unsupported business action. No evidence-grounded blocking issue remains."
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 1,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "e2e_trace",
+      "details": {
+        "requirement_atomization": {
+          "passed": true,
+          "fr_count": 3,
+          "atom_count": 3
+        },
+        "unique_ids": {
+          "passed": true
+        },
+        "fr_coverage": {
+          "passed": true,
+          "covered": [
+            "FR-001",
+            "FR-002",
+            "FR-003"
+          ]
+        },
+        "trace_link_contracts": {
+          "passed": true
+        },
+        "declared_trace_bidirectionality": {
+          "passed": true,
+          "expected_relations": 62,
+          "actual_relations": 62
+        },
+        "trace_coverage_thresholds": {
+          "passed": true,
+          "uc_supported": 17,
+          "uc_total": 17,
+          "uc_ratio": 1.0,
+          "activity_supported": 33,
+          "activity_total": 33,
+          "activity_ratio": 1.0
+        },
+        "trace_integrity": {
+          "passed": true
+        }
+      }
+    }
+  ],
+  "evaluation_report": {
+    "metrics": [
+      {
+        "name": "schema_validity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Share of schema validators that passed"
+      },
+      {
+        "name": "fr_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "|FRs referenced by ≥1 UC| / |FRs|"
+      },
+      {
+        "name": "orphan_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "duplicate_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "trace_reference_integrity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "1 - dangling_links / max(links,1) (approx from validation issues)"
+      },
+      {
+        "name": "trace_completeness",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "activity_structural_validity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "mermaid_generation_success",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "end_to_end_success",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": null
+      },
+      {
+        "name": "repair_attempts",
+        "value": 3,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": "Use Case repair attempts plus all Activity repair attempts"
+      },
+      {
+        "name": "uc_element_trace_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "activity_element_trace_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "unsupported_trace_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "blocking_error_classes",
+        "value": 1,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": null
+      },
+      {
+        "name": "stability_multi_run",
+        "value": null,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Requires ≥2 seeded runs; not computed in scaffold"
+      },
+      {
+        "name": "latency_ms",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "ms",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "token_usage",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "tokens",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "cost_usd",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "usd",
+        "notes": "Filled when LLM nodes are wired"
+      }
+    ],
+    "automatic_only": true,
+    "notes": "Automatic metrics only; LLM-as-a-judge and expert scores are separate tracks"
+  },
+  "uc_repair_attempts_used": 0,
+  "status": "success",
+  "failure_reason": null
+}

@@ -99,6 +99,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--model-label", required=True)
     parser.add_argument("--package-dir", type=Path, default=DEFAULT_PACKAGE)
     parser.add_argument("--responses-dir", type=Path)
+    parser.add_argument("--case-id", action="append")
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
     parser.add_argument("--experiment-id")
     parser.add_argument(
@@ -117,6 +118,12 @@ def main() -> None:
         (args.package_dir / "package_manifest.json").read_text(encoding="utf-8")
     )
     case_ids = list(manifest["case_ids"])
+    if args.case_id:
+        wanted = set(args.case_id)
+        case_ids = [case_id for case_id in case_ids if case_id in wanted]
+        missing = wanted - set(case_ids)
+        if missing:
+            raise SystemExit(f"Unknown package case IDs: {sorted(missing)}")
     all_cases = json.loads(CASES_PATH.read_text(encoding="utf-8"))
     cases = {case["case_id"]: case for case in all_cases if case["case_id"] in case_ids}
     if set(cases) != set(case_ids):

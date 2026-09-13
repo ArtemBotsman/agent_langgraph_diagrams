@@ -1,0 +1,20 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Resident"]
+  ADN-UC001-001(("start"))
+  ADN-UC001-002["Resident submits the visitor vehicle plate and visit time."]
+  end
+  subgraph PART-UC001-002["System"]
+  ADN-UC001-003["System validates that the request is complete."]
+  ADN-UC001-004{"Request complete?"}
+  ADN-UC001-005["System issues a time-limited visitor permit."]
+  ADN-UC001-006["System does not issue a permit and informs the resident that the request is incomplete."]
+  ADN-UC001-007(("end"))
+  end
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 -->|"complete"| ADN-UC001-005
+  ADN-UC001-004 -->|"incomplete"| ADN-UC001-006
+  ADN-UC001-005 --> ADN-UC001-007
+  ADN-UC001-006 --> ADN-UC001-007

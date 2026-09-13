@@ -1,0 +1,409 @@
+[
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC002-003 references FRs outside UC-002: NFR-002",
+        "element_ids": [
+          "UC-002",
+          "STEP-UC002-003",
+          "NFR-002"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-002",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC002-005 references FRs outside UC-002: NFR-002",
+        "element_ids": [
+          "UC-002",
+          "STEP-UC002-005",
+          "NFR-002"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": false,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": true,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "All five functional requirements are covered by use cases with traceable steps: FR-001/FR-002/FR-003 in UC-001, FR-004 in UC-002, and FR-005 in UC-003. Actors, preconditions, postconditions, and scenarios are consistent with the FR text, and no direct FR omission or contradiction is evidenced. Deterministic validators passed. No blocking issues found.",
+      "critic_not_deterministic_validator": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC001-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram preserves all main success scenario steps and the receipt attachment exception scenario. The decision node and merge node correctly model the retry loop, and no unsupported business actions are introduced. No blocking semantic issues found."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC002-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram faithfully represents UC-002: all main-scenario steps (open claim, review/confirm no exceptions, approve) and alternative-scenario steps (review/identify issues, reject with reason) are present and traceable via related_step_ids. The decision node 'Policy exceptions?' with approve/reject branches correctly captures the main vs. alternative outcomes, and the system actions for recording decisions with an audit trail reflect the expected results and SS-003. No UC step is omitted or contradicted, and no unsupported business action is introduced. Layout and decomposition choices are non-blocking."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC003-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram faithfully represents the UC-003 main success scenario. Both UC steps are present: STEP-UC003-001 is decomposed into the finance officer opening the claim and the system displaying claim details, and STEP-UC003-002 is decomposed into recording reimbursement details and the system recording reimbursement and marking the claim as reimbursed. The expected results of both steps are preserved, no alternative or exception scenarios exist to omit, and no unsupported business actions are introduced. The additional system actions are direct realizations of the stated expected results and system story SS-004, not unsupported assumptions."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "e2e_trace",
+    "details": {
+      "requirement_atomization": {
+        "passed": true,
+        "fr_count": 5,
+        "atom_count": 5
+      },
+      "unique_ids": {
+        "passed": true
+      },
+      "fr_coverage": {
+        "passed": true,
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004",
+          "FR-005"
+        ]
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "declared_trace_bidirectionality": {
+        "passed": true,
+        "expected_relations": 121,
+        "actual_relations": 121
+      },
+      "trace_coverage_thresholds": {
+        "passed": true,
+        "uc_supported": 24,
+        "uc_total": 24,
+        "uc_ratio": 1.0,
+        "activity_supported": 60,
+        "activity_total": 60,
+        "activity_ratio": 1.0
+      },
+      "trace_integrity": {
+        "passed": true
+      }
+    }
+  }
+]

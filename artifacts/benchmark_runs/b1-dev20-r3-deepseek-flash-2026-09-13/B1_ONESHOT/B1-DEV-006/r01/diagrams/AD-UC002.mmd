@@ -1,0 +1,20 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Volunteer"]
+  ADN-UC002-002["Select shift"]
+  ADN-UC002-003["Confirm signup"]
+  end
+  subgraph PART-UC002-002["System"]
+  ADN-UC002-004{"Shift has capacity?"}
+  ADN-UC002-005["Record signup and confirm"]
+  ADN-UC002-006["Reject signup and display error"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-007(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004
+  ADN-UC002-004 -->|"capacity > 0"| ADN-UC002-005
+  ADN-UC002-004 -->|"capacity == 0"| ADN-UC002-006
+  ADN-UC002-005 --> ADN-UC002-007
+  ADN-UC002-006 --> ADN-UC002-007

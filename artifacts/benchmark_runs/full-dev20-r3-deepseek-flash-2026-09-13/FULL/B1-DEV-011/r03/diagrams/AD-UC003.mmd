@@ -1,0 +1,22 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Student"]
+  ADN-UC003-002["Student requests to join the waitlist for a full course."]
+  end
+  subgraph PART-UC003-002["Course Registration System"]
+  ADN-UC003-003["System verifies the course is full and the student is eligible to waitlist."]
+  ADN-UC003-004{"Waitlist available?"}
+  ADN-UC003-005["System adds the student to the waitlist."]
+  ADN-UC003-006["System confirms waitlist placement to the student."]
+  ADN-UC003-007["System informs the student that the waitlist is not available."]
+  end
+  ADN-UC003-001(("start"))
+  ADN-UC003-008(("end"))
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 --> ADN-UC003-004
+  ADN-UC003-004 -->|"Waitlist available"| ADN-UC003-005
+  ADN-UC003-004 -->|"Waitlist not available"| ADN-UC003-007
+  ADN-UC003-005 --> ADN-UC003-006
+  ADN-UC003-006 --> ADN-UC003-008
+  ADN-UC003-007 --> ADN-UC003-008

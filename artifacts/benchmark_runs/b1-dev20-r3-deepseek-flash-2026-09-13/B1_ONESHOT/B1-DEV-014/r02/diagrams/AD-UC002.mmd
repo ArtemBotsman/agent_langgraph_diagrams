@@ -1,0 +1,15 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Диспетчер"]
+  ADN-UC002-001(("start"))
+  ADN-UC002-002["Выбор заявки"]
+  ADN-UC002-003["Назначение исполнителя и срока"]
+  end
+  subgraph PART-UC002-002["Система"]
+  ADN-UC002-004["Сохранение назначения"]
+  ADN-UC002-005(("end"))
+  end
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004
+  ADN-UC002-004 --> ADN-UC002-005

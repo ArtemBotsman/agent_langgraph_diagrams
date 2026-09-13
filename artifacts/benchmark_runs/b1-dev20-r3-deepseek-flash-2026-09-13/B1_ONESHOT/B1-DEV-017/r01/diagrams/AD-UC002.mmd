@@ -1,0 +1,22 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Buyer"]
+  ADN-UC002-001(("start"))
+  ADN-UC002-002["Upload evidence before deadline"]
+  end
+  subgraph PART-UC002-002["Seller"]
+  end
+  subgraph PART-UC002-003["System"]
+  ADN-UC002-003{"Deadline passed?"}
+  ADN-UC002-004["Reject upload"]
+  ADN-UC002-005["Accept evidence"]
+  ADN-UC002-006["Notify each party about new evidence"]
+  ADN-UC002-007(("end"))
+  end
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 -->|"deadline passed"| ADN-UC002-004
+  ADN-UC002-003 -->|"deadline not passed"| ADN-UC002-005
+  ADN-UC002-004 --> ADN-UC002-007
+  ADN-UC002-005 --> ADN-UC002-006
+  ADN-UC002-006 --> ADN-UC002-007

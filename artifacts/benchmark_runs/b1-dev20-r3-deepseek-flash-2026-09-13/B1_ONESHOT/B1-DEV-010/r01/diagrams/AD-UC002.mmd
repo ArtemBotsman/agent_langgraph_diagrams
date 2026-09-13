@@ -1,0 +1,11 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Исследователь"]
+  ADN-UC002-001(("start"))
+  ADN-UC002-002["Указать проект и временной интервал"]
+  ADN-UC002-003["Принять данные заявки"]
+  ADN-UC002-004(("end"))
+  end
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004

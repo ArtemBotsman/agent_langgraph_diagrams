@@ -22,9 +22,10 @@ from traceable_spec.evaluation.aggregation import attach_repeat_stability, summa
 from traceable_spec.evaluation.benchmark import evaluate_semantic_projection
 from traceable_spec.evaluation.projection import automatic_metrics, semantic_projection
 from traceable_spec.evaluation.similarity import MultilingualSentenceSimilarity
-from traceable_spec.llm.openai_compatible import (
-    OpenAICompatibleConfig,
-    OpenAICompatibleLLMClient,
+from traceable_spec.llm.factory import (
+    InstrumentedLLMClient,
+    create_instrumented_client,
+    provider_config_from_env,
 )
 from traceable_spec.orchestration.component_variants import live_pipeline_deps_without_critics
 from traceable_spec.orchestration.persistence import open_sqlite_checkpointer, thread_config
@@ -127,7 +128,7 @@ def _run_condition(
     case: dict[str, Any],
     repeat_id: int,
     run_dir: Path,
-    client: OpenAICompatibleLLMClient | None,
+    client: InstrumentedLLMClient | None,
 ) -> tuple[GeneratedSpecification, dict[str, Any]]:
     request = case["specification_req"]
     call_start = len(client.calls) if client is not None else 0
@@ -202,6 +203,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--repeats", type=int, default=1)
     parser.add_argument("--allow-live", action="store_true")
     parser.add_argument("--allow-hidden", action="store_true")
+    parser.add_argument("--env-file", type=Path, default=ROOT / ".env")
     parser.add_argument(
         "--max-live-calls",
         type=int,
@@ -282,10 +284,10 @@ def main() -> None:
         similarity = MultilingualSentenceSimilarity(local_files_only=not args.allow_model_download)
         similarity_name = similarity.name
 
-    client: OpenAICompatibleLLMClient | None = None
+    client: InstrumentedLLMClient | None = None
     if live_requested:
-        _load_local_env(ROOT / ".env")
-        llm_config = OpenAICompatibleConfig.from_env()
+        _load_local_env(args.env_file)
+        llm_config = provider_config_from_env()
         llm_config = replace(
             llm_config,
             telemetry_path=experiment_dir / "all_calls.jsonl",
@@ -310,7 +312,7 @@ def main() -> None:
                 else None
             ),
         )
-        client = OpenAICompatibleLLMClient(llm_config)
+        client = create_instrumented_client(llm_config)
 
     rows: list[dict[str, Any]] = []
     for condition in conditions:
@@ -331,7 +333,10 @@ def main() -> None:
                     "provider": None if client is None else client.config.provider,
                     "api_base": None if client is None else client.config.api_base,
                     "model": None if client is None else client.config.model,
-                    "temperature": 0,
+                    "requested_temperature": 0,
+                    "effective_temperature": (
+                        None if client is not None and client.config.provider == "anthropic" else 0
+                    ),
                     "prompt_version": "2026-09-09-v1",
                     "schema_version": "0.2.0",
                     "semantic_similarity_backend": similarity_name,

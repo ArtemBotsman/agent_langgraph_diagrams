@@ -1,0 +1,459 @@
+[
+  {
+    "case_id": "B1-DEV-001",
+    "title": "Бронирование переговорной",
+    "complexity": "simple",
+    "language": "ru",
+    "specification_req": {
+      "project_task": "Создать сервис бронирования переговорных комнат.",
+      "project_name": "RoomBook",
+      "project_goal": "Снизить число конфликтов при бронировании комнат.",
+      "project_description": "Сотрудник выбирает свободную переговорную и резервирует временной слот.",
+      "functional_requirements": [
+        "Сотрудник просматривает свободные комнаты на выбранное время.",
+        "Сотрудник бронирует свободную комнату.",
+        "Система отклоняет пересекающееся бронирование."
+      ],
+      "non_functional_requirements": [
+        "Подтверждение бронирования должно занимать не более 2 секунд."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-002",
+    "title": "Регистрация на мероприятие",
+    "complexity": "simple",
+    "language": "ru",
+    "specification_req": {
+      "project_task": "Создать приложение регистрации участников мероприятия.",
+      "project_name": "Event Signup",
+      "project_goal": "Собирать подтвержденные регистрации без ручного ввода организатором.",
+      "project_description": "Посетитель просматривает мероприятие, заполняет форму и получает подтверждение.",
+      "functional_requirements": [
+        "Посетитель просматривает описание мероприятия.",
+        "Посетитель отправляет имя и email для регистрации.",
+        "Система не допускает повторную регистрацию одного email."
+      ],
+      "non_functional_requirements": [
+        "Интерфейс должен быть доступен на русском языке.",
+        "Email не должен попадать в журналы приложения в открытом виде."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-003",
+    "title": "Visitor parking permit",
+    "complexity": "simple",
+    "language": "en",
+    "specification_req": {
+      "project_task": "Build a visitor parking permit request service.",
+      "project_name": "ParkPass",
+      "project_goal": "Issue time-limited visitor permits without a paper form.",
+      "project_description": "A resident requests a permit for a visitor vehicle and security verifies it.",
+      "functional_requirements": [
+        "A resident submits the visitor vehicle plate and visit time.",
+        "The system issues a permit when the request is complete.",
+        "Security can verify an active permit by plate number."
+      ],
+      "non_functional_requirements": [
+        "Permit lookup must complete within two seconds."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-004",
+    "title": "Equipment checkout",
+    "complexity": "simple",
+    "language": "en",
+    "specification_req": {
+      "project_task": "Create an equipment checkout application for a media lab.",
+      "project_name": "Media Checkout",
+      "project_goal": "Track who has borrowed each device.",
+      "project_description": "Students request available equipment and staff record checkout and return.",
+      "functional_requirements": [
+        "A student requests an available device.",
+        "A lab assistant records the checkout.",
+        "A lab assistant records the return and device condition."
+      ],
+      "non_functional_requirements": [
+        "Every checkout and return must be auditable."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-005",
+    "title": "Заказ пропуска",
+    "complexity": "simple",
+    "language": "ru",
+    "specification_req": {
+      "project_task": "Создать сервис заказа временного пропуска в офис.",
+      "project_name": "Office Pass",
+      "project_goal": "Сократить время оформления посетителей.",
+      "project_description": "Сотрудник приглашает посетителя, а администратор подтверждает выдачу пропуска.",
+      "functional_requirements": [
+        "Сотрудник создаёт приглашение с ФИО и временем визита.",
+        "Администратор подтверждает или отклоняет приглашение.",
+        "Посетителю отправляется итоговый статус."
+      ],
+      "non_functional_requirements": [
+        "Персональные данные должны храниться не дольше 30 дней после визита."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-006",
+    "title": "Volunteer shift signup",
+    "complexity": "simple",
+    "language": "en",
+    "specification_req": {
+      "project_task": "Create a volunteer shift signup page.",
+      "project_name": "Volunteer Roster",
+      "project_goal": "Fill volunteer shifts without overbooking.",
+      "project_description": "Volunteers select a shift with remaining capacity and receive confirmation.",
+      "functional_requirements": [
+        "A volunteer views shifts with remaining capacity.",
+        "A volunteer signs up for one shift.",
+        "The system rejects signup when the shift is full."
+      ],
+      "non_functional_requirements": [
+        "The signup page must work on a mobile viewport."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-007",
+    "title": "Запись в поликлинику",
+    "complexity": "medium",
+    "language": "ru",
+    "specification_req": {
+      "project_task": "Создать сервис самостоятельной записи пациента к врачу.",
+      "project_name": "Clinic Appointment",
+      "project_goal": "Сократить нагрузку на регистратуру.",
+      "project_description": "Пациент выбирает специальность, врача и свободное время, затем может отменить запись.",
+      "functional_requirements": [
+        "Пациент выбирает медицинскую специальность.",
+        "Система показывает врачей и свободные слоты.",
+        "Пациент подтверждает запись.",
+        "Система запрещает двойное бронирование слота.",
+        "Пациент отменяет будущую запись."
+      ],
+      "non_functional_requirements": [
+        "Медицинские данные должны быть доступны только авторизованному пациенту.",
+        "Подтверждение записи должно занимать не более 3 секунд."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-008",
+    "title": "Travel expense approval",
+    "complexity": "medium",
+    "language": "en",
+    "specification_req": {
+      "project_task": "Build a travel expense submission and approval workflow.",
+      "project_name": "Travel Claims",
+      "project_goal": "Reduce manual checking of employee expense claims.",
+      "project_description": "An employee submits receipts; a manager reviews policy exceptions and finance reimburses approved claims.",
+      "functional_requirements": [
+        "An employee creates an expense claim with trip details.",
+        "The employee attaches receipts to expense items.",
+        "The system flags items above policy limits.",
+        "A manager approves or rejects the claim.",
+        "Finance records reimbursement for an approved claim."
+      ],
+      "non_functional_requirements": [
+        "Receipt files must be encrypted at rest.",
+        "All approval decisions must be auditable."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-009",
+    "title": "Restaurant reservation",
+    "complexity": "medium",
+    "language": "en",
+    "specification_req": {
+      "project_task": "Create a restaurant table reservation service.",
+      "project_name": "Table Now",
+      "project_goal": "Accept reservations while respecting table capacity.",
+      "project_description": "A guest requests a table; staff can confirm, modify, or cancel reservations.",
+      "functional_requirements": [
+        "A guest searches available times for party size and date.",
+        "A guest submits contact details to reserve a table.",
+        "The system prevents reservations above available capacity.",
+        "Staff can modify an existing reservation.",
+        "Staff can cancel an existing reservation."
+      ],
+      "non_functional_requirements": [
+        "Contact details must not be displayed to unauthorized staff roles."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-010",
+    "title": "Запись на лабораторное оборудование",
+    "complexity": "medium",
+    "language": "ru",
+    "specification_req": {
+      "project_task": "Создать сервис резервирования лабораторного оборудования.",
+      "project_name": "LabSlot",
+      "project_goal": "Исключить пересечения и неподготовленные запуски оборудования.",
+      "project_description": "Исследователь резервирует установку, указывает проект и подтверждает наличие обучения по безопасности.",
+      "functional_requirements": [
+        "Исследователь просматривает доступность установки.",
+        "Исследователь указывает проект и временной интервал.",
+        "Система проверяет действующее обучение по безопасности.",
+        "Ответственный сотрудник одобряет заявки на особо опасное оборудование.",
+        "Система отменяет неподтвержденную заявку после истечения срока."
+      ],
+      "non_functional_requirements": [
+        "Журнал бронирований и одобрений должен храниться пять лет."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-011",
+    "title": "University course registration",
+    "complexity": "medium",
+    "language": "en",
+    "specification_req": {
+      "project_task": "Build a university course registration portal.",
+      "project_name": "CourseSelect",
+      "project_goal": "Let students enroll while enforcing prerequisites and capacity.",
+      "project_description": "Students search courses, enroll or join a waitlist, and drop future courses.",
+      "functional_requirements": [
+        "A student searches courses by term and subject.",
+        "The system checks course prerequisites.",
+        "The system checks remaining capacity.",
+        "A student enrolls in an eligible course.",
+        "A student joins a waitlist when a course is full.",
+        "A student drops a future course."
+      ],
+      "non_functional_requirements": [
+        "Enrollment updates must be serializable to prevent oversubscription."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-012",
+    "title": "Parcel delivery tracking",
+    "complexity": "medium",
+    "language": "en",
+    "specification_req": {
+      "project_task": "Create a parcel tracking and delivery confirmation service.",
+      "project_name": "Parcel Track",
+      "project_goal": "Give senders and recipients a reliable parcel status.",
+      "project_description": "Carrier events update parcel status; the recipient confirms delivery or reports a problem.",
+      "functional_requirements": [
+        "A sender creates a shipment with recipient details.",
+        "A carrier posts parcel scan events.",
+        "The system derives the current parcel status from accepted events.",
+        "A recipient views the current status.",
+        "A recipient confirms delivery or reports damage."
+      ],
+      "non_functional_requirements": [
+        "Duplicate carrier events must be idempotent.",
+        "Tracking history must be retained for one year."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-013",
+    "title": "Согласование заявки на закупку",
+    "complexity": "medium",
+    "language": "ru",
+    "specification_req": {
+      "project_task": "Создать workflow заявки на закупку.",
+      "project_name": "ProcureFlow",
+      "project_goal": "Контролировать бюджет и согласования до заказа товара.",
+      "project_description": "Инициатор создаёт заявку, система проверяет бюджет, руководитель и закупщик принимают решения.",
+      "functional_requirements": [
+        "Инициатор добавляет позиции и обоснование закупки.",
+        "Система проверяет доступный бюджет подразделения.",
+        "Руководитель согласует или отклоняет заявку.",
+        "Закупщик выбирает поставщика для согласованной заявки.",
+        "Инициатор видит историю решений."
+      ],
+      "non_functional_requirements": [
+        "Все решения должны иметь автора и временную метку."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-014",
+    "title": "Заявка на ремонт дома",
+    "complexity": "medium",
+    "language": "ru",
+    "specification_req": {
+      "project_task": "Создать сервис заявок жильцов на ремонт общедомового имущества.",
+      "project_name": "House Repair",
+      "project_goal": "Прозрачно назначать и закрывать ремонтные работы.",
+      "project_description": "Житель сообщает проблему, диспетчер назначает исполнителя, исполнитель прикладывает результат.",
+      "functional_requirements": [
+        "Житель создаёт заявку с адресом, категорией и описанием.",
+        "Житель прикладывает фотографию проблемы.",
+        "Диспетчер назначает исполнителя и срок.",
+        "Исполнитель меняет статус и прикладывает фотографию результата.",
+        "Житель подтверждает решение или переоткрывает заявку."
+      ],
+      "non_functional_requirements": [
+        "Фотографии должны быть доступны только участникам заявки."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-015",
+    "title": "Insurance claim intake",
+    "complexity": "medium",
+    "language": "en",
+    "specification_req": {
+      "project_task": "Create an insurance claim intake and triage workflow.",
+      "project_name": "Claim Intake",
+      "project_goal": "Collect complete loss reports and route them for review.",
+      "project_description": "A policyholder reports a loss, uploads evidence, and receives a case number; an adjuster triages it.",
+      "functional_requirements": [
+        "A policyholder identifies an active policy.",
+        "The policyholder reports loss date, location, and description.",
+        "The policyholder uploads supporting evidence.",
+        "The system creates a claim number for a complete report.",
+        "An adjuster assigns a severity and review route.",
+        "The policyholder views claim status."
+      ],
+      "non_functional_requirements": [
+        "Uploaded evidence must be malware-scanned.",
+        "Sensitive claim data must be encrypted in transit and at rest."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-016",
+    "title": "Экстренная диспетчеризация",
+    "complexity": "hard",
+    "language": "ru",
+    "specification_req": {
+      "project_task": "Создать систему регистрации и диспетчеризации экстренных обращений.",
+      "project_name": "Emergency Dispatch",
+      "project_goal": "Быстро передавать проверенные обращения доступной бригаде.",
+      "project_description": "Оператор принимает обращение, определяет место и приоритет, диспетчер назначает бригаду и отслеживает подтверждение.",
+      "functional_requirements": [
+        "Оператор фиксирует контакт, место и описание происшествия.",
+        "Система предлагает категорию и приоритет, но оператор подтверждает их.",
+        "Система проверяет полноту критических данных.",
+        "Диспетчер видит доступные бригады и их местоположение.",
+        "Диспетчер назначает одну бригаду.",
+        "Бригада подтверждает получение назначения.",
+        "При отсутствии подтверждения назначение эскалируется.",
+        "Все изменения обращения сохраняются в журнале."
+      ],
+      "non_functional_requirements": [
+        "Создание карточки обращения должно занимать не более 5 секунд после ввода данных.",
+        "Потеря связи не должна приводить к исчезновению принятого обращения.",
+        "Рекомендация приоритета не может скрывать решение оператора."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-017",
+    "title": "Marketplace dispute",
+    "complexity": "hard",
+    "language": "en",
+    "specification_req": {
+      "project_task": "Create a marketplace buyer-seller dispute workflow.",
+      "project_name": "FairTrade Disputes",
+      "project_goal": "Resolve order disputes with traceable evidence and deadlines.",
+      "project_description": "A buyer opens a dispute, both parties provide evidence, and a mediator decides or proposes a settlement.",
+      "functional_requirements": [
+        "A buyer opens a dispute for an eligible order.",
+        "The buyer selects a reason and requested outcome.",
+        "The buyer and seller upload evidence before a deadline.",
+        "The system notifies each party about new evidence.",
+        "A mediator reviews order history and evidence.",
+        "A mediator proposes a settlement or records a decision.",
+        "Either party accepts a proposed settlement.",
+        "The system closes the dispute after decision or mutual settlement."
+      ],
+      "non_functional_requirements": [
+        "Evidence must be immutable after the submission deadline.",
+        "A mediator must not access disputes with a declared conflict of interest."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-018",
+    "title": "Data export request",
+    "complexity": "hard",
+    "language": "en",
+    "specification_req": {
+      "project_task": "Build a personal data export request workflow.",
+      "project_name": "Privacy Export",
+      "project_goal": "Fulfil verified export requests within a controlled process.",
+      "project_description": "A user requests an export, verifies identity, and downloads a time-limited archive assembled from multiple services.",
+      "functional_requirements": [
+        "A user requests an export of personal data.",
+        "The system requires recent identity verification.",
+        "The system collects data from registered source services.",
+        "The system records unavailable sources without silently omitting them.",
+        "The system creates an encrypted archive.",
+        "The system sends a time-limited download notification.",
+        "The user downloads the archive after re-authentication.",
+        "The archive is deleted after expiry."
+      ],
+      "non_functional_requirements": [
+        "The export process must complete within the legal service deadline.",
+        "Archive links must be single-user and time-limited.",
+        "Audit records must exclude archive content."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-019",
+    "title": "Муниципальное разрешение",
+    "complexity": "hard",
+    "language": "ru",
+    "specification_req": {
+      "project_task": "Создать процесс подачи и рассмотрения заявки на муниципальное разрешение.",
+      "project_name": "City Permit",
+      "project_goal": "Сделать состояние заявки и причины решений прозрачными заявителю.",
+      "project_description": "Заявитель подаёт документы, система проверяет комплектность, инспектор запрашивает уточнения и принимает решение.",
+      "functional_requirements": [
+        "Заявитель выбирает тип разрешения.",
+        "Заявитель заполняет обязательные поля и прикладывает документы.",
+        "Система проверяет комплектность по типу разрешения.",
+        "Система рассчитывает и принимает обязательную пошлину.",
+        "Инспектор запрашивает уточнение с указанием недостающих данных.",
+        "Заявитель дополняет заявку до срока.",
+        "Инспектор одобряет или отклоняет заявку с причиной.",
+        "Заявитель скачивает выданное разрешение."
+      ],
+      "non_functional_requirements": [
+        "Каждая версия документов должна сохраняться в истории дела.",
+        "Решение должно иметь квалифицированную временную метку."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-020",
+    "title": "Appointment triage with missing rule",
+    "complexity": "hard",
+    "language": "en",
+    "specification_req": {
+      "project_task": "Build an online symptom triage and appointment routing service.",
+      "project_name": "Triage Route",
+      "project_goal": "Route non-emergency requests while identifying cases needing urgent help.",
+      "project_description": "A patient answers questions; the service gives a routing recommendation and schedules eligible requests.",
+      "functional_requirements": [
+        "A patient selects a symptom category.",
+        "The patient answers category-specific questions.",
+        "The system displays an emergency warning when configured red flags are present.",
+        "The system recommends a care route for non-emergency answers.",
+        "The patient books an offered appointment.",
+        "A clinician reviews submitted answers before the appointment.",
+        "The patient can correct answers before clinician review."
+      ],
+      "non_functional_requirements": [
+        "The service must state that its output is not a diagnosis.",
+        "The requirements do not provide the red-flag rule set.",
+        "Sensitive answers must be accessible only to the patient and assigned clinician."
+      ]
+    }
+  }
+]

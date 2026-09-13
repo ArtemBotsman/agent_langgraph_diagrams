@@ -1,0 +1,21 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Buyer"]
+  ADN-UC001-002["Buyer selects an eligible order to dispute"]
+  ADN-UC001-006["Buyer selects a dispute reason and requested outcome"]
+  end
+  subgraph PART-UC001-002["System"]
+  ADN-UC001-003{"Order eligible?"}
+  ADN-UC001-004["System informs buyer that the order is not eligible"]
+  ADN-UC001-007["System creates the dispute and sets an evidence submission deadline"]
+  end
+  ADN-UC001-001(("start"))
+  ADN-UC001-005(("end"))
+  ADN-UC001-008(("end"))
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 -->|"not eligible"| ADN-UC001-004
+  ADN-UC001-004 --> ADN-UC001-005
+  ADN-UC001-003 -->|"eligible"| ADN-UC001-006
+  ADN-UC001-006 --> ADN-UC001-007
+  ADN-UC001-007 --> ADN-UC001-008

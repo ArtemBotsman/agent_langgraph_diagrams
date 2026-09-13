@@ -1,0 +1,29 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Employee"]
+  ADN-UC001-002["Employee starts a new expense claim and enters trip details."]
+  ADN-UC001-003["Employee adds expense items and attaches receipt files to each item."]
+  ADN-UC001-004{"Receipt upload successful?"}
+  ADN-UC001-005["System rejects the file, displays an error, and does not attach the receipt."]
+  ADN-UC001-008{"Save as draft?"}
+  ADN-UC001-009["Employee saves the partially completed claim as a draft."]
+  ADN-UC001-011["Employee reviews the claim summary and submits the claim."]
+  end
+  subgraph PART-UC001-002["Policy Engine"]
+  ADN-UC001-007["System evaluates each expense item against policy limits."]
+  end
+  ADN-UC001-001(("start"))
+  ADN-UC001-006(("end"))
+  ADN-UC001-010(("end"))
+  ADN-UC001-012(("end"))
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 -->|"upload fails"| ADN-UC001-005
+  ADN-UC001-005 --> ADN-UC001-006
+  ADN-UC001-004 -->|"upload succeeds"| ADN-UC001-007
+  ADN-UC001-007 --> ADN-UC001-008
+  ADN-UC001-008 -->|"save as draft"| ADN-UC001-009
+  ADN-UC001-009 --> ADN-UC001-010
+  ADN-UC001-008 -->|"submit now"| ADN-UC001-011
+  ADN-UC001-011 --> ADN-UC001-012

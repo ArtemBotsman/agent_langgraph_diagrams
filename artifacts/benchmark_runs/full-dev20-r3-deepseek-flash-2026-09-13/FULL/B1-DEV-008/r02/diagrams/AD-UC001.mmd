@@ -1,0 +1,26 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Employee"]
+  ADN-UC001-001(("start"))
+  ADN-UC001-002["Initiate new expense claim and enter trip details"]
+  ADN-UC001-003["Add expense items and attach receipts"]
+  ADN-UC001-006["Retry attaching receipt or remove item"]
+  ADN-UC001-009["Submit expense claim"]
+  end
+  subgraph PART-UC001-002["System"]
+  ADN-UC001-004{"Receipt attachment successful?"}
+  ADN-UC001-005["Display error and do not attach receipt"]
+  ADN-UC001-007{"Continue with valid receipts"}
+  ADN-UC001-008["Flag expense items exceeding policy limits"]
+  ADN-UC001-010(("end"))
+  end
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 -->|"attachment fails"| ADN-UC001-005
+  ADN-UC001-004 -->|"attachment succeeds"| ADN-UC001-007
+  ADN-UC001-005 --> ADN-UC001-006
+  ADN-UC001-006 --> ADN-UC001-007
+  ADN-UC001-007 --> ADN-UC001-008
+  ADN-UC001-008 --> ADN-UC001-009
+  ADN-UC001-009 --> ADN-UC001-010

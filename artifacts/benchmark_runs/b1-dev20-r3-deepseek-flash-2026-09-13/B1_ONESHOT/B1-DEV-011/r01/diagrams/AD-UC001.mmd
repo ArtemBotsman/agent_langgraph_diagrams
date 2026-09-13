@@ -1,0 +1,20 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Student"]
+  ADN-UC001-001(("start"))
+  ADN-UC001-002["Select term and subject and submit search"]
+  end
+  subgraph PART-UC001-002["System"]
+  ADN-UC001-003["Retrieve courses matching term and subject"]
+  ADN-UC001-004{"Matching courses found?"}
+  ADN-UC001-005["Display matching course list"]
+  ADN-UC001-006["Inform student no courses match"]
+  ADN-UC001-007(("end"))
+  end
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 -->|"matching courses found"| ADN-UC001-005
+  ADN-UC001-004 -->|"no matching courses"| ADN-UC001-006
+  ADN-UC001-005 --> ADN-UC001-007
+  ADN-UC001-006 --> ADN-UC001-007

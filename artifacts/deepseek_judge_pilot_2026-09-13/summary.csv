@@ -1,0 +1,4 @@
+method,generation_status,end_to_end_success,schema_validity,activity_trace_coverage,activity_structural_validity,use_case_count,activity_diagram_count,generation_llm_calls,generation_tokens,generation_latency_ms,generation_estimated_cost_usd,judge_model,judge_valid_runs,judge_runs,judge_score_0_1,judge_score_sd,judge_approve_rate,judge_requirements_coverage_1_5,judge_actor_uc_boundaries_1_5,judge_scenario_completeness_1_5,judge_branch_correctness_1_5,judge_trace_correctness_1_5,judge_assumption_discipline_1_5,judge_diagram_readability_1_5
+B0_RULE,success,1.0,1.0,1.0,1.0,1,1,0,0,0.76,0.0,deepseek-flash,2,2,0.10000000000000003,0.0,0,2,1,1,1,2,2,1
+B1_ONESHOT,failed,0.0,1.0,0.9402985074626866,0.0,8,8,1,24610,45022.784,0.0238008,deepseek-flash,2,2,0.7749999999999999,0.0,1,4,4,4,4,4,5,4
+FULL,success,1.0,1.0,1.0,1.0,2,2,8,69510,60822.455,0.03922829999999999,deepseek-flash,2,2,0.78125,0.03125,0.5,4,4.5,4,4,4,5,3.5

@@ -1,0 +1,15 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Сотрудник"]
+  ADN-UC001-001(("start"))
+  ADN-UC001-002["Ввести ФИО и время визита"]
+  ADN-UC001-003["Отправить приглашение"]
+  end
+  subgraph PART-UC001-002["Система"]
+  ADN-UC001-004["Сохранить приглашение"]
+  ADN-UC001-005(("end"))
+  end
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 --> ADN-UC001-005

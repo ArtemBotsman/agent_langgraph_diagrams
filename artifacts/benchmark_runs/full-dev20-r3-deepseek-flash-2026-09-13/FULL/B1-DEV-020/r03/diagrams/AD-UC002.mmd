@@ -1,0 +1,13 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Patient"]
+  ADN-UC002-002["Selects an offered appointment"]
+  end
+  subgraph PART-UC002-002["System"]
+  ADN-UC002-003["The system confirms the appointment booking"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-004(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004

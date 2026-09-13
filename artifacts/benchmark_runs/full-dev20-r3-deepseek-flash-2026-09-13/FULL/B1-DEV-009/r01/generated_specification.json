@@ -1,0 +1,4084 @@
+{
+  "request": {
+    "project_task": "Create a restaurant table reservation service.",
+    "project_name": "Table Now",
+    "project_goal": "Accept reservations while respecting table capacity.",
+    "project_description": "A guest requests a table; staff can confirm, modify, or cancel reservations.",
+    "functional_requirements": [
+      {
+        "id": "FR-001",
+        "text": "A guest searches available times for party size and date.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-001-001",
+            "parent_fr_id": "FR-001",
+            "text": "A guest searches available times for party size and date.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-002",
+        "text": "A guest submits contact details to reserve a table.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-002-001",
+            "parent_fr_id": "FR-002",
+            "text": "A guest submits contact details to reserve a table.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-003",
+        "text": "The system prevents reservations above available capacity.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-003-001",
+            "parent_fr_id": "FR-003",
+            "text": "The system prevents reservations above available capacity.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-004",
+        "text": "Staff can modify an existing reservation.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-004-001",
+            "parent_fr_id": "FR-004",
+            "text": "Staff can modify an existing reservation.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-005",
+        "text": "Staff can cancel an existing reservation.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-005-001",
+            "parent_fr_id": "FR-005",
+            "text": "Staff can cancel an existing reservation.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      }
+    ],
+    "non_functional_requirements": [
+      {
+        "id": "NFR-001",
+        "text": "Contact details must not be displayed to unauthorized staff roles.",
+        "category": null,
+        "tags": []
+      }
+    ],
+    "max_repair_attempts": 2,
+    "metadata": {
+      "source_contract": "SpecificationReq"
+    }
+  },
+  "use_case_set": {
+    "actors": [
+      {
+        "id": "ACT-001",
+        "name": "Guest",
+        "description": "A person who wants to reserve a table at the restaurant.",
+        "is_primary": true
+      },
+      {
+        "id": "ACT-002",
+        "name": "Staff",
+        "description": "Restaurant employee who manages reservations.",
+        "is_primary": true
+      }
+    ],
+    "use_cases": [
+      {
+        "id": "UC-001",
+        "name": "Search Available Times",
+        "goal": "Find available reservation times for a given party size and date.",
+        "primary_actor_id": "ACT-001",
+        "secondary_actor_ids": [],
+        "trigger": "Guest wants to reserve a table and needs to see available times.",
+        "preconditions": [
+          {
+            "id": "PRE-UC001-001",
+            "text": "The guest has access to the reservation system."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC001-001",
+            "text": "The guest is presented with a list of available times for the requested party size and date.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC001-002",
+            "text": "The guest is informed that no available times exist for the requested party size and date.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC001-MAIN-001",
+          "kind": "main",
+          "name": "Guest searches available times",
+          "steps": [
+            {
+              "id": "STEP-UC001-001",
+              "order": 1,
+              "actor_id": "ACT-001",
+              "action": "Guest enters party size and date.",
+              "expected_result": "System receives the search criteria.",
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            },
+            {
+              "id": "STEP-UC001-002",
+              "order": 2,
+              "actor_id": "ACT-001",
+              "action": "Guest requests available times.",
+              "expected_result": "System checks table availability against capacity.",
+              "source_fr_ids": [
+                "FR-001",
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC001-003",
+              "order": 3,
+              "actor_id": "ACT-001",
+              "action": "System displays available times.",
+              "expected_result": "Guest sees a list of available times.",
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [
+          {
+            "id": "SCN-UC001-EXC-001",
+            "kind": "exception",
+            "name": "No available times",
+            "steps": [
+              {
+                "id": "STEP-UC001-004",
+                "order": 1,
+                "actor_id": "ACT-001",
+                "action": "Guest enters party size and date.",
+                "expected_result": "System receives the search criteria.",
+                "source_fr_ids": [
+                  "FR-001"
+                ]
+              },
+              {
+                "id": "STEP-UC001-005",
+                "order": 2,
+                "actor_id": "ACT-001",
+                "action": "Guest requests available times.",
+                "expected_result": "System checks table availability against capacity.",
+                "source_fr_ids": [
+                  "FR-001",
+                  "FR-003"
+                ]
+              },
+              {
+                "id": "STEP-UC001-006",
+                "order": 3,
+                "actor_id": "ACT-001",
+                "action": "System finds no available times.",
+                "expected_result": "System informs guest that no times are available.",
+                "source_fr_ids": [
+                  "FR-001"
+                ]
+              }
+            ],
+            "start_from_step_id": null,
+            "rejoins_step_id": null
+          }
+        ],
+        "user_stories": [
+          {
+            "id": "US-001",
+            "role": "Guest",
+            "capability": "search for available reservation times by party size and date",
+            "benefit": "I can find a suitable time to reserve a table.",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-001",
+            "system_action": "Check table availability against capacity for the requested party size and date.",
+            "responsibility": "Ensure that only times with sufficient capacity are shown.",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-001",
+          "FR-003"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-001 — Search Available Times\nGoal: Find available reservation times for a given party size and date.\nPrimary actor: ACT-001\nTrigger: Guest wants to reserve a table and needs to see available times.\nPreconditions:\n  - PRE-UC001-001: The guest has access to the reservation system.\nMain success scenario:\n  1. [STEP-UC001-001] Guest enters party size and date.\n  2. [STEP-UC001-002] Guest requests available times.\n  3. [STEP-UC001-003] System displays available times.\nException scenarios:\n  - SCN-UC001-EXC-001: No available times\nSource FRs: FR-001, FR-003"
+      },
+      {
+        "id": "UC-002",
+        "name": "Submit Reservation",
+        "goal": "Reserve a table by providing contact details.",
+        "primary_actor_id": "ACT-001",
+        "secondary_actor_ids": [],
+        "trigger": "Guest selects an available time and proceeds to reserve.",
+        "preconditions": [
+          {
+            "id": "PRE-UC002-001",
+            "text": "The guest has selected an available time from the search results."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC002-001",
+            "text": "The reservation is created and confirmed.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC002-002",
+            "text": "The reservation is not created due to capacity or invalid details.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC002-MAIN-001",
+          "kind": "main",
+          "name": "Guest submits reservation",
+          "steps": [
+            {
+              "id": "STEP-UC002-001",
+              "order": 1,
+              "actor_id": "ACT-001",
+              "action": "Guest selects an available time.",
+              "expected_result": "System proceeds to reservation form.",
+              "source_fr_ids": [
+                "FR-002",
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC002-002",
+              "order": 2,
+              "actor_id": "ACT-001",
+              "action": "Guest enters contact details.",
+              "expected_result": "System validates contact details.",
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            },
+            {
+              "id": "STEP-UC002-003",
+              "order": 3,
+              "actor_id": "ACT-001",
+              "action": "Guest submits the reservation.",
+              "expected_result": "System checks capacity and creates the reservation.",
+              "source_fr_ids": [
+                "FR-002",
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC002-004",
+              "order": 4,
+              "actor_id": "ACT-001",
+              "action": "System confirms the reservation.",
+              "expected_result": "Guest receives confirmation.",
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [
+          {
+            "id": "SCN-UC002-EXC-001",
+            "kind": "exception",
+            "name": "Capacity exceeded",
+            "steps": [
+              {
+                "id": "STEP-UC002-005",
+                "order": 1,
+                "actor_id": "ACT-001",
+                "action": "Guest selects an available time.",
+                "expected_result": "System proceeds to reservation form.",
+                "source_fr_ids": [
+                  "FR-002",
+                  "FR-003"
+                ]
+              },
+              {
+                "id": "STEP-UC002-006",
+                "order": 2,
+                "actor_id": "ACT-001",
+                "action": "Guest enters contact details.",
+                "expected_result": "System validates contact details.",
+                "source_fr_ids": [
+                  "FR-002"
+                ]
+              },
+              {
+                "id": "STEP-UC002-007",
+                "order": 3,
+                "actor_id": "ACT-001",
+                "action": "Guest submits the reservation.",
+                "expected_result": "System detects that capacity is exceeded.",
+                "source_fr_ids": [
+                  "FR-002",
+                  "FR-003"
+                ]
+              },
+              {
+                "id": "STEP-UC002-008",
+                "order": 4,
+                "actor_id": "ACT-001",
+                "action": "System rejects the reservation.",
+                "expected_result": "Guest is informed that the reservation cannot be made due to capacity.",
+                "source_fr_ids": [
+                  "FR-003"
+                ]
+              }
+            ],
+            "start_from_step_id": null,
+            "rejoins_step_id": null
+          }
+        ],
+        "user_stories": [
+          {
+            "id": "US-002",
+            "role": "Guest",
+            "capability": "submit my contact details to reserve a table",
+            "benefit": "I can secure a table for my desired time.",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-002",
+            "system_action": "Validate contact details and check capacity before creating reservation.",
+            "responsibility": "Ensure reservation is only created if capacity is available and details are valid.",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-002",
+          "FR-003"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-002 — Submit Reservation\nGoal: Reserve a table by providing contact details.\nPrimary actor: ACT-001\nTrigger: Guest selects an available time and proceeds to reserve.\nPreconditions:\n  - PRE-UC002-001: The guest has selected an available time from the search results.\nMain success scenario:\n  1. [STEP-UC002-001] Guest selects an available time.\n  2. [STEP-UC002-002] Guest enters contact details.\n  3. [STEP-UC002-003] Guest submits the reservation.\n  4. [STEP-UC002-004] System confirms the reservation.\nException scenarios:\n  - SCN-UC002-EXC-001: Capacity exceeded\nSource FRs: FR-002, FR-003"
+      },
+      {
+        "id": "UC-003",
+        "name": "Modify Reservation",
+        "goal": "Modify an existing reservation.",
+        "primary_actor_id": "ACT-002",
+        "secondary_actor_ids": [],
+        "trigger": "Staff needs to change details of an existing reservation.",
+        "preconditions": [
+          {
+            "id": "PRE-UC003-001",
+            "text": "An existing reservation exists."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC003-001",
+            "text": "The reservation is updated with new details.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC003-002",
+            "text": "The reservation is not modified due to capacity or invalid details.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC003-MAIN-001",
+          "kind": "main",
+          "name": "Staff modifies reservation",
+          "steps": [
+            {
+              "id": "STEP-UC003-001",
+              "order": 1,
+              "actor_id": "ACT-002",
+              "action": "Staff selects an existing reservation.",
+              "expected_result": "System displays reservation details.",
+              "source_fr_ids": [
+                "FR-004"
+              ]
+            },
+            {
+              "id": "STEP-UC003-002",
+              "order": 2,
+              "actor_id": "ACT-002",
+              "action": "Staff enters new details.",
+              "expected_result": "System validates new details.",
+              "source_fr_ids": [
+                "FR-004"
+              ]
+            },
+            {
+              "id": "STEP-UC003-003",
+              "order": 3,
+              "actor_id": "ACT-002",
+              "action": "Staff submits the modification.",
+              "expected_result": "System checks capacity and updates the reservation.",
+              "source_fr_ids": [
+                "FR-004",
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC003-004",
+              "order": 4,
+              "actor_id": "ACT-002",
+              "action": "System confirms the modification.",
+              "expected_result": "Staff sees updated reservation.",
+              "source_fr_ids": [
+                "FR-004"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [
+          {
+            "id": "SCN-UC003-EXC-001",
+            "kind": "exception",
+            "name": "Capacity exceeded on modification",
+            "steps": [
+              {
+                "id": "STEP-UC003-005",
+                "order": 1,
+                "actor_id": "ACT-002",
+                "action": "Staff selects an existing reservation.",
+                "expected_result": "System displays reservation details.",
+                "source_fr_ids": [
+                  "FR-004"
+                ]
+              },
+              {
+                "id": "STEP-UC003-006",
+                "order": 2,
+                "actor_id": "ACT-002",
+                "action": "Staff enters new details.",
+                "expected_result": "System validates new details.",
+                "source_fr_ids": [
+                  "FR-004"
+                ]
+              },
+              {
+                "id": "STEP-UC003-007",
+                "order": 3,
+                "actor_id": "ACT-002",
+                "action": "Staff submits the modification.",
+                "expected_result": "System detects that capacity is exceeded.",
+                "source_fr_ids": [
+                  "FR-004",
+                  "FR-003"
+                ]
+              },
+              {
+                "id": "STEP-UC003-008",
+                "order": 4,
+                "actor_id": "ACT-002",
+                "action": "System rejects the modification.",
+                "expected_result": "Staff is informed that the modification cannot be made due to capacity.",
+                "source_fr_ids": [
+                  "FR-003"
+                ]
+              }
+            ],
+            "start_from_step_id": null,
+            "rejoins_step_id": null
+          }
+        ],
+        "user_stories": [
+          {
+            "id": "US-003",
+            "role": "Staff",
+            "capability": "modify an existing reservation",
+            "benefit": "I can accommodate changes requested by guests.",
+            "use_case_id": "UC-003"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-003",
+            "system_action": "Validate new details and check capacity before updating reservation.",
+            "responsibility": "Ensure reservation is only modified if capacity is available and details are valid.",
+            "use_case_id": "UC-003"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-004",
+          "FR-003"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-003 — Modify Reservation\nGoal: Modify an existing reservation.\nPrimary actor: ACT-002\nTrigger: Staff needs to change details of an existing reservation.\nPreconditions:\n  - PRE-UC003-001: An existing reservation exists.\nMain success scenario:\n  1. [STEP-UC003-001] Staff selects an existing reservation.\n  2. [STEP-UC003-002] Staff enters new details.\n  3. [STEP-UC003-003] Staff submits the modification.\n  4. [STEP-UC003-004] System confirms the modification.\nException scenarios:\n  - SCN-UC003-EXC-001: Capacity exceeded on modification\nSource FRs: FR-004, FR-003"
+      },
+      {
+        "id": "UC-004",
+        "name": "Cancel Reservation",
+        "goal": "Cancel an existing reservation.",
+        "primary_actor_id": "ACT-002",
+        "secondary_actor_ids": [],
+        "trigger": "Staff needs to cancel an existing reservation.",
+        "preconditions": [
+          {
+            "id": "PRE-UC004-001",
+            "text": "An existing reservation exists."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC004-001",
+            "text": "The reservation is cancelled.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC004-002",
+            "text": "The reservation is not cancelled.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC004-MAIN-001",
+          "kind": "main",
+          "name": "Staff cancels reservation",
+          "steps": [
+            {
+              "id": "STEP-UC004-001",
+              "order": 1,
+              "actor_id": "ACT-002",
+              "action": "Staff selects an existing reservation.",
+              "expected_result": "System displays reservation details.",
+              "source_fr_ids": [
+                "FR-005"
+              ]
+            },
+            {
+              "id": "STEP-UC004-002",
+              "order": 2,
+              "actor_id": "ACT-002",
+              "action": "Staff requests cancellation.",
+              "expected_result": "System prompts for confirmation.",
+              "source_fr_ids": [
+                "FR-005"
+              ]
+            },
+            {
+              "id": "STEP-UC004-003",
+              "order": 3,
+              "actor_id": "ACT-002",
+              "action": "Staff confirms cancellation.",
+              "expected_result": "System cancels the reservation.",
+              "source_fr_ids": [
+                "FR-005"
+              ]
+            },
+            {
+              "id": "STEP-UC004-004",
+              "order": 4,
+              "actor_id": "ACT-002",
+              "action": "System confirms cancellation.",
+              "expected_result": "Staff sees that the reservation is cancelled.",
+              "source_fr_ids": [
+                "FR-005"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [],
+        "user_stories": [
+          {
+            "id": "US-004",
+            "role": "Staff",
+            "capability": "cancel an existing reservation",
+            "benefit": "I can free up tables for other guests.",
+            "use_case_id": "UC-004"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-004",
+            "system_action": "Cancel the reservation upon staff confirmation.",
+            "responsibility": "Ensure reservation is cancelled and capacity is updated.",
+            "use_case_id": "UC-004"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-005"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-004 — Cancel Reservation\nGoal: Cancel an existing reservation.\nPrimary actor: ACT-002\nTrigger: Staff needs to cancel an existing reservation.\nPreconditions:\n  - PRE-UC004-001: An existing reservation exists.\nMain success scenario:\n  1. [STEP-UC004-001] Staff selects an existing reservation.\n  2. [STEP-UC004-002] Staff requests cancellation.\n  3. [STEP-UC004-003] Staff confirms cancellation.\n  4. [STEP-UC004-004] System confirms cancellation.\nSource FRs: FR-005"
+      }
+    ],
+    "fr_coverage": {
+      "FR-001": "covered",
+      "FR-002": "covered",
+      "FR-003": "covered",
+      "FR-004": "covered",
+      "FR-005": "covered"
+    }
+  },
+  "activity_results": [
+    {
+      "use_case_id": "UC-001",
+      "activity_diagram": {
+        "id": "AD-UC001",
+        "use_case_id": "UC-001",
+        "name": "Search Available Times",
+        "partitions": [
+          {
+            "id": "PART-UC001-001",
+            "name": "Guest",
+            "actor_id": "ACT-001"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC001-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-002",
+            "kind": "action",
+            "name": "Guest enters party size and date",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-001",
+              "STEP-UC001-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-003",
+            "kind": "action",
+            "name": "Guest requests available times",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-002",
+              "STEP-UC001-005"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-004",
+            "kind": "decision",
+            "name": "Available times found?",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-002",
+              "STEP-UC001-005",
+              "STEP-UC001-003",
+              "STEP-UC001-006"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-005",
+            "kind": "action",
+            "name": "System displays available times",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-006",
+            "kind": "action",
+            "name": "System informs guest that no times are available",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-006"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-007",
+            "kind": "final",
+            "name": "End",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC001-001",
+            "source_node_id": "ADN-UC001-001",
+            "target_node_id": "ADN-UC001-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-001",
+              "STEP-UC001-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-002",
+            "source_node_id": "ADN-UC001-002",
+            "target_node_id": "ADN-UC001-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-001",
+              "STEP-UC001-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-003",
+            "source_node_id": "ADN-UC001-003",
+            "target_node_id": "ADN-UC001-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-002",
+              "STEP-UC001-005"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-004",
+            "source_node_id": "ADN-UC001-004",
+            "target_node_id": "ADN-UC001-005",
+            "guard": "available times found",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-005",
+            "source_node_id": "ADN-UC001-004",
+            "target_node_id": "ADN-UC001-006",
+            "guard": "no available times",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-006"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-006",
+            "source_node_id": "ADN-UC001-005",
+            "target_node_id": "ADN-UC001-007",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-007",
+            "source_node_id": "ADN-UC001-006",
+            "target_node_id": "ADN-UC001-007",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-006"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC001 uc:UC-001\n  subgraph PART-UC001-001[\"Guest\"]\n  ADN-UC001-001((\"start\"))\n  ADN-UC001-002[\"Guest enters party size and date\"]\n  ADN-UC001-003[\"Guest requests available times\"]\n  ADN-UC001-004{\"Available times found?\"}\n  ADN-UC001-005[\"System displays available times\"]\n  ADN-UC001-006[\"System informs guest that no times are available\"]\n  ADN-UC001-007((\"end\"))\n  end\n  ADN-UC001-001 --> ADN-UC001-002\n  ADN-UC001-002 --> ADN-UC001-003\n  ADN-UC001-003 --> ADN-UC001-004\n  ADN-UC001-004 -->|\"available times found\"| ADN-UC001-005\n  ADN-UC001-004 -->|\"no available times\"| ADN-UC001-006\n  ADN-UC001-005 --> ADN-UC001-007\n  ADN-UC001-006 --> ADN-UC001-007\n"
+      },
+      "status": "success",
+      "validation_reports": [
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_generator_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC001-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 0,
+            "max": 2
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_repair_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_critic_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "warning",
+              "category": "semantic",
+              "code": "PARTITION_ACTOR_MISMATCH",
+              "message": "All activity nodes, including system actions 'System displays available times' and 'System informs guest that no times are available', are placed in the 'Guest' partition. This is a layout/style concern and does not omit or contradict any UC step, so it is non-blocking.",
+              "element_ids": [
+                "ADN-UC001-005",
+                "ADN-UC001-006",
+                "PART-UC001-001"
+              ],
+              "blocking": false
+            }
+          ],
+          "validator_name": "activity_llm_critic",
+          "details": {
+            "decision": "accept",
+            "summary": "The activity diagram preserves the main success scenario (enter criteria, request times, display available times) and the exception scenario (no available times) with a decision node and appropriate guards. No UC step is omitted or contradicted, and no unsupported business action is added. The only observation is a non-blocking partition placement issue."
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 1,
+            "max": 2
+          }
+        }
+      ],
+      "repair_attempts_used": 1,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-002",
+      "activity_diagram": {
+        "id": "AD-UC002",
+        "use_case_id": "UC-002",
+        "name": "Submit Reservation",
+        "partitions": [
+          {
+            "id": "PART-UC002-001",
+            "name": "Guest",
+            "actor_id": "ACT-001"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC002-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-002",
+            "kind": "action",
+            "name": "Guest selects an available time",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-003",
+            "kind": "action",
+            "name": "Guest enters contact details",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-004",
+            "kind": "action",
+            "name": "Guest submits the reservation",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-005",
+            "kind": "decision",
+            "name": "Capacity available?",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-003",
+              "STEP-UC002-007"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-006",
+            "kind": "action",
+            "name": "System confirms the reservation",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-007",
+            "kind": "action",
+            "name": "System rejects the reservation",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-008"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-008",
+            "kind": "final",
+            "name": "End",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC002-001",
+            "source_node_id": "ADN-UC002-001",
+            "target_node_id": "ADN-UC002-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-002",
+            "source_node_id": "ADN-UC002-002",
+            "target_node_id": "ADN-UC002-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-003",
+            "source_node_id": "ADN-UC002-003",
+            "target_node_id": "ADN-UC002-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-004",
+            "source_node_id": "ADN-UC002-004",
+            "target_node_id": "ADN-UC002-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-005",
+            "source_node_id": "ADN-UC002-005",
+            "target_node_id": "ADN-UC002-006",
+            "guard": "capacity available",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-006",
+            "source_node_id": "ADN-UC002-005",
+            "target_node_id": "ADN-UC002-007",
+            "guard": "capacity exceeded",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-007"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-007",
+            "source_node_id": "ADN-UC002-006",
+            "target_node_id": "ADN-UC002-008",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-008",
+            "source_node_id": "ADN-UC002-007",
+            "target_node_id": "ADN-UC002-008",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-008"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC002 uc:UC-002\n  subgraph PART-UC002-001[\"Guest\"]\n  ADN-UC002-001((\"start\"))\n  ADN-UC002-002[\"Guest selects an available time\"]\n  ADN-UC002-003[\"Guest enters contact details\"]\n  ADN-UC002-004[\"Guest submits the reservation\"]\n  ADN-UC002-005{\"Capacity available?\"}\n  ADN-UC002-006[\"System confirms the reservation\"]\n  ADN-UC002-007[\"System rejects the reservation\"]\n  ADN-UC002-008((\"end\"))\n  end\n  ADN-UC002-001 --> ADN-UC002-002\n  ADN-UC002-002 --> ADN-UC002-003\n  ADN-UC002-003 --> ADN-UC002-004\n  ADN-UC002-004 --> ADN-UC002-005\n  ADN-UC002-005 -->|\"capacity available\"| ADN-UC002-006\n  ADN-UC002-005 -->|\"capacity exceeded\"| ADN-UC002-007\n  ADN-UC002-006 --> ADN-UC002-008\n  ADN-UC002-007 --> ADN-UC002-008\n"
+      },
+      "status": "success",
+      "validation_reports": [
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_generator_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC002-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 0,
+            "max": 2
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_repair_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_critic_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "warning",
+              "category": "semantic",
+              "code": "PARTITION_ACTOR_MISMATCH",
+              "message": "System actions (confirm/reject reservation) are placed in the Guest partition, which is a modeling style issue rather than a step-level omission or contradiction.",
+              "element_ids": [
+                "ADN-UC002-006",
+                "ADN-UC002-007",
+                "PART-UC002-001"
+              ],
+              "blocking": false
+            }
+          ],
+          "validator_name": "activity_llm_critic",
+          "details": {
+            "decision": "accept",
+            "summary": "The activity diagram preserves the main success flow and the capacity-exceeded exception flow. All UC steps are represented, and no unsupported business actions were added. The only observation is a non-blocking partition assignment style issue."
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 1,
+            "max": 2
+          }
+        }
+      ],
+      "repair_attempts_used": 1,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-003",
+      "activity_diagram": {
+        "id": "AD-UC003",
+        "use_case_id": "UC-003",
+        "name": "Modify Reservation",
+        "partitions": [
+          {
+            "id": "PART-UC003-001",
+            "name": "Staff",
+            "actor_id": "ACT-002"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC003-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-002",
+            "kind": "action",
+            "name": "Staff selects an existing reservation",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-001",
+              "STEP-UC003-005"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-003",
+            "kind": "action",
+            "name": "Staff enters new details",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-002",
+              "STEP-UC003-006"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-004",
+            "kind": "action",
+            "name": "Staff submits the modification",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-003",
+              "STEP-UC003-007"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-005",
+            "kind": "decision",
+            "name": "Capacity available?",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-003",
+              "STEP-UC003-007"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-006",
+            "kind": "action",
+            "name": "System confirms the modification",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-007",
+            "kind": "action",
+            "name": "System rejects the modification",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-008"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-008",
+            "kind": "final",
+            "name": "End",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC003-001",
+            "source_node_id": "ADN-UC003-001",
+            "target_node_id": "ADN-UC003-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-001",
+              "STEP-UC003-005"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-002",
+            "source_node_id": "ADN-UC003-002",
+            "target_node_id": "ADN-UC003-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-001",
+              "STEP-UC003-005"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-003",
+            "source_node_id": "ADN-UC003-003",
+            "target_node_id": "ADN-UC003-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-002",
+              "STEP-UC003-006"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-004",
+            "source_node_id": "ADN-UC003-004",
+            "target_node_id": "ADN-UC003-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-003",
+              "STEP-UC003-007"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-005",
+            "source_node_id": "ADN-UC003-005",
+            "target_node_id": "ADN-UC003-006",
+            "guard": "capacity available",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-006",
+            "source_node_id": "ADN-UC003-005",
+            "target_node_id": "ADN-UC003-007",
+            "guard": "capacity exceeded",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-007"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-007",
+            "source_node_id": "ADN-UC003-006",
+            "target_node_id": "ADN-UC003-008",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-008",
+            "source_node_id": "ADN-UC003-007",
+            "target_node_id": "ADN-UC003-008",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-008"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC003 uc:UC-003\n  subgraph PART-UC003-001[\"Staff\"]\n  ADN-UC003-001((\"start\"))\n  ADN-UC003-002[\"Staff selects an existing reservation\"]\n  ADN-UC003-003[\"Staff enters new details\"]\n  ADN-UC003-004[\"Staff submits the modification\"]\n  ADN-UC003-005{\"Capacity available?\"}\n  ADN-UC003-006[\"System confirms the modification\"]\n  ADN-UC003-007[\"System rejects the modification\"]\n  ADN-UC003-008((\"end\"))\n  end\n  ADN-UC003-001 --> ADN-UC003-002\n  ADN-UC003-002 --> ADN-UC003-003\n  ADN-UC003-003 --> ADN-UC003-004\n  ADN-UC003-004 --> ADN-UC003-005\n  ADN-UC003-005 -->|\"capacity available\"| ADN-UC003-006\n  ADN-UC003-005 -->|\"capacity exceeded\"| ADN-UC003-007\n  ADN-UC003-006 --> ADN-UC003-008\n  ADN-UC003-007 --> ADN-UC003-008\n"
+      },
+      "status": "success",
+      "validation_reports": [
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_generator_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC003-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 0,
+            "max": 2
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_repair_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_critic_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "warning",
+              "category": "semantic",
+              "code": "PARTITION_ACTOR_MISMATCH",
+              "message": "System-performed actions (confirm/reject modification) are placed in the Staff partition, which is a modeling/style concern rather than a step-level omission or contradiction.",
+              "element_ids": [
+                "ADN-UC003-006",
+                "ADN-UC003-007",
+                "PART-UC003-001"
+              ],
+              "blocking": false
+            }
+          ],
+          "validator_name": "activity_llm_critic",
+          "details": {
+            "decision": "accept",
+            "summary": "The activity diagram preserves all main and exception UC steps, including the capacity decision and both success and failure outcomes. No unsupported business actions or step-level contradictions were found; only a non-blocking partition assignment style issue remains."
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 1,
+            "max": 2
+          }
+        }
+      ],
+      "repair_attempts_used": 1,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-004",
+      "activity_diagram": {
+        "id": "AD-UC004",
+        "use_case_id": "UC-004",
+        "name": "Cancel Reservation",
+        "partitions": [
+          {
+            "id": "PART-UC004-001",
+            "name": "Staff",
+            "actor_id": "ACT-002"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC004-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": "PART-UC004-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC004-002",
+            "kind": "action",
+            "name": "Staff selects an existing reservation",
+            "partition_id": "PART-UC004-001",
+            "related_step_ids": [
+              "STEP-UC004-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC004-003",
+            "kind": "action",
+            "name": "Staff requests cancellation",
+            "partition_id": "PART-UC004-001",
+            "related_step_ids": [
+              "STEP-UC004-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC004-004",
+            "kind": "action",
+            "name": "Staff confirms cancellation",
+            "partition_id": "PART-UC004-001",
+            "related_step_ids": [
+              "STEP-UC004-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC004-005",
+            "kind": "action",
+            "name": "System confirms cancellation",
+            "partition_id": "PART-UC004-001",
+            "related_step_ids": [
+              "STEP-UC004-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC004-006",
+            "kind": "final",
+            "name": "End",
+            "partition_id": "PART-UC004-001",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC004-001",
+            "source_node_id": "ADN-UC004-001",
+            "target_node_id": "ADN-UC004-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC004-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC004-002",
+            "source_node_id": "ADN-UC004-002",
+            "target_node_id": "ADN-UC004-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC004-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC004-003",
+            "source_node_id": "ADN-UC004-003",
+            "target_node_id": "ADN-UC004-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC004-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC004-004",
+            "source_node_id": "ADN-UC004-004",
+            "target_node_id": "ADN-UC004-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC004-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC004-005",
+            "source_node_id": "ADN-UC004-005",
+            "target_node_id": "ADN-UC004-006",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC004-004"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC004 uc:UC-004\n  subgraph PART-UC004-001[\"Staff\"]\n  ADN-UC004-001((\"start\"))\n  ADN-UC004-002[\"Staff selects an existing reservation\"]\n  ADN-UC004-003[\"Staff requests cancellation\"]\n  ADN-UC004-004[\"Staff confirms cancellation\"]\n  ADN-UC004-005[\"System confirms cancellation\"]\n  ADN-UC004-006((\"end\"))\n  end\n  ADN-UC004-001 --> ADN-UC004-002\n  ADN-UC004-002 --> ADN-UC004-003\n  ADN-UC004-003 --> ADN-UC004-004\n  ADN-UC004-004 --> ADN-UC004-005\n  ADN-UC004-005 --> ADN-UC004-006\n"
+      },
+      "status": "success",
+      "validation_reports": [
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_generator_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC004-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC004-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 0,
+            "max": 2
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_repair_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_schema",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_critic_parse",
+          "details": {}
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_llm_critic",
+          "details": {
+            "decision": "accept",
+            "summary": "All four main-success steps (STEP-UC004-001 through STEP-UC004-004) are represented by corresponding activity nodes in the correct order, with no omitted steps, no unsupported business actions, and no branch/outcome contradictions. The single-partition assignment of the system confirmation step to the Staff partition is a layout/style concern, not a step-level semantic contradiction, so it is non-blocking."
+          }
+        },
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "repair_limit",
+          "details": {
+            "attempt": 1,
+            "max": 2
+          }
+        }
+      ],
+      "repair_attempts_used": 1,
+      "failure_reason": null
+    }
+  ],
+  "trace_manifest": {
+    "links": [
+      {
+        "id": "TL-001",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-002",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-003",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-004",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-005",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-005",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-006",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-006",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-007",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-008",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-009",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-010",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-011",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-005",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-012",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-006",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-013",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-007",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-014",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-015",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-005",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-016",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-017",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-018",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-005",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-019",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-007",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-020",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-008",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-021",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-022",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-007",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-023",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-008",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-024",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-025",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-026",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-027",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-028",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-005",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-029",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-006",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-030",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-007",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-031",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "step",
+        "target_id": "STEP-UC004-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-032",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "step",
+        "target_id": "STEP-UC004-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-033",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "step",
+        "target_id": "STEP-UC004-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-034",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "step",
+        "target_id": "STEP-UC004-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-035",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-036",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-037",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-038",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-039",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-040",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-041",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "uc",
+        "target_id": "UC-004",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-042",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "fr_atom",
+        "target_id": "FRA-001-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-043",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "fr_atom",
+        "target_id": "FRA-002-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-044",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "fr_atom",
+        "target_id": "FRA-003-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-045",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "fr_atom",
+        "target_id": "FRA-004-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-046",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "fr_atom",
+        "target_id": "FRA-005-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-047",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-048",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-049",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-050",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-051",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-005",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-052",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-006",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-053",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-054",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-055",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-056",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-057",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-005",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-058",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-006",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-059",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-007",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-060",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-061",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC001-005",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-062",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-063",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-064",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC002-005",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-065",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC002-007",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-066",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC002-008",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-067",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC003-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-068",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC003-007",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-069",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC003-008",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-070",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC003-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-071",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC003-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-072",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC003-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-073",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC003-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-074",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC003-005",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-075",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC003-006",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-076",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC003-007",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-077",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "step",
+        "target_id": "STEP-UC004-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-078",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "step",
+        "target_id": "STEP-UC004-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-079",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "step",
+        "target_id": "STEP-UC004-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-080",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "step",
+        "target_id": "STEP-UC004-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-081",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-082",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-083",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-084",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-085",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-086",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-087",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "uc",
+        "target_id": "UC-004",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-088",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-089",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-090",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-091",
+        "source_type": "step",
+        "source_id": "STEP-UC001-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-092",
+        "source_type": "step",
+        "source_id": "STEP-UC001-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-093",
+        "source_type": "step",
+        "source_id": "STEP-UC001-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-094",
+        "source_type": "step",
+        "source_id": "STEP-UC001-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-095",
+        "source_type": "step",
+        "source_id": "STEP-UC001-005",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-096",
+        "source_type": "step",
+        "source_id": "STEP-UC001-006",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-097",
+        "source_type": "step",
+        "source_id": "STEP-UC001-006",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-007",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-098",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-099",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-100",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-101",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-102",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-103",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-007",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-104",
+        "source_type": "step",
+        "source_id": "STEP-UC002-007",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-105",
+        "source_type": "step",
+        "source_id": "STEP-UC002-008",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-008",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-106",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-107",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-108",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-109",
+        "source_type": "step",
+        "source_id": "STEP-UC003-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-110",
+        "source_type": "step",
+        "source_id": "STEP-UC003-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-111",
+        "source_type": "step",
+        "source_id": "STEP-UC003-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-007",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-112",
+        "source_type": "step",
+        "source_id": "STEP-UC003-005",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-113",
+        "source_type": "step",
+        "source_id": "STEP-UC003-005",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-114",
+        "source_type": "step",
+        "source_id": "STEP-UC003-006",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-115",
+        "source_type": "step",
+        "source_id": "STEP-UC003-007",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-116",
+        "source_type": "step",
+        "source_id": "STEP-UC003-007",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-117",
+        "source_type": "step",
+        "source_id": "STEP-UC003-008",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-008",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-118",
+        "source_type": "step",
+        "source_id": "STEP-UC004-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC004-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-119",
+        "source_type": "step",
+        "source_id": "STEP-UC004-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC004-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-120",
+        "source_type": "step",
+        "source_id": "STEP-UC004-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC004-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-121",
+        "source_type": "step",
+        "source_id": "STEP-UC004-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC004-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-122",
+        "source_type": "step",
+        "source_id": "STEP-UC004-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC004-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-123",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-124",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-125",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-126",
+        "source_type": "step",
+        "source_id": "STEP-UC001-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-127",
+        "source_type": "step",
+        "source_id": "STEP-UC001-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-128",
+        "source_type": "step",
+        "source_id": "STEP-UC001-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-129",
+        "source_type": "step",
+        "source_id": "STEP-UC001-005",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-130",
+        "source_type": "step",
+        "source_id": "STEP-UC001-005",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-131",
+        "source_type": "step",
+        "source_id": "STEP-UC001-006",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-132",
+        "source_type": "step",
+        "source_id": "STEP-UC001-006",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-006",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-133",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-134",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-135",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-136",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-137",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-006",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-138",
+        "source_type": "step",
+        "source_id": "STEP-UC002-007",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-139",
+        "source_type": "step",
+        "source_id": "STEP-UC002-008",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-007",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-140",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-141",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-142",
+        "source_type": "step",
+        "source_id": "STEP-UC003-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-143",
+        "source_type": "step",
+        "source_id": "STEP-UC003-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-144",
+        "source_type": "step",
+        "source_id": "STEP-UC003-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-006",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-145",
+        "source_type": "step",
+        "source_id": "STEP-UC003-005",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-146",
+        "source_type": "step",
+        "source_id": "STEP-UC003-006",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-147",
+        "source_type": "step",
+        "source_id": "STEP-UC003-007",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-148",
+        "source_type": "step",
+        "source_id": "STEP-UC003-007",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-149",
+        "source_type": "step",
+        "source_id": "STEP-UC003-008",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-007",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-150",
+        "source_type": "step",
+        "source_id": "STEP-UC004-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC004-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-151",
+        "source_type": "step",
+        "source_id": "STEP-UC004-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC004-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-152",
+        "source_type": "step",
+        "source_id": "STEP-UC004-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC004-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-153",
+        "source_type": "step",
+        "source_id": "STEP-UC004-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC004-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-154",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "activity",
+        "target_id": "AD-UC001",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-155",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "activity",
+        "target_id": "AD-UC002",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-156",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "activity",
+        "target_id": "AD-UC003",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-157",
+        "source_type": "uc",
+        "source_id": "UC-004",
+        "target_type": "activity",
+        "target_id": "AD-UC004",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-158",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "ss",
+        "target_id": "SS-001",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-159",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "ss",
+        "target_id": "SS-002",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-160",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "ss",
+        "target_id": "SS-003",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-161",
+        "source_type": "uc",
+        "source_id": "UC-004",
+        "target_type": "ss",
+        "target_id": "SS-004",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-162",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "us",
+        "target_id": "US-001",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-163",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "us",
+        "target_id": "US-002",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-164",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "us",
+        "target_id": "US-003",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-165",
+        "source_type": "uc",
+        "source_id": "UC-004",
+        "target_type": "us",
+        "target_id": "US-004",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      }
+    ]
+  },
+  "validation_reports": [
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_schema",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "step_fr_outside_uc_scope",
+          "message": "Step STEP-UC002-001 references FRs outside UC-002: FR-001",
+          "element_ids": [
+            "UC-002",
+            "STEP-UC002-001",
+            "FR-001"
+          ],
+          "blocking": true
+        },
+        {
+          "id": "VI-002",
+          "severity": "error",
+          "category": "trace",
+          "code": "step_fr_outside_uc_scope",
+          "message": "Step STEP-UC002-005 references FRs outside UC-002: FR-001",
+          "element_ids": [
+            "UC-002",
+            "STEP-UC002-005",
+            "FR-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "uc_deterministic_aggregate",
+      "details": {
+        "requirement_atomization": true,
+        "unique_ids": true,
+        "use_case_structure": false,
+        "uc_fr_references": true,
+        "fr_coverage": true,
+        "fr_to_uc_trace": true,
+        "trace_link_contracts": true,
+        "declared_trace_bidirectionality": true,
+        "trace_coverage_thresholds": true,
+        "trace_integrity": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_deterministic_aggregate",
+      "details": {
+        "requirement_atomization": true,
+        "unique_ids": true,
+        "use_case_structure": true,
+        "uc_fr_references": true,
+        "fr_coverage": true,
+        "fr_to_uc_trace": true,
+        "trace_link_contracts": true,
+        "declared_trace_bidirectionality": true,
+        "trace_coverage_thresholds": true,
+        "trace_integrity": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "uc_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "ACTOR_STEP_MISMATCH",
+          "message": "In UC-001, UC-002, and UC-003, several steps list the actor as the Guest or Staff but the action text describes the system performing the action (e.g., STEP-UC001-003 'System displays available times', STEP-UC002-004 'System confirms the reservation', STEP-UC003-004 'System confirms the modification'). This is a modeling inconsistency, not a violation of any FR.",
+          "element_ids": [
+            "STEP-UC001-003",
+            "STEP-UC002-004",
+            "STEP-UC003-004"
+          ],
+          "blocking": false
+        },
+        {
+          "id": "VI-002",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "UNSUPPORTED_BUSINESS_RULE",
+          "message": "UC-002 and UC-003 include validation of contact details and new details (e.g., STEP-UC002-002, STEP-UC003-002) that is not explicitly required by FR-002 or FR-004. This is an optional elaboration and does not contradict the FRs.",
+          "element_ids": [
+            "STEP-UC002-002",
+            "STEP-UC003-002"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "uc_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "The use case set covers all functional requirements (FR-001 through FR-005) with appropriate actors, scenarios, and outcomes. No direct FR omission or contradiction is present. The noted issues are non-blocking modeling and elaboration warnings.",
+        "critic_not_deterministic_validator": true
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 1,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC001-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "PARTITION_ACTOR_MISMATCH",
+          "message": "All activity nodes, including system actions 'System displays available times' and 'System informs guest that no times are available', are placed in the 'Guest' partition. This is a layout/style concern and does not omit or contradict any UC step, so it is non-blocking.",
+          "element_ids": [
+            "ADN-UC001-005",
+            "ADN-UC001-006",
+            "PART-UC001-001"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "activity_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "The activity diagram preserves the main success scenario (enter criteria, request times, display available times) and the exception scenario (no available times) with a decision node and appropriate guards. No UC step is omitted or contradicted, and no unsupported business action is added. The only observation is a non-blocking partition placement issue."
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 1,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC002-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "PARTITION_ACTOR_MISMATCH",
+          "message": "System actions (confirm/reject reservation) are placed in the Guest partition, which is a modeling style issue rather than a step-level omission or contradiction.",
+          "element_ids": [
+            "ADN-UC002-006",
+            "ADN-UC002-007",
+            "PART-UC002-001"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "activity_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "The activity diagram preserves the main success flow and the capacity-exceeded exception flow. All UC steps are represented, and no unsupported business actions were added. The only observation is a non-blocking partition assignment style issue."
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 1,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC003-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "warning",
+          "category": "semantic",
+          "code": "PARTITION_ACTOR_MISMATCH",
+          "message": "System-performed actions (confirm/reject modification) are placed in the Staff partition, which is a modeling/style concern rather than a step-level omission or contradiction.",
+          "element_ids": [
+            "ADN-UC003-006",
+            "ADN-UC003-007",
+            "PART-UC003-001"
+          ],
+          "blocking": false
+        }
+      ],
+      "validator_name": "activity_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "The activity diagram preserves all main and exception UC steps, including the capacity decision and both success and failure outcomes. No unsupported business actions or step-level contradictions were found; only a non-blocking partition assignment style issue remains."
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 1,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_generator_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC004-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC004-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 0,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_repair_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_schema",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_critic_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_llm_critic",
+      "details": {
+        "decision": "accept",
+        "summary": "All four main-success steps (STEP-UC004-001 through STEP-UC004-004) are represented by corresponding activity nodes in the correct order, with no omitted steps, no unsupported business actions, and no branch/outcome contradictions. The single-partition assignment of the system confirmation step to the Staff partition is a layout/style concern, not a step-level semantic contradiction, so it is non-blocking."
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "repair_limit",
+      "details": {
+        "attempt": 1,
+        "max": 2
+      }
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "e2e_trace",
+      "details": {
+        "requirement_atomization": {
+          "passed": true,
+          "fr_count": 5,
+          "atom_count": 5
+        },
+        "unique_ids": {
+          "passed": true
+        },
+        "fr_coverage": {
+          "passed": true,
+          "covered": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005"
+          ]
+        },
+        "trace_link_contracts": {
+          "passed": true
+        },
+        "declared_trace_bidirectionality": {
+          "passed": true,
+          "expected_relations": 165,
+          "actual_relations": 165
+        },
+        "trace_coverage_thresholds": {
+          "passed": true,
+          "uc_supported": 38,
+          "uc_total": 38,
+          "uc_ratio": 1.0,
+          "activity_supported": 61,
+          "activity_total": 61,
+          "activity_ratio": 1.0
+        },
+        "trace_integrity": {
+          "passed": true
+        }
+      }
+    }
+  ],
+  "evaluation_report": {
+    "metrics": [
+      {
+        "name": "schema_validity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Share of schema validators that passed"
+      },
+      {
+        "name": "fr_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "|FRs referenced by ≥1 UC| / |FRs|"
+      },
+      {
+        "name": "orphan_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "duplicate_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "trace_reference_integrity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "1 - dangling_links / max(links,1) (approx from validation issues)"
+      },
+      {
+        "name": "trace_completeness",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "activity_structural_validity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "mermaid_generation_success",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "end_to_end_success",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": null
+      },
+      {
+        "name": "repair_attempts",
+        "value": 5,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": "Use Case repair attempts plus all Activity repair attempts"
+      },
+      {
+        "name": "uc_element_trace_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "activity_element_trace_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "unsupported_trace_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "blocking_error_classes",
+        "value": 2,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": null
+      },
+      {
+        "name": "stability_multi_run",
+        "value": null,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Requires ≥2 seeded runs; not computed in scaffold"
+      },
+      {
+        "name": "latency_ms",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "ms",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "token_usage",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "tokens",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "cost_usd",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "usd",
+        "notes": "Filled when LLM nodes are wired"
+      }
+    ],
+    "automatic_only": true,
+    "notes": "Automatic metrics only; LLM-as-a-judge and expert scores are separate tracks"
+  },
+  "uc_repair_attempts_used": 1,
+  "status": "success",
+  "failure_reason": null
+}

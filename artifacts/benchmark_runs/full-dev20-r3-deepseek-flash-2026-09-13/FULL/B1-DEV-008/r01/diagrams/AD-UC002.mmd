@@ -1,0 +1,16 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Manager"]
+  ADN-UC002-001(("start"))
+  ADN-UC002-002["Open and review claim details, receipts, and flagged exceptions"]
+  ADN-UC002-003{"Approve or reject?"}
+  ADN-UC002-004["Approve claim and record decision in audit log"]
+  ADN-UC002-005["Reject claim with reason and record decision in audit log"]
+  ADN-UC002-006(("end"))
+  end
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 -->|"approve"| ADN-UC002-004
+  ADN-UC002-003 -->|"reject"| ADN-UC002-005
+  ADN-UC002-004 --> ADN-UC002-006
+  ADN-UC002-005 --> ADN-UC002-006

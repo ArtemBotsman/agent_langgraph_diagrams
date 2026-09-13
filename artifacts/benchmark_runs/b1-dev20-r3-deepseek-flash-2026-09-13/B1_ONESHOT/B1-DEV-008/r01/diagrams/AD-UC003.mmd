@@ -1,0 +1,9 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Finance"]
+  ADN-UC003-002["Record reimbursement for approved claim"]
+  end
+  ADN-UC003-001(("start"))
+  ADN-UC003-003(("end"))
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003

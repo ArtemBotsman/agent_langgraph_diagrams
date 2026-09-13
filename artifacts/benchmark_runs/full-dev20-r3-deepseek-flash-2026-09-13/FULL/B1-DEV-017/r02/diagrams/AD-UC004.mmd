@@ -1,0 +1,26 @@
+flowchart TD
+  %% activity:AD-UC004 uc:UC-004
+  subgraph PART-UC004-001["Mediator"]
+  ADN-UC004-002{"Mediator action?"}
+  ADN-UC004-003["Mediator proposes a settlement"]
+  ADN-UC004-006["Mediator records a decision"]
+  end
+  subgraph PART-UC004-002["System"]
+  ADN-UC004-004["System records the proposed settlement"]
+  ADN-UC004-005["System notifies both parties of the proposed settlement"]
+  ADN-UC004-007["System records the decision"]
+  ADN-UC004-008["System notifies both parties of the decision"]
+  end
+  ADN-UC004-001(("start"))
+  ADN-UC004-009{"Merge"}
+  ADN-UC004-010(("end"))
+  ADN-UC004-001 --> ADN-UC004-002
+  ADN-UC004-002 -->|"Propose settlement"| ADN-UC004-003
+  ADN-UC004-002 -->|"Record decision"| ADN-UC004-006
+  ADN-UC004-003 --> ADN-UC004-004
+  ADN-UC004-004 --> ADN-UC004-005
+  ADN-UC004-005 --> ADN-UC004-009
+  ADN-UC004-006 --> ADN-UC004-007
+  ADN-UC004-007 --> ADN-UC004-008
+  ADN-UC004-008 --> ADN-UC004-009
+  ADN-UC004-009 --> ADN-UC004-010

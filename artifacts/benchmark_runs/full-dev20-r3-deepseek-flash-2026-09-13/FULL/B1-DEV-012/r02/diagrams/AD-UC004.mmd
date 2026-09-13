@@ -1,0 +1,26 @@
+flowchart TD
+  %% activity:AD-UC004 uc:UC-004
+  subgraph PART-UC004-001["Recipient"]
+  ADN-UC004-002["Recipient indicates parcel delivered successfully"]
+  ADN-UC004-003["Recipient reports parcel arrived damaged"]
+  end
+  subgraph PART-UC004-002["System"]
+  ADN-UC004-005["System updates parcel status to delivered"]
+  ADN-UC004-006["System updates parcel status to reflect a problem"]
+  ADN-UC004-008["System rejects action and informs recipient"]
+  end
+  ADN-UC004-001(("start"))
+  ADN-UC004-004{"Recipient action?"}
+  ADN-UC004-007{"Parcel eligible for confirmation?"}
+  ADN-UC004-009(("end"))
+  ADN-UC004-001 --> ADN-UC004-004
+  ADN-UC004-004 -->|"delivered successfully"| ADN-UC004-002
+  ADN-UC004-004 -->|"damaged"| ADN-UC004-003
+  ADN-UC004-002 --> ADN-UC004-007
+  ADN-UC004-003 --> ADN-UC004-007
+  ADN-UC004-007 -->|"eligible and delivered successfully"| ADN-UC004-005
+  ADN-UC004-007 -->|"eligible and damaged"| ADN-UC004-006
+  ADN-UC004-007 -->|"not eligible"| ADN-UC004-008
+  ADN-UC004-005 --> ADN-UC004-009
+  ADN-UC004-006 --> ADN-UC004-009
+  ADN-UC004-008 --> ADN-UC004-009

@@ -1,0 +1,21 @@
+{
+  "project_task": "Build a personal data export request workflow.",
+  "project_name": "Privacy Export",
+  "project_goal": "Fulfil verified export requests within a controlled process.",
+  "project_description": "A user requests an export, verifies identity, and downloads a time-limited archive assembled from multiple services.",
+  "functional_requirements": [
+    "A user requests an export of personal data.",
+    "The system requires recent identity verification.",
+    "The system collects data from registered source services.",
+    "The system records unavailable sources without silently omitting them.",
+    "The system creates an encrypted archive.",
+    "The system sends a time-limited download notification.",
+    "The user downloads the archive after re-authentication.",
+    "The archive is deleted after expiry."
+  ],
+  "non_functional_requirements": [
+    "The export process must complete within the legal service deadline.",
+    "Archive links must be single-user and time-limited.",
+    "Audit records must exclude archive content."
+  ]
+}

@@ -1,0 +1,2072 @@
+{
+  "request": {
+    "project_task": "Build a travel expense submission and approval workflow.",
+    "project_name": "Travel Claims",
+    "project_goal": "Reduce manual checking of employee expense claims.",
+    "project_description": "An employee submits receipts; a manager reviews policy exceptions and finance reimburses approved claims.",
+    "functional_requirements": [
+      {
+        "id": "FR-001",
+        "text": "An employee creates an expense claim with trip details.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-001-001",
+            "parent_fr_id": "FR-001",
+            "text": "An employee creates an expense claim with trip details.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-002",
+        "text": "The employee attaches receipts to expense items.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-002-001",
+            "parent_fr_id": "FR-002",
+            "text": "The employee attaches receipts to expense items.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-003",
+        "text": "The system flags items above policy limits.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-003-001",
+            "parent_fr_id": "FR-003",
+            "text": "The system flags items above policy limits.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-004",
+        "text": "A manager approves or rejects the claim.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-004-001",
+            "parent_fr_id": "FR-004",
+            "text": "A manager approves or rejects the claim.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-005",
+        "text": "Finance records reimbursement for an approved claim.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-005-001",
+            "parent_fr_id": "FR-005",
+            "text": "Finance records reimbursement for an approved claim.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      }
+    ],
+    "non_functional_requirements": [
+      {
+        "id": "NFR-001",
+        "text": "Receipt files must be encrypted at rest.",
+        "category": null,
+        "tags": []
+      },
+      {
+        "id": "NFR-002",
+        "text": "All approval decisions must be auditable.",
+        "category": null,
+        "tags": []
+      }
+    ],
+    "max_repair_attempts": 2,
+    "metadata": {
+      "source_contract": "SpecificationReq"
+    }
+  },
+  "use_case_set": {
+    "actors": [
+      {
+        "id": "ACT-001",
+        "name": "Employee",
+        "description": "Submits travel expense claims with receipts.",
+        "is_primary": true
+      },
+      {
+        "id": "ACT-002",
+        "name": "Manager",
+        "description": "Reviews and approves or rejects expense claims.",
+        "is_primary": true
+      },
+      {
+        "id": "ACT-003",
+        "name": "Finance",
+        "description": "Records reimbursement for approved claims.",
+        "is_primary": true
+      }
+    ],
+    "use_cases": [
+      {
+        "id": "UC-001",
+        "name": "Create Expense Claim",
+        "goal": "Employee creates an expense claim with trip details and attaches receipts.",
+        "primary_actor_id": "ACT-001",
+        "secondary_actor_ids": [],
+        "trigger": "Employee decides to submit a travel expense claim.",
+        "preconditions": [
+          {
+            "id": "PRE-UC001-001",
+            "text": "Employee is authenticated."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC001-001",
+            "text": "Expense claim is created with trip details and receipts attached.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC001-002",
+            "text": "Expense claim is not created.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC001-MAIN-001",
+          "kind": "main",
+          "name": "Employee creates claim with receipts",
+          "steps": [
+            {
+              "id": "STEP-UC001-001",
+              "order": 1,
+              "actor_id": "ACT-001",
+              "action": "Employee initiates creation of a new expense claim.",
+              "expected_result": "System presents claim form.",
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            },
+            {
+              "id": "STEP-UC001-002",
+              "order": 2,
+              "actor_id": "ACT-001",
+              "action": "Employee enters trip details.",
+              "expected_result": "Trip details are recorded.",
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            },
+            {
+              "id": "STEP-UC001-003",
+              "order": 3,
+              "actor_id": "ACT-001",
+              "action": "Employee attaches receipts to expense items.",
+              "expected_result": "Receipts are attached to expense items.",
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            },
+            {
+              "id": "STEP-UC001-004",
+              "order": 4,
+              "actor_id": "ACT-001",
+              "action": "Employee submits the claim.",
+              "expected_result": "Claim is saved and submitted for review.",
+              "source_fr_ids": [
+                "FR-001",
+                "FR-002"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [],
+        "user_stories": [
+          {
+            "id": "US-001",
+            "role": "Employee",
+            "capability": "create an expense claim with trip details",
+            "benefit": "I can request reimbursement for travel expenses.",
+            "use_case_id": "UC-001"
+          },
+          {
+            "id": "US-002",
+            "role": "Employee",
+            "capability": "attach receipts to expense items",
+            "benefit": "I can provide proof of expenses.",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-001",
+            "system_action": "Store claim and receipts securely.",
+            "responsibility": "Persist claim data and encrypted receipt files.",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-001",
+          "FR-002"
+        ],
+        "source_nfr_ids": [
+          "NFR-001"
+        ],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-001 — Create Expense Claim\nGoal: Employee creates an expense claim with trip details and attaches receipts.\nPrimary actor: ACT-001\nTrigger: Employee decides to submit a travel expense claim.\nPreconditions:\n  - PRE-UC001-001: Employee is authenticated.\nMain success scenario:\n  1. [STEP-UC001-001] Employee initiates creation of a new expense claim.\n  2. [STEP-UC001-002] Employee enters trip details.\n  3. [STEP-UC001-003] Employee attaches receipts to expense items.\n  4. [STEP-UC001-004] Employee submits the claim.\nSource FRs: FR-001, FR-002\n"
+      },
+      {
+        "id": "UC-002",
+        "name": "Review and Approve Claim",
+        "goal": "Manager reviews flagged items and approves or rejects the claim.",
+        "primary_actor_id": "ACT-002",
+        "secondary_actor_ids": [],
+        "trigger": "Employee submits a claim for review.",
+        "preconditions": [
+          {
+            "id": "PRE-UC002-001",
+            "text": "A claim has been submitted and is pending review."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC002-001",
+            "text": "Claim is approved or rejected with an auditable decision.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC002-002",
+            "text": "Claim remains pending or is returned for correction.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC002-MAIN-001",
+          "kind": "main",
+          "name": "Manager approves claim",
+          "steps": [
+            {
+              "id": "STEP-UC002-001",
+              "order": 1,
+              "actor_id": "ACT-002",
+              "action": "Manager opens the submitted claim.",
+              "expected_result": "Claim details and flagged items are displayed.",
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC002-002",
+              "order": 2,
+              "actor_id": "ACT-002",
+              "action": "Manager reviews flagged items above policy limits.",
+              "expected_result": "Manager understands policy exceptions.",
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC002-003",
+              "order": 3,
+              "actor_id": "ACT-002",
+              "action": "Manager approves the claim.",
+              "expected_result": "Claim is approved and decision is recorded.",
+              "source_fr_ids": [
+                "FR-004"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [
+          {
+            "id": "SCN-UC002-ALT-001",
+            "kind": "alternative",
+            "name": "Manager rejects claim",
+            "steps": [
+              {
+                "id": "STEP-UC002-004",
+                "order": 1,
+                "actor_id": "ACT-002",
+                "action": "Manager rejects the claim.",
+                "expected_result": "Claim is rejected and decision is recorded.",
+                "source_fr_ids": [
+                  "FR-004"
+                ]
+              }
+            ],
+            "start_from_step_id": "STEP-UC002-002",
+            "rejoins_step_id": null
+          }
+        ],
+        "exception_scenarios": [],
+        "user_stories": [
+          {
+            "id": "US-003",
+            "role": "Manager",
+            "capability": "review flagged items and approve or reject a claim",
+            "benefit": "I can enforce travel policy.",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-002",
+            "system_action": "Flag items above policy limits.",
+            "responsibility": "Identify and mark expense items exceeding policy limits.",
+            "use_case_id": "UC-002"
+          },
+          {
+            "id": "SS-003",
+            "system_action": "Record approval decision with audit trail.",
+            "responsibility": "Log manager decision for auditability.",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-003",
+          "FR-004"
+        ],
+        "source_nfr_ids": [
+          "NFR-002"
+        ],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-002 — Review and Approve Claim\nGoal: Manager reviews flagged items and approves or rejects the claim.\nPrimary actor: ACT-002\nTrigger: Employee submits a claim for review.\nPreconditions:\n  - PRE-UC002-001: A claim has been submitted and is pending review.\nMain success scenario:\n  1. [STEP-UC002-001] Manager opens the submitted claim.\n  2. [STEP-UC002-002] Manager reviews flagged items above policy limits.\n  3. [STEP-UC002-003] Manager approves the claim.\nAlternative scenarios:\n  - SCN-UC002-ALT-001: Manager rejects claim\nSource FRs: FR-003, FR-004\n"
+      },
+      {
+        "id": "UC-003",
+        "name": "Record Reimbursement",
+        "goal": "Finance records reimbursement for an approved claim.",
+        "primary_actor_id": "ACT-003",
+        "secondary_actor_ids": [],
+        "trigger": "A claim has been approved by a manager.",
+        "preconditions": [
+          {
+            "id": "PRE-UC003-001",
+            "text": "Claim is approved."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC003-001",
+            "text": "Reimbursement is recorded for the approved claim.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC003-002",
+            "text": "Reimbursement is not recorded.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC003-MAIN-001",
+          "kind": "main",
+          "name": "Finance records reimbursement",
+          "steps": [
+            {
+              "id": "STEP-UC003-001",
+              "order": 1,
+              "actor_id": "ACT-003",
+              "action": "Finance opens the approved claim.",
+              "expected_result": "Approved claim details are displayed.",
+              "source_fr_ids": [
+                "FR-005"
+              ]
+            },
+            {
+              "id": "STEP-UC003-002",
+              "order": 2,
+              "actor_id": "ACT-003",
+              "action": "Finance records reimbursement for the claim.",
+              "expected_result": "Reimbursement is recorded.",
+              "source_fr_ids": [
+                "FR-005"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [],
+        "user_stories": [
+          {
+            "id": "US-004",
+            "role": "Finance",
+            "capability": "record reimbursement for an approved claim",
+            "benefit": "I can process payment to the employee.",
+            "use_case_id": "UC-003"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-004",
+            "system_action": "Record reimbursement details.",
+            "responsibility": "Persist reimbursement record for approved claim.",
+            "use_case_id": "UC-003"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-005"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-003 — Record Reimbursement\nGoal: Finance records reimbursement for an approved claim.\nPrimary actor: ACT-003\nTrigger: A claim has been approved by a manager.\nPreconditions:\n  - PRE-UC003-001: Claim is approved.\nMain success scenario:\n  1. [STEP-UC003-001] Finance opens the approved claim.\n  2. [STEP-UC003-002] Finance records reimbursement for the claim.\nSource FRs: FR-005\n"
+      }
+    ],
+    "fr_coverage": {
+      "FR-001": "covered",
+      "FR-002": "covered",
+      "FR-003": "covered",
+      "FR-004": "covered",
+      "FR-005": "covered"
+    }
+  },
+  "activity_results": [
+    {
+      "use_case_id": "UC-001",
+      "activity_diagram": {
+        "id": "AD-UC001",
+        "use_case_id": "UC-001",
+        "name": "Create Expense Claim",
+        "partitions": [
+          {
+            "id": "PART-UC001-001",
+            "name": "Employee",
+            "actor_id": "ACT-001"
+          },
+          {
+            "id": "PART-UC001-002",
+            "name": "System",
+            "actor_id": null
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC001-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-002",
+            "kind": "action",
+            "name": "Initiate claim creation",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-003",
+            "kind": "action",
+            "name": "Enter trip details",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-004",
+            "kind": "action",
+            "name": "Attach receipts to expense items",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-005",
+            "kind": "action",
+            "name": "Submit claim",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-006",
+            "kind": "action",
+            "name": "Store claim and receipts securely",
+            "partition_id": "PART-UC001-002",
+            "related_step_ids": [
+              "STEP-UC001-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-007",
+            "kind": "final",
+            "name": "End",
+            "partition_id": "PART-UC001-002",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC001-001",
+            "source_node_id": "ADN-UC001-001",
+            "target_node_id": "ADN-UC001-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-002",
+            "source_node_id": "ADN-UC001-002",
+            "target_node_id": "ADN-UC001-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-003",
+            "source_node_id": "ADN-UC001-003",
+            "target_node_id": "ADN-UC001-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-004",
+            "source_node_id": "ADN-UC001-004",
+            "target_node_id": "ADN-UC001-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-005",
+            "source_node_id": "ADN-UC001-005",
+            "target_node_id": "ADN-UC001-006",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-006",
+            "source_node_id": "ADN-UC001-006",
+            "target_node_id": "ADN-UC001-007",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC001 uc:UC-001\n  subgraph PART-UC001-001[\"Employee\"]\n  ADN-UC001-001((\"start\"))\n  ADN-UC001-002[\"Initiate claim creation\"]\n  ADN-UC001-003[\"Enter trip details\"]\n  ADN-UC001-004[\"Attach receipts to expense items\"]\n  ADN-UC001-005[\"Submit claim\"]\n  end\n  subgraph PART-UC001-002[\"System\"]\n  ADN-UC001-006[\"Store claim and receipts securely\"]\n  ADN-UC001-007((\"end\"))\n  end\n  ADN-UC001-001 --> ADN-UC001-002\n  ADN-UC001-002 --> ADN-UC001-003\n  ADN-UC001-003 --> ADN-UC001-004\n  ADN-UC001-004 --> ADN-UC001-005\n  ADN-UC001-005 --> ADN-UC001-006\n  ADN-UC001-006 --> ADN-UC001-007\n"
+      },
+      "status": "failed",
+      "validation_reports": [
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC001-001"
+              ],
+              "blocking": true
+            },
+            {
+              "id": "VI-002",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC001-006 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC001-006"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        }
+      ],
+      "repair_attempts_used": 0,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-002",
+      "activity_diagram": {
+        "id": "AD-UC002",
+        "use_case_id": "UC-002",
+        "name": "Review and Approve Claim",
+        "partitions": [
+          {
+            "id": "PART-UC002-001",
+            "name": "Manager",
+            "actor_id": "ACT-002"
+          },
+          {
+            "id": "PART-UC002-002",
+            "name": "System",
+            "actor_id": null
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC002-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-002",
+            "kind": "action",
+            "name": "Open submitted claim",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-003",
+            "kind": "action",
+            "name": "Review flagged items",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-004",
+            "kind": "decision",
+            "name": "Approve or reject?",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-003",
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-005",
+            "kind": "action",
+            "name": "Approve claim",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-006",
+            "kind": "action",
+            "name": "Reject claim",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-007",
+            "kind": "action",
+            "name": "Record decision with audit trail",
+            "partition_id": "PART-UC002-002",
+            "related_step_ids": [
+              "STEP-UC002-003",
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-008",
+            "kind": "final",
+            "name": "End",
+            "partition_id": "PART-UC002-002",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC002-001",
+            "source_node_id": "ADN-UC002-001",
+            "target_node_id": "ADN-UC002-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-002",
+            "source_node_id": "ADN-UC002-002",
+            "target_node_id": "ADN-UC002-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-003",
+            "source_node_id": "ADN-UC002-003",
+            "target_node_id": "ADN-UC002-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-004",
+            "source_node_id": "ADN-UC002-004",
+            "target_node_id": "ADN-UC002-005",
+            "guard": "approved",
+            "label": "approved",
+            "related_step_ids": [
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-005",
+            "source_node_id": "ADN-UC002-004",
+            "target_node_id": "ADN-UC002-006",
+            "guard": "rejected",
+            "label": "rejected",
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-006",
+            "source_node_id": "ADN-UC002-005",
+            "target_node_id": "ADN-UC002-007",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-007",
+            "source_node_id": "ADN-UC002-006",
+            "target_node_id": "ADN-UC002-007",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-008",
+            "source_node_id": "ADN-UC002-007",
+            "target_node_id": "ADN-UC002-008",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC002 uc:UC-002\n  subgraph PART-UC002-001[\"Manager\"]\n  ADN-UC002-001((\"start\"))\n  ADN-UC002-002[\"Open submitted claim\"]\n  ADN-UC002-003[\"Review flagged items\"]\n  ADN-UC002-004{\"Approve or reject?\"}\n  ADN-UC002-005[\"Approve claim\"]\n  ADN-UC002-006[\"Reject claim\"]\n  end\n  subgraph PART-UC002-002[\"System\"]\n  ADN-UC002-007[\"Record decision with audit trail\"]\n  ADN-UC002-008((\"end\"))\n  end\n  ADN-UC002-001 --> ADN-UC002-002\n  ADN-UC002-002 --> ADN-UC002-003\n  ADN-UC002-003 --> ADN-UC002-004\n  ADN-UC002-004 -->|\"approved\"| ADN-UC002-005\n  ADN-UC002-004 -->|\"rejected\"| ADN-UC002-006\n  ADN-UC002-005 --> ADN-UC002-007\n  ADN-UC002-006 --> ADN-UC002-007\n  ADN-UC002-007 --> ADN-UC002-008\n"
+      },
+      "status": "failed",
+      "validation_reports": [
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC002-001"
+              ],
+              "blocking": true
+            },
+            {
+              "id": "VI-002",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC002-008 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC002-008"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        }
+      ],
+      "repair_attempts_used": 0,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-003",
+      "activity_diagram": {
+        "id": "AD-UC003",
+        "use_case_id": "UC-003",
+        "name": "Record Reimbursement",
+        "partitions": [
+          {
+            "id": "PART-UC003-001",
+            "name": "Finance",
+            "actor_id": "ACT-003"
+          },
+          {
+            "id": "PART-UC003-002",
+            "name": "System",
+            "actor_id": null
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC003-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-002",
+            "kind": "action",
+            "name": "Open approved claim",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-003",
+            "kind": "action",
+            "name": "Record reimbursement",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-004",
+            "kind": "action",
+            "name": "Persist reimbursement record",
+            "partition_id": "PART-UC003-002",
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-005",
+            "kind": "final",
+            "name": "End",
+            "partition_id": "PART-UC003-002",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC003-001",
+            "source_node_id": "ADN-UC003-001",
+            "target_node_id": "ADN-UC003-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-002",
+            "source_node_id": "ADN-UC003-002",
+            "target_node_id": "ADN-UC003-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-003",
+            "source_node_id": "ADN-UC003-003",
+            "target_node_id": "ADN-UC003-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-004",
+            "source_node_id": "ADN-UC003-004",
+            "target_node_id": "ADN-UC003-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC003 uc:UC-003\n  subgraph PART-UC003-001[\"Finance\"]\n  ADN-UC003-001((\"start\"))\n  ADN-UC003-002[\"Open approved claim\"]\n  ADN-UC003-003[\"Record reimbursement\"]\n  end\n  subgraph PART-UC003-002[\"System\"]\n  ADN-UC003-004[\"Persist reimbursement record\"]\n  ADN-UC003-005((\"end\"))\n  end\n  ADN-UC003-001 --> ADN-UC003-002\n  ADN-UC003-002 --> ADN-UC003-003\n  ADN-UC003-003 --> ADN-UC003-004\n  ADN-UC003-004 --> ADN-UC003-005\n"
+      },
+      "status": "failed",
+      "validation_reports": [
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC003-001"
+              ],
+              "blocking": true
+            },
+            {
+              "id": "VI-002",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC003-004 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC003-004"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        }
+      ],
+      "repair_attempts_used": 0,
+      "failure_reason": null
+    }
+  ],
+  "trace_manifest": {
+    "links": [
+      {
+        "id": "TL-001",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-002",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-003",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-004",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-005",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-006",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-007",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-008",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-009",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-010",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-011",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-012",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-013",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-014",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-015",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-016",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-017",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "fr_atom",
+        "target_id": "FRA-001-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-018",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "fr_atom",
+        "target_id": "FRA-002-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-019",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "fr_atom",
+        "target_id": "FRA-003-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-020",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "fr_atom",
+        "target_id": "FRA-004-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-021",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "fr_atom",
+        "target_id": "FRA-005-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-022",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-023",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-024",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-025",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC001-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-026",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-027",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-028",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-029",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-030",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC002-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-031",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "step",
+        "target_id": "STEP-UC003-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-032",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "step",
+        "target_id": "STEP-UC003-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-033",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-034",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-035",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-036",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-037",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-038",
+        "source_type": "nfr",
+        "source_id": "NFR-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source."
+      },
+      {
+        "id": "TL-039",
+        "source_type": "nfr",
+        "source_id": "NFR-002",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source."
+      },
+      {
+        "id": "TL-040",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-041",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-042",
+        "source_type": "step",
+        "source_id": "STEP-UC001-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-043",
+        "source_type": "step",
+        "source_id": "STEP-UC001-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-044",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-045",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-046",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-047",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-048",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-049",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-007",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-050",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-051",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-052",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-053",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-054",
+        "source_type": "step",
+        "source_id": "STEP-UC001-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-055",
+        "source_type": "step",
+        "source_id": "STEP-UC001-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-056",
+        "source_type": "step",
+        "source_id": "STEP-UC001-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-006",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-057",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-058",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-059",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-060",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-061",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-007",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-062",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-063",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-006",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-064",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-007",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-065",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-066",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-067",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-068",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "activity",
+        "target_id": "AD-UC001",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-069",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "activity",
+        "target_id": "AD-UC002",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-070",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "activity",
+        "target_id": "AD-UC003",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-071",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "ss",
+        "target_id": "SS-001",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-072",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "ss",
+        "target_id": "SS-002",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-073",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "ss",
+        "target_id": "SS-003",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-074",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "ss",
+        "target_id": "SS-004",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-075",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "us",
+        "target_id": "US-001",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-076",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "us",
+        "target_id": "US-002",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-077",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "us",
+        "target_id": "US-003",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-078",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "us",
+        "target_id": "US-004",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      }
+    ]
+  },
+  "validation_reports": [
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "one_shot_parse",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC001-001"
+          ],
+          "blocking": true
+        },
+        {
+          "id": "VI-002",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC001-006 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC001-006"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC002-001"
+          ],
+          "blocking": true
+        },
+        {
+          "id": "VI-002",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC002-008 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC002-008"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC003-001"
+          ],
+          "blocking": true
+        },
+        {
+          "id": "VI-002",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC003-004 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC003-004"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_trace_coverage_below_threshold",
+          "message": "Activity element trace coverage 0.854 is below 1.00",
+          "element_ids": [],
+          "blocking": true
+        }
+      ],
+      "validator_name": "e2e_trace",
+      "details": {
+        "requirement_atomization": {
+          "passed": true,
+          "fr_count": 5,
+          "atom_count": 5
+        },
+        "unique_ids": {
+          "passed": true
+        },
+        "fr_coverage": {
+          "passed": true,
+          "covered": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005"
+          ]
+        },
+        "trace_link_contracts": {
+          "passed": true
+        },
+        "declared_trace_bidirectionality": {
+          "passed": true,
+          "expected_relations": 78,
+          "actual_relations": 78
+        },
+        "trace_coverage_thresholds": {
+          "passed": false,
+          "uc_supported": 21,
+          "uc_total": 21,
+          "uc_ratio": 1.0,
+          "activity_supported": 35,
+          "activity_total": 41,
+          "activity_ratio": 0.8536585365853658
+        },
+        "trace_integrity": {
+          "passed": true
+        }
+      }
+    }
+  ],
+  "evaluation_report": {
+    "metrics": [
+      {
+        "name": "schema_validity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Share of schema validators that passed"
+      },
+      {
+        "name": "fr_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "|FRs referenced by ≥1 UC| / |FRs|"
+      },
+      {
+        "name": "orphan_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "duplicate_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "trace_reference_integrity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "1 - dangling_links / max(links,1) (approx from validation issues)"
+      },
+      {
+        "name": "trace_completeness",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "activity_structural_validity",
+        "value": 0.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "mermaid_generation_success",
+        "value": 0.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "end_to_end_success",
+        "value": 0.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": null
+      },
+      {
+        "name": "repair_attempts",
+        "value": 0,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": "Use Case repair attempts plus all Activity repair attempts"
+      },
+      {
+        "name": "uc_element_trace_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "activity_element_trace_coverage",
+        "value": 0.8536585365853658,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "unsupported_trace_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "blocking_error_classes",
+        "value": 2,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": null
+      },
+      {
+        "name": "stability_multi_run",
+        "value": null,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Requires ≥2 seeded runs; not computed in scaffold"
+      },
+      {
+        "name": "latency_ms",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "ms",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "token_usage",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "tokens",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "cost_usd",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "usd",
+        "notes": "Filled when LLM nodes are wired"
+      }
+    ],
+    "automatic_only": true,
+    "notes": "Automatic metrics only; LLM-as-a-judge and expert scores are separate tracks"
+  },
+  "uc_repair_attempts_used": 0,
+  "status": "failed",
+  "failure_reason": null
+}

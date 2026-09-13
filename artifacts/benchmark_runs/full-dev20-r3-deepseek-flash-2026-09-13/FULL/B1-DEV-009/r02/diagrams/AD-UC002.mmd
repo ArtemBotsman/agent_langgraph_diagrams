@@ -1,0 +1,20 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Guest"]
+  ADN-UC002-002["Guest provides contact details (name, phone, email)."]
+  end
+  subgraph PART-UC002-002["System"]
+  ADN-UC002-003["System validates contact details and checks capacity again."]
+  ADN-UC002-004{"Details valid and capacity available?"}
+  ADN-UC002-005["System creates the reservation and sends confirmation."]
+  ADN-UC002-006["System informs the guest that the reservation cannot be made."]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-007(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004
+  ADN-UC002-004 -->|"Details valid and capacity available"| ADN-UC002-005
+  ADN-UC002-004 -->|"Capacity exceeded"| ADN-UC002-006
+  ADN-UC002-005 --> ADN-UC002-007
+  ADN-UC002-006 --> ADN-UC002-007

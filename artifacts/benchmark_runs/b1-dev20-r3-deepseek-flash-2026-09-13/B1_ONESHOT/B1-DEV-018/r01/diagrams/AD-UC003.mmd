@@ -1,0 +1,18 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Data Subject"]
+  ADN-UC003-001(("start"))
+  ADN-UC003-002["Download archive after re-authentication"]
+  end
+  subgraph PART-UC003-002["System"]
+  ADN-UC003-003{"Re-authentication successful?"}
+  ADN-UC003-004["Allow download"]
+  ADN-UC003-005["Deny download"]
+  ADN-UC003-006(("end"))
+  end
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 -->|"re-authentication is successful"| ADN-UC003-004
+  ADN-UC003-003 -->|"re-authentication is not successful"| ADN-UC003-005
+  ADN-UC003-004 --> ADN-UC003-006
+  ADN-UC003-005 --> ADN-UC003-006

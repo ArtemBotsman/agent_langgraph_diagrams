@@ -1,0 +1,5 @@
+activity_element_trace_coverage,case_count,condition,e2e_success_rate,fr_coverage,mean_activity_diagram_count,mean_activity_edge_count,mean_activity_node_count,mean_fr_count,mean_latency_ms,mean_llm_calls,mean_nfr_count,mean_output_bytes,mean_repair_attempts,mean_total_tokens,mean_trace_link_count,mean_use_case_count,median_latency_ms,repeat_exact_match_rate,run_count,schema_validity,size_group,size_label_ru,successful_runs,trace_completeness,uc_element_trace_coverage
+1.0,5,B0_RULE,1.0,1.0,1.0,9.0,10.0,8.0,0.9210666666666667,0.0,13.4,51227.4,0.0,0.0,73.4,1.0,0.889,1.0,15,1.0,G1_SMALL,небольшие,15,1.0,1.0
+1.0,5,B0_RULE,1.0,1.0,1.0,16.8,17.8,15.8,1.2694666666666667,0.0,14.0,85538.6,0.0,0.0,128.6,1.0,1.235,1.0,15,1.0,G2_GROWING,увеличенные,15,1.0,1.0
+1.0,5,B0_RULE,1.0,1.0,1.0,37.0,38.0,36.0,2.4870666666666668,0.0,15.4,174665.8,0.0,0.0,271.4,1.0,2.26,1.0,15,1.0,G3_MEDIUM,средние,15,1.0,1.0
+1.0,5,B0_RULE,1.0,1.0,1.0,65.0,66.0,64.0,4.105066666666667,0.0,18.2,308269.2,0.0,0.0,470.2,1.0,4.223,1.0,15,1.0,G4_LARGE,большие,15,1.0,1.0

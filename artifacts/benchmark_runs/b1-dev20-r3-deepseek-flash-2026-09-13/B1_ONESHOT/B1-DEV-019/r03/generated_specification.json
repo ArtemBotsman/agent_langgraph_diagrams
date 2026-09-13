@@ -1,0 +1,2439 @@
+{
+  "request": {
+    "project_task": "Создать процесс подачи и рассмотрения заявки на муниципальное разрешение.",
+    "project_name": "City Permit",
+    "project_goal": "Сделать состояние заявки и причины решений прозрачными заявителю.",
+    "project_description": "Заявитель подаёт документы, система проверяет комплектность, инспектор запрашивает уточнения и принимает решение.",
+    "functional_requirements": [
+      {
+        "id": "FR-001",
+        "text": "Заявитель выбирает тип разрешения.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-001-001",
+            "parent_fr_id": "FR-001",
+            "text": "Заявитель выбирает тип разрешения.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-002",
+        "text": "Заявитель заполняет обязательные поля и прикладывает документы.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-002-001",
+            "parent_fr_id": "FR-002",
+            "text": "Заявитель заполняет обязательные поля и прикладывает документы.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-003",
+        "text": "Система проверяет комплектность по типу разрешения.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-003-001",
+            "parent_fr_id": "FR-003",
+            "text": "Система проверяет комплектность по типу разрешения.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-004",
+        "text": "Система рассчитывает и принимает обязательную пошлину.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-004-001",
+            "parent_fr_id": "FR-004",
+            "text": "Система рассчитывает и принимает обязательную пошлину.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-005",
+        "text": "Инспектор запрашивает уточнение с указанием недостающих данных.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-005-001",
+            "parent_fr_id": "FR-005",
+            "text": "Инспектор запрашивает уточнение с указанием недостающих данных.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-006",
+        "text": "Заявитель дополняет заявку до срока.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-006-001",
+            "parent_fr_id": "FR-006",
+            "text": "Заявитель дополняет заявку до срока.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-007",
+        "text": "Инспектор одобряет или отклоняет заявку с причиной.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-007-001",
+            "parent_fr_id": "FR-007",
+            "text": "Инспектор одобряет или отклоняет заявку с причиной.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-008",
+        "text": "Заявитель скачивает выданное разрешение.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-008-001",
+            "parent_fr_id": "FR-008",
+            "text": "Заявитель скачивает выданное разрешение.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      }
+    ],
+    "non_functional_requirements": [
+      {
+        "id": "NFR-001",
+        "text": "Каждая версия документов должна сохраняться в истории дела.",
+        "category": null,
+        "tags": []
+      },
+      {
+        "id": "NFR-002",
+        "text": "Решение должно иметь квалифицированную временную метку.",
+        "category": null,
+        "tags": []
+      }
+    ],
+    "max_repair_attempts": 2,
+    "metadata": {
+      "source_contract": "SpecificationReq"
+    }
+  },
+  "use_case_set": {
+    "actors": [
+      {
+        "id": "ACT-001",
+        "name": "Заявитель",
+        "description": "Подаёт документы и получает разрешение",
+        "is_primary": true
+      },
+      {
+        "id": "ACT-002",
+        "name": "Инспектор",
+        "description": "Проверяет заявку, запрашивает уточнения и принимает решение",
+        "is_primary": false
+      },
+      {
+        "id": "ACT-003",
+        "name": "Система",
+        "description": "Проверяет комплектность, рассчитывает пошлину, хранит историю",
+        "is_primary": false
+      }
+    ],
+    "use_cases": [
+      {
+        "id": "UC-001",
+        "name": "Подача заявки на разрешение",
+        "goal": "Заявитель подаёт заявку с выбранным типом разрешения, обязательными полями и документами",
+        "primary_actor_id": "ACT-001",
+        "secondary_actor_ids": [
+          "ACT-003"
+        ],
+        "trigger": "Заявитель начинает оформление заявки на муниципальное разрешение",
+        "preconditions": [
+          {
+            "id": "PRE-UC001-001",
+            "text": "Заявитель авторизован в системе"
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC001-001",
+            "text": "Заявка зарегистрирована с типом разрешения, заполненными полями и приложенными документами",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC001-002",
+            "text": "Заявка не зарегистрирована, заявитель уведомлён о причине",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC001-MAIN-001",
+          "kind": "main",
+          "name": "Успешная подача заявки",
+          "steps": [
+            {
+              "id": "STEP-UC001-001",
+              "order": 1,
+              "actor_id": "ACT-001",
+              "action": "Заявитель выбирает тип разрешения",
+              "expected_result": "Тип разрешения выбран",
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            },
+            {
+              "id": "STEP-UC001-002",
+              "order": 2,
+              "actor_id": "ACT-001",
+              "action": "Заявитель заполняет обязательные поля и прикладывает документы",
+              "expected_result": "Поля заполнены, документы приложены",
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            },
+            {
+              "id": "STEP-UC001-003",
+              "order": 3,
+              "actor_id": "ACT-003",
+              "action": "Система проверяет комплектность по типу разрешения",
+              "expected_result": "Комплектность подтверждена",
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC001-004",
+              "order": 4,
+              "actor_id": "ACT-003",
+              "action": "Система рассчитывает и принимает обязательную пошлину",
+              "expected_result": "Пошлина рассчитана и принята",
+              "source_fr_ids": [
+                "FR-004"
+              ]
+            },
+            {
+              "id": "STEP-UC001-005",
+              "order": 5,
+              "actor_id": "ACT-003",
+              "action": "Система регистрирует заявку и сохраняет версию документов в истории дела",
+              "expected_result": "Заявка зарегистрирована, версия документов сохранена",
+              "source_fr_ids": [
+                "FR-002",
+                "NFR-001"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [
+          {
+            "id": "SCN-UC001-EXC-001",
+            "kind": "exception",
+            "name": "Неполный комплект документов",
+            "steps": [
+              {
+                "id": "STEP-UC001-006",
+                "order": 1,
+                "actor_id": "ACT-003",
+                "action": "Система выявляет неполный комплект документов",
+                "expected_result": "Комплектность не подтверждена",
+                "source_fr_ids": [
+                  "FR-003"
+                ]
+              },
+              {
+                "id": "STEP-UC001-007",
+                "order": 2,
+                "actor_id": "ACT-003",
+                "action": "Система уведомляет заявителя о недостающих документах",
+                "expected_result": "Заявитель уведомлён",
+                "source_fr_ids": [
+                  "FR-003"
+                ]
+              }
+            ],
+            "start_from_step_id": "STEP-UC001-003",
+            "rejoins_step_id": null
+          }
+        ],
+        "user_stories": [
+          {
+            "id": "US-001",
+            "role": "Заявитель",
+            "capability": "подать заявку на муниципальное разрешение с выбранным типом, полями и документами",
+            "benefit": "получить разрешение без лишних визитов",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-001",
+            "system_action": "Проверка комплектности по типу разрешения",
+            "responsibility": "Система сверяет приложенные документы с требованиями выбранного типа разрешения",
+            "use_case_id": "UC-001"
+          },
+          {
+            "id": "SS-002",
+            "system_action": "Расчёт и приём обязательной пошлины",
+            "responsibility": "Система рассчитывает размер пошлины и фиксирует её оплату",
+            "use_case_id": "UC-001"
+          },
+          {
+            "id": "SS-003",
+            "system_action": "Сохранение версии документов в истории дела",
+            "responsibility": "Система сохраняет каждую версию документов в истории дела",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004"
+        ],
+        "source_nfr_ids": [
+          "NFR-001"
+        ],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-001 — Подача заявки на разрешение\nGoal: Заявитель подаёт заявку с выбранным типом разрешения, обязательными полями и документами\nPrimary actor: ACT-001\nTrigger: Заявитель начинает оформление заявки на муниципальное разрешение\nPreconditions:\n  - PRE-UC001-001: Заявитель авторизован в системе\nMain success scenario:\n  1. [STEP-UC001-001] Заявитель выбирает тип разрешения\n  2. [STEP-UC001-002] Заявитель заполняет обязательные поля и прикладывает документы\n  3. [STEP-UC001-003] Система проверяет комплектность по типу разрешения\n  4. [STEP-UC001-004] Система рассчитывает и принимает обязательную пошлину\n  5. [STEP-UC001-005] Система регистрирует заявку и сохраняет версию документов в истории дела\nException scenarios:\n  - SCN-UC001-EXC-001: Неполный комплект документов\nSource FRs: FR-001, FR-002, FR-003, FR-004\n"
+      },
+      {
+        "id": "UC-002",
+        "name": "Рассмотрение заявки и принятие решения",
+        "goal": "Инспектор проверяет заявку, при необходимости запрашивает уточнение и принимает решение с причиной",
+        "primary_actor_id": "ACT-002",
+        "secondary_actor_ids": [
+          "ACT-001",
+          "ACT-003"
+        ],
+        "trigger": "Заявка зарегистрирована и доступна инспектору для рассмотрения",
+        "preconditions": [
+          {
+            "id": "PRE-UC002-001",
+            "text": "Заявка зарегистрирована и комплектна"
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC002-001",
+            "text": "Решение принято и зафиксировано с квалифицированной временной меткой",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC002-002",
+            "text": "Решение не принято, заявка остаётся в рассмотрении",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC002-MAIN-001",
+          "kind": "main",
+          "name": "Одобрение заявки",
+          "steps": [
+            {
+              "id": "STEP-UC002-001",
+              "order": 1,
+              "actor_id": "ACT-002",
+              "action": "Инспектор проверяет заявку и документы",
+              "expected_result": "Заявка проверена",
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC002-002",
+              "order": 2,
+              "actor_id": "ACT-002",
+              "action": "Инспектор одобряет заявку",
+              "expected_result": "Заявка одобрена",
+              "source_fr_ids": [
+                "FR-007"
+              ]
+            },
+            {
+              "id": "STEP-UC002-003",
+              "order": 3,
+              "actor_id": "ACT-003",
+              "action": "Система фиксирует решение с квалифицированной временной меткой",
+              "expected_result": "Решение зафиксировано с меткой",
+              "source_fr_ids": [
+                "FR-007",
+                "NFR-002"
+              ]
+            },
+            {
+              "id": "STEP-UC002-004",
+              "order": 4,
+              "actor_id": "ACT-001",
+              "action": "Заявитель скачивает выданное разрешение",
+              "expected_result": "Разрешение скачано",
+              "source_fr_ids": [
+                "FR-008"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [
+          {
+            "id": "SCN-UC002-ALT-001",
+            "kind": "alternative",
+            "name": "Запрос уточнения и дополнение заявки",
+            "steps": [
+              {
+                "id": "STEP-UC002-005",
+                "order": 1,
+                "actor_id": "ACT-002",
+                "action": "Инспектор запрашивает уточнение с указанием недостающих данных",
+                "expected_result": "Запрос уточнения отправлен",
+                "source_fr_ids": [
+                  "FR-005"
+                ]
+              },
+              {
+                "id": "STEP-UC002-006",
+                "order": 2,
+                "actor_id": "ACT-001",
+                "action": "Заявитель дополняет заявку до срока",
+                "expected_result": "Заявка дополнена",
+                "source_fr_ids": [
+                  "FR-006"
+                ]
+              },
+              {
+                "id": "STEP-UC002-007",
+                "order": 3,
+                "actor_id": "ACT-003",
+                "action": "Система сохраняет новую версию документов в истории дела",
+                "expected_result": "Новая версия сохранена",
+                "source_fr_ids": [
+                  "FR-006",
+                  "NFR-001"
+                ]
+              }
+            ],
+            "start_from_step_id": "STEP-UC002-001",
+            "rejoins_step_id": "STEP-UC002-002"
+          }
+        ],
+        "exception_scenarios": [
+          {
+            "id": "SCN-UC002-EXC-001",
+            "kind": "exception",
+            "name": "Отклонение заявки с причиной",
+            "steps": [
+              {
+                "id": "STEP-UC002-008",
+                "order": 1,
+                "actor_id": "ACT-002",
+                "action": "Инспектор отклоняет заявку с указанием причины",
+                "expected_result": "Заявка отклонена, причина указана",
+                "source_fr_ids": [
+                  "FR-007"
+                ]
+              },
+              {
+                "id": "STEP-UC002-009",
+                "order": 2,
+                "actor_id": "ACT-003",
+                "action": "Система фиксирует решение с квалифицированной временной меткой",
+                "expected_result": "Решение зафиксировано с меткой",
+                "source_fr_ids": [
+                  "FR-007",
+                  "NFR-002"
+                ]
+              }
+            ],
+            "start_from_step_id": "STEP-UC002-001",
+            "rejoins_step_id": null
+          }
+        ],
+        "user_stories": [
+          {
+            "id": "US-002",
+            "role": "Инспектор",
+            "capability": "рассмотреть заявку, запросить уточнение и принять решение с причиной",
+            "benefit": "обеспечить прозрачность и обоснованность решений",
+            "use_case_id": "UC-002"
+          },
+          {
+            "id": "US-003",
+            "role": "Заявитель",
+            "capability": "дополнить заявку по запросу и скачать выданное разрешение",
+            "benefit": "завершить процесс и получить результат",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-004",
+            "system_action": "Фиксация решения с квалифицированной временной меткой",
+            "responsibility": "Система сохраняет решение с квалифицированной временной меткой",
+            "use_case_id": "UC-002"
+          },
+          {
+            "id": "SS-005",
+            "system_action": "Сохранение новой версии документов в истории дела",
+            "responsibility": "Система сохраняет каждую версию документов в истории дела",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-005",
+          "FR-006",
+          "FR-007",
+          "FR-008"
+        ],
+        "source_nfr_ids": [
+          "NFR-001",
+          "NFR-002"
+        ],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-002 — Рассмотрение заявки и принятие решения\nGoal: Инспектор проверяет заявку, при необходимости запрашивает уточнение и принимает решение с причиной\nPrimary actor: ACT-002\nTrigger: Заявка зарегистрирована и доступна инспектору для рассмотрения\nPreconditions:\n  - PRE-UC002-001: Заявка зарегистрирована и комплектна\nMain success scenario:\n  1. [STEP-UC002-001] Инспектор проверяет заявку и документы\n  2. [STEP-UC002-002] Инспектор одобряет заявку\n  3. [STEP-UC002-003] Система фиксирует решение с квалифицированной временной меткой\n  4. [STEP-UC002-004] Заявитель скачивает выданное разрешение\nAlternative scenarios:\n  - SCN-UC002-ALT-001: Запрос уточнения и дополнение заявки\nException scenarios:\n  - SCN-UC002-EXC-001: Отклонение заявки с причиной\nSource FRs: FR-005, FR-006, FR-007, FR-008\n"
+      }
+    ],
+    "fr_coverage": {
+      "FR-001": "covered",
+      "FR-002": "covered",
+      "FR-003": "covered",
+      "FR-004": "covered",
+      "FR-005": "covered",
+      "FR-006": "covered",
+      "FR-007": "covered",
+      "FR-008": "covered"
+    }
+  },
+  "activity_results": [
+    {
+      "use_case_id": "UC-001",
+      "activity_diagram": {
+        "id": "AD-UC001",
+        "use_case_id": "UC-001",
+        "name": "Подача заявки на разрешение",
+        "partitions": [
+          {
+            "id": "PART-UC001-001",
+            "name": "Заявитель",
+            "actor_id": "ACT-001"
+          },
+          {
+            "id": "PART-UC001-002",
+            "name": "Система",
+            "actor_id": "ACT-003"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC001-001",
+            "kind": "initial",
+            "name": "Начало",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-002",
+            "kind": "action",
+            "name": "Выбрать тип разрешения",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-003",
+            "kind": "action",
+            "name": "Заполнить обязательные поля и приложить документы",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-004",
+            "kind": "action",
+            "name": "Проверить комплектность по типу разрешения",
+            "partition_id": "PART-UC001-002",
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-005",
+            "kind": "decision",
+            "name": "Комплектность подтверждена?",
+            "partition_id": "PART-UC001-002",
+            "related_step_ids": [
+              "STEP-UC001-003",
+              "STEP-UC001-006"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-006",
+            "kind": "action",
+            "name": "Уведомить о недостающих документах",
+            "partition_id": "PART-UC001-002",
+            "related_step_ids": [
+              "STEP-UC001-007"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-007",
+            "kind": "action",
+            "name": "Рассчитать и принять обязательную пошлину",
+            "partition_id": "PART-UC001-002",
+            "related_step_ids": [
+              "STEP-UC001-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-008",
+            "kind": "action",
+            "name": "Зарегистрировать заявку и сохранить версию документов",
+            "partition_id": "PART-UC001-002",
+            "related_step_ids": [
+              "STEP-UC001-005"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-009",
+            "kind": "final",
+            "name": "Конец",
+            "partition_id": "PART-UC001-002",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC001-001",
+            "source_node_id": "ADN-UC001-001",
+            "target_node_id": "ADN-UC001-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-002",
+            "source_node_id": "ADN-UC001-002",
+            "target_node_id": "ADN-UC001-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-003",
+            "source_node_id": "ADN-UC001-003",
+            "target_node_id": "ADN-UC001-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-004",
+            "source_node_id": "ADN-UC001-004",
+            "target_node_id": "ADN-UC001-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-005",
+            "source_node_id": "ADN-UC001-005",
+            "target_node_id": "ADN-UC001-006",
+            "guard": "нет",
+            "label": "неполный комплект",
+            "related_step_ids": [
+              "STEP-UC001-006"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-006",
+            "source_node_id": "ADN-UC001-005",
+            "target_node_id": "ADN-UC001-007",
+            "guard": "да",
+            "label": "комплект полный",
+            "related_step_ids": [
+              "STEP-UC001-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-007",
+            "source_node_id": "ADN-UC001-006",
+            "target_node_id": "ADN-UC001-009",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-007"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-008",
+            "source_node_id": "ADN-UC001-007",
+            "target_node_id": "ADN-UC001-008",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-005"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-009",
+            "source_node_id": "ADN-UC001-008",
+            "target_node_id": "ADN-UC001-009",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-005"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC001 uc:UC-001\n  subgraph PART-UC001-001[\"Заявитель\"]\n  ADN-UC001-001((\"start\"))\n  ADN-UC001-002[\"Выбрать тип разрешения\"]\n  ADN-UC001-003[\"Заполнить обязательные поля и приложить документы\"]\n  end\n  subgraph PART-UC001-002[\"Система\"]\n  ADN-UC001-004[\"Проверить комплектность по типу разрешения\"]\n  ADN-UC001-005{\"Комплектность подтверждена?\"}\n  ADN-UC001-006[\"Уведомить о недостающих документах\"]\n  ADN-UC001-007[\"Рассчитать и принять обязательную пошлину\"]\n  ADN-UC001-008[\"Зарегистрировать заявку и сохранить версию документов\"]\n  ADN-UC001-009((\"end\"))\n  end\n  ADN-UC001-001 --> ADN-UC001-002\n  ADN-UC001-002 --> ADN-UC001-003\n  ADN-UC001-003 --> ADN-UC001-004\n  ADN-UC001-004 --> ADN-UC001-005\n  ADN-UC001-005 -->|\"нет\"| ADN-UC001-006\n  ADN-UC001-005 -->|\"да\"| ADN-UC001-007\n  ADN-UC001-006 --> ADN-UC001-009\n  ADN-UC001-007 --> ADN-UC001-008\n  ADN-UC001-008 --> ADN-UC001-009\n"
+      },
+      "status": "success",
+      "validation_reports": [
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        }
+      ],
+      "repair_attempts_used": 0,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-002",
+      "activity_diagram": {
+        "id": "AD-UC002",
+        "use_case_id": "UC-002",
+        "name": "Рассмотрение заявки и принятие решения",
+        "partitions": [
+          {
+            "id": "PART-UC002-001",
+            "name": "Инспектор",
+            "actor_id": "ACT-002"
+          },
+          {
+            "id": "PART-UC002-002",
+            "name": "Заявитель",
+            "actor_id": "ACT-001"
+          },
+          {
+            "id": "PART-UC002-003",
+            "name": "Система",
+            "actor_id": "ACT-003"
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC002-001",
+            "kind": "initial",
+            "name": "Начало",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-002",
+            "kind": "action",
+            "name": "Проверить заявку и документы",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-003",
+            "kind": "decision",
+            "name": "Требуется уточнение?",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-005"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-004",
+            "kind": "action",
+            "name": "Запросить уточнение с указанием недостающих данных",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-005"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-005",
+            "kind": "action",
+            "name": "Дополнить заявку до срока",
+            "partition_id": "PART-UC002-002",
+            "related_step_ids": [
+              "STEP-UC002-006"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-006",
+            "kind": "action",
+            "name": "Сохранить новую версию документов в истории дела",
+            "partition_id": "PART-UC002-003",
+            "related_step_ids": [
+              "STEP-UC002-007"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-007",
+            "kind": "decision",
+            "name": "Решение по заявке?",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-002",
+              "STEP-UC002-008"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-008",
+            "kind": "action",
+            "name": "Одобрить заявку",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-009",
+            "kind": "action",
+            "name": "Отклонить заявку с указанием причины",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-008"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-010",
+            "kind": "action",
+            "name": "Зафиксировать решение с квалифицированной временной меткой",
+            "partition_id": "PART-UC002-003",
+            "related_step_ids": [
+              "STEP-UC002-003",
+              "STEP-UC002-009"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-011",
+            "kind": "action",
+            "name": "Скачать выданное разрешение",
+            "partition_id": "PART-UC002-002",
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-012",
+            "kind": "final",
+            "name": "Конец",
+            "partition_id": "PART-UC002-003",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC002-001",
+            "source_node_id": "ADN-UC002-001",
+            "target_node_id": "ADN-UC002-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-002",
+            "source_node_id": "ADN-UC002-002",
+            "target_node_id": "ADN-UC002-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-005"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-003",
+            "source_node_id": "ADN-UC002-003",
+            "target_node_id": "ADN-UC002-004",
+            "guard": "да",
+            "label": "требуется уточнение",
+            "related_step_ids": [
+              "STEP-UC002-005"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-004",
+            "source_node_id": "ADN-UC002-003",
+            "target_node_id": "ADN-UC002-007",
+            "guard": "нет",
+            "label": "уточнение не требуется",
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-005",
+            "source_node_id": "ADN-UC002-004",
+            "target_node_id": "ADN-UC002-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-006"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-006",
+            "source_node_id": "ADN-UC002-005",
+            "target_node_id": "ADN-UC002-006",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-007"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-007",
+            "source_node_id": "ADN-UC002-006",
+            "target_node_id": "ADN-UC002-007",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-008",
+            "source_node_id": "ADN-UC002-007",
+            "target_node_id": "ADN-UC002-008",
+            "guard": "одобрить",
+            "label": "одобрение",
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-009",
+            "source_node_id": "ADN-UC002-007",
+            "target_node_id": "ADN-UC002-009",
+            "guard": "отклонить",
+            "label": "отклонение",
+            "related_step_ids": [
+              "STEP-UC002-008"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-010",
+            "source_node_id": "ADN-UC002-008",
+            "target_node_id": "ADN-UC002-010",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-011",
+            "source_node_id": "ADN-UC002-009",
+            "target_node_id": "ADN-UC002-010",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-009"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-012",
+            "source_node_id": "ADN-UC002-010",
+            "target_node_id": "ADN-UC002-011",
+            "guard": "одобрено",
+            "label": "разрешение выдано",
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-013",
+            "source_node_id": "ADN-UC002-010",
+            "target_node_id": "ADN-UC002-012",
+            "guard": "отклонено",
+            "label": "разрешение не выдано",
+            "related_step_ids": [
+              "STEP-UC002-009"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-014",
+            "source_node_id": "ADN-UC002-011",
+            "target_node_id": "ADN-UC002-012",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-004"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC002 uc:UC-002\n  subgraph PART-UC002-001[\"Инспектор\"]\n  ADN-UC002-001((\"start\"))\n  ADN-UC002-002[\"Проверить заявку и документы\"]\n  ADN-UC002-003{\"Требуется уточнение?\"}\n  ADN-UC002-004[\"Запросить уточнение с указанием недостающих данных\"]\n  ADN-UC002-007{\"Решение по заявке?\"}\n  ADN-UC002-008[\"Одобрить заявку\"]\n  ADN-UC002-009[\"Отклонить заявку с указанием причины\"]\n  end\n  subgraph PART-UC002-002[\"Заявитель\"]\n  ADN-UC002-005[\"Дополнить заявку до срока\"]\n  ADN-UC002-011[\"Скачать выданное разрешение\"]\n  end\n  subgraph PART-UC002-003[\"Система\"]\n  ADN-UC002-006[\"Сохранить новую версию документов в истории дела\"]\n  ADN-UC002-010[\"Зафиксировать решение с квалифицированной временной меткой\"]\n  ADN-UC002-012((\"end\"))\n  end\n  ADN-UC002-001 --> ADN-UC002-002\n  ADN-UC002-002 --> ADN-UC002-003\n  ADN-UC002-003 -->|\"да\"| ADN-UC002-004\n  ADN-UC002-003 -->|\"нет\"| ADN-UC002-007\n  ADN-UC002-004 --> ADN-UC002-005\n  ADN-UC002-005 --> ADN-UC002-006\n  ADN-UC002-006 --> ADN-UC002-007\n  ADN-UC002-007 -->|\"одобрить\"| ADN-UC002-008\n  ADN-UC002-007 -->|\"отклонить\"| ADN-UC002-009\n  ADN-UC002-008 --> ADN-UC002-010\n  ADN-UC002-009 --> ADN-UC002-010\n  ADN-UC002-010 -->|\"одобрено\"| ADN-UC002-011\n  ADN-UC002-010 -->|\"отклонено\"| ADN-UC002-012\n  ADN-UC002-011 --> ADN-UC002-012\n"
+      },
+      "status": "success",
+      "validation_reports": [
+        {
+          "passed": true,
+          "issues": [],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        }
+      ],
+      "repair_attempts_used": 0,
+      "failure_reason": null
+    }
+  ],
+  "trace_manifest": {
+    "links": [
+      {
+        "id": "TL-001",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-002",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-003",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-005",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-004",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-005",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-006",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-006",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-007",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-007",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-008",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-009",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-005",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-010",
+        "source_type": "fr_atom",
+        "source_id": "FRA-006-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-006",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-011",
+        "source_type": "fr_atom",
+        "source_id": "FRA-006-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-007",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-012",
+        "source_type": "fr_atom",
+        "source_id": "FRA-007-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-013",
+        "source_type": "fr_atom",
+        "source_id": "FRA-007-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-014",
+        "source_type": "fr_atom",
+        "source_id": "FRA-007-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-008",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-015",
+        "source_type": "fr_atom",
+        "source_id": "FRA-007-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-009",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-016",
+        "source_type": "fr_atom",
+        "source_id": "FRA-008-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-017",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-018",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-019",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-020",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-021",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-022",
+        "source_type": "fr_atom",
+        "source_id": "FRA-006-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-023",
+        "source_type": "fr_atom",
+        "source_id": "FRA-007-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-024",
+        "source_type": "fr_atom",
+        "source_id": "FRA-008-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-025",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "fr_atom",
+        "target_id": "FRA-001-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-026",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "fr_atom",
+        "target_id": "FRA-002-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-027",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "fr_atom",
+        "target_id": "FRA-003-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-028",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "fr_atom",
+        "target_id": "FRA-004-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-029",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "fr_atom",
+        "target_id": "FRA-005-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-030",
+        "source_type": "fr",
+        "source_id": "FR-006",
+        "target_type": "fr_atom",
+        "target_id": "FRA-006-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-031",
+        "source_type": "fr",
+        "source_id": "FR-007",
+        "target_type": "fr_atom",
+        "target_id": "FRA-007-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-032",
+        "source_type": "fr",
+        "source_id": "FR-008",
+        "target_type": "fr_atom",
+        "target_id": "FRA-008-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-033",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-034",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-035",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC001-005",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-036",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC001-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-037",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC001-006",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-038",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC001-007",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-039",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-040",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC001-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-041",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "step",
+        "target_id": "STEP-UC002-005",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-042",
+        "source_type": "fr",
+        "source_id": "FR-006",
+        "target_type": "step",
+        "target_id": "STEP-UC002-006",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-043",
+        "source_type": "fr",
+        "source_id": "FR-006",
+        "target_type": "step",
+        "target_id": "STEP-UC002-007",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-044",
+        "source_type": "fr",
+        "source_id": "FR-007",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-045",
+        "source_type": "fr",
+        "source_id": "FR-007",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-046",
+        "source_type": "fr",
+        "source_id": "FR-007",
+        "target_type": "step",
+        "target_id": "STEP-UC002-008",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-047",
+        "source_type": "fr",
+        "source_id": "FR-007",
+        "target_type": "step",
+        "target_id": "STEP-UC002-009",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-048",
+        "source_type": "fr",
+        "source_id": "FR-008",
+        "target_type": "step",
+        "target_id": "STEP-UC002-004",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-049",
+        "source_type": "fr",
+        "source_id": "NFR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-005",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-050",
+        "source_type": "fr",
+        "source_id": "NFR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-007",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-051",
+        "source_type": "fr",
+        "source_id": "NFR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-052",
+        "source_type": "fr",
+        "source_id": "NFR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-009",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-053",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-054",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-055",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-056",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-057",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-058",
+        "source_type": "fr",
+        "source_id": "FR-006",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-059",
+        "source_type": "fr",
+        "source_id": "FR-007",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-060",
+        "source_type": "fr",
+        "source_id": "FR-008",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-061",
+        "source_type": "nfr",
+        "source_id": "NFR-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source."
+      },
+      {
+        "id": "TL-062",
+        "source_type": "nfr",
+        "source_id": "NFR-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source."
+      },
+      {
+        "id": "TL-063",
+        "source_type": "nfr",
+        "source_id": "NFR-002",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source."
+      },
+      {
+        "id": "TL-064",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-065",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-066",
+        "source_type": "step",
+        "source_id": "STEP-UC001-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-067",
+        "source_type": "step",
+        "source_id": "STEP-UC001-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-068",
+        "source_type": "step",
+        "source_id": "STEP-UC001-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-069",
+        "source_type": "step",
+        "source_id": "STEP-UC001-005",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-008",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-070",
+        "source_type": "step",
+        "source_id": "STEP-UC001-005",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-009",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-071",
+        "source_type": "step",
+        "source_id": "STEP-UC001-006",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-072",
+        "source_type": "step",
+        "source_id": "STEP-UC001-007",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-007",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-073",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-001",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-074",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-075",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-007",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-076",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-008",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-077",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-010",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-078",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-012",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-079",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-014",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-080",
+        "source_type": "step",
+        "source_id": "STEP-UC002-005",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-081",
+        "source_type": "step",
+        "source_id": "STEP-UC002-005",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-082",
+        "source_type": "step",
+        "source_id": "STEP-UC002-006",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-083",
+        "source_type": "step",
+        "source_id": "STEP-UC002-007",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-084",
+        "source_type": "step",
+        "source_id": "STEP-UC002-008",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-009",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-085",
+        "source_type": "step",
+        "source_id": "STEP-UC002-009",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-011",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-086",
+        "source_type": "step",
+        "source_id": "STEP-UC002-009",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-013",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-087",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-088",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-089",
+        "source_type": "step",
+        "source_id": "STEP-UC001-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-090",
+        "source_type": "step",
+        "source_id": "STEP-UC001-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-091",
+        "source_type": "step",
+        "source_id": "STEP-UC001-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-007",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-092",
+        "source_type": "step",
+        "source_id": "STEP-UC001-005",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-008",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-093",
+        "source_type": "step",
+        "source_id": "STEP-UC001-006",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-094",
+        "source_type": "step",
+        "source_id": "STEP-UC001-007",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-006",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-095",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-096",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-007",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-097",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-008",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-098",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-010",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-099",
+        "source_type": "step",
+        "source_id": "STEP-UC002-004",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-011",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-100",
+        "source_type": "step",
+        "source_id": "STEP-UC002-005",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-101",
+        "source_type": "step",
+        "source_id": "STEP-UC002-005",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-102",
+        "source_type": "step",
+        "source_id": "STEP-UC002-006",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-103",
+        "source_type": "step",
+        "source_id": "STEP-UC002-007",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-006",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-104",
+        "source_type": "step",
+        "source_id": "STEP-UC002-008",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-007",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-105",
+        "source_type": "step",
+        "source_id": "STEP-UC002-008",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-009",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-106",
+        "source_type": "step",
+        "source_id": "STEP-UC002-009",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-010",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-107",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "activity",
+        "target_id": "AD-UC001",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-108",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "activity",
+        "target_id": "AD-UC002",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-109",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "ss",
+        "target_id": "SS-001",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-110",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "ss",
+        "target_id": "SS-002",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-111",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "ss",
+        "target_id": "SS-003",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-112",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "ss",
+        "target_id": "SS-004",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-113",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "ss",
+        "target_id": "SS-005",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-114",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "us",
+        "target_id": "US-001",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-115",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "us",
+        "target_id": "US-002",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-116",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "us",
+        "target_id": "US-003",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      }
+    ]
+  },
+  "validation_reports": [
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "one_shot_parse",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "e2e_trace",
+      "details": {
+        "requirement_atomization": {
+          "passed": true,
+          "fr_count": 8,
+          "atom_count": 8
+        },
+        "unique_ids": {
+          "passed": true
+        },
+        "fr_coverage": {
+          "passed": true,
+          "covered": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005",
+            "FR-006",
+            "FR-007",
+            "FR-008"
+          ]
+        },
+        "trace_link_contracts": {
+          "passed": true
+        },
+        "declared_trace_bidirectionality": {
+          "passed": true,
+          "expected_relations": 116,
+          "actual_relations": 116
+        },
+        "trace_coverage_thresholds": {
+          "passed": true,
+          "uc_supported": 26,
+          "uc_total": 26,
+          "uc_ratio": 1.0,
+          "activity_supported": 46,
+          "activity_total": 46,
+          "activity_ratio": 1.0
+        },
+        "trace_integrity": {
+          "passed": true
+        }
+      }
+    }
+  ],
+  "evaluation_report": {
+    "metrics": [
+      {
+        "name": "schema_validity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Share of schema validators that passed"
+      },
+      {
+        "name": "fr_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "|FRs referenced by ≥1 UC| / |FRs|"
+      },
+      {
+        "name": "orphan_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "duplicate_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "trace_reference_integrity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "1 - dangling_links / max(links,1) (approx from validation issues)"
+      },
+      {
+        "name": "trace_completeness",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "activity_structural_validity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "mermaid_generation_success",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "end_to_end_success",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": null
+      },
+      {
+        "name": "repair_attempts",
+        "value": 0,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": "Use Case repair attempts plus all Activity repair attempts"
+      },
+      {
+        "name": "uc_element_trace_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "activity_element_trace_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "unsupported_trace_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "blocking_error_classes",
+        "value": 0,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": null
+      },
+      {
+        "name": "stability_multi_run",
+        "value": null,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Requires ≥2 seeded runs; not computed in scaffold"
+      },
+      {
+        "name": "latency_ms",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "ms",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "token_usage",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "tokens",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "cost_usd",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "usd",
+        "notes": "Filled when LLM nodes are wired"
+      }
+    ],
+    "automatic_only": true,
+    "notes": "Automatic metrics only; LLM-as-a-judge and expert scores are separate tracks"
+  },
+  "uc_repair_attempts_used": 0,
+  "status": "success",
+  "failure_reason": null
+}

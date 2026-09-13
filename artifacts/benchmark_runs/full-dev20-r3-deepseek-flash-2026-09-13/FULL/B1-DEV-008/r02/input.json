@@ -1,0 +1,17 @@
+{
+  "project_task": "Build a travel expense submission and approval workflow.",
+  "project_name": "Travel Claims",
+  "project_goal": "Reduce manual checking of employee expense claims.",
+  "project_description": "An employee submits receipts; a manager reviews policy exceptions and finance reimburses approved claims.",
+  "functional_requirements": [
+    "An employee creates an expense claim with trip details.",
+    "The employee attaches receipts to expense items.",
+    "The system flags items above policy limits.",
+    "A manager approves or rejects the claim.",
+    "Finance records reimbursement for an approved claim."
+  ],
+  "non_functional_requirements": [
+    "Receipt files must be encrypted at rest.",
+    "All approval decisions must be auditable."
+  ]
+}

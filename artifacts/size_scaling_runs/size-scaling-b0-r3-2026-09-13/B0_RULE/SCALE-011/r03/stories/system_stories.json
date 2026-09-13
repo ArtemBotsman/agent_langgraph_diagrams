@@ -1,0 +1,8 @@
+[
+  {
+    "id": "SS-001",
+    "responsibility": "Provide a deterministic comparison artifact",
+    "system_action": "Process functional requirements in input order",
+    "use_case_id": "UC-001"
+  }
+]

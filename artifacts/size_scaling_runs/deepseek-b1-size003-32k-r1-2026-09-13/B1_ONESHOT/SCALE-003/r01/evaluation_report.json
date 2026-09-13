@@ -1,0 +1,132 @@
+{
+  "automatic_only": true,
+  "metrics": [
+    {
+      "higher_is_better": true,
+      "name": "schema_validity",
+      "notes": "Share of schema validators that passed",
+      "unit": null,
+      "value": 1.0
+    },
+    {
+      "higher_is_better": true,
+      "name": "fr_coverage",
+      "notes": "|FRs referenced by ≥1 UC| / |FRs|",
+      "unit": "ratio",
+      "value": 1.0
+    },
+    {
+      "higher_is_better": false,
+      "name": "orphan_uc_rate",
+      "notes": null,
+      "unit": "ratio",
+      "value": 0.0
+    },
+    {
+      "higher_is_better": false,
+      "name": "duplicate_uc_rate",
+      "notes": null,
+      "unit": "ratio",
+      "value": 0.0
+    },
+    {
+      "higher_is_better": true,
+      "name": "trace_reference_integrity",
+      "notes": "1 - dangling_links / max(links,1) (approx from validation issues)",
+      "unit": "ratio",
+      "value": 1.0
+    },
+    {
+      "higher_is_better": true,
+      "name": "trace_completeness",
+      "notes": null,
+      "unit": "ratio",
+      "value": 1.0
+    },
+    {
+      "higher_is_better": true,
+      "name": "activity_structural_validity",
+      "notes": null,
+      "unit": "ratio",
+      "value": 0.0
+    },
+    {
+      "higher_is_better": true,
+      "name": "mermaid_generation_success",
+      "notes": null,
+      "unit": "ratio",
+      "value": 0.0
+    },
+    {
+      "higher_is_better": true,
+      "name": "end_to_end_success",
+      "notes": null,
+      "unit": null,
+      "value": 0.0
+    },
+    {
+      "higher_is_better": false,
+      "name": "repair_attempts",
+      "notes": "Use Case repair attempts plus all Activity repair attempts",
+      "unit": "count",
+      "value": 0
+    },
+    {
+      "higher_is_better": true,
+      "name": "uc_element_trace_coverage",
+      "notes": "Computed by the end-to-end trace coverage validator",
+      "unit": "ratio",
+      "value": 1.0
+    },
+    {
+      "higher_is_better": true,
+      "name": "activity_element_trace_coverage",
+      "notes": "Computed by the end-to-end trace coverage validator",
+      "unit": "ratio",
+      "value": 0.9402985074626866
+    },
+    {
+      "higher_is_better": false,
+      "name": "unsupported_trace_rate",
+      "notes": null,
+      "unit": "ratio",
+      "value": 0.0
+    },
+    {
+      "higher_is_better": false,
+      "name": "blocking_error_classes",
+      "notes": null,
+      "unit": "count",
+      "value": 2
+    },
+    {
+      "higher_is_better": true,
+      "name": "stability_multi_run",
+      "notes": "Requires ≥2 seeded runs; not computed in scaffold",
+      "unit": null,
+      "value": null
+    },
+    {
+      "higher_is_better": false,
+      "name": "latency_ms",
+      "notes": "Filled when LLM nodes are wired",
+      "unit": "ms",
+      "value": null
+    },
+    {
+      "higher_is_better": false,
+      "name": "token_usage",
+      "notes": "Filled when LLM nodes are wired",
+      "unit": "tokens",
+      "value": null
+    },
+    {
+      "higher_is_better": false,
+      "name": "cost_usd",
+      "notes": "Filled when LLM nodes are wired",
+      "unit": "usd",
+      "value": null
+    }
+  ],
+  "notes": "Automatic metrics only; LLM-as-a-judge and expert scores are separate tracks"
+}

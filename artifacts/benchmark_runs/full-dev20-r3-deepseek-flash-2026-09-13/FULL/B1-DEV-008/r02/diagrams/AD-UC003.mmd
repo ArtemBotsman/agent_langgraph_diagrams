@@ -1,0 +1,17 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Finance Officer"]
+  ADN-UC003-002["Finance officer opens the approved expense claim."]
+  ADN-UC003-004["Finance officer records the reimbursement for the claim."]
+  end
+  subgraph PART-UC003-002["System"]
+  ADN-UC003-003["System displays approved claim details."]
+  ADN-UC003-005["System records reimbursement and updates claim status."]
+  end
+  ADN-UC003-001(("start"))
+  ADN-UC003-006(("end"))
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 --> ADN-UC003-004
+  ADN-UC003-004 --> ADN-UC003-005
+  ADN-UC003-005 --> ADN-UC003-006

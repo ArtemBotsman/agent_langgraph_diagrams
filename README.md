@@ -6,7 +6,7 @@
 структурированных Use Cases и activity-диаграмм по функциональным требованиям
 с проверяемой трассировкой и ограниченным repair-loop.
 
-> **Статус (2026-09-11):** в системе два агента: `Use Case Agent` (агент
+> **Статус (2026-09-13):** в системе два агента: `Use Case Agent` (агент
 > вариантов использования) и `Activity Diagram Agent` (агент диаграмм
 > активности). Реализованы модели, графы, валидаторы, Mermaid-renderer
 > (рендерер диаграмм), benchmark/evaluator (тестовый набор и оценщик) и
@@ -18,6 +18,9 @@
 > без исправления — 0/3.
 > Добавлены offline verification, error analysis и приватное opt-in сохранение
 > raw evidence. Полный B1/FULL DEV20, эксперты и hidden ещё не завершены.
+> На входе из 8 ФТ выполнен отдельный blind DeepSeek judge: B0 — 0,100/E2E
+> 100%, B1 — 0,775/E2E 0%, FULL — 0,781/E2E 100%. Это подтверждает, что
+> смысловая LLM-оценка и формальные валидаторы нужны одновременно.
 
 ## С чего начать
 
@@ -117,11 +120,20 @@ compatibility layer (слой совместимости). Новую логик
 На верхнем уровне:
 
 - `benchmark/` — 30 cases (кейсов), DEV20/hidden10, freeze и формы экспертов;
-- `configs/providers/` — безопасные примеры DeepSeek и Groq/Qwen без ключей;
+- `configs/providers/` — безопасные примеры DeepSeek, OpenAI и Groq/Qwen без
+  ключей;
 - `scripts/` — воспроизводимые эксперименты и построение графиков;
 - `artifacts/` — результаты запусков;
 - `docs/` — архитектура, исследование, материалы руководителю и Obsidian;
 - `tests/` — автоматические проверки.
+
+Дополнительно подготовлен input-only benchmark масштабируемости из 20 проектов
+и четырёх диапазонов от 6 до 74 ФТ. Он запускается через
+`scripts/run_size_scaling_experiment.py`; методика и первый B0-результат
+описаны в `docs/research/SIZE_SCALING_BENCHMARK_2026_09_13.md`. Входы временно
+не публикуются, пока не зафиксировано разрешение научного руководителя.
+Отдельный DeepSeek LLM-judge pilot, его ограничения и стоимость описаны в
+`docs/research/DEEPSEEK_LLM_JUDGE_PILOT_2026_09_13.md`.
 
 ## Текущая и предлагаемая модель
 
@@ -130,6 +142,18 @@ compatibility layer (слой совместимости). Новую логик
 использовался в первых сохранённых пилотах. Профиль `qwen/qwen3.8-27b` через Groq подготовлен в
 `configs/providers/groq-qwen.env.example`, но не запускался: локальный
 `GROQ_API_KEY` пока отсутствует. Эти результаты нельзя смешивать в одну группу.
+
+OpenAI API key не определяет модель автоматически. Для него подготовлен
+ignored файл `.env.openai`: ключ вставляется только локально, затем доступные
+model IDs выводятся без печати секрета:
+
+```bash
+poetry run python scripts/list_available_models.py \
+  --env-file .env.openai --contains gpt
+```
+
+Выбранный точный ID записывается в `LLM_MODEL`, после чего сначала выполняется
+один ограниченный compatibility test с текущим Chat Completions adapter.
 
 ## Границы этапа
 
@@ -154,6 +178,7 @@ compatibility layer (слой совместимости). Новую логик
 
 См. `docs/research/TECHNOLOGY_PROJECT_COMPARISON_2026_09_11.md`,
 `docs/research/BASELINES_AND_LIVE_EVIDENCE_2026_09_09.md`,
+`docs/research/DEEPSEEK_LLM_JUDGE_PILOT_2026_09_13.md`,
 `docs/benchmark/BENCHMARK_AND_METRICS_V0_1.md` и
 `docs/architecture/SYSTEM_DESIGN_V0_1.md`. Итоговый текст, доклад и протокол
 завершения эксперимента находятся в `docs/final/`. Ссылки на готовые DOCX,
@@ -163,10 +188,10 @@ PDF, PPTX и XLSX собраны в
 
 - [рекомендуемая презентация для пересдачи](docs/final/deliverables/AgentLangGraph_technology_project_resit_v2_2026-09-11.pptx);
 - [технологический отчёт PDF](docs/final/deliverables/AgentLangGraph_technology_report_final_2026-09-11.pdf);
-- [пакет внешнего сравнения](docs/final/deliverables/AgentLangGraph_external_comparison_DEV3_portable_2026-09-11.zip).
+- [пакет Claude Opus 5 для полного DEV20](docs/final/deliverables/AgentLangGraph_claude_opus_5_DEV20_2026-09-11.zip).
 
 Для сопоставимого запуска сильной внешней модели подготовлены
-[`SpecificationReq`-входы, точная JSON-схема и единый prompt](experiments/external_comparison_package/00_START_HERE_RU.md).
+[`SpecificationReq`-входы, точная JSON-схема и единый prompt](experiments/claude_opus_5_dev20/00_CLAUDE_OPUS_5_RUNBOOK_AND_PROMPT_RU.md).
 Ответы GPT/Claude импортируются через тот же контракт, Mermaid renderer и
 evaluator; инструкция для руководителя находится в
-[`EXTERNAL_MODEL_EXPERIMENT_HANDOFF.md`](docs/supervisor_review/EXTERNAL_MODEL_EXPERIMENT_HANDOFF.md).
+[`CLAUDE_OPUS_5_EXPERIMENT.md`](docs/supervisor_review/CLAUDE_OPUS_5_EXPERIMENT.md).

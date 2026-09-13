@@ -1,0 +1,2532 @@
+{
+  "request": {
+    "project_task": "Create a parcel tracking and delivery confirmation service.",
+    "project_name": "Parcel Track",
+    "project_goal": "Give senders and recipients a reliable parcel status.",
+    "project_description": "Carrier events update parcel status; the recipient confirms delivery or reports a problem.",
+    "functional_requirements": [
+      {
+        "id": "FR-001",
+        "text": "A sender creates a shipment with recipient details.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-001-001",
+            "parent_fr_id": "FR-001",
+            "text": "A sender creates a shipment with recipient details.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-002",
+        "text": "A carrier posts parcel scan events.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-002-001",
+            "parent_fr_id": "FR-002",
+            "text": "A carrier posts parcel scan events.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-003",
+        "text": "The system derives the current parcel status from accepted events.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-003-001",
+            "parent_fr_id": "FR-003",
+            "text": "The system derives the current parcel status from accepted events.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-004",
+        "text": "A recipient views the current status.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-004-001",
+            "parent_fr_id": "FR-004",
+            "text": "A recipient views the current status.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      },
+      {
+        "id": "FR-005",
+        "text": "A recipient confirms delivery or reports damage.",
+        "priority": null,
+        "tags": [],
+        "atoms": [
+          {
+            "id": "FRA-005-001",
+            "parent_fr_id": "FR-005",
+            "text": "A recipient confirms delivery or reports damage.",
+            "extraction_rule": "whole_requirement"
+          }
+        ]
+      }
+    ],
+    "non_functional_requirements": [
+      {
+        "id": "NFR-001",
+        "text": "Duplicate carrier events must be idempotent.",
+        "category": null,
+        "tags": []
+      },
+      {
+        "id": "NFR-002",
+        "text": "Tracking history must be retained for one year.",
+        "category": null,
+        "tags": []
+      }
+    ],
+    "max_repair_attempts": 2,
+    "metadata": {
+      "source_contract": "SpecificationReq"
+    }
+  },
+  "use_case_set": {
+    "actors": [
+      {
+        "id": "ACT-001",
+        "name": "Sender",
+        "description": "Creates shipments with recipient details.",
+        "is_primary": true
+      },
+      {
+        "id": "ACT-002",
+        "name": "Carrier",
+        "description": "Posts parcel scan events.",
+        "is_primary": true
+      },
+      {
+        "id": "ACT-003",
+        "name": "Recipient",
+        "description": "Views parcel status and confirms delivery or reports damage.",
+        "is_primary": true
+      }
+    ],
+    "use_cases": [
+      {
+        "id": "UC-001",
+        "name": "Create Shipment",
+        "goal": "A sender creates a shipment with recipient details.",
+        "primary_actor_id": "ACT-001",
+        "secondary_actor_ids": [],
+        "trigger": "Sender initiates shipment creation.",
+        "preconditions": [
+          {
+            "id": "PRE-UC001-001",
+            "text": "Sender is authenticated."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC001-001",
+            "text": "Shipment is created with recipient details.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC001-002",
+            "text": "Shipment is not created.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC001-MAIN-001",
+          "kind": "main",
+          "name": "Main Success Scenario",
+          "steps": [
+            {
+              "id": "STEP-UC001-001",
+              "order": 1,
+              "actor_id": "ACT-001",
+              "action": "Sender provides recipient details.",
+              "expected_result": "Recipient details are validated.",
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            },
+            {
+              "id": "STEP-UC001-002",
+              "order": 2,
+              "actor_id": "ACT-001",
+              "action": "Sender submits shipment creation request.",
+              "expected_result": "Shipment is created.",
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [],
+        "user_stories": [
+          {
+            "id": "US-001",
+            "role": "Sender",
+            "capability": "create a shipment with recipient details",
+            "benefit": "I can send parcels to recipients.",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-001",
+            "system_action": "Validate recipient details and create shipment record.",
+            "responsibility": "Ensure shipment is created with valid recipient details.",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-001"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-001 — Create Shipment\nGoal: A sender creates a shipment with recipient details.\nPrimary actor: ACT-001\nTrigger: Sender initiates shipment creation.\nPreconditions:\n  - PRE-UC001-001: Sender is authenticated.\nMain success scenario:\n  1. [STEP-UC001-001] Sender provides recipient details.\n  2. [STEP-UC001-002] Sender submits shipment creation request.\nSource FRs: FR-001\n"
+      },
+      {
+        "id": "UC-002",
+        "name": "Post Parcel Scan Event",
+        "goal": "A carrier posts parcel scan events.",
+        "primary_actor_id": "ACT-002",
+        "secondary_actor_ids": [],
+        "trigger": "Carrier scans a parcel.",
+        "preconditions": [
+          {
+            "id": "PRE-UC002-001",
+            "text": "Carrier is authenticated."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC002-001",
+            "text": "Parcel scan event is accepted and stored.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC002-002",
+            "text": "Parcel scan event is rejected.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC002-MAIN-001",
+          "kind": "main",
+          "name": "Main Success Scenario",
+          "steps": [
+            {
+              "id": "STEP-UC002-001",
+              "order": 1,
+              "actor_id": "ACT-002",
+              "action": "Carrier posts a parcel scan event.",
+              "expected_result": "Event is validated and accepted.",
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            },
+            {
+              "id": "STEP-UC002-002",
+              "order": 2,
+              "actor_id": "ACT-002",
+              "action": "System stores the accepted event.",
+              "expected_result": "Event is persisted.",
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [
+          {
+            "id": "SCN-UC002-EXC-001",
+            "kind": "exception",
+            "name": "Duplicate Event",
+            "steps": [
+              {
+                "id": "STEP-UC002-003",
+                "order": 1,
+                "actor_id": "ACT-002",
+                "action": "Carrier posts a duplicate parcel scan event.",
+                "expected_result": "Duplicate event is ignored.",
+                "source_fr_ids": [
+                  "FR-002",
+                  "NFR-001"
+                ]
+              }
+            ],
+            "start_from_step_id": "STEP-UC002-001",
+            "rejoins_step_id": "STEP-UC002-002"
+          }
+        ],
+        "user_stories": [
+          {
+            "id": "US-002",
+            "role": "Carrier",
+            "capability": "post parcel scan events",
+            "benefit": "I can update parcel status.",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-002",
+            "system_action": "Validate and store parcel scan events, ensuring idempotency.",
+            "responsibility": "Accept and persist parcel scan events without duplicates.",
+            "use_case_id": "UC-002"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-002"
+        ],
+        "source_nfr_ids": [
+          "NFR-001"
+        ],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-002 — Post Parcel Scan Event\nGoal: A carrier posts parcel scan events.\nPrimary actor: ACT-002\nTrigger: Carrier scans a parcel.\nPreconditions:\n  - PRE-UC002-001: Carrier is authenticated.\nMain success scenario:\n  1. [STEP-UC002-001] Carrier posts a parcel scan event.\n  2. [STEP-UC002-002] System stores the accepted event.\nException scenarios:\n  - SCN-UC002-EXC-001: Duplicate Event\nSource FRs: FR-002\n"
+      },
+      {
+        "id": "UC-003",
+        "name": "Derive Parcel Status",
+        "goal": "The system derives the current parcel status from accepted events.",
+        "primary_actor_id": "ACT-002",
+        "secondary_actor_ids": [],
+        "trigger": "New parcel scan event is accepted.",
+        "preconditions": [
+          {
+            "id": "PRE-UC003-001",
+            "text": "At least one parcel scan event exists."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC003-001",
+            "text": "Current parcel status is updated.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC003-002",
+            "text": "Current parcel status is not updated.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC003-MAIN-001",
+          "kind": "main",
+          "name": "Main Success Scenario",
+          "steps": [
+            {
+              "id": "STEP-UC003-001",
+              "order": 1,
+              "actor_id": "ACT-002",
+              "action": "System retrieves accepted events for the parcel.",
+              "expected_result": "Events are retrieved.",
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC003-002",
+              "order": 2,
+              "actor_id": "ACT-002",
+              "action": "System derives current status from events.",
+              "expected_result": "Current status is determined.",
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            },
+            {
+              "id": "STEP-UC003-003",
+              "order": 3,
+              "actor_id": "ACT-002",
+              "action": "System updates the parcel status.",
+              "expected_result": "Parcel status is updated.",
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [],
+        "user_stories": [
+          {
+            "id": "US-003",
+            "role": "System",
+            "capability": "derive current parcel status from accepted events",
+            "benefit": "recipients see accurate status.",
+            "use_case_id": "UC-003"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-003",
+            "system_action": "Derive and update parcel status based on accepted events.",
+            "responsibility": "Maintain accurate current parcel status.",
+            "use_case_id": "UC-003"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-003"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-003 — Derive Parcel Status\nGoal: The system derives the current parcel status from accepted events.\nPrimary actor: ACT-002\nTrigger: New parcel scan event is accepted.\nPreconditions:\n  - PRE-UC003-001: At least one parcel scan event exists.\nMain success scenario:\n  1. [STEP-UC003-001] System retrieves accepted events for the parcel.\n  2. [STEP-UC003-002] System derives current status from events.\n  3. [STEP-UC003-003] System updates the parcel status.\nSource FRs: FR-003\n"
+      },
+      {
+        "id": "UC-004",
+        "name": "View Parcel Status",
+        "goal": "A recipient views the current status.",
+        "primary_actor_id": "ACT-003",
+        "secondary_actor_ids": [],
+        "trigger": "Recipient requests parcel status.",
+        "preconditions": [
+          {
+            "id": "PRE-UC004-001",
+            "text": "Recipient is authenticated."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC004-001",
+            "text": "Recipient sees current parcel status.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC004-002",
+            "text": "Recipient cannot view status.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC004-MAIN-001",
+          "kind": "main",
+          "name": "Main Success Scenario",
+          "steps": [
+            {
+              "id": "STEP-UC004-001",
+              "order": 1,
+              "actor_id": "ACT-003",
+              "action": "Recipient requests parcel status.",
+              "expected_result": "Request is processed.",
+              "source_fr_ids": [
+                "FR-004"
+              ]
+            },
+            {
+              "id": "STEP-UC004-002",
+              "order": 2,
+              "actor_id": "ACT-003",
+              "action": "System retrieves and displays current status.",
+              "expected_result": "Current status is displayed.",
+              "source_fr_ids": [
+                "FR-004"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [],
+        "exception_scenarios": [],
+        "user_stories": [
+          {
+            "id": "US-004",
+            "role": "Recipient",
+            "capability": "view the current parcel status",
+            "benefit": "I know where my parcel is.",
+            "use_case_id": "UC-004"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-004",
+            "system_action": "Retrieve and display current parcel status.",
+            "responsibility": "Provide accurate status to recipient.",
+            "use_case_id": "UC-004"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-004"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-004 — View Parcel Status\nGoal: A recipient views the current status.\nPrimary actor: ACT-003\nTrigger: Recipient requests parcel status.\nPreconditions:\n  - PRE-UC004-001: Recipient is authenticated.\nMain success scenario:\n  1. [STEP-UC004-001] Recipient requests parcel status.\n  2. [STEP-UC004-002] System retrieves and displays current status.\nSource FRs: FR-004\n"
+      },
+      {
+        "id": "UC-005",
+        "name": "Confirm Delivery or Report Damage",
+        "goal": "A recipient confirms delivery or reports damage.",
+        "primary_actor_id": "ACT-003",
+        "secondary_actor_ids": [],
+        "trigger": "Recipient receives parcel.",
+        "preconditions": [
+          {
+            "id": "PRE-UC005-001",
+            "text": "Recipient is authenticated."
+          }
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC005-001",
+            "text": "Delivery is confirmed or damage is reported.",
+            "outcome": "success"
+          }
+        ],
+        "failure_postconditions": [
+          {
+            "id": "POST-UC005-002",
+            "text": "Confirmation or report is not recorded.",
+            "outcome": "failure"
+          }
+        ],
+        "main_success_scenario": {
+          "id": "SCN-UC005-MAIN-001",
+          "kind": "main",
+          "name": "Main Success Scenario",
+          "steps": [
+            {
+              "id": "STEP-UC005-001",
+              "order": 1,
+              "actor_id": "ACT-003",
+              "action": "Recipient confirms delivery.",
+              "expected_result": "Delivery confirmation is recorded.",
+              "source_fr_ids": [
+                "FR-005"
+              ]
+            }
+          ],
+          "start_from_step_id": null,
+          "rejoins_step_id": null
+        },
+        "alternative_scenarios": [
+          {
+            "id": "SCN-UC005-ALT-001",
+            "kind": "alternative",
+            "name": "Report Damage",
+            "steps": [
+              {
+                "id": "STEP-UC005-002",
+                "order": 1,
+                "actor_id": "ACT-003",
+                "action": "Recipient reports damage.",
+                "expected_result": "Damage report is recorded.",
+                "source_fr_ids": [
+                  "FR-005"
+                ]
+              }
+            ],
+            "start_from_step_id": "STEP-UC005-001",
+            "rejoins_step_id": null
+          }
+        ],
+        "exception_scenarios": [],
+        "user_stories": [
+          {
+            "id": "US-005",
+            "role": "Recipient",
+            "capability": "confirm delivery or report damage",
+            "benefit": "I can inform the sender about the parcel condition.",
+            "use_case_id": "UC-005"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-005",
+            "system_action": "Record delivery confirmation or damage report.",
+            "responsibility": "Capture recipient feedback on delivery.",
+            "use_case_id": "UC-005"
+          }
+        ],
+        "source_fr_ids": [
+          "FR-005"
+        ],
+        "source_nfr_ids": [],
+        "missing_information": [],
+        "unsupported_assumptions": [],
+        "human_readable_text": "Use Case: UC-005 — Confirm Delivery or Report Damage\nGoal: A recipient confirms delivery or reports damage.\nPrimary actor: ACT-003\nTrigger: Recipient receives parcel.\nPreconditions:\n  - PRE-UC005-001: Recipient is authenticated.\nMain success scenario:\n  1. [STEP-UC005-001] Recipient confirms delivery.\nAlternative scenarios:\n  - SCN-UC005-ALT-001: Report Damage\nSource FRs: FR-005\n"
+      }
+    ],
+    "fr_coverage": {
+      "FR-001": "covered",
+      "FR-002": "covered",
+      "FR-003": "covered",
+      "FR-004": "covered",
+      "FR-005": "covered"
+    }
+  },
+  "activity_results": [
+    {
+      "use_case_id": "UC-001",
+      "activity_diagram": {
+        "id": "AD-UC001",
+        "use_case_id": "UC-001",
+        "name": "Create Shipment",
+        "partitions": [
+          {
+            "id": "PART-UC001-001",
+            "name": "Sender",
+            "actor_id": "ACT-001"
+          },
+          {
+            "id": "PART-UC001-002",
+            "name": "System",
+            "actor_id": null
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC001-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-002",
+            "kind": "action",
+            "name": "Provide recipient details",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-003",
+            "kind": "action",
+            "name": "Submit shipment creation request",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-004",
+            "kind": "action",
+            "name": "Validate recipient details and create shipment",
+            "partition_id": "PART-UC001-002",
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-005",
+            "kind": "final",
+            "name": "End",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC001-001",
+            "source_node_id": "ADN-UC001-001",
+            "target_node_id": "ADN-UC001-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-002",
+            "source_node_id": "ADN-UC001-002",
+            "target_node_id": "ADN-UC001-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-003",
+            "source_node_id": "ADN-UC001-003",
+            "target_node_id": "ADN-UC001-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC001-004",
+            "source_node_id": "ADN-UC001-004",
+            "target_node_id": "ADN-UC001-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC001 uc:UC-001\n  subgraph PART-UC001-001[\"Sender\"]\n  ADN-UC001-002[\"Provide recipient details\"]\n  ADN-UC001-003[\"Submit shipment creation request\"]\n  end\n  subgraph PART-UC001-002[\"System\"]\n  ADN-UC001-004[\"Validate recipient details and create shipment\"]\n  end\n  ADN-UC001-001((\"start\"))\n  ADN-UC001-005((\"end\"))\n  ADN-UC001-001 --> ADN-UC001-002\n  ADN-UC001-002 --> ADN-UC001-003\n  ADN-UC001-003 --> ADN-UC001-004\n  ADN-UC001-004 --> ADN-UC001-005\n"
+      },
+      "status": "failed",
+      "validation_reports": [
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC001-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        }
+      ],
+      "repair_attempts_used": 0,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-002",
+      "activity_diagram": {
+        "id": "AD-UC002",
+        "use_case_id": "UC-002",
+        "name": "Post Parcel Scan Event",
+        "partitions": [
+          {
+            "id": "PART-UC002-001",
+            "name": "Carrier",
+            "actor_id": "ACT-002"
+          },
+          {
+            "id": "PART-UC002-002",
+            "name": "System",
+            "actor_id": null
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC002-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-002",
+            "kind": "action",
+            "name": "Post parcel scan event",
+            "partition_id": "PART-UC002-001",
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-003",
+            "kind": "decision",
+            "name": "Duplicate event?",
+            "partition_id": "PART-UC002-002",
+            "related_step_ids": [
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-004",
+            "kind": "action",
+            "name": "Ignore duplicate event",
+            "partition_id": "PART-UC002-002",
+            "related_step_ids": [
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-005",
+            "kind": "action",
+            "name": "Store accepted event",
+            "partition_id": "PART-UC002-002",
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC002-006",
+            "kind": "final",
+            "name": "End",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC002-001",
+            "source_node_id": "ADN-UC002-001",
+            "target_node_id": "ADN-UC002-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-002",
+            "source_node_id": "ADN-UC002-002",
+            "target_node_id": "ADN-UC002-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-003",
+            "source_node_id": "ADN-UC002-003",
+            "target_node_id": "ADN-UC002-004",
+            "guard": "yes",
+            "label": "Duplicate",
+            "related_step_ids": [
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-004",
+            "source_node_id": "ADN-UC002-003",
+            "target_node_id": "ADN-UC002-005",
+            "guard": "no",
+            "label": "Not duplicate",
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-005",
+            "source_node_id": "ADN-UC002-004",
+            "target_node_id": "ADN-UC002-006",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC002-006",
+            "source_node_id": "ADN-UC002-005",
+            "target_node_id": "ADN-UC002-006",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC002-002"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC002 uc:UC-002\n  subgraph PART-UC002-001[\"Carrier\"]\n  ADN-UC002-002[\"Post parcel scan event\"]\n  end\n  subgraph PART-UC002-002[\"System\"]\n  ADN-UC002-003{\"Duplicate event?\"}\n  ADN-UC002-004[\"Ignore duplicate event\"]\n  ADN-UC002-005[\"Store accepted event\"]\n  end\n  ADN-UC002-001((\"start\"))\n  ADN-UC002-006((\"end\"))\n  ADN-UC002-001 --> ADN-UC002-002\n  ADN-UC002-002 --> ADN-UC002-003\n  ADN-UC002-003 -->|\"yes\"| ADN-UC002-004\n  ADN-UC002-003 -->|\"no\"| ADN-UC002-005\n  ADN-UC002-004 --> ADN-UC002-006\n  ADN-UC002-005 --> ADN-UC002-006\n"
+      },
+      "status": "failed",
+      "validation_reports": [
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC002-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        }
+      ],
+      "repair_attempts_used": 0,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-003",
+      "activity_diagram": {
+        "id": "AD-UC003",
+        "use_case_id": "UC-003",
+        "name": "Derive Parcel Status",
+        "partitions": [
+          {
+            "id": "PART-UC003-001",
+            "name": "System",
+            "actor_id": null
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC003-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-002",
+            "kind": "action",
+            "name": "Retrieve accepted events",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-003",
+            "kind": "action",
+            "name": "Derive current status",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-004",
+            "kind": "action",
+            "name": "Update parcel status",
+            "partition_id": "PART-UC003-001",
+            "related_step_ids": [
+              "STEP-UC003-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC003-005",
+            "kind": "final",
+            "name": "End",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC003-001",
+            "source_node_id": "ADN-UC003-001",
+            "target_node_id": "ADN-UC003-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-002",
+            "source_node_id": "ADN-UC003-002",
+            "target_node_id": "ADN-UC003-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-003",
+            "source_node_id": "ADN-UC003-003",
+            "target_node_id": "ADN-UC003-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC003-004",
+            "source_node_id": "ADN-UC003-004",
+            "target_node_id": "ADN-UC003-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC003-003"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC003 uc:UC-003\n  subgraph PART-UC003-001[\"System\"]\n  ADN-UC003-002[\"Retrieve accepted events\"]\n  ADN-UC003-003[\"Derive current status\"]\n  ADN-UC003-004[\"Update parcel status\"]\n  end\n  ADN-UC003-001((\"start\"))\n  ADN-UC003-005((\"end\"))\n  ADN-UC003-001 --> ADN-UC003-002\n  ADN-UC003-002 --> ADN-UC003-003\n  ADN-UC003-003 --> ADN-UC003-004\n  ADN-UC003-004 --> ADN-UC003-005\n"
+      },
+      "status": "failed",
+      "validation_reports": [
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC003-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        }
+      ],
+      "repair_attempts_used": 0,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-004",
+      "activity_diagram": {
+        "id": "AD-UC004",
+        "use_case_id": "UC-004",
+        "name": "View Parcel Status",
+        "partitions": [
+          {
+            "id": "PART-UC004-001",
+            "name": "Recipient",
+            "actor_id": "ACT-003"
+          },
+          {
+            "id": "PART-UC004-002",
+            "name": "System",
+            "actor_id": null
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC004-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC004-002",
+            "kind": "action",
+            "name": "Request parcel status",
+            "partition_id": "PART-UC004-001",
+            "related_step_ids": [
+              "STEP-UC004-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC004-003",
+            "kind": "action",
+            "name": "Retrieve and display current status",
+            "partition_id": "PART-UC004-002",
+            "related_step_ids": [
+              "STEP-UC004-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC004-004",
+            "kind": "final",
+            "name": "End",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC004-001",
+            "source_node_id": "ADN-UC004-001",
+            "target_node_id": "ADN-UC004-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC004-002",
+            "source_node_id": "ADN-UC004-002",
+            "target_node_id": "ADN-UC004-003",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC004-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC004-003",
+            "source_node_id": "ADN-UC004-003",
+            "target_node_id": "ADN-UC004-004",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC004-002"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC004 uc:UC-004\n  subgraph PART-UC004-001[\"Recipient\"]\n  ADN-UC004-002[\"Request parcel status\"]\n  end\n  subgraph PART-UC004-002[\"System\"]\n  ADN-UC004-003[\"Retrieve and display current status\"]\n  end\n  ADN-UC004-001((\"start\"))\n  ADN-UC004-004((\"end\"))\n  ADN-UC004-001 --> ADN-UC004-002\n  ADN-UC004-002 --> ADN-UC004-003\n  ADN-UC004-003 --> ADN-UC004-004\n"
+      },
+      "status": "failed",
+      "validation_reports": [
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC004-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC004-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        }
+      ],
+      "repair_attempts_used": 0,
+      "failure_reason": null
+    },
+    {
+      "use_case_id": "UC-005",
+      "activity_diagram": {
+        "id": "AD-UC005",
+        "use_case_id": "UC-005",
+        "name": "Confirm Delivery or Report Damage",
+        "partitions": [
+          {
+            "id": "PART-UC005-001",
+            "name": "Recipient",
+            "actor_id": "ACT-003"
+          },
+          {
+            "id": "PART-UC005-002",
+            "name": "System",
+            "actor_id": null
+          }
+        ],
+        "nodes": [
+          {
+            "id": "ADN-UC005-001",
+            "kind": "initial",
+            "name": "Start",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC005-002",
+            "kind": "decision",
+            "name": "Delivery confirmed or damage reported?",
+            "partition_id": "PART-UC005-001",
+            "related_step_ids": [
+              "STEP-UC005-001",
+              "STEP-UC005-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC005-003",
+            "kind": "action",
+            "name": "Confirm delivery",
+            "partition_id": "PART-UC005-001",
+            "related_step_ids": [
+              "STEP-UC005-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC005-004",
+            "kind": "action",
+            "name": "Report damage",
+            "partition_id": "PART-UC005-001",
+            "related_step_ids": [
+              "STEP-UC005-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC005-005",
+            "kind": "action",
+            "name": "Record confirmation or report",
+            "partition_id": "PART-UC005-002",
+            "related_step_ids": [
+              "STEP-UC005-001",
+              "STEP-UC005-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC005-006",
+            "kind": "final",
+            "name": "End",
+            "partition_id": null,
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "edges": [
+          {
+            "id": "ADE-UC005-001",
+            "source_node_id": "ADN-UC005-001",
+            "target_node_id": "ADN-UC005-002",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC005-002",
+            "source_node_id": "ADN-UC005-002",
+            "target_node_id": "ADN-UC005-003",
+            "guard": "confirm",
+            "label": "Confirm delivery",
+            "related_step_ids": [
+              "STEP-UC005-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC005-003",
+            "source_node_id": "ADN-UC005-002",
+            "target_node_id": "ADN-UC005-004",
+            "guard": "report",
+            "label": "Report damage",
+            "related_step_ids": [
+              "STEP-UC005-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC005-004",
+            "source_node_id": "ADN-UC005-003",
+            "target_node_id": "ADN-UC005-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC005-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC005-005",
+            "source_node_id": "ADN-UC005-004",
+            "target_node_id": "ADN-UC005-005",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC005-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADE-UC005-006",
+            "source_node_id": "ADN-UC005-005",
+            "target_node_id": "ADN-UC005-006",
+            "guard": null,
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC005-001",
+              "STEP-UC005-002"
+            ],
+            "unsupported": false
+          }
+        ],
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC005 uc:UC-005\n  subgraph PART-UC005-001[\"Recipient\"]\n  ADN-UC005-002{\"Delivery confirmed or damage reported?\"}\n  ADN-UC005-003[\"Confirm delivery\"]\n  ADN-UC005-004[\"Report damage\"]\n  end\n  subgraph PART-UC005-002[\"System\"]\n  ADN-UC005-005[\"Record confirmation or report\"]\n  end\n  ADN-UC005-001((\"start\"))\n  ADN-UC005-006((\"end\"))\n  ADN-UC005-001 --> ADN-UC005-002\n  ADN-UC005-002 -->|\"confirm\"| ADN-UC005-003\n  ADN-UC005-002 -->|\"report\"| ADN-UC005-004\n  ADN-UC005-003 --> ADN-UC005-005\n  ADN-UC005-004 --> ADN-UC005-005\n  ADN-UC005-005 --> ADN-UC005-006\n"
+      },
+      "status": "failed",
+      "validation_reports": [
+        {
+          "passed": false,
+          "issues": [
+            {
+              "id": "VI-001",
+              "severity": "error",
+              "category": "trace",
+              "code": "activity_edge_untraced",
+              "message": "Edge ADE-UC005-001 must link to UC step(s) or be marked unsupported",
+              "element_ids": [
+                "ADE-UC005-001"
+              ],
+              "blocking": true
+            }
+          ],
+          "validator_name": "activity_deterministic",
+          "details": {}
+        }
+      ],
+      "repair_attempts_used": 0,
+      "failure_reason": null
+    }
+  ],
+  "trace_manifest": {
+    "links": [
+      {
+        "id": "TL-001",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-002",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-003",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-004",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-005",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-006",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-007",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-008",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "step",
+        "target_id": "STEP-UC003-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-009",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC004-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-010",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "step",
+        "target_id": "STEP-UC004-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-011",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "step",
+        "target_id": "STEP-UC005-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-012",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "step",
+        "target_id": "STEP-UC005-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit."
+      },
+      {
+        "id": "TL-013",
+        "source_type": "fr_atom",
+        "source_id": "FRA-001-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-014",
+        "source_type": "fr_atom",
+        "source_id": "FRA-002-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-015",
+        "source_type": "fr_atom",
+        "source_id": "FRA-003-001",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-016",
+        "source_type": "fr_atom",
+        "source_id": "FRA-004-001",
+        "target_type": "uc",
+        "target_id": "UC-004",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-017",
+        "source_type": "fr_atom",
+        "source_id": "FRA-005-001",
+        "target_type": "uc",
+        "target_id": "UC-005",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+      },
+      {
+        "id": "TL-018",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "fr_atom",
+        "target_id": "FRA-001-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-019",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "fr_atom",
+        "target_id": "FRA-002-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-020",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "fr_atom",
+        "target_id": "FRA-003-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-021",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "fr_atom",
+        "target_id": "FRA-004-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-022",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "fr_atom",
+        "target_id": "FRA-005-001",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement."
+      },
+      {
+        "id": "TL-023",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-024",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC001-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-025",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-026",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-027",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-028",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC003-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-029",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC003-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-030",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "step",
+        "target_id": "STEP-UC003-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-031",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC004-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-032",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "step",
+        "target_id": "STEP-UC004-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-033",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "step",
+        "target_id": "STEP-UC005-001",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-034",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "step",
+        "target_id": "STEP-UC005-002",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-035",
+        "source_type": "fr",
+        "source_id": "NFR-001",
+        "target_type": "step",
+        "target_id": "STEP-UC002-003",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit."
+      },
+      {
+        "id": "TL-036",
+        "source_type": "fr",
+        "source_id": "FR-001",
+        "target_type": "uc",
+        "target_id": "UC-001",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-037",
+        "source_type": "fr",
+        "source_id": "FR-002",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-038",
+        "source_type": "fr",
+        "source_id": "FR-003",
+        "target_type": "uc",
+        "target_id": "UC-003",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-039",
+        "source_type": "fr",
+        "source_id": "FR-004",
+        "target_type": "uc",
+        "target_id": "UC-004",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-040",
+        "source_type": "fr",
+        "source_id": "FR-005",
+        "target_type": "uc",
+        "target_id": "UC-005",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source."
+      },
+      {
+        "id": "TL-041",
+        "source_type": "nfr",
+        "source_id": "NFR-001",
+        "target_type": "uc",
+        "target_id": "UC-002",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source."
+      },
+      {
+        "id": "TL-042",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-043",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-044",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC001-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-045",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-046",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-047",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-048",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-049",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC002-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-050",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-051",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-052",
+        "source_type": "step",
+        "source_id": "STEP-UC003-003",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC003-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-053",
+        "source_type": "step",
+        "source_id": "STEP-UC004-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC004-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-054",
+        "source_type": "step",
+        "source_id": "STEP-UC004-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC004-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-055",
+        "source_type": "step",
+        "source_id": "STEP-UC005-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC005-002",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-056",
+        "source_type": "step",
+        "source_id": "STEP-UC005-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC005-004",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-057",
+        "source_type": "step",
+        "source_id": "STEP-UC005-001",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC005-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-058",
+        "source_type": "step",
+        "source_id": "STEP-UC005-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC005-003",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-059",
+        "source_type": "step",
+        "source_id": "STEP-UC005-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC005-005",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-060",
+        "source_type": "step",
+        "source_id": "STEP-UC005-002",
+        "target_type": "activity_edge",
+        "target_id": "ADE-UC005-006",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step."
+      },
+      {
+        "id": "TL-061",
+        "source_type": "step",
+        "source_id": "STEP-UC001-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-062",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-063",
+        "source_type": "step",
+        "source_id": "STEP-UC001-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC001-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-064",
+        "source_type": "step",
+        "source_id": "STEP-UC002-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-065",
+        "source_type": "step",
+        "source_id": "STEP-UC002-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-066",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-067",
+        "source_type": "step",
+        "source_id": "STEP-UC002-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC002-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-068",
+        "source_type": "step",
+        "source_id": "STEP-UC003-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-069",
+        "source_type": "step",
+        "source_id": "STEP-UC003-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-070",
+        "source_type": "step",
+        "source_id": "STEP-UC003-003",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC003-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-071",
+        "source_type": "step",
+        "source_id": "STEP-UC004-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC004-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-072",
+        "source_type": "step",
+        "source_id": "STEP-UC004-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC004-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-073",
+        "source_type": "step",
+        "source_id": "STEP-UC005-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC005-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-074",
+        "source_type": "step",
+        "source_id": "STEP-UC005-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC005-003",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-075",
+        "source_type": "step",
+        "source_id": "STEP-UC005-001",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC005-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-076",
+        "source_type": "step",
+        "source_id": "STEP-UC005-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC005-002",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-077",
+        "source_type": "step",
+        "source_id": "STEP-UC005-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC005-004",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-078",
+        "source_type": "step",
+        "source_id": "STEP-UC005-002",
+        "target_type": "activity_node",
+        "target_id": "ADN-UC005-005",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step."
+      },
+      {
+        "id": "TL-079",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "activity",
+        "target_id": "AD-UC001",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-080",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "activity",
+        "target_id": "AD-UC002",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-081",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "activity",
+        "target_id": "AD-UC003",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-082",
+        "source_type": "uc",
+        "source_id": "UC-004",
+        "target_type": "activity",
+        "target_id": "AD-UC004",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-083",
+        "source_type": "uc",
+        "source_id": "UC-005",
+        "target_type": "activity",
+        "target_id": "AD-UC005",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case."
+      },
+      {
+        "id": "TL-084",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "ss",
+        "target_id": "SS-001",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-085",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "ss",
+        "target_id": "SS-002",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-086",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "ss",
+        "target_id": "SS-003",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-087",
+        "source_type": "uc",
+        "source_id": "UC-004",
+        "target_type": "ss",
+        "target_id": "SS-004",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-088",
+        "source_type": "uc",
+        "source_id": "UC-005",
+        "target_type": "ss",
+        "target_id": "SS-005",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-089",
+        "source_type": "uc",
+        "source_id": "UC-001",
+        "target_type": "us",
+        "target_id": "US-001",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-090",
+        "source_type": "uc",
+        "source_id": "UC-002",
+        "target_type": "us",
+        "target_id": "US-002",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-091",
+        "source_type": "uc",
+        "source_id": "UC-003",
+        "target_type": "us",
+        "target_id": "US-003",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-092",
+        "source_type": "uc",
+        "source_id": "UC-004",
+        "target_type": "us",
+        "target_id": "US-004",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      },
+      {
+        "id": "TL-093",
+        "source_type": "uc",
+        "source_id": "UC-005",
+        "target_type": "us",
+        "target_id": "US-005",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract."
+      }
+    ]
+  },
+  "validation_reports": [
+    {
+      "passed": true,
+      "issues": [],
+      "validator_name": "one_shot_parse",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC001-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC002-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC003-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC004-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC004-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_edge_untraced",
+          "message": "Edge ADE-UC005-001 must link to UC step(s) or be marked unsupported",
+          "element_ids": [
+            "ADE-UC005-001"
+          ],
+          "blocking": true
+        }
+      ],
+      "validator_name": "activity_deterministic",
+      "details": {}
+    },
+    {
+      "passed": false,
+      "issues": [
+        {
+          "id": "VI-001",
+          "severity": "error",
+          "category": "trace",
+          "code": "activity_trace_coverage_below_threshold",
+          "message": "Activity element trace coverage 0.907 is below 1.00",
+          "element_ids": [],
+          "blocking": true
+        }
+      ],
+      "validator_name": "e2e_trace",
+      "details": {
+        "requirement_atomization": {
+          "passed": true,
+          "fr_count": 5,
+          "atom_count": 5
+        },
+        "unique_ids": {
+          "passed": true
+        },
+        "fr_coverage": {
+          "passed": true,
+          "covered": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005"
+          ]
+        },
+        "trace_link_contracts": {
+          "passed": true
+        },
+        "declared_trace_bidirectionality": {
+          "passed": true,
+          "expected_relations": 93,
+          "actual_relations": 93
+        },
+        "trace_coverage_thresholds": {
+          "passed": false,
+          "uc_supported": 27,
+          "uc_total": 27,
+          "uc_ratio": 1.0,
+          "activity_supported": 49,
+          "activity_total": 54,
+          "activity_ratio": 0.9074074074074074
+        },
+        "trace_integrity": {
+          "passed": true
+        }
+      }
+    }
+  ],
+  "evaluation_report": {
+    "metrics": [
+      {
+        "name": "schema_validity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Share of schema validators that passed"
+      },
+      {
+        "name": "fr_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "|FRs referenced by ≥1 UC| / |FRs|"
+      },
+      {
+        "name": "orphan_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "duplicate_uc_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "trace_reference_integrity",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "1 - dangling_links / max(links,1) (approx from validation issues)"
+      },
+      {
+        "name": "trace_completeness",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "activity_structural_validity",
+        "value": 0.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "mermaid_generation_success",
+        "value": 0.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "end_to_end_success",
+        "value": 0.0,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": null
+      },
+      {
+        "name": "repair_attempts",
+        "value": 0,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": "Use Case repair attempts plus all Activity repair attempts"
+      },
+      {
+        "name": "uc_element_trace_coverage",
+        "value": 1.0,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "activity_element_trace_coverage",
+        "value": 0.9074074074074074,
+        "higher_is_better": true,
+        "unit": "ratio",
+        "notes": "Computed by the end-to-end trace coverage validator"
+      },
+      {
+        "name": "unsupported_trace_rate",
+        "value": 0.0,
+        "higher_is_better": false,
+        "unit": "ratio",
+        "notes": null
+      },
+      {
+        "name": "blocking_error_classes",
+        "value": 2,
+        "higher_is_better": false,
+        "unit": "count",
+        "notes": null
+      },
+      {
+        "name": "stability_multi_run",
+        "value": null,
+        "higher_is_better": true,
+        "unit": null,
+        "notes": "Requires ≥2 seeded runs; not computed in scaffold"
+      },
+      {
+        "name": "latency_ms",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "ms",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "token_usage",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "tokens",
+        "notes": "Filled when LLM nodes are wired"
+      },
+      {
+        "name": "cost_usd",
+        "value": null,
+        "higher_is_better": false,
+        "unit": "usd",
+        "notes": "Filled when LLM nodes are wired"
+      }
+    ],
+    "automatic_only": true,
+    "notes": "Automatic metrics only; LLM-as-a-judge and expert scores are separate tracks"
+  },
+  "uc_repair_attempts_used": 0,
+  "status": "failed",
+  "failure_reason": null
+}

@@ -1,0 +1,14 @@
+{
+  "project_task": "Build a visitor parking permit request service.",
+  "project_name": "ParkPass",
+  "project_goal": "Issue time-limited visitor permits without a paper form.",
+  "project_description": "A resident requests a permit for a visitor vehicle and security verifies it.",
+  "functional_requirements": [
+    "A resident submits the visitor vehicle plate and visit time.",
+    "The system issues a permit when the request is complete.",
+    "Security can verify an active permit by plate number."
+  ],
+  "non_functional_requirements": [
+    "Permit lookup must complete within two seconds."
+  ]
+}

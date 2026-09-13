@@ -1,0 +1,210 @@
+[
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "one_shot_parse"
+  },
+  {
+    "details": {},
+    "issues": [
+      {
+        "blocking": true,
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "element_ids": [
+          "ADE-UC001-001"
+        ],
+        "id": "VI-001",
+        "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+        "severity": "error"
+      }
+    ],
+    "passed": false,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {},
+    "issues": [
+      {
+        "blocking": true,
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "element_ids": [
+          "ADE-UC002-001"
+        ],
+        "id": "VI-001",
+        "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+        "severity": "error"
+      }
+    ],
+    "passed": false,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {},
+    "issues": [
+      {
+        "blocking": true,
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "element_ids": [
+          "ADE-UC003-001"
+        ],
+        "id": "VI-001",
+        "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+        "severity": "error"
+      }
+    ],
+    "passed": false,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {},
+    "issues": [
+      {
+        "blocking": true,
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "element_ids": [
+          "ADE-UC004-001"
+        ],
+        "id": "VI-001",
+        "message": "Edge ADE-UC004-001 must link to UC step(s) or be marked unsupported",
+        "severity": "error"
+      }
+    ],
+    "passed": false,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {},
+    "issues": [
+      {
+        "blocking": true,
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "element_ids": [
+          "ADE-UC005-001"
+        ],
+        "id": "VI-001",
+        "message": "Edge ADE-UC005-001 must link to UC step(s) or be marked unsupported",
+        "severity": "error"
+      }
+    ],
+    "passed": false,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {},
+    "issues": [
+      {
+        "blocking": true,
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "element_ids": [
+          "ADE-UC006-001"
+        ],
+        "id": "VI-001",
+        "message": "Edge ADE-UC006-001 must link to UC step(s) or be marked unsupported",
+        "severity": "error"
+      }
+    ],
+    "passed": false,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {},
+    "issues": [
+      {
+        "blocking": true,
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "element_ids": [
+          "ADE-UC007-001"
+        ],
+        "id": "VI-001",
+        "message": "Edge ADE-UC007-001 must link to UC step(s) or be marked unsupported",
+        "severity": "error"
+      }
+    ],
+    "passed": false,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {},
+    "issues": [
+      {
+        "blocking": true,
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "element_ids": [
+          "ADE-UC008-001"
+        ],
+        "id": "VI-001",
+        "message": "Edge ADE-UC008-001 must link to UC step(s) or be marked unsupported",
+        "severity": "error"
+      }
+    ],
+    "passed": false,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {
+      "declared_trace_bidirectionality": {
+        "actual_relations": 266,
+        "expected_relations": 266,
+        "passed": true
+      },
+      "fr_coverage": {
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004",
+          "FR-005",
+          "FR-006",
+          "FR-007",
+          "FR-008"
+        ],
+        "passed": true
+      },
+      "requirement_atomization": {
+        "atom_count": 8,
+        "fr_count": 8,
+        "passed": true
+      },
+      "trace_coverage_thresholds": {
+        "activity_ratio": 0.9402985074626866,
+        "activity_supported": 126,
+        "activity_total": 134,
+        "passed": false,
+        "uc_ratio": 1.0,
+        "uc_supported": 51,
+        "uc_total": 51
+      },
+      "trace_integrity": {
+        "passed": true
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "unique_ids": {
+        "passed": true
+      }
+    },
+    "issues": [
+      {
+        "blocking": true,
+        "category": "trace",
+        "code": "activity_trace_coverage_below_threshold",
+        "element_ids": [],
+        "id": "VI-001",
+        "message": "Activity element trace coverage 0.940 is below 1.00",
+        "severity": "error"
+      }
+    ],
+    "passed": false,
+    "validator_name": "e2e_trace"
+  }
+]

@@ -1,0 +1,246 @@
+[
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": true,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "semantic",
+        "code": "UNSUPPORTED_BUSINESS_RULE",
+        "message": "SS-003 вводит правило «Хранение записей пять лет», которое не следует ни из одного FR (FR-001..FR-005); ближайший FR-004/FR-002 не задают срок хранения журнала.",
+        "element_ids": [
+          "SS-003"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-002",
+        "severity": "warning",
+        "category": "trace",
+        "code": "UNKNOWN_REFERENCE",
+        "message": "UC-001 ссылается на source_nfr_ids NFR-001, отсутствующий в спецификации.",
+        "element_ids": [
+          "UC-001"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "uc_llm_critic",
+    "details": {
+      "decision": "repair",
+      "summary": "Покрытие FR полное и сценарии согласованы, но присутствует неподтвержденное бизнес-правило о сроке хранения записей.",
+      "critic_not_deterministic_validator": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": true,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "info",
+        "category": "semantic",
+        "code": "MISSING_INFO_NOTED",
+        "message": "Срок автоотмены (FR-005) не задан; зафиксирован как MI-001, генерацию не блокирует.",
+        "element_ids": [
+          "MI-001",
+          "SCN-UC001-EXC-002"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "uc_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "Все FR-001..FR-005 покрыты шагами с корректной трассировкой; сценарии успеха и отказа имеют постусловия. Блокирующих противоречий нет.",
+      "critic_not_deterministic_validator": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "info",
+        "category": "semantic",
+        "code": "TIMEOUT_BRANCH_PLACEMENT",
+        "message": "Проверка истечения срока подтверждения смоделирована только на ветке особо опасного оборудования; UC привязывает исключение к STEP-UC001-004, поэтому это допустимая, но узкая трактовка.",
+        "element_ids": [
+          "STEP-UC001-030",
+          "ADN-UC001-010"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "Все шаги основного, альтернативного и исключительных сценариев представлены; ветвления и оба исхода покрыты. Блокирующих противоречий нет."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "e2e_trace",
+    "details": {
+      "requirement_atomization": {
+        "passed": true,
+        "fr_count": 5,
+        "atom_count": 5
+      },
+      "unique_ids": {
+        "passed": true
+      },
+      "fr_coverage": {
+        "passed": true,
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004",
+          "FR-005"
+        ]
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "declared_trace_bidirectionality": {
+        "passed": true,
+        "expected_relations": 78,
+        "actual_relations": 78
+      },
+      "trace_coverage_thresholds": {
+        "passed": true,
+        "uc_supported": 14,
+        "uc_total": 14,
+        "uc_ratio": 1.0,
+        "activity_supported": 32,
+        "activity_total": 32,
+        "activity_ratio": 1.0
+      },
+      "trace_integrity": {
+        "passed": true
+      }
+    }
+  }
+]

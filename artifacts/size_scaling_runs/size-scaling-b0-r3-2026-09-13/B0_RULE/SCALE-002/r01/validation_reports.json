@@ -1,0 +1,55 @@
+[
+  {
+    "details": {},
+    "issues": [],
+    "passed": true,
+    "validator_name": "activity_deterministic"
+  },
+  {
+    "details": {
+      "declared_trace_bidirectionality": {
+        "actual_relations": 66,
+        "expected_relations": 66,
+        "passed": true
+      },
+      "fr_coverage": {
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004",
+          "FR-005",
+          "FR-006",
+          "FR-007"
+        ],
+        "passed": true
+      },
+      "requirement_atomization": {
+        "atom_count": 7,
+        "fr_count": 7,
+        "passed": true
+      },
+      "trace_coverage_thresholds": {
+        "activity_ratio": 1.0,
+        "activity_supported": 18,
+        "activity_total": 18,
+        "passed": true,
+        "uc_ratio": 1.0,
+        "uc_supported": 10,
+        "uc_total": 10
+      },
+      "trace_integrity": {
+        "passed": true
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "unique_ids": {
+        "passed": true
+      }
+    },
+    "issues": [],
+    "passed": true,
+    "validator_name": "e2e_trace"
+  }
+]

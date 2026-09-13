@@ -1,0 +1,15 @@
+flowchart TD
+  %% activity:AD-UC004 uc:UC-004
+  subgraph PART-UC004-001["Staff"]
+  ADN-UC004-001(("start"))
+  ADN-UC004-002["Staff selects an existing reservation"]
+  ADN-UC004-003["Staff requests cancellation"]
+  ADN-UC004-004["Staff confirms cancellation"]
+  ADN-UC004-005["System confirms cancellation"]
+  ADN-UC004-006(("end"))
+  end
+  ADN-UC004-001 --> ADN-UC004-002
+  ADN-UC004-002 --> ADN-UC004-003
+  ADN-UC004-003 --> ADN-UC004-004
+  ADN-UC004-004 --> ADN-UC004-005
+  ADN-UC004-005 --> ADN-UC004-006

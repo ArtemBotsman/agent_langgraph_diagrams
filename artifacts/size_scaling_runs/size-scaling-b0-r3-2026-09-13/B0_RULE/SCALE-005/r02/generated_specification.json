@@ -1,0 +1,1787 @@
+{
+  "activity_results": [
+    {
+      "activity_diagram": {
+        "edges": [
+          {
+            "guard": null,
+            "id": "ADE-UC001-001",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "source_node_id": "ADN-UC001-001",
+            "target_node_id": "ADN-UC001-002",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-002",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "source_node_id": "ADN-UC001-002",
+            "target_node_id": "ADN-UC001-003",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-003",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "source_node_id": "ADN-UC001-003",
+            "target_node_id": "ADN-UC001-004",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-004",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-004"
+            ],
+            "source_node_id": "ADN-UC001-004",
+            "target_node_id": "ADN-UC001-005",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-005",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-005"
+            ],
+            "source_node_id": "ADN-UC001-005",
+            "target_node_id": "ADN-UC001-006",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-006",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-006"
+            ],
+            "source_node_id": "ADN-UC001-006",
+            "target_node_id": "ADN-UC001-007",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-007",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-007"
+            ],
+            "source_node_id": "ADN-UC001-007",
+            "target_node_id": "ADN-UC001-008",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-008",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-008"
+            ],
+            "source_node_id": "ADN-UC001-008",
+            "target_node_id": "ADN-UC001-009",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-009",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-009"
+            ],
+            "source_node_id": "ADN-UC001-009",
+            "target_node_id": "ADN-UC001-010",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-010",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-010"
+            ],
+            "source_node_id": "ADN-UC001-010",
+            "target_node_id": "ADN-UC001-011",
+            "unsupported": false
+          },
+          {
+            "guard": null,
+            "id": "ADE-UC001-011",
+            "label": null,
+            "related_step_ids": [
+              "STEP-UC001-010"
+            ],
+            "source_node_id": "ADN-UC001-011",
+            "target_node_id": "ADN-UC001-012",
+            "unsupported": false
+          }
+        ],
+        "id": "AD-UC001",
+        "mermaid_source": "flowchart TD\n  %% activity:AD-UC001 uc:UC-001\n  subgraph PART-UC001-001[\"User\"]\n  ADN-UC001-001((\"start\"))\n  ADN-UC001-002[\"Посетитель должен иметь возможность отправить предложение с заголовком, описанием, категорией и адресом электронной почты.\"]\n  ADN-UC001-003[\"Система должна присваивать каждому отправленному предложению публичный регистрационный номер.\"]\n  ADN-UC001-004[\"Посетитель должен иметь возможность искать опубликованные предложения по словам в заголовке и описании.\"]\n  ADN-UC001-005[\"Посетитель должен иметь возможность добавить один голос за опубликованное предложение после подтверждения адреса электронной почты.\"]\n  ADN-UC001-006[\"Модератор должен иметь возможность просматривать отправленные предложения и фильтровать их по категории, статусу и дате отправки.\"]\n  ADN-UC001-007[\"Модератор должен иметь возможность опубликовать отправленное предложение или отклонить его, указав внутреннюю причину отказа.\"]\n  ADN-UC001-008[\"Модератор должен иметь возможность объединить одно дублирующее предложение с другим, перенеся его голоса.\"]\n  ADN-UC001-009[\"Модератор должен иметь возможность установить опубликованному предложению статус «на рассмотрении», «запланировано», «отклонено» или «реализовано» и добавить публичный ответ.\"]\n  ADN-UC001-010[\"На публичной странице продуктового плана должны отображаться опубликованные предложения, сгруппированные по текущему публичному статусу.\"]\n  ADN-UC001-011[\"Система должна отправлять автору электронное письмо при публикации его предложения и при изменении публичного статуса.\"]\n  ADN-UC001-012((\"end\"))\n  end\n  ADN-UC001-001 --> ADN-UC001-002\n  ADN-UC001-002 --> ADN-UC001-003\n  ADN-UC001-003 --> ADN-UC001-004\n  ADN-UC001-004 --> ADN-UC001-005\n  ADN-UC001-005 --> ADN-UC001-006\n  ADN-UC001-006 --> ADN-UC001-007\n  ADN-UC001-007 --> ADN-UC001-008\n  ADN-UC001-008 --> ADN-UC001-009\n  ADN-UC001-009 --> ADN-UC001-010\n  ADN-UC001-010 --> ADN-UC001-011\n  ADN-UC001-011 --> ADN-UC001-012\n",
+        "name": "Доска обратной связи от клиентов: rule-based activity",
+        "nodes": [
+          {
+            "id": "ADN-UC001-001",
+            "kind": "initial",
+            "name": "start",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-002",
+            "kind": "action",
+            "name": "Посетитель должен иметь возможность отправить предложение с заголовком, описанием, категорией и адресом электронной почты.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-001"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-003",
+            "kind": "action",
+            "name": "Система должна присваивать каждому отправленному предложению публичный регистрационный номер.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-002"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-004",
+            "kind": "action",
+            "name": "Посетитель должен иметь возможность искать опубликованные предложения по словам в заголовке и описании.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-003"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-005",
+            "kind": "action",
+            "name": "Посетитель должен иметь возможность добавить один голос за опубликованное предложение после подтверждения адреса электронной почты.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-004"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-006",
+            "kind": "action",
+            "name": "Модератор должен иметь возможность просматривать отправленные предложения и фильтровать их по категории, статусу и дате отправки.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-005"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-007",
+            "kind": "action",
+            "name": "Модератор должен иметь возможность опубликовать отправленное предложение или отклонить его, указав внутреннюю причину отказа.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-006"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-008",
+            "kind": "action",
+            "name": "Модератор должен иметь возможность объединить одно дублирующее предложение с другим, перенеся его голоса.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-007"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-009",
+            "kind": "action",
+            "name": "Модератор должен иметь возможность установить опубликованному предложению статус «на рассмотрении», «запланировано», «отклонено» или «реализовано» и добавить публичный ответ.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-008"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-010",
+            "kind": "action",
+            "name": "На публичной странице продуктового плана должны отображаться опубликованные предложения, сгруппированные по текущему публичному статусу.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-009"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-011",
+            "kind": "action",
+            "name": "Система должна отправлять автору электронное письмо при публикации его предложения и при изменении публичного статуса.",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [
+              "STEP-UC001-010"
+            ],
+            "unsupported": false
+          },
+          {
+            "id": "ADN-UC001-012",
+            "kind": "final",
+            "name": "end",
+            "partition_id": "PART-UC001-001",
+            "related_step_ids": [],
+            "unsupported": false
+          }
+        ],
+        "partitions": [
+          {
+            "actor_id": "ACT-001",
+            "id": "PART-UC001-001",
+            "name": "User"
+          }
+        ],
+        "use_case_id": "UC-001"
+      },
+      "failure_reason": null,
+      "repair_attempts_used": 0,
+      "status": "success",
+      "use_case_id": "UC-001",
+      "validation_reports": [
+        {
+          "details": {},
+          "issues": [],
+          "passed": true,
+          "validator_name": "activity_deterministic"
+        }
+      ]
+    }
+  ],
+  "evaluation_report": {
+    "automatic_only": true,
+    "metrics": [
+      {
+        "higher_is_better": true,
+        "name": "schema_validity",
+        "notes": "Share of schema validators that passed",
+        "unit": null,
+        "value": 1.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "fr_coverage",
+        "notes": "|FRs referenced by ≥1 UC| / |FRs|",
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": false,
+        "name": "orphan_uc_rate",
+        "notes": null,
+        "unit": "ratio",
+        "value": 0.0
+      },
+      {
+        "higher_is_better": false,
+        "name": "duplicate_uc_rate",
+        "notes": null,
+        "unit": "ratio",
+        "value": 0.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "trace_reference_integrity",
+        "notes": "1 - dangling_links / max(links,1) (approx from validation issues)",
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "trace_completeness",
+        "notes": null,
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "activity_structural_validity",
+        "notes": null,
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "mermaid_generation_success",
+        "notes": null,
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "end_to_end_success",
+        "notes": null,
+        "unit": null,
+        "value": 1.0
+      },
+      {
+        "higher_is_better": false,
+        "name": "repair_attempts",
+        "notes": "Use Case repair attempts plus all Activity repair attempts",
+        "unit": "count",
+        "value": 0
+      },
+      {
+        "higher_is_better": true,
+        "name": "uc_element_trace_coverage",
+        "notes": "Computed by the end-to-end trace coverage validator",
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": true,
+        "name": "activity_element_trace_coverage",
+        "notes": "Computed by the end-to-end trace coverage validator",
+        "unit": "ratio",
+        "value": 1.0
+      },
+      {
+        "higher_is_better": false,
+        "name": "unsupported_trace_rate",
+        "notes": null,
+        "unit": "ratio",
+        "value": 0.0
+      },
+      {
+        "higher_is_better": false,
+        "name": "blocking_error_classes",
+        "notes": null,
+        "unit": "count",
+        "value": 0
+      },
+      {
+        "higher_is_better": true,
+        "name": "stability_multi_run",
+        "notes": "Requires ≥2 seeded runs; not computed in scaffold",
+        "unit": null,
+        "value": null
+      },
+      {
+        "higher_is_better": false,
+        "name": "latency_ms",
+        "notes": "Filled when LLM nodes are wired",
+        "unit": "ms",
+        "value": null
+      },
+      {
+        "higher_is_better": false,
+        "name": "token_usage",
+        "notes": "Filled when LLM nodes are wired",
+        "unit": "tokens",
+        "value": null
+      },
+      {
+        "higher_is_better": false,
+        "name": "cost_usd",
+        "notes": "Filled when LLM nodes are wired",
+        "unit": "usd",
+        "value": null
+      }
+    ],
+    "notes": "Automatic metrics only; LLM-as-a-judge and expert scores are separate tracks"
+  },
+  "failure_reason": null,
+  "request": {
+    "functional_requirements": [
+      {
+        "atoms": [
+          {
+            "extraction_rule": "whole_requirement",
+            "id": "FRA-001-001",
+            "parent_fr_id": "FR-001",
+            "text": "Посетитель должен иметь возможность отправить предложение с заголовком, описанием, категорией и адресом электронной почты."
+          }
+        ],
+        "id": "FR-001",
+        "priority": null,
+        "tags": [],
+        "text": "Посетитель должен иметь возможность отправить предложение с заголовком, описанием, категорией и адресом электронной почты."
+      },
+      {
+        "atoms": [
+          {
+            "extraction_rule": "whole_requirement",
+            "id": "FRA-002-001",
+            "parent_fr_id": "FR-002",
+            "text": "Система должна присваивать каждому отправленному предложению публичный регистрационный номер."
+          }
+        ],
+        "id": "FR-002",
+        "priority": null,
+        "tags": [],
+        "text": "Система должна присваивать каждому отправленному предложению публичный регистрационный номер."
+      },
+      {
+        "atoms": [
+          {
+            "extraction_rule": "whole_requirement",
+            "id": "FRA-003-001",
+            "parent_fr_id": "FR-003",
+            "text": "Посетитель должен иметь возможность искать опубликованные предложения по словам в заголовке и описании."
+          }
+        ],
+        "id": "FR-003",
+        "priority": null,
+        "tags": [],
+        "text": "Посетитель должен иметь возможность искать опубликованные предложения по словам в заголовке и описании."
+      },
+      {
+        "atoms": [
+          {
+            "extraction_rule": "whole_requirement",
+            "id": "FRA-004-001",
+            "parent_fr_id": "FR-004",
+            "text": "Посетитель должен иметь возможность добавить один голос за опубликованное предложение после подтверждения адреса электронной почты."
+          }
+        ],
+        "id": "FR-004",
+        "priority": null,
+        "tags": [],
+        "text": "Посетитель должен иметь возможность добавить один голос за опубликованное предложение после подтверждения адреса электронной почты."
+      },
+      {
+        "atoms": [
+          {
+            "extraction_rule": "whole_requirement",
+            "id": "FRA-005-001",
+            "parent_fr_id": "FR-005",
+            "text": "Модератор должен иметь возможность просматривать отправленные предложения и фильтровать их по категории, статусу и дате отправки."
+          }
+        ],
+        "id": "FR-005",
+        "priority": null,
+        "tags": [],
+        "text": "Модератор должен иметь возможность просматривать отправленные предложения и фильтровать их по категории, статусу и дате отправки."
+      },
+      {
+        "atoms": [
+          {
+            "extraction_rule": "whole_requirement",
+            "id": "FRA-006-001",
+            "parent_fr_id": "FR-006",
+            "text": "Модератор должен иметь возможность опубликовать отправленное предложение или отклонить его, указав внутреннюю причину отказа."
+          }
+        ],
+        "id": "FR-006",
+        "priority": null,
+        "tags": [],
+        "text": "Модератор должен иметь возможность опубликовать отправленное предложение или отклонить его, указав внутреннюю причину отказа."
+      },
+      {
+        "atoms": [
+          {
+            "extraction_rule": "whole_requirement",
+            "id": "FRA-007-001",
+            "parent_fr_id": "FR-007",
+            "text": "Модератор должен иметь возможность объединить одно дублирующее предложение с другим, перенеся его голоса."
+          }
+        ],
+        "id": "FR-007",
+        "priority": null,
+        "tags": [],
+        "text": "Модератор должен иметь возможность объединить одно дублирующее предложение с другим, перенеся его голоса."
+      },
+      {
+        "atoms": [
+          {
+            "extraction_rule": "whole_requirement",
+            "id": "FRA-008-001",
+            "parent_fr_id": "FR-008",
+            "text": "Модератор должен иметь возможность установить опубликованному предложению статус «на рассмотрении», «запланировано», «отклонено» или «реализовано» и добавить публичный ответ."
+          }
+        ],
+        "id": "FR-008",
+        "priority": null,
+        "tags": [],
+        "text": "Модератор должен иметь возможность установить опубликованному предложению статус «на рассмотрении», «запланировано», «отклонено» или «реализовано» и добавить публичный ответ."
+      },
+      {
+        "atoms": [
+          {
+            "extraction_rule": "whole_requirement",
+            "id": "FRA-009-001",
+            "parent_fr_id": "FR-009",
+            "text": "На публичной странице продуктового плана должны отображаться опубликованные предложения, сгруппированные по текущему публичному статусу."
+          }
+        ],
+        "id": "FR-009",
+        "priority": null,
+        "tags": [],
+        "text": "На публичной странице продуктового плана должны отображаться опубликованные предложения, сгруппированные по текущему публичному статусу."
+      },
+      {
+        "atoms": [
+          {
+            "extraction_rule": "whole_requirement",
+            "id": "FRA-010-001",
+            "parent_fr_id": "FR-010",
+            "text": "Система должна отправлять автору электронное письмо при публикации его предложения и при изменении публичного статуса."
+          }
+        ],
+        "id": "FR-010",
+        "priority": null,
+        "tags": [],
+        "text": "Система должна отправлять автору электронное письмо при публикации его предложения и при изменении публичного статуса."
+      }
+    ],
+    "max_repair_attempts": 2,
+    "metadata": {
+      "source_contract": "SpecificationReq"
+    },
+    "non_functional_requirements": [
+      {
+        "category": null,
+        "id": "NFR-001",
+        "tags": [],
+        "text": "Все элементы пользовательского интерфейса, системные сообщения, сообщения валидации, сообщения об ошибках и названия статусов должны быть на русском языке."
+      },
+      {
+        "category": null,
+        "id": "NFR-002",
+        "tags": [],
+        "text": "Терминология для таких сущностей, как предложения, категории, голоса, решения модерации, статусы продуктового плана и уведомления, должна использоваться единообразно на всех страницах, в формах, уведомлениях, выгрузках и отчётах."
+      },
+      {
+        "category": null,
+        "id": "NFR-003",
+        "tags": [],
+        "text": "Система должна проверять обязательность полей, типы данных, диапазоны значений и форматы ввода до принятия пользовательских данных."
+      },
+      {
+        "category": null,
+        "id": "NFR-004",
+        "tags": [],
+        "text": "Сообщение об ошибке валидации должно указывать проблемное поле и объяснять, как пользователь может исправить значение."
+      },
+      {
+        "category": null,
+        "id": "NFR-005",
+        "tags": [],
+        "text": "Ошибка приложения не должна завершать пользовательскую сессию или мешать пользователю выполнять не связанные с ошибкой действия."
+      },
+      {
+        "category": null,
+        "id": "NFR-006",
+        "tags": [],
+        "text": "Если операцию невозможно выполнить, система должна отклонить её без частичных изменений и показать понятную причину отказа."
+      },
+      {
+        "category": null,
+        "id": "NFR-007",
+        "tags": [],
+        "text": "Введённые пользователем данные текущей формы должны сохраняться после ошибки валидации или устранимой серверной ошибки."
+      },
+      {
+        "category": null,
+        "id": "NFR-008",
+        "tags": [],
+        "text": "Любое изменение нескольких записей должно быть атомарным: либо сохраняются все запланированные изменения, либо не сохраняется ни одно."
+      },
+      {
+        "category": null,
+        "id": "NFR-009",
+        "tags": [],
+        "text": "Система должна проверять права доступа на сервере при каждой операции чтения и изменения данных независимо от клиентских ограничений."
+      },
+      {
+        "category": null,
+        "id": "NFR-010",
+        "tags": [],
+        "text": "Для операций длительностью более одной секунды должен отображаться индикатор загрузки или прогресса, а повторная случайная отправка должна блокироваться."
+      },
+      {
+        "category": null,
+        "id": "NFR-011",
+        "tags": [],
+        "text": "Веб-интерфейс должен оставаться пригодным для использования на экранах компьютеров, планшетов и мобильных устройств."
+      },
+      {
+        "category": null,
+        "id": "NFR-012",
+        "tags": [],
+        "text": "Приложение должно поддерживать две последние стабильные версии браузеров Chrome, Firefox, Safari и Edge."
+      },
+      {
+        "category": null,
+        "id": "NFR-013",
+        "tags": [],
+        "text": "Токены подтверждения электронной почты и публичные ссылки на предложения должны быть непредсказуемыми и истекать по окончании настроенного срока действия."
+      },
+      {
+        "category": null,
+        "id": "NFR-014",
+        "tags": [],
+        "text": "В публично отображаемых предложениях не должны раскрываться адреса электронной почты авторов и внутренние причины отказа."
+      }
+    ],
+    "project_description": "Публичная доска обратной связи и продуктового плана, на которой клиенты предлагают идеи и голосуют за них, а продуктовая команда модерирует публикации и сообщает о принятых решениях.",
+    "project_goal": "Собирать продуктовую обратную связь в структурированном виде, открыто показывать планы развития и уведомлять авторов о решениях по их предложениям.",
+    "project_name": "Доска обратной связи от клиентов",
+    "project_task": "Разработайте небольшое публичное и административное веб-приложение с фронтендом и бэкендом для компании-разработчика, которая хочет заменить обратную связь из разрозненных писем. Клиентам не нужны полноценные аккаунты, а модераторы управляют сформированной доской предложений.\n\nПосетитель должен иметь возможность отправить предложение с заголовком, описанием, категорией и адресом электронной почты. Система должна присваивать каждому отправленному предложению публичный регистрационный номер. Посетитель должен иметь возможность искать опубликованные предложения по словам в заголовке и описании. Посетитель должен иметь возможность добавить один голос за опубликованное предложение после подтверждения адреса электронной почты. Модератор должен иметь возможность просматривать отправленные предложения и фильтровать их по категории, статусу и дате отправки. Модератор должен иметь возможность опубликовать отправленное предложение или отклонить его, указав внутреннюю причину отказа.\n\nМодератор должен иметь возможность объединить одно дублирующее предложение с другим, перенеся его голоса. Модератор должен иметь возможность установить опубликованному предложению статус «на рассмотрении», «запланировано», «отклонено» или «реализовано» и добавить публичный ответ. На публичной странице продуктового плана должны отображаться опубликованные предложения, сгруппированные по текущему публичному статусу. Система должна отправлять автору электронное письмо при публикации его предложения и при изменении публичного статуса."
+  },
+  "status": "success",
+  "trace_manifest": {
+    "links": [
+      {
+        "id": "TL-001",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-001-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-001",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-002",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-002-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-002",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-003",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-003-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-003",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-004",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-004-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-004",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-005",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-005-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-005",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-006",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-006-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-006",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-007",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-007-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-007",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-008",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-008-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-008",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-009",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-009-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-009",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-010",
+        "link_type": "atom_to_step",
+        "origin": "deterministic",
+        "rationale": "Atomic step source is explicit.",
+        "source_id": "FRA-010-001",
+        "source_type": "fr_atom",
+        "target_id": "STEP-UC001-010",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-011",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-001-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-012",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-002-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-013",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-003-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-014",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-004-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-015",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-005-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-016",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-006-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-017",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-007-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-018",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-008-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-019",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-009-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-020",
+        "link_type": "atom_to_uc",
+        "origin": "deterministic",
+        "rationale": "Requirement atom inherits the explicit FR-to-UC assignment.",
+        "source_id": "FRA-010-001",
+        "source_type": "fr_atom",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-021",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-001",
+        "source_type": "fr",
+        "target_id": "FRA-001-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-022",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-002",
+        "source_type": "fr",
+        "target_id": "FRA-002-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-023",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-003",
+        "source_type": "fr",
+        "target_id": "FRA-003-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-024",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-004",
+        "source_type": "fr",
+        "target_id": "FRA-004-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-025",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-005",
+        "source_type": "fr",
+        "target_id": "FRA-005-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-026",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-006",
+        "source_type": "fr",
+        "target_id": "FRA-006-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-027",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-007",
+        "source_type": "fr",
+        "target_id": "FRA-007-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-028",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-008",
+        "source_type": "fr",
+        "target_id": "FRA-008-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-029",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-009",
+        "source_type": "fr",
+        "target_id": "FRA-009-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-030",
+        "link_type": "fr_to_atom",
+        "origin": "deterministic",
+        "rationale": "Atom extracted conservatively from its parent functional requirement.",
+        "source_id": "FR-010",
+        "source_type": "fr",
+        "target_id": "FRA-010-001",
+        "target_type": "fr_atom"
+      },
+      {
+        "id": "TL-031",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-001",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-001",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-032",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-002",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-002",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-033",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-003",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-003",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-034",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-004",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-004",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-035",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-005",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-005",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-036",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-006",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-006",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-037",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-007",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-007",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-038",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-008",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-008",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-039",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-009",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-009",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-040",
+        "link_type": "fr_to_step",
+        "origin": "deterministic",
+        "rationale": "Step-level requirement source is explicit.",
+        "source_id": "FR-010",
+        "source_type": "fr",
+        "target_id": "STEP-UC001-010",
+        "target_type": "step"
+      },
+      {
+        "id": "TL-041",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-001",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-042",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-002",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-043",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-003",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-044",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-004",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-045",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-005",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-046",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-006",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-047",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-007",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-048",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-008",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-049",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-009",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-050",
+        "link_type": "fr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this functional requirement as a source.",
+        "source_id": "FR-010",
+        "source_type": "fr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-051",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-001",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-052",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-002",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-053",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-003",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-054",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-004",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-055",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-005",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-056",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-006",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-057",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-007",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-058",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-008",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-059",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-009",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-060",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-010",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-061",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-011",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-062",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-012",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-063",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-013",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-064",
+        "link_type": "nfr_to_uc",
+        "origin": "deterministic",
+        "rationale": "Use Case explicitly declares this non-functional requirement as a source.",
+        "source_id": "NFR-014",
+        "source_type": "nfr",
+        "target_id": "UC-001",
+        "target_type": "uc"
+      },
+      {
+        "id": "TL-065",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-001",
+        "source_type": "step",
+        "target_id": "ADE-UC001-001",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-066",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-002",
+        "source_type": "step",
+        "target_id": "ADE-UC001-002",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-067",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-003",
+        "source_type": "step",
+        "target_id": "ADE-UC001-003",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-068",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-004",
+        "source_type": "step",
+        "target_id": "ADE-UC001-004",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-069",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-005",
+        "source_type": "step",
+        "target_id": "ADE-UC001-005",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-070",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-006",
+        "source_type": "step",
+        "target_id": "ADE-UC001-006",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-071",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-007",
+        "source_type": "step",
+        "target_id": "ADE-UC001-007",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-072",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-008",
+        "source_type": "step",
+        "target_id": "ADE-UC001-008",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-073",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-009",
+        "source_type": "step",
+        "target_id": "ADE-UC001-009",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-074",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-010",
+        "source_type": "step",
+        "target_id": "ADE-UC001-010",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-075",
+        "link_type": "step_to_activity_edge",
+        "origin": "deterministic",
+        "rationale": "Activity edge explicitly references a scenario step.",
+        "source_id": "STEP-UC001-010",
+        "source_type": "step",
+        "target_id": "ADE-UC001-011",
+        "target_type": "activity_edge"
+      },
+      {
+        "id": "TL-076",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-001",
+        "source_type": "step",
+        "target_id": "ADN-UC001-002",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-077",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-002",
+        "source_type": "step",
+        "target_id": "ADN-UC001-003",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-078",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-003",
+        "source_type": "step",
+        "target_id": "ADN-UC001-004",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-079",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-004",
+        "source_type": "step",
+        "target_id": "ADN-UC001-005",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-080",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-005",
+        "source_type": "step",
+        "target_id": "ADN-UC001-006",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-081",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-006",
+        "source_type": "step",
+        "target_id": "ADN-UC001-007",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-082",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-007",
+        "source_type": "step",
+        "target_id": "ADN-UC001-008",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-083",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-008",
+        "source_type": "step",
+        "target_id": "ADN-UC001-009",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-084",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-009",
+        "source_type": "step",
+        "target_id": "ADN-UC001-010",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-085",
+        "link_type": "step_to_activity_node",
+        "origin": "deterministic",
+        "rationale": "Activity node explicitly references a scenario step.",
+        "source_id": "STEP-UC001-010",
+        "source_type": "step",
+        "target_id": "ADN-UC001-011",
+        "target_type": "activity_node"
+      },
+      {
+        "id": "TL-086",
+        "link_type": "uc_to_activity",
+        "origin": "deterministic",
+        "rationale": "Activity diagram declares its source Use Case.",
+        "source_id": "UC-001",
+        "source_type": "uc",
+        "target_id": "AD-UC001",
+        "target_type": "activity"
+      },
+      {
+        "id": "TL-087",
+        "link_type": "uc_to_ss",
+        "origin": "deterministic",
+        "rationale": "System story belongs to the Use Case declared in its contract.",
+        "source_id": "UC-001",
+        "source_type": "uc",
+        "target_id": "SS-001",
+        "target_type": "ss"
+      },
+      {
+        "id": "TL-088",
+        "link_type": "uc_to_us",
+        "origin": "deterministic",
+        "rationale": "User story belongs to the Use Case declared in its contract.",
+        "source_id": "UC-001",
+        "source_type": "uc",
+        "target_id": "US-001",
+        "target_type": "us"
+      }
+    ]
+  },
+  "uc_repair_attempts_used": 0,
+  "use_case_set": {
+    "actors": [
+      {
+        "description": "Generic actor used by the rule-based baseline",
+        "id": "ACT-001",
+        "is_primary": true,
+        "name": "User"
+      }
+    ],
+    "fr_coverage": {
+      "FR-001": "covered",
+      "FR-002": "covered",
+      "FR-003": "covered",
+      "FR-004": "covered",
+      "FR-005": "covered",
+      "FR-006": "covered",
+      "FR-007": "covered",
+      "FR-008": "covered",
+      "FR-009": "covered",
+      "FR-010": "covered"
+    },
+    "use_cases": [
+      {
+        "alternative_scenarios": [],
+        "exception_scenarios": [],
+        "failure_postconditions": [],
+        "goal": "Собирать продуктовую обратную связь в структурированном виде, открыто показывать планы развития и уведомлять авторов о решениях по их предложениям.",
+        "human_readable_text": "Use Case: UC-001 — Собирать продуктовую обратную связь в структурированном виде, открыто показывать планы развития и уведомлять авторов о решениях по их предложениям.\nGoal: Собирать продуктовую обратную связь в структурированном виде, открыто показывать планы развития и уведомлять авторов о решениях по их предложениям.\nPrimary actor: ACT-001\nTrigger: User starts the requested process\nPreconditions:\nMain success scenario:\n  1. [STEP-UC001-001] Посетитель должен иметь возможность отправить предложение с заголовком, описанием, категорией и адресом электронной почты.\n  2. [STEP-UC001-002] Система должна присваивать каждому отправленному предложению публичный регистрационный номер.\n  3. [STEP-UC001-003] Посетитель должен иметь возможность искать опубликованные предложения по словам в заголовке и описании.\n  4. [STEP-UC001-004] Посетитель должен иметь возможность добавить один голос за опубликованное предложение после подтверждения адреса электронной почты.\n  5. [STEP-UC001-005] Модератор должен иметь возможность просматривать отправленные предложения и фильтровать их по категории, статусу и дате отправки.\n  6. [STEP-UC001-006] Модератор должен иметь возможность опубликовать отправленное предложение или отклонить его, указав внутреннюю причину отказа.\n  7. [STEP-UC001-007] Модератор должен иметь возможность объединить одно дублирующее предложение с другим, перенеся его голоса.\n  8. [STEP-UC001-008] Модератор должен иметь возможность установить опубликованному предложению статус «на рассмотрении», «запланировано», «отклонено» или «реализовано» и добавить публичный ответ.\n  9. [STEP-UC001-009] На публичной странице продуктового плана должны отображаться опубликованные предложения, сгруппированные по текущему публичному статусу.\n  10. [STEP-UC001-010] Система должна отправлять автору электронное письмо при публикации его предложения и при изменении публичного статуса.\nSource FRs: FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008, FR-009, FR-010\n",
+        "id": "UC-001",
+        "main_success_scenario": {
+          "id": "SCN-UC001-MAIN-001",
+          "kind": "main",
+          "name": "Requirements in input order",
+          "rejoins_step_id": null,
+          "start_from_step_id": null,
+          "steps": [
+            {
+              "action": "Посетитель должен иметь возможность отправить предложение с заголовком, описанием, категорией и адресом электронной почты.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-001",
+              "order": 1,
+              "source_fr_ids": [
+                "FR-001"
+              ]
+            },
+            {
+              "action": "Система должна присваивать каждому отправленному предложению публичный регистрационный номер.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-002",
+              "order": 2,
+              "source_fr_ids": [
+                "FR-002"
+              ]
+            },
+            {
+              "action": "Посетитель должен иметь возможность искать опубликованные предложения по словам в заголовке и описании.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-003",
+              "order": 3,
+              "source_fr_ids": [
+                "FR-003"
+              ]
+            },
+            {
+              "action": "Посетитель должен иметь возможность добавить один голос за опубликованное предложение после подтверждения адреса электронной почты.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-004",
+              "order": 4,
+              "source_fr_ids": [
+                "FR-004"
+              ]
+            },
+            {
+              "action": "Модератор должен иметь возможность просматривать отправленные предложения и фильтровать их по категории, статусу и дате отправки.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-005",
+              "order": 5,
+              "source_fr_ids": [
+                "FR-005"
+              ]
+            },
+            {
+              "action": "Модератор должен иметь возможность опубликовать отправленное предложение или отклонить его, указав внутреннюю причину отказа.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-006",
+              "order": 6,
+              "source_fr_ids": [
+                "FR-006"
+              ]
+            },
+            {
+              "action": "Модератор должен иметь возможность объединить одно дублирующее предложение с другим, перенеся его голоса.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-007",
+              "order": 7,
+              "source_fr_ids": [
+                "FR-007"
+              ]
+            },
+            {
+              "action": "Модератор должен иметь возможность установить опубликованному предложению статус «на рассмотрении», «запланировано», «отклонено» или «реализовано» и добавить публичный ответ.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-008",
+              "order": 8,
+              "source_fr_ids": [
+                "FR-008"
+              ]
+            },
+            {
+              "action": "На публичной странице продуктового плана должны отображаться опубликованные предложения, сгруппированные по текущему публичному статусу.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-009",
+              "order": 9,
+              "source_fr_ids": [
+                "FR-009"
+              ]
+            },
+            {
+              "action": "Система должна отправлять автору электронное письмо при публикации его предложения и при изменении публичного статуса.",
+              "actor_id": "ACT-001",
+              "expected_result": "Requirement is completed",
+              "id": "STEP-UC001-010",
+              "order": 10,
+              "source_fr_ids": [
+                "FR-010"
+              ]
+            }
+          ]
+        },
+        "missing_information": [],
+        "name": "Собирать продуктовую обратную связь в структурированном виде, открыто показывать планы развития и уведомлять авторов о решениях по их предложениям.",
+        "preconditions": [],
+        "primary_actor_id": "ACT-001",
+        "secondary_actor_ids": [],
+        "source_fr_ids": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004",
+          "FR-005",
+          "FR-006",
+          "FR-007",
+          "FR-008",
+          "FR-009",
+          "FR-010"
+        ],
+        "source_nfr_ids": [
+          "NFR-001",
+          "NFR-002",
+          "NFR-003",
+          "NFR-004",
+          "NFR-005",
+          "NFR-006",
+          "NFR-007",
+          "NFR-008",
+          "NFR-009",
+          "NFR-010",
+          "NFR-011",
+          "NFR-012",
+          "NFR-013",
+          "NFR-014"
+        ],
+        "success_postconditions": [
+          {
+            "id": "POST-UC001-001",
+            "outcome": "success",
+            "text": "All listed functional requirements have been processed"
+          }
+        ],
+        "system_stories": [
+          {
+            "id": "SS-001",
+            "responsibility": "Provide a deterministic comparison artifact",
+            "system_action": "Process functional requirements in input order",
+            "use_case_id": "UC-001"
+          }
+        ],
+        "trigger": "User starts the requested process",
+        "unsupported_assumptions": [],
+        "user_stories": [
+          {
+            "benefit": "the project goal is achieved",
+            "capability": "Собирать продуктовую обратную связь в структурированном виде, открыто показывать планы развития и уведомлять авторов о решениях по их предложениям.",
+            "id": "US-001",
+            "role": "User",
+            "use_case_id": "UC-001"
+          }
+        ]
+      }
+    ]
+  },
+  "validation_reports": [
+    {
+      "details": {},
+      "issues": [],
+      "passed": true,
+      "validator_name": "activity_deterministic"
+    },
+    {
+      "details": {
+        "declared_trace_bidirectionality": {
+          "actual_relations": 88,
+          "expected_relations": 88,
+          "passed": true
+        },
+        "fr_coverage": {
+          "covered": [
+            "FR-001",
+            "FR-002",
+            "FR-003",
+            "FR-004",
+            "FR-005",
+            "FR-006",
+            "FR-007",
+            "FR-008",
+            "FR-009",
+            "FR-010"
+          ],
+          "passed": true
+        },
+        "requirement_atomization": {
+          "atom_count": 10,
+          "fr_count": 10,
+          "passed": true
+        },
+        "trace_coverage_thresholds": {
+          "activity_ratio": 1.0,
+          "activity_supported": 24,
+          "activity_total": 24,
+          "passed": true,
+          "uc_ratio": 1.0,
+          "uc_supported": 13,
+          "uc_total": 13
+        },
+        "trace_integrity": {
+          "passed": true
+        },
+        "trace_link_contracts": {
+          "passed": true
+        },
+        "unique_ids": {
+          "passed": true
+        }
+      },
+      "issues": [],
+      "passed": true,
+      "validator_name": "e2e_trace"
+    }
+  ]
+}

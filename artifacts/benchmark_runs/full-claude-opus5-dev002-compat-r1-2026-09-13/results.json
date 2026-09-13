@@ -1,0 +1,68 @@
+{
+  "experiment_id": "full-claude-opus5-dev002-compat-r1-2026-09-13",
+  "created_at_utc": "2026-09-13T19:10:43.731455+00:00",
+  "benchmark_version": "1.0.0-synthetic-author-freeze",
+  "cases_sha256": "af8dc532d4d283db43687850213e5795ca227c0d6d054327727462e0ab170917",
+  "conditions": [
+    "FULL"
+  ],
+  "selected_case_ids": [
+    "B1-DEV-002"
+  ],
+  "repeats": 1,
+  "semantic_similarity_backend": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "claim_limit": "Synthetic author-labelled benchmark; final claims require expert review and a frozen hidden evaluation.",
+  "summary": [
+    {
+      "condition": "FULL",
+      "run_count": 1,
+      "total_llm_tokens": 0,
+      "mean_end_to_end_success": 0.0,
+      "mean_semantic_composite": 0.0,
+      "stddev_semantic_composite": null,
+      "mean_actor_f1": 0.0,
+      "mean_uc_f1": 0.0,
+      "mean_milestone_f1": 0.0,
+      "mean_branch_f1": 0.0,
+      "mean_trace_f1": 0.0,
+      "mean_hallucination_rate": 1.0,
+      "mean_latency_ms": 1116.294,
+      "stddev_latency_ms": null,
+      "mean_llm_calls": 1.0,
+      "mean_total_tokens": 0.0,
+      "stddev_total_tokens": null,
+      "mean_estimated_cost_usd": null,
+      "mean_repair_attempts": 0.0,
+      "mean_stability_multi_run": null
+    }
+  ],
+  "rows": [
+    {
+      "condition": "FULL",
+      "case_id": "B1-DEV-002",
+      "split": "development",
+      "complexity": "simple",
+      "language": "ru",
+      "repeat_id": 1,
+      "run_status": "failed",
+      "end_to_end_success": 0.0,
+      "semantic_composite": 0.0,
+      "actor_f1": 0.0,
+      "uc_f1": 0.0,
+      "milestone_f1": 0.0,
+      "branch_f1": 0.0,
+      "trace_f1": 0.0,
+      "hallucination_rate": 1.0,
+      "latency_ms": 1116.294,
+      "llm_calls": 1,
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "total_tokens": 0,
+      "estimated_cost_usd": null,
+      "repair_attempts": 0,
+      "error_type": "RuntimeError",
+      "message": "OpenAI-compatible LLM call failed",
+      "stability_multi_run": null
+    }
+  ]
+}

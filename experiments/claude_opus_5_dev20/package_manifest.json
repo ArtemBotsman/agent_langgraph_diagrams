@@ -1,0 +1,135 @@
+{
+  "package_version": "1.0.0",
+  "created_at_utc": "2026-09-11T15:43:59.554418+00:00",
+  "case_ids": [
+    "B1-DEV-001",
+    "B1-DEV-002",
+    "B1-DEV-003",
+    "B1-DEV-004",
+    "B1-DEV-005",
+    "B1-DEV-006",
+    "B1-DEV-007",
+    "B1-DEV-008",
+    "B1-DEV-009",
+    "B1-DEV-010",
+    "B1-DEV-011",
+    "B1-DEV-012",
+    "B1-DEV-013",
+    "B1-DEV-014",
+    "B1-DEV-015",
+    "B1-DEV-016",
+    "B1-DEV-017",
+    "B1-DEV-018",
+    "B1-DEV-019",
+    "B1-DEV-020"
+  ],
+  "split": "development",
+  "recommended_repeats": 3,
+  "execution_rule": "one fresh conversation per case and repeat",
+  "output_contract": "OneShotGenerationArtifact",
+  "hidden_included": false,
+  "gold_included": false,
+  "api_keys_included": false,
+  "files": [
+    {
+      "path": "00_CLAUDE_OPUS_5_RUNBOOK_AND_PROMPT_RU.md",
+      "sha256": "c73187b013d5945524c726e161589f97bd25710f5f98365b8e92471781f97efb"
+    },
+    {
+      "path": "inputs/B1-DEV-001.json",
+      "sha256": "fbeb5a191975d0b8abce6eb7cd35e96912ce638c998556a67865b7492b1db0a1"
+    },
+    {
+      "path": "inputs/B1-DEV-002.json",
+      "sha256": "4666c27bd411c910aeda5ac1d447cd531ac386822a0f5634821ba0c238ee102d"
+    },
+    {
+      "path": "inputs/B1-DEV-003.json",
+      "sha256": "a2e8788741e9ab267c4c62022717d9d95ead08a093d7b62c1c3b6523de38ff49"
+    },
+    {
+      "path": "inputs/B1-DEV-004.json",
+      "sha256": "71ae0efb573be354e27846d38d1868f9c48f34e5d9635560234b3c56ac53fa5b"
+    },
+    {
+      "path": "inputs/B1-DEV-005.json",
+      "sha256": "f2837872adc8913afd3345cc962654a2f64797761be693512e534d57c57dfa3b"
+    },
+    {
+      "path": "inputs/B1-DEV-006.json",
+      "sha256": "ba309d912707f1e14d5a0a8fe3832a7b5c23a5fdd166e3c41fdaa5b14e85b625"
+    },
+    {
+      "path": "inputs/B1-DEV-007.json",
+      "sha256": "5eccd0c40697ea9e8a47793e62e144f131d105658ceb211050a96229619815dd"
+    },
+    {
+      "path": "inputs/B1-DEV-008.json",
+      "sha256": "b5c4447c410a29922b36ba28707f89d0d5389fc6e911ec48dc5a9f9286cbb6be"
+    },
+    {
+      "path": "inputs/B1-DEV-009.json",
+      "sha256": "b1e7105942fb39eb64ea7bcbc7eb28ea8f14ce1e8542038528bfda2e0ce86dee"
+    },
+    {
+      "path": "inputs/B1-DEV-010.json",
+      "sha256": "e5edddabd95330411527f38e1efc53790c032135571e5935345abbc2fd60afd7"
+    },
+    {
+      "path": "inputs/B1-DEV-011.json",
+      "sha256": "bffc2595d5197246c38804b484d70de0a7dd3e21fd24de3a3689915f855057c1"
+    },
+    {
+      "path": "inputs/B1-DEV-012.json",
+      "sha256": "8b31b9e5a1a8c49a51ae50c7c513f257fd5753190852c3b81bb5c6b2c1dfa651"
+    },
+    {
+      "path": "inputs/B1-DEV-013.json",
+      "sha256": "9eac3b96817af345a95ce29e36901655fbc9af610eb677bbe758a46f25bdad99"
+    },
+    {
+      "path": "inputs/B1-DEV-014.json",
+      "sha256": "5aef0f9e96a9f4ff24ace2ebf196f30b5b12ee72ae414f7c12b02186a788a858"
+    },
+    {
+      "path": "inputs/B1-DEV-015.json",
+      "sha256": "81420b71ad810c833a230320cfbd922a41784d74c57d08d00fa6a2bc9147784f"
+    },
+    {
+      "path": "inputs/B1-DEV-016.json",
+      "sha256": "dfa58b66b7c903ada6e71847689b0d55856fb471a4e3716c15b39c7d58f33246"
+    },
+    {
+      "path": "inputs/B1-DEV-017.json",
+      "sha256": "e7c5abe411e4b5b77bbd2fa6199a8ccc4d3862ebb3ca0661fc3b211b4c27a047"
+    },
+    {
+      "path": "inputs/B1-DEV-018.json",
+      "sha256": "3f2c56ff61e4fa31d62e8bbb5124b5db66e9467b79c7b45d5208ffdd497b8fdb"
+    },
+    {
+      "path": "inputs/B1-DEV-019.json",
+      "sha256": "b9b3f391213d80fb1db06c712945bf6a8c4b9c17677ce735c486458adacc1e2e"
+    },
+    {
+      "path": "inputs/B1-DEV-020.json",
+      "sha256": "c2e4d30d5695137219177847808f4ec4f83bddbabdf5bd190b5fa5e0c582465a"
+    },
+    {
+      "path": "inputs/development_inputs.json",
+      "sha256": "0bc73cfb46f9808ab4f34abc4600a514ac962708dc22a3f6c93d41e64e830224"
+    },
+    {
+      "path": "prompt/CLAUDE_OR_GPT_ONESHOT_PROMPT_RU.md",
+      "sha256": "7d3304266da3237144e549cf4b97eadb810725521150a699ba6a15d891c3d3c3"
+    },
+    {
+      "path": "responses/README.md",
+      "sha256": "a50059972116c56fe2dadd7dae33e54129c166b50b67586288802972223032eb"
+    },
+    {
+      "path": "schema/one_shot_generation_artifact.schema.json",
+      "sha256": "bf5daf4e8f1ac7289395290b33066345eedde9f1773819c33c7528b190b4c225"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Buyer"]
+  ADN-UC002-003["Buyer selects and uploads evidence files"]
+  end
+  subgraph PART-UC002-002["Seller"]
+  ADN-UC002-004["Seller selects and uploads evidence files"]
+  end
+  subgraph PART-UC002-003["Notification Service"]
+  ADN-UC002-010["Notify seller about new evidence"]
+  ADN-UC002-011["Notify buyer about new evidence"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-002{"Who uploads evidence?"}
+  ADN-UC002-005{"Deadline passed?"}
+  ADN-UC002-006["Reject upload and inform uploader"]
+  ADN-UC002-007(("end"))
+  ADN-UC002-008["Store evidence immutably and record timestamp"]
+  ADN-UC002-009{"Who uploaded?"}
+  ADN-UC002-012(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 -->|"Buyer uploads"| ADN-UC002-003
+  ADN-UC002-002 -->|"Seller uploads"| ADN-UC002-004
+  ADN-UC002-003 --> ADN-UC002-005
+  ADN-UC002-004 --> ADN-UC002-005
+  ADN-UC002-005 -->|"Deadline passed"| ADN-UC002-006
+  ADN-UC002-005 -->|"Deadline not passed"| ADN-UC002-008
+  ADN-UC002-006 --> ADN-UC002-007
+  ADN-UC002-008 --> ADN-UC002-009
+  ADN-UC002-009 -->|"Buyer uploaded"| ADN-UC002-010
+  ADN-UC002-009 -->|"Seller uploaded"| ADN-UC002-011
+  ADN-UC002-010 --> ADN-UC002-012
+  ADN-UC002-011 --> ADN-UC002-012

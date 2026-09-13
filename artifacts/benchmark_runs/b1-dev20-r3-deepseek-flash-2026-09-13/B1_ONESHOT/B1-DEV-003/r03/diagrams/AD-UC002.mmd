@@ -1,0 +1,20 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Security"]
+  ADN-UC002-002["Submit plate number for verification"]
+  end
+  subgraph PART-UC002-002["System"]
+  ADN-UC002-003["Look up active permit by plate number"]
+  ADN-UC002-004{"Active permit found?"}
+  ADN-UC002-005["Inform Security that permit is active"]
+  ADN-UC002-006["Inform Security that no active permit exists"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-007(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004
+  ADN-UC002-004 -->|"found"| ADN-UC002-005
+  ADN-UC002-004 -->|"not found"| ADN-UC002-006
+  ADN-UC002-005 --> ADN-UC002-007
+  ADN-UC002-006 --> ADN-UC002-007

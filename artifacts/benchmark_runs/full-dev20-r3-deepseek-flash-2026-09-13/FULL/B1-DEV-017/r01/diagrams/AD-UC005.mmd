@@ -1,0 +1,22 @@
+flowchart TD
+  %% activity:AD-UC005 uc:UC-005
+  subgraph PART-UC005-001["Buyer"]
+  ADN-UC005-003["Buyer accepts the proposed settlement"]
+  end
+  subgraph PART-UC005-002["Seller"]
+  ADN-UC005-004["Seller accepts the proposed settlement"]
+  end
+  subgraph PART-UC005-003["Notification Service"]
+  ADN-UC005-006["System notifies both parties of closure"]
+  end
+  ADN-UC005-001(("start"))
+  ADN-UC005-002{"Which party accepts?"}
+  ADN-UC005-005{"Acceptance recorded"}
+  ADN-UC005-007(("end"))
+  ADN-UC005-001 --> ADN-UC005-002
+  ADN-UC005-002 -->|"Buyer accepts"| ADN-UC005-003
+  ADN-UC005-002 -->|"Seller accepts"| ADN-UC005-004
+  ADN-UC005-003 --> ADN-UC005-005
+  ADN-UC005-004 --> ADN-UC005-005
+  ADN-UC005-005 --> ADN-UC005-006
+  ADN-UC005-006 --> ADN-UC005-007

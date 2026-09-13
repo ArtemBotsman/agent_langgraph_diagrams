@@ -1,0 +1,30 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Manager"]
+  ADN-UC002-002["Manager opens the submitted expense claim"]
+  ADN-UC002-004["Manager reviews the claim and confirms no policy exceptions"]
+  ADN-UC002-005{"Policy exceptions?"}
+  ADN-UC002-006["Manager approves the claim"]
+  ADN-UC002-008["Manager reviews the claim and identifies issues"]
+  ADN-UC002-009["Manager rejects the claim and provides a reason"]
+  end
+  subgraph PART-UC002-002["System"]
+  ADN-UC002-003["System displays claim details, attached receipts, and any policy flags"]
+  ADN-UC002-007["System marks claim as approved and records decision with audit trail"]
+  ADN-UC002-010["System marks claim as rejected and records decision with audit trail"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-011{"Decision recorded"}
+  ADN-UC002-012(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004
+  ADN-UC002-004 --> ADN-UC002-005
+  ADN-UC002-005 -->|"no policy exceptions"| ADN-UC002-006
+  ADN-UC002-005 -->|"policy exceptions identified"| ADN-UC002-008
+  ADN-UC002-006 --> ADN-UC002-007
+  ADN-UC002-007 --> ADN-UC002-011
+  ADN-UC002-008 --> ADN-UC002-009
+  ADN-UC002-009 --> ADN-UC002-010
+  ADN-UC002-010 --> ADN-UC002-011
+  ADN-UC002-011 --> ADN-UC002-012

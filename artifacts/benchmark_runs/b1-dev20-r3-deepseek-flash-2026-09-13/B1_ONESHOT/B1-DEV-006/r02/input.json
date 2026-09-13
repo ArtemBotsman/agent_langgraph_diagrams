@@ -1,0 +1,14 @@
+{
+  "project_task": "Create a volunteer shift signup page.",
+  "project_name": "Volunteer Roster",
+  "project_goal": "Fill volunteer shifts without overbooking.",
+  "project_description": "Volunteers select a shift with remaining capacity and receive confirmation.",
+  "functional_requirements": [
+    "A volunteer views shifts with remaining capacity.",
+    "A volunteer signs up for one shift.",
+    "The system rejects signup when the shift is full."
+  ],
+  "non_functional_requirements": [
+    "The signup page must work on a mobile viewport."
+  ]
+}

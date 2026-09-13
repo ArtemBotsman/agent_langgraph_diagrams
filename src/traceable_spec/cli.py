@@ -13,9 +13,9 @@ from typing import Any, cast
 
 from traceable_spec.entities import PipelineStatus, SpecificationReq
 from traceable_spec.exporting import write_specification_bundle
-from traceable_spec.llm.openai_compatible import (
-    OpenAICompatibleConfig,
-    OpenAICompatibleLLMClient,
+from traceable_spec.llm.factory import (
+    create_instrumented_client,
+    provider_config_from_env,
 )
 from traceable_spec.orchestration.persistence import open_sqlite_checkpointer, thread_config
 from traceable_spec.orchestration.pipeline import compile_live_pipeline
@@ -87,12 +87,12 @@ def main() -> None:
             specification = run_rule_based_baseline(request)
         else:
             _load_env(args.env_file)
-            config = OpenAICompatibleConfig.from_env()
+            config = provider_config_from_env()
             config = replace(
                 config,
                 telemetry_path=args.output_dir / "llm_calls.sanitized.jsonl",
             )
-            client = OpenAICompatibleLLMClient(config)
+            client = create_instrumented_client(config)
             provider, api_base, model = config.provider, config.api_base, config.model
             with open_sqlite_checkpointer(
                 args.output_dir / "checkpoints.sqlite"
@@ -124,7 +124,10 @@ def main() -> None:
         "provider": provider,
         "api_base": api_base,
         "model": model,
-        "temperature": 0 if args.mode == "FULL" else None,
+        "requested_temperature": 0 if args.mode == "FULL" else None,
+        "effective_temperature": (
+            None if provider == "anthropic" else (0 if args.mode == "FULL" else None)
+        ),
         "git_commit": _git_value(root, "rev-parse", "HEAD"),
         "git_dirty": bool(_git_value(root, "status", "--porcelain")),
         "thread_id": args.thread_id,

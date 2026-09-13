@@ -1,0 +1,11 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Пациент"]
+  ADN-UC002-001(("start"))
+  ADN-UC002-002["Выбрать будущую запись для отмены"]
+  ADN-UC002-003["Подтвердить отмену записи"]
+  ADN-UC002-004(("end"))
+  end
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004

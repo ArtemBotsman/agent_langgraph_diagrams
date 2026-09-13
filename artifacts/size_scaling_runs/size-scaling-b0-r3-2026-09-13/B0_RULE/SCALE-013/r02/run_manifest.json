@@ -1,0 +1,18 @@
+{
+  "api_base": null,
+  "artifact_contract_version": "1.0",
+  "benchmark_id": "size_scaling_v1",
+  "benchmark_manifest_sha256": "5d7f895cb9614ec2f0f07c568c8f96bacdaa2387c3e9edca0634630b728e771c",
+  "case_id": "SCALE-013",
+  "condition": "B0_RULE",
+  "experiment_id": "size-scaling-b0-r3-2026-09-13",
+  "failure_reason": null,
+  "git_commit": "2c87d9b3f12bc28701c6e8d831af2a3e2cbb364d",
+  "git_dirty": true,
+  "model": null,
+  "normalized_input_sha256": "0e694c6f95a1008d3544e20633f7e66efebbc9aa6265e16a3534dc6180058d60",
+  "pipeline_status": "success",
+  "provider": null,
+  "raw_prompts_or_responses_persisted": false,
+  "repeat_id": 2
+}

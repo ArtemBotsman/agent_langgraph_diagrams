@@ -1,0 +1,20 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Staff"]
+  ADN-UC003-001(("start"))
+  ADN-UC003-002["Staff selects an existing reservation"]
+  ADN-UC003-003["Staff enters new details"]
+  ADN-UC003-004["Staff submits the modification"]
+  ADN-UC003-005{"Capacity available?"}
+  ADN-UC003-006["System confirms the modification"]
+  ADN-UC003-007["System rejects the modification"]
+  ADN-UC003-008(("end"))
+  end
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 --> ADN-UC003-004
+  ADN-UC003-004 --> ADN-UC003-005
+  ADN-UC003-005 -->|"capacity available"| ADN-UC003-006
+  ADN-UC003-005 -->|"capacity exceeded"| ADN-UC003-007
+  ADN-UC003-006 --> ADN-UC003-008
+  ADN-UC003-007 --> ADN-UC003-008

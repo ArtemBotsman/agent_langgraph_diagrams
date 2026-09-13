@@ -1,0 +1,22 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Lab Assistant"]
+  ADN-UC002-002["Lab assistant looks up the student's request"]
+  ADN-UC002-004["Lab assistant confirms the device handover and records the checkout"]
+  end
+  subgraph PART-UC002-002["System"]
+  ADN-UC002-003["System displays the request details"]
+  ADN-UC002-005{"Device available?"}
+  ADN-UC002-006["System records the checkout, marks the device as checked out, and confirms the transaction"]
+  ADN-UC002-007["System rejects the checkout and informs the lab assistant"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-008(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004
+  ADN-UC002-004 --> ADN-UC002-005
+  ADN-UC002-005 -->|"Device available"| ADN-UC002-006
+  ADN-UC002-005 -->|"Device not available"| ADN-UC002-007
+  ADN-UC002-006 --> ADN-UC002-008
+  ADN-UC002-007 --> ADN-UC002-008

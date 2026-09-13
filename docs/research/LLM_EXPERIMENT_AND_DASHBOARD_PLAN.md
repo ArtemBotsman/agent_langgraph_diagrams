@@ -151,7 +151,8 @@ client-side коде или репозитории.
 1. `normalize_requirements` принимает внешний `SpecificationReq` и создаёт
    стабильные `FR-###`/`NFR-###`.
 2. `run_use_cases` запускает UC-подграф.
-3. `run_activities` последовательно запускает Activity-подграф для каждого UC.
+3. `run_next_activity` запускает Activity-подграф по одному UC и сохраняет
+   отдельный checkpoint после каждой завершённой диаграммы.
 4. `validate_e2e_trace` проверяет итоговую трассировку.
 5. `run_evaluator` рассчитывает автоматические метрики.
 6. `finalize_pipeline` формирует `GeneratedSpecification`.

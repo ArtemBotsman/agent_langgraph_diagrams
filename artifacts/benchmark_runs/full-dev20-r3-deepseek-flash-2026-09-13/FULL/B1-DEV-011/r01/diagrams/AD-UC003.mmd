@@ -1,0 +1,13 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Student"]
+  ADN-UC003-002["Student requests to join the waitlist for a full course."]
+  end
+  subgraph PART-UC003-002["System"]
+  ADN-UC003-003["System adds the student to the waitlist."]
+  end
+  ADN-UC003-001(("start"))
+  ADN-UC003-004(("end"))
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 --> ADN-UC003-004

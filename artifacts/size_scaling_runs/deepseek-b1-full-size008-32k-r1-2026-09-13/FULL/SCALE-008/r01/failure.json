@@ -1,0 +1,4 @@
+{
+  "error_type": "LLMBudgetExceededError",
+  "message": "Local LLM call-count budget exhausted"
+}

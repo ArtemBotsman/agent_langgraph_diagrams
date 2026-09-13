@@ -1,0 +1,21 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Adjuster"]
+  ADN-UC002-002["Review submitted claim details and evidence"]
+  ADN-UC002-003{"Can severity be determined?"}
+  ADN-UC002-004["Assign severity and review route"]
+  ADN-UC002-006["Flag claim for additional information"]
+  end
+  subgraph PART-UC002-002["System"]
+  ADN-UC002-005["Persist severity and review route assignments"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-007(("end"))
+  ADN-UC002-008(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 -->|"severity determined"| ADN-UC002-004
+  ADN-UC002-003 -->|"severity not determined"| ADN-UC002-006
+  ADN-UC002-004 --> ADN-UC002-005
+  ADN-UC002-005 --> ADN-UC002-007
+  ADN-UC002-006 --> ADN-UC002-008

@@ -1,0 +1,23 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Recipient"]
+  ADN-UC003-002["Recipient requests the current status of a parcel using its tracking identifier."]
+  end
+  subgraph PART-UC003-002["System"]
+  ADN-UC003-003["System retrieves the parcel record."]
+  ADN-UC003-004{"Parcel record found?"}
+  ADN-UC003-005["System returns a not-found error."]
+  ADN-UC003-007["System derives the current status from accepted events."]
+  ADN-UC003-008["System displays the current status to the recipient."]
+  end
+  ADN-UC003-001(("start"))
+  ADN-UC003-006(("end"))
+  ADN-UC003-009(("end"))
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 --> ADN-UC003-004
+  ADN-UC003-004 -->|"Parcel not found"| ADN-UC003-005
+  ADN-UC003-005 --> ADN-UC003-006
+  ADN-UC003-004 -->|"Parcel found"| ADN-UC003-007
+  ADN-UC003-007 --> ADN-UC003-008
+  ADN-UC003-008 --> ADN-UC003-009

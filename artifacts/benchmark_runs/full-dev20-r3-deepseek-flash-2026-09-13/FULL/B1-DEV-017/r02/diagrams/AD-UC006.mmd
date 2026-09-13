@@ -1,0 +1,18 @@
+flowchart TD
+  %% activity:AD-UC006 uc:UC-006
+  subgraph PART-UC006-001["System"]
+  ADN-UC006-001(("start"))
+  ADN-UC006-002{"Closure condition met?"}
+  ADN-UC006-003["Detect decision recorded"]
+  ADN-UC006-004["Detect mutual settlement accepted"]
+  ADN-UC006-005["Close dispute and notify parties"]
+  ADN-UC006-006(("end"))
+  ADN-UC006-007(("end"))
+  end
+  ADN-UC006-001 --> ADN-UC006-002
+  ADN-UC006-002 -->|"decision recorded"| ADN-UC006-003
+  ADN-UC006-002 -->|"mutual settlement accepted"| ADN-UC006-004
+  ADN-UC006-002 -->|"no closure condition"| ADN-UC006-007
+  ADN-UC006-003 --> ADN-UC006-005
+  ADN-UC006-004 --> ADN-UC006-005
+  ADN-UC006-005 --> ADN-UC006-006

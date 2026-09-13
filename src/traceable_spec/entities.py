@@ -684,3 +684,4 @@ class PipelineGraphState(TypedDict, total=False):
     failure_reason: str | None
     max_repair_attempts: int
     uc_repair_attempts_used: int
+    next_activity_index: int

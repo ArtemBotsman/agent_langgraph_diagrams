@@ -1,0 +1,408 @@
+[
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "structural",
+        "code": "duplicate_id",
+        "message": "Duplicate ID 'POST-UC001-002' appears 2 times",
+        "element_ids": [
+          "POST-UC001-002"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-002",
+        "severity": "error",
+        "category": "structural",
+        "code": "duplicate_id",
+        "message": "Duplicate ID 'POST-UC002-002' appears 2 times",
+        "element_ids": [
+          "POST-UC002-002"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-003",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC001-006 references FRs outside UC-001: NFR-003",
+        "element_ids": [
+          "UC-001",
+          "STEP-UC001-006",
+          "NFR-003"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-004",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC001-011 references FRs outside UC-001: NFR-002",
+        "element_ids": [
+          "UC-001",
+          "STEP-UC001-011",
+          "NFR-002"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-005",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC001-012 references FRs outside UC-001: NFR-002",
+        "element_ids": [
+          "UC-001",
+          "STEP-UC001-012",
+          "NFR-002"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": false,
+      "use_case_structure": false,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": true,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "Все восемь функциональных требований покрыты сценариями UC-001 и UC-002; акторы, предусловия, постусловия и шаги согласованы с FR-текстом. Блокирующих семантических дефектов не обнаружено.",
+      "critic_not_deterministic_validator": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC001-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "EXCEPTION_PLACEMENT_AMBIGUOUS",
+        "message": "Исключение 'Потеря связи во время регистрации' (STEP-UC001-011, STEP-UC001-012) смоделировано как ветвь после сохранения карточки (ADN-UC001-011), тогда как в UC оно может произойти в любой момент регистрации. Это не противоречит шагам UC, но размещение ветви является упрощением.",
+        "element_ids": [
+          "STEP-UC001-011",
+          "STEP-UC001-012",
+          "ADN-UC001-011",
+          "ADN-UC001-012",
+          "ADN-UC001-013"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-002",
+        "severity": "info",
+        "category": "trace",
+        "code": "DECISION_GUARD_IMPLICIT",
+        "message": "Решение ADN-UC001-009 'Оператор подтверждает предложенные категорию и приоритет?' не имеет явного шага UC для ветви 'нет' (изменение), но это покрыто альтернативным сценарием SCN-UC001-ALT-001 (STEP-UC001-006).",
+        "element_ids": [
+          "ADN-UC001-009",
+          "STEP-UC001-004",
+          "STEP-UC001-006"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "Диаграмма деятельности сохраняет основной, альтернативный и исключительные сценарии UC-001 без пропуска шагов и без добавления неподдерживаемых бизнес-действий. Выявленные замечания касаются размещения исключения и неявных guard-условий и не являются блокирующими."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC002-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "UC_STEP_OMITTED",
+        "message": "STEP-UC002-005 (система не получает подтверждение в установленное время) не представлен отдельным узлом; его семантика частично отражена в решении ADN-UC002-005, но явное действие/условие тайм-аута отсутствует. Это не блокирует, так как ветвь 'Нет' ведёт к эскалации.",
+        "element_ids": [
+          "STEP-UC002-005",
+          "ADN-UC002-005"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "Диаграмма сохраняет основной сценарий (просмотр бригад, назначение, подтверждение, журналирование) и исключительный сценарий (эскалация при отсутствии подтверждения). Неподдерживаемых бизнес-действий не добавлено. Единственное замечание — отсутствие явного узла для шага тайм-аута STEP-UC002-005, что является неблокирующим уточнением."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "e2e_trace",
+    "details": {
+      "requirement_atomization": {
+        "passed": true,
+        "fr_count": 8,
+        "atom_count": 8
+      },
+      "unique_ids": {
+        "passed": true
+      },
+      "fr_coverage": {
+        "passed": true,
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004",
+          "FR-005",
+          "FR-006",
+          "FR-007",
+          "FR-008"
+        ]
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "declared_trace_bidirectionality": {
+        "passed": true,
+        "expected_relations": 149,
+        "actual_relations": 149
+      },
+      "trace_coverage_thresholds": {
+        "passed": true,
+        "uc_supported": 31,
+        "uc_total": 31,
+        "uc_ratio": 1.0,
+        "activity_supported": 48,
+        "activity_total": 48,
+        "activity_ratio": 1.0
+      },
+      "trace_integrity": {
+        "passed": true
+      }
+    }
+  }
+]

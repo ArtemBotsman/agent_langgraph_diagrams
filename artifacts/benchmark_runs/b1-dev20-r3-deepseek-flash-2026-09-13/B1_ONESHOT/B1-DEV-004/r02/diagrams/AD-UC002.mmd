@@ -1,0 +1,20 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Lab Assistant"]
+  ADN-UC002-001(("start"))
+  ADN-UC002-002["Select device request"]
+  ADN-UC002-003["Confirm checkout"]
+  end
+  subgraph PART-UC002-002["System"]
+  ADN-UC002-004{"Device available?"}
+  ADN-UC002-005["Record checkout and update device status"]
+  ADN-UC002-006["Inform lab assistant device unavailable"]
+  ADN-UC002-007(("end"))
+  end
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004
+  ADN-UC002-004 -->|"available"| ADN-UC002-005
+  ADN-UC002-004 -->|"not available"| ADN-UC002-006
+  ADN-UC002-005 --> ADN-UC002-007
+  ADN-UC002-006 --> ADN-UC002-007

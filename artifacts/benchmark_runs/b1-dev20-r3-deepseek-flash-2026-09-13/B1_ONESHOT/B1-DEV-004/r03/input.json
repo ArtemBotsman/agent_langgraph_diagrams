@@ -1,0 +1,14 @@
+{
+  "project_task": "Create an equipment checkout application for a media lab.",
+  "project_name": "Media Checkout",
+  "project_goal": "Track who has borrowed each device.",
+  "project_description": "Students request available equipment and staff record checkout and return.",
+  "functional_requirements": [
+    "A student requests an available device.",
+    "A lab assistant records the checkout.",
+    "A lab assistant records the return and device condition."
+  ],
+  "non_functional_requirements": [
+    "Every checkout and return must be auditable."
+  ]
+}

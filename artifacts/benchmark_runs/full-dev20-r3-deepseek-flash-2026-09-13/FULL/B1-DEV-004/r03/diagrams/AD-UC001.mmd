@@ -1,0 +1,16 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Student"]
+  ADN-UC001-001(("start"))
+  ADN-UC001-002["Student selects a device category or searches for an available device."]
+  ADN-UC001-003{"Devices available?"}
+  ADN-UC001-004["Student selects a specific available device and submits a request."]
+  ADN-UC001-005["Student is informed that no devices are currently available."]
+  ADN-UC001-006(("end"))
+  end
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 -->|"devices available"| ADN-UC001-004
+  ADN-UC001-003 -->|"no devices available"| ADN-UC001-005
+  ADN-UC001-004 --> ADN-UC001-006
+  ADN-UC001-005 --> ADN-UC001-006

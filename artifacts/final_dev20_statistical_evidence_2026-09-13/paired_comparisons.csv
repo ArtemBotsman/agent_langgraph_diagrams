@@ -1,0 +1,4 @@
+case_count,exact_sign_flip_pvalue,holm_adjusted_pvalue,left_mean,left_method,mean_paired_difference,metric,name,negative_case_differences,paired_difference_ci_95,positive_case_differences,right_mean,right_method,ties
+20,1.9073486328125e-06,5.7220458984375e-06,1.0,FULL,0.9666666666666667,end_to_end_success,full_vs_b1_e2e,0,"[0.9166666666666667, 1.0]",20,0.03333333333333333,B1_ONESHOT,0
+20,3.814697265625e-06,7.62939453125e-06,0.6927015841241104,FULL,0.2846127761312776,semantic_composite,full_vs_b0_semantic,1,"[0.22409630913814624, 0.3421796390921979]",19,0.40808880799283276,B0_RULE,0
+20,0.015729904174804688,0.015729904174804688,0.6927015841241104,FULL,0.09812111874788856,semantic_composite,full_vs_b1_semantic,6,"[0.02906919602838539, 0.1743119506876068]",14,0.5945804653762218,B1_ONESHOT,0

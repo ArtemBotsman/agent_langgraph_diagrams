@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<rect width="1280" height="720" fill="#ffffff"/>
+<style>text{font-family:Arial,sans-serif;fill:#172033}.title{font-size:28px;font-weight:700}.sub{font-size:15px;fill:#586174}.axis{font-size:13px;fill:#586174}.value{font-size:14px;font-weight:700}.call{font-size:20px;font-weight:700}</style>
+<text x="64" y="60" class="title">Benchmark масштабируемости: 20 проектов, 6–74 ФТ</text>
+<text x="64" y="92" class="sub">B0_RULE · 3 повтора на проект · 60/60 завершений · 0 LLM-токенов</text>
+<text x="90" y="132" class="value">Средний размер входа по группам</text>
+<text x="710" y="132" class="value">Время B0 в зависимости от числа ФТ</text>
+<line x1="90" y1="485" x2="570" y2="485" stroke="#cad1dc"/>
+<line x1="710" y1="485" x2="1190" y2="485" stroke="#cad1dc"/>
+<line x1="710" y1="155" x2="710" y2="485" stroke="#cad1dc"/>
+<rect x="118" y="448.1" width="74" height="36.9" rx="4" fill="#2667a8"/>
+<text x="155.0" y="438.1" text-anchor="middle" class="value">8.0 ФТ</text>
+<text x="155.0" y="513" text-anchor="middle" class="axis">5–10 ФТ</text>
+<text x="155.0" y="534" text-anchor="middle" class="axis">13.4 НФТ</text>
+<rect x="234" y="412.2" width="74" height="72.8" rx="4" fill="#2f7d75"/>
+<text x="271.0" y="402.2" text-anchor="middle" class="value">15.8 ФТ</text>
+<text x="271.0" y="513" text-anchor="middle" class="axis">11–20 ФТ</text>
+<text x="271.0" y="534" text-anchor="middle" class="axis">14.0 НФТ</text>
+<rect x="350" y="319.1" width="74" height="165.9" rx="4" fill="#8a6d2f"/>
+<text x="387.0" y="309.1" text-anchor="middle" class="value">36.0 ФТ</text>
+<text x="387.0" y="513" text-anchor="middle" class="axis">21–50 ФТ</text>
+<text x="387.0" y="534" text-anchor="middle" class="axis">15.4 НФТ</text>
+<rect x="466" y="190.0" width="74" height="295.0" rx="4" fill="#874c62"/>
+<text x="503.0" y="180.0" text-anchor="middle" class="value">64.0 ФТ</text>
+<text x="503.0" y="513" text-anchor="middle" class="axis">51–75 ФТ</text>
+<text x="503.0" y="534" text-anchor="middle" class="axis">18.2 НФТ</text>
+<polyline points="748.4,414.4 754.8,425.1 761.2,434.5 767.6,428.9 774.0,420.7 786.8,416.9 799.6,409.9 812.4,404.1 825.2,386.9 831.6,391.9 863.6,372.0 902.0,349.5 940.4,334.2 978.8,267.7 1017.2,287.9 1055.6,255.4 1087.6,235.9 1119.6,213.9 1151.6,196.8 1183.6,180.0" fill="none" stroke="#2667a8" stroke-width="3"/>
+<circle cx="748.4" cy="414.4" r="5" fill="#2667a8"/>
+<circle cx="754.8" cy="425.1" r="5" fill="#2667a8"/>
+<circle cx="761.2" cy="434.5" r="5" fill="#2667a8"/>
+<circle cx="767.6" cy="428.9" r="5" fill="#2667a8"/>
+<circle cx="774.0" cy="420.7" r="5" fill="#2667a8"/>
+<circle cx="786.8" cy="416.9" r="5" fill="#2667a8"/>
+<circle cx="799.6" cy="409.9" r="5" fill="#2667a8"/>
+<circle cx="812.4" cy="404.1" r="5" fill="#2667a8"/>
+<circle cx="825.2" cy="386.9" r="5" fill="#2667a8"/>
+<circle cx="831.6" cy="391.9" r="5" fill="#2667a8"/>
+<circle cx="863.6" cy="372.0" r="5" fill="#2667a8"/>
+<circle cx="902.0" cy="349.5" r="5" fill="#2667a8"/>
+<circle cx="940.4" cy="334.2" r="5" fill="#2667a8"/>
+<circle cx="978.8" cy="267.7" r="5" fill="#2667a8"/>
+<circle cx="1017.2" cy="287.9" r="5" fill="#2667a8"/>
+<circle cx="1055.6" cy="255.4" r="5" fill="#2667a8"/>
+<circle cx="1087.6" cy="235.9" r="5" fill="#2667a8"/>
+<circle cx="1119.6" cy="213.9" r="5" fill="#2667a8"/>
+<circle cx="1151.6" cy="196.8" r="5" fill="#2667a8"/>
+<circle cx="1183.6" cy="180.0" r="5" fill="#2667a8"/>
+<text x="710.0" y="513" text-anchor="middle" class="axis">0</text>
+<text x="870.0" y="513" text-anchor="middle" class="axis">25</text>
+<text x="1030.0" y="513" text-anchor="middle" class="axis">50</text>
+<text x="1190.0" y="513" text-anchor="middle" class="axis">75</text>
+<line x1="705" y1="485.0" x2="1190" y2="485.0" stroke="#edf0f5"/>
+<text x="698" y="490.0" text-anchor="end" class="axis">0 мс</text>
+<line x1="705" y1="354.1" x2="1190" y2="354.1" stroke="#edf0f5"/>
+<text x="698" y="359.1" text-anchor="end" class="axis">2 мс</text>
+<line x1="705" y1="223.3" x2="1190" y2="223.3" stroke="#edf0f5"/>
+<text x="698" y="228.3" text-anchor="end" class="axis">4 мс</text>
+<text x="950.0" y="539" text-anchor="middle" class="axis">Количество функциональных требований</text>
+<line x1="64" y1="555" x2="1216" y2="555" stroke="#cad1dc"/>
+<text x="64" y="602" class="call">Структурно успешно, но семантически это только нижний ориентир</text>
+<text x="64" y="636" class="sub">B0 всегда создаёт один Use Case и одну линейную диаграмму, даже для 74 ФТ.</text>
+<text x="64" y="664" class="sub">Преимущество FULL над Claude one-shot проверяется отдельно на той же модели и с экспертной оценкой.</text>
+<text x="1216" y="696" text-anchor="end" class="axis">Источник: size_scaling_v1 · запуск 2026-09-13</text>
+</svg>

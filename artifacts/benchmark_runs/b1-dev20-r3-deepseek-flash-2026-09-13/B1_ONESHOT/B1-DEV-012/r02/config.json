@@ -1,0 +1,23 @@
+{
+  "experiment_id": "b1-dev20-r3-deepseek-flash-2026-09-13",
+  "condition": "B1_ONESHOT",
+  "case_id": "B1-DEV-012",
+  "split": "development",
+  "repeat_id": 2,
+  "benchmark_version": "1.0.0-synthetic-author-freeze",
+  "cases_sha256": "af8dc532d4d283db43687850213e5795ca227c0d6d054327727462e0ab170917",
+  "git_commit": "2c87d9b3f12bc28701c6e8d831af2a3e2cbb364d",
+  "git_dirty": true,
+  "provider": "deepseek",
+  "api_base": "https://api.deepseek.com",
+  "model": "deepseek-flash",
+  "temperature": 0,
+  "prompt_version": "2026-09-09-v1",
+  "schema_version": "0.2.0",
+  "semantic_similarity_backend": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "raw_prompts_or_responses_persisted": false,
+  "raw_evidence_policy": "hashes_only",
+  "max_calls_per_process": 80,
+  "max_total_tokens_per_process": 2000000,
+  "max_estimated_cost_usd": 4.0
+}

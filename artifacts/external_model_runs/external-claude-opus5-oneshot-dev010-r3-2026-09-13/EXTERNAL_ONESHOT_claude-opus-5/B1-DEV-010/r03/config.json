@@ -1,0 +1,7 @@
+{
+  "condition": "EXTERNAL_ONESHOT_claude-opus-5",
+  "model_label": "claude-opus-5",
+  "case_id": "B1-DEV-010",
+  "source_response": "experiments/external_models/responses/claude-opus-5/B1-DEV-010/r03.json",
+  "postprocessing": "same B1 parser, validators, trace builder and renderer"
+}

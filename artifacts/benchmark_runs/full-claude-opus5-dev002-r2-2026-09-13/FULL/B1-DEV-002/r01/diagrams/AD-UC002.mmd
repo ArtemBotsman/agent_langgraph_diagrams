@@ -1,0 +1,21 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Посетитель"]
+  ADN-UC002-001(("start"))
+  ADN-UC002-002["Вводит имя и email и отправляет форму"]
+  end
+  subgraph PART-UC002-002["Система Event Signup"]
+  ADN-UC002-003["Проверяет, что email еще не зарегистрирован"]
+  ADN-UC002-004{"Email уникален?"}
+  ADN-UC002-005["Сохраняет регистрацию и показывает подтверждение"]
+  ADN-UC002-006["Отклоняет заявку и сообщает, что email уже зарегистрирован"]
+  ADN-UC002-007(("end"))
+  ADN-UC002-008(("end"))
+  end
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004
+  ADN-UC002-004 -->|"email уникален"| ADN-UC002-005
+  ADN-UC002-004 -->|"email уже зарегистрирован"| ADN-UC002-006
+  ADN-UC002-005 --> ADN-UC002-007
+  ADN-UC002-006 --> ADN-UC002-008

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="940" viewBox="0 0 1600 940">
+<rect width="1600" height="940" fill="#ffffff"/>
+<style>text{font-family:Arial,sans-serif;fill:#182536}.title{font-size:34px;font-weight:700}.subtitle{font-size:18px;fill:#596879}.panel{font-size:22px;font-weight:700}.axis{font-size:14px;fill:#596879}.value{font-size:17px;font-weight:700}.inverse{fill:#ffffff}.method{font-size:15px;font-weight:700}.callout{font-size:21px;font-weight:700}.body{font-size:17px;fill:#344456}.small{font-size:13px;fill:#667486}</style>
+<text x="64" y="55" class="title">DEV20: B0, one-shot и полный двухагентный pipeline</text>
+<text x="64" y="88" class="subtitle">20 независимых проектов × 3 повтора · DeepSeek deepseek-flash · hidden не открывался</text>
+<text x="70" y="130" class="panel">E2E success</text>
+<text x="70" y="154" class="axis">Доля запусков, %</text>
+<line x1="70" y1="505" x2="490" y2="505" stroke="#bdc7d2"/>
+<rect x="105" y="165.0" width="82" height="340.0" rx="5" fill="#3d6384"/>
+<text x="146" y="190.0" text-anchor="middle" class="value inverse">100.0%</text>
+<text x="146" y="535" text-anchor="middle" class="method">B0_RULE</text>
+<line x1="146" y1="165.0" x2="146" y2="165.0" stroke="#182536" stroke-width="2"/>
+<line x1="137" y1="165.0" x2="155" y2="165.0" stroke="#182536" stroke-width="2"/>
+<line x1="137" y1="165.0" x2="155" y2="165.0" stroke="#182536" stroke-width="2"/>
+<rect x="235" y="493.7" width="82" height="11.3" rx="5" fill="#9a7735"/>
+<text x="276" y="482.7" text-anchor="middle" class="value">3.3%</text>
+<text x="276" y="535" text-anchor="middle" class="method">B1_ONESHOT</text>
+<line x1="276" y1="476.7" x2="276" y2="505.0" stroke="#182536" stroke-width="2"/>
+<line x1="267" y1="476.7" x2="285" y2="476.7" stroke="#182536" stroke-width="2"/>
+<line x1="267" y1="505.0" x2="285" y2="505.0" stroke="#182536" stroke-width="2"/>
+<rect x="365" y="165.0" width="82" height="340.0" rx="5" fill="#2f8178"/>
+<text x="406" y="190.0" text-anchor="middle" class="value inverse">100.0%</text>
+<text x="406" y="535" text-anchor="middle" class="method">FULL</text>
+<line x1="406" y1="165.0" x2="406" y2="165.0" stroke="#182536" stroke-width="2"/>
+<line x1="397" y1="165.0" x2="415" y2="165.0" stroke="#182536" stroke-width="2"/>
+<line x1="397" y1="165.0" x2="415" y2="165.0" stroke="#182536" stroke-width="2"/>
+<text x="590" y="130" class="panel">Semantic composite</text>
+<text x="590" y="154" class="axis">Gold-метрика, 0–1; незавершённый ответ = 0</text>
+<line x1="590" y1="505" x2="1010" y2="505" stroke="#bdc7d2"/>
+<rect x="625" y="366.2" width="82" height="138.8" rx="5" fill="#3d6384"/>
+<text x="666" y="355.2" text-anchor="middle" class="value">40.8%</text>
+<text x="666" y="535" text-anchor="middle" class="method">B0_RULE</text>
+<line x1="666" y1="347.4" x2="666" y2="384.2" stroke="#182536" stroke-width="2"/>
+<line x1="657" y1="347.4" x2="675" y2="347.4" stroke="#182536" stroke-width="2"/>
+<line x1="657" y1="384.2" x2="675" y2="384.2" stroke="#182536" stroke-width="2"/>
+<rect x="755" y="302.8" width="82" height="202.2" rx="5" fill="#9a7735"/>
+<text x="796" y="291.8" text-anchor="middle" class="value">59.5%</text>
+<text x="796" y="535" text-anchor="middle" class="method">B1_ONESHOT</text>
+<line x1="796" y1="281.5" x2="796" y2="326.1" stroke="#182536" stroke-width="2"/>
+<line x1="787" y1="281.5" x2="805" y2="281.5" stroke="#182536" stroke-width="2"/>
+<line x1="787" y1="326.1" x2="805" y2="326.1" stroke="#182536" stroke-width="2"/>
+<rect x="885" y="269.5" width="82" height="235.5" rx="5" fill="#2f8178"/>
+<text x="926" y="258.5" text-anchor="middle" class="value">69.3%</text>
+<text x="926" y="535" text-anchor="middle" class="method">FULL</text>
+<line x1="926" y1="257.9" x2="926" y2="281.9" stroke="#182536" stroke-width="2"/>
+<line x1="917" y1="257.9" x2="935" y2="257.9" stroke="#182536" stroke-width="2"/>
+<line x1="917" y1="281.9" x2="935" y2="281.9" stroke="#182536" stroke-width="2"/>
+<text x="1110" y="130" class="panel">Токены на запуск</text>
+<text x="1110" y="154" class="axis">Среднее, тысяч токенов</text>
+<line x1="1110" y1="505" x2="1530" y2="505" stroke="#bdc7d2"/>
+<rect x="1145" y="505.0" width="82" height="0.0" rx="5" fill="#3d6384"/>
+<text x="1186" y="494.0" text-anchor="middle" class="value">0.0k</text>
+<text x="1186" y="535" text-anchor="middle" class="method">B0_RULE</text>
+<rect x="1275" y="453.7" width="82" height="51.3" rx="5" fill="#9a7735"/>
+<text x="1316" y="442.7" text-anchor="middle" class="value">10.6k</text>
+<text x="1316" y="535" text-anchor="middle" class="method">B1_ONESHOT</text>
+<rect x="1405" y="203.6" width="82" height="301.4" rx="5" fill="#2f8178"/>
+<text x="1446" y="192.6" text-anchor="middle" class="value">62.0k</text>
+<text x="1446" y="535" text-anchor="middle" class="method">FULL</text>
+<line x1="64" y1="590" x2="1536" y2="590" stroke="#bdc7d2"/>
+<text x="64" y="635" class="callout">Подтверждённый эффект на frozen DEV20</text>
+<text x="64" y="675" class="body">FULL: 60/60 E2E; B1: 2/60. Парная разница 96.7 п.п.</text>
+<text x="64" y="707" class="body">95% bootstrap CI разницы: [91.7; 100.0] п.п.; exact p=5.72e-06.</text>
+<text x="64" y="751" class="body">FULL − B0 по semantic: +0.285, 95% CI [+0.224; +0.342], p=7.63e-06.</text>
+<text x="64" y="783" class="body">FULL − B1 по semantic (незавершённый ответ = 0): +0.098, 95% CI [+0.029; +0.174], p=0.0157.</text>
+<text x="64" y="830" class="callout">Интерпретация</text>
+<text x="64" y="866" class="body">FULL статистически повышает принимаемость относительно one-shot и смысловое качество относительно B0.</text>
+<text x="64" y="896" class="body">Цена: больше вызовов, токенов и задержки. Вывод относится к synthetic DEV20; hidden и эксперты остаются внешней проверкой.</text>
+<text x="1536" y="925" text-anchor="end" class="small">Case-clustered bootstrap, 50 000 resamples · exact paired sign-flip · Holm correction</text>
+</svg>

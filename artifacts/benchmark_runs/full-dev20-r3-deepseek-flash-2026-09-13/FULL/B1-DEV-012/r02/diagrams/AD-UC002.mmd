@@ -1,0 +1,23 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Carrier"]
+  ADN-UC002-002["Carrier scans parcel and submits scan event"]
+  end
+  subgraph PART-UC002-002["System"]
+  ADN-UC002-003["System validates event and checks for duplicates"]
+  ADN-UC002-004{"Event valid and not duplicate?"}
+  ADN-UC002-005["System stores event and updates parcel status"]
+  ADN-UC002-006["System ignores duplicate event without error"]
+  ADN-UC002-007["System rejects event and returns error"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-008(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004
+  ADN-UC002-004 -->|"valid and not duplicate"| ADN-UC002-005
+  ADN-UC002-004 -->|"duplicate"| ADN-UC002-006
+  ADN-UC002-004 -->|"unknown tracking identifier"| ADN-UC002-007
+  ADN-UC002-005 --> ADN-UC002-008
+  ADN-UC002-006 --> ADN-UC002-008
+  ADN-UC002-007 --> ADN-UC002-008

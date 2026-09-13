@@ -1,5 +1,8 @@
 # Пакет эксперимента для научного руководителя
 
+> Актуальная версия для GPT-5.5 и Claude Opus 5 с полным DEV20:
+> [`CLAUDE_OPUS_5_EXPERIMENT.md`](CLAUDE_OPUS_5_EXPERIMENT.md).
+
 Рекомендуемый архив для передачи:
 `docs/final/deliverables/AgentLangGraph_external_comparison_DEV3_portable_2026-09-11.zip`.
 После распаковки работа начинается с `00_START_HERE_RU.md`. В архиве нет

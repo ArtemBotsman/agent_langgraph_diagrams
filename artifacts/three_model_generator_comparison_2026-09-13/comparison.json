@@ -1,0 +1,151 @@
+{
+  "experiment_scope": "Generator comparison on the same simple development case B1-DEV-002; three independent repeats per displayed configuration",
+  "case_id": "B1-DEV-002",
+  "configurations": [
+    {
+      "provider": "DeepSeek",
+      "model": "deepseek-flash",
+      "method": "B1_ONESHOT",
+      "case_id": "B1-DEV-002",
+      "repeats": 3,
+      "semantic_values": [
+        0.7555555555555555,
+        0.75,
+        0.7250000000000001
+      ],
+      "semantic_mean": 0.7435185185185186,
+      "semantic_stddev": 0.013289537124451179,
+      "formal_e2e_passes": 0,
+      "formal_e2e_rate": 0.0,
+      "stability": 0.9694444444444446,
+      "mean_latency_seconds": 10.32505,
+      "total_tokens": 24809,
+      "total_estimated_cost_usd": 0.0178935,
+      "mean_llm_calls": 1.0,
+      "mean_repairs": 0.0,
+      "source_results": "artifacts/benchmark_runs/b1-dev20-r3-deepseek-flash-2026-09-13/results.json"
+    },
+    {
+      "provider": "DeepSeek",
+      "model": "deepseek-flash",
+      "method": "FULL",
+      "case_id": "B1-DEV-002",
+      "repeats": 3,
+      "semantic_values": [
+        0.7305555555555556,
+        0.7659090909090909,
+        0.7659090909090909
+      ],
+      "semantic_mean": 0.7541245791245791,
+      "semantic_stddev": 0.01666581639160208,
+      "formal_e2e_passes": 3,
+      "formal_e2e_rate": 1.0,
+      "stability": 0.9646464646464648,
+      "mean_latency_seconds": 25.090507000000002,
+      "total_tokens": 77830,
+      "total_estimated_cost_usd": 0.04370880000000002,
+      "mean_llm_calls": 5.0,
+      "mean_repairs": 1.0,
+      "source_results": "artifacts/benchmark_runs/full-dev20-r3-deepseek-flash-2026-09-13/results.json"
+    },
+    {
+      "provider": "OpenAI",
+      "model": "gpt-5.5-2026-04-23",
+      "method": "B1_ONESHOT",
+      "case_id": "B1-DEV-002",
+      "repeats": 3,
+      "semantic_values": [
+        0.8,
+        0.7583333333333333,
+        0.7204545454545455
+      ],
+      "semantic_mean": 0.7595959595959596,
+      "semantic_stddev": 0.03248656649057731,
+      "formal_e2e_passes": 3,
+      "formal_e2e_rate": 1.0,
+      "stability": 0.9204545454545454,
+      "mean_latency_seconds": 25.541773666666668,
+      "total_tokens": 24193,
+      "total_estimated_cost_usd": 0.408315,
+      "mean_llm_calls": 1.0,
+      "mean_repairs": 0.0,
+      "source_results": "artifacts/external_model_runs/external-gpt55-oneshot-dev002-r3-2026-09-13/results.json"
+    },
+    {
+      "provider": "OpenAI",
+      "model": "gpt-5.5-2026-04-23",
+      "method": "FULL",
+      "case_id": "B1-DEV-002",
+      "repeats": 3,
+      "semantic_values": [
+        0.7166666666666668,
+        0.7107142857142856,
+        0.6666666666666667
+      ],
+      "semantic_mean": 0.6980158730158731,
+      "semantic_stddev": 0.022300033838455725,
+      "formal_e2e_passes": 3,
+      "formal_e2e_rate": 1.0,
+      "stability": 0.95,
+      "mean_latency_seconds": 54.424106333333334,
+      "total_tokens": 80134,
+      "total_estimated_cost_usd": 0.9292199999999999,
+      "mean_llm_calls": 6.333333333333333,
+      "mean_repairs": 0.3333333333333333,
+      "source_results": "artifacts/benchmark_runs/full-gpt55-dev002-r3-combined-2026-09-13/results.json"
+    },
+    {
+      "provider": "Anthropic",
+      "model": "claude-opus-5",
+      "method": "B1_ONESHOT",
+      "case_id": "B1-DEV-002",
+      "repeats": 3,
+      "semantic_values": [
+        0.6666666666666667,
+        0.6666666666666667,
+        0.6704545454545454
+      ],
+      "semantic_mean": 0.6679292929292929,
+      "semantic_stddev": 0.00178562318481446,
+      "formal_e2e_passes": 3,
+      "formal_e2e_rate": 1.0,
+      "stability": 0.9962121212121213,
+      "mean_latency_seconds": 40.62725966666667,
+      "total_tokens": 33696,
+      "total_estimated_cost_usd": 0.45822,
+      "mean_llm_calls": 1.0,
+      "mean_repairs": 0.0,
+      "source_results": "artifacts/external_model_runs/external-claude-opus5-oneshot-dev002-r3-2026-09-13/results.json"
+    },
+    {
+      "provider": "Anthropic",
+      "model": "claude-opus-5",
+      "method": "FULL",
+      "case_id": "B1-DEV-002",
+      "repeats": 3,
+      "semantic_values": [
+        0.7159090909090908,
+        0.7250000000000001,
+        0.7159090909090908
+      ],
+      "semantic_mean": 0.7189393939393939,
+      "semantic_stddev": 0.004285495643554914,
+      "formal_e2e_passes": 3,
+      "formal_e2e_rate": 1.0,
+      "stability": 0.9909090909090907,
+      "mean_latency_seconds": 71.76632933333333,
+      "total_tokens": 101731,
+      "total_estimated_cost_usd": 0.906455,
+      "mean_llm_calls": 6.0,
+      "mean_repairs": 0.0,
+      "source_results": "artifacts/benchmark_runs/full-claude-opus5-dev002-r3-combined-2026-09-13/results.json"
+    }
+  ],
+  "interpretation": [
+    "All three direct-model variants are compared under the same prompt, schema, input and evaluator.",
+    "DeepSeek B1 is semantically competitive but fails the formal E2E gate; DeepSeek FULL repairs the contract and passes 3/3.",
+    "GPT-5.5 B1 passes 3/3 and has the highest semantic mean on this simple case; its FULL graph is slower and more expensive without a semantic gain here.",
+    "Claude Opus 5 passes 3/3 in both modes; FULL raises the semantic mean mainly through better milestone coverage while preserving high stability."
+  ],
+  "claim_limit": "Descriptive pilot on one simple DEV case, not final statistical evidence. The result motivates the next preregistered comparison on a medium DEV case."
+}

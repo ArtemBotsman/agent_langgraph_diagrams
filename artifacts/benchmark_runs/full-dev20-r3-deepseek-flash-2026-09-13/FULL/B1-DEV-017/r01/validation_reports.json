@@ -1,0 +1,861 @@
+[
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC001-003 references FRs outside UC-001: FR-004",
+        "element_ids": [
+          "UC-001",
+          "STEP-UC001-003",
+          "FR-004"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-002",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC002-002 references FRs outside UC-002: NFR-001",
+        "element_ids": [
+          "UC-002",
+          "STEP-UC002-002",
+          "NFR-001"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-003",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC002-005 references FRs outside UC-002: NFR-001",
+        "element_ids": [
+          "UC-002",
+          "STEP-UC002-005",
+          "NFR-001"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-004",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC002-007 references FRs outside UC-002: NFR-001",
+        "element_ids": [
+          "UC-002",
+          "STEP-UC002-007",
+          "NFR-001"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-005",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC003-001 references FRs outside UC-003: NFR-002",
+        "element_ids": [
+          "UC-003",
+          "STEP-UC003-001",
+          "NFR-002"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-006",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC003-003 references FRs outside UC-003: NFR-002",
+        "element_ids": [
+          "UC-003",
+          "STEP-UC003-003",
+          "NFR-002"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-007",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC004-001 references FRs outside UC-004: FR-004",
+        "element_ids": [
+          "UC-004",
+          "STEP-UC004-001",
+          "FR-004"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-008",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC004-002 references FRs outside UC-004: FR-004",
+        "element_ids": [
+          "UC-004",
+          "STEP-UC004-002",
+          "FR-004"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-009",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC005-002 references FRs outside UC-005: FR-004",
+        "element_ids": [
+          "UC-005",
+          "STEP-UC005-002",
+          "FR-004"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-010",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC005-004 references FRs outside UC-005: FR-004",
+        "element_ids": [
+          "UC-005",
+          "STEP-UC005-004",
+          "FR-004"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-011",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC006-002 references FRs outside UC-006: FR-004",
+        "element_ids": [
+          "UC-006",
+          "STEP-UC006-002",
+          "FR-004"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": false,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": true,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "ACTOR_RESPONSIBILITY_CONTRADICTION",
+        "message": "UC-006 'Close Dispute' lists ACT-003 (Mediator) as primary actor, but the main scenario steps are performed by the system (actor_id null) and ACT-004 (Notification Service). FR-008 states the system closes the dispute, so the mediator is not the responsible actor for closure. This is a modeling inconsistency but does not contradict FR-008's outcome.",
+        "element_ids": [
+          "UC-006",
+          "ACT-003",
+          "FR-008"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-002",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "UNSUPPORTED_BUSINESS_RULE",
+        "message": "UC-003 introduces a conflict-of-interest precondition and exception (PRE-UC003-002, SCN-UC003-EXC-001) that is not stated in FR-005. This is an added business rule beyond the FR text, but it does not contradict FR-005 and is a reasonable elaboration.",
+        "element_ids": [
+          "UC-003",
+          "FR-005"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-003",
+        "severity": "info",
+        "category": "trace",
+        "code": "FR_OMISSION",
+        "message": "UC-002 references NFR-001 and UC-003 references NFR-002 in source_nfr_ids, but no NFR definitions are provided in the specification. This is a traceability gap for non-functional requirements, not a functional requirement omission.",
+        "element_ids": [
+          "UC-002",
+          "UC-003"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "uc_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "All eight functional requirements are covered by the use case set with traceable steps. No direct FR omission or contradiction is proved. The identified issues are non-blocking modeling and traceability warnings, so the use case set is accepted.",
+      "critic_not_deterministic_validator": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC001-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram faithfully preserves the UC-001 main success scenario (select order, select reason/outcome, create dispute and notify seller) and the exception scenario (ineligible order rejected with explanation). The eligibility decision is grounded in precondition PRE-UC001-002 and the exception step STEP-UC001-004, and no unsupported business actions are introduced. No evidence-grounded blocking issue remains."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC002-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "DEADLINE_CHECK_PLACEMENT",
+        "message": "The deadline check (ADN-UC002-005) is modeled after the upload action, whereas the UC exception scenario describes the buyer attempting to upload after the deadline. This is an equivalent control-flow decomposition and does not omit or contradict any UC step, so it is non-blocking.",
+        "element_ids": [
+          "STEP-UC002-007",
+          "ADN-UC002-005"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram preserves the main scenario (buyer upload), the alternative scenario (seller upload), and the exception scenario (post-deadline rejection), with all UC steps represented and no unsupported business actions. The only observation is a non-blocking control-flow placement preference."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC003-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram faithfully represents UC-003: the main success scenario (open dispute, review order history and evidence) and the conflict-of-interest exception (deny access and log) are both preserved with correct ordering and outcomes. No unsupported business actions or step-level omissions/contradictions are present."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC004-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC004-001"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-002",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC004-009 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC004-009"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "REDUNDANT_NOTIFICATION_ACTION",
+        "message": "The diagram decomposes the expected result 'System records the proposal/decision and notifies both parties' into a System action plus a separate Notification Service action 'Notify both parties'. This is an equivalent control-flow decomposition and is not a step-level omission or contradiction, so it is non-blocking.",
+        "element_ids": [
+          "ADN-UC004-005",
+          "ADN-UC004-006",
+          "ADN-UC004-007"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram preserves both the main scenario (STEP-UC004-001) and the alternative scenario (STEP-UC004-002), including their expected results of recording and notifying parties. No UC step is omitted or contradicted, and no unsupported business action is introduced. The only observation is a non-blocking equivalent decomposition of the notification responsibility."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC005-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC005-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram faithfully preserves UC-005 behavior: both the main scenario (Buyer accepts, STEP-UC005-001) and the alternative scenario (Seller accepts, STEP-UC005-003) are represented as decision branches that merge into the notification step (STEP-UC005-002/004) and reach the final state 'Dispute closed'. No UC step is omitted or contradicted, and no unsupported business action is introduced. The decision node modeling the two acceptance paths is an equivalent control-flow decomposition of the UC's main/alternative scenarios and is non-blocking."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC006-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC006-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "UC_BRANCH_OUTCOME_MISSING",
+        "message": "The 'no' branch from the decision node leads to the 'Dispute remains open' final node, which corresponds to the failure postcondition POST-UC006-002. This is a reasonable representation of the failure outcome, but the UC does not define an explicit exception scenario for this branch. This is a non-blocking warning.",
+        "element_ids": [
+          "ADN-UC006-003",
+          "ADN-UC006-007"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram faithfully represents the main success scenario of UC-006, including the detection of a final decision or accepted settlement, the closure of the dispute, and notification of both parties. The decision node and the 'no' branch to the 'Dispute remains open' final node are consistent with the failure postcondition, though not explicitly defined as an exception scenario in the UC. No blocking issues found."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "e2e_trace",
+    "details": {
+      "requirement_atomization": {
+        "passed": true,
+        "fr_count": 8,
+        "atom_count": 8
+      },
+      "unique_ids": {
+        "passed": true
+      },
+      "fr_coverage": {
+        "passed": true,
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004",
+          "FR-005",
+          "FR-006",
+          "FR-007",
+          "FR-008"
+        ]
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "declared_trace_bidirectionality": {
+        "passed": true,
+        "expected_relations": 233,
+        "actual_relations": 233
+      },
+      "trace_coverage_thresholds": {
+        "passed": true,
+        "uc_supported": 42,
+        "uc_total": 42,
+        "uc_ratio": 1.0,
+        "activity_supported": 108,
+        "activity_total": 108,
+        "activity_ratio": 1.0
+      },
+      "trace_integrity": {
+        "passed": true
+      }
+    }
+  }
+]

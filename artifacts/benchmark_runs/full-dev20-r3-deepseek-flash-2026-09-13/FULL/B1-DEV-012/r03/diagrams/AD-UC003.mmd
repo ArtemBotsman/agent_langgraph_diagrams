@@ -1,0 +1,20 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Recipient"]
+  ADN-UC003-002["Recipient requests the current status for a tracking identifier."]
+  end
+  subgraph PART-UC003-002["System"]
+  ADN-UC003-003{"Parcel exists and recipient is authorized?"}
+  ADN-UC003-004["System retrieves accepted events and derives the current status."]
+  ADN-UC003-005["System returns the current status to the recipient."]
+  ADN-UC003-006["System returns an error and does not disclose status."]
+  end
+  ADN-UC003-001(("start"))
+  ADN-UC003-007(("end"))
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 -->|"Parcel exists and recipient is authorized"| ADN-UC003-004
+  ADN-UC003-003 -->|"Parcel not found or unauthorized"| ADN-UC003-006
+  ADN-UC003-004 --> ADN-UC003-005
+  ADN-UC003-005 --> ADN-UC003-007
+  ADN-UC003-006 --> ADN-UC003-007

@@ -1,0 +1,487 @@
+[
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC001-003 references FRs outside UC-001: NFR-001",
+        "element_ids": [
+          "UC-001",
+          "STEP-UC001-003",
+          "NFR-001"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-002",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC001-005 references FRs outside UC-001: NFR-001",
+        "element_ids": [
+          "UC-001",
+          "STEP-UC001-005",
+          "NFR-001"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-003",
+        "severity": "error",
+        "category": "trace",
+        "code": "step_fr_outside_uc_scope",
+        "message": "Step STEP-UC001-006 references FRs outside UC-001: NFR-001",
+        "element_ids": [
+          "UC-001",
+          "STEP-UC001-006",
+          "NFR-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": false,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_deterministic_aggregate",
+    "details": {
+      "requirement_atomization": true,
+      "unique_ids": true,
+      "use_case_structure": true,
+      "uc_fr_references": true,
+      "fr_coverage": true,
+      "fr_to_uc_trace": true,
+      "trace_link_contracts": true,
+      "declared_trace_bidirectionality": true,
+      "trace_coverage_thresholds": true,
+      "trace_integrity": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "uc_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "All six functional requirements are covered by use cases with traceable steps. FR-001 through FR-004 map to UC-001, FR-005 to UC-002, and FR-006 to UC-003. No direct FR omission or contradiction is evidenced. Minor modeling choices (e.g., malware scanning, encryption, and the alternative evidence-upload scenario) are non-blocking and do not contradict the supplied FR text.",
+      "critic_not_deterministic_validator": true
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC001-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC001-001"
+        ],
+        "blocking": true
+      },
+      {
+        "id": "VI-002",
+        "severity": "error",
+        "category": "structural",
+        "code": "unreachable_from_initial",
+        "message": "Node ADN-UC001-013 is unreachable from initial node",
+        "element_ids": [
+          "ADN-UC001-013",
+          "ADN-UC001-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "warning",
+        "category": "semantic",
+        "code": "ACTIVITY_ORDER_CONTRADICTION",
+        "message": "The alternative scenario SCN-UC001-ALT-001 is modeled as a branch from the main upload action (ADN-UC001-004) to a later-session upload (ADN-UC001-013), which then rejoins the malware-scan decision (ADN-UC001-005). This is a reasonable equivalent decomposition of the alternative flow, but the 'later session' guard on ADE-UC001-013 is a temporal condition not explicitly stated in the UC step; it is a non-blocking modeling choice.",
+        "element_ids": [
+          "STEP-UC001-005",
+          "ADN-UC001-013",
+          "ADE-UC001-013"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-002",
+        "severity": "info",
+        "category": "trace",
+        "code": "UC_BRANCH_OUTCOME_MISSING",
+        "message": "The exception scenario SCN-UC001-EXC-001 ends at a final node (ADN-UC001-007) without rejoining the main flow, which matches the UC's rejoins_step_id=null. The expected result 'Policyholder is notified and asked to upload clean evidence' is represented only by the final node name; the notification action itself is not a separate activity node. This is a minor traceability gap but not a step-level omission.",
+        "element_ids": [
+          "STEP-UC001-006",
+          "ADN-UC001-007"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram preserves all main, alternative, and exception steps of UC-001. The main success path (identify policy, report loss, upload evidence, validate and create claim number) is present. The alternative scenario (later evidence upload) and both exception scenarios (malware rejection, incomplete report) are modeled with appropriate decision nodes and final outcomes. No unsupported business actions were added. The only issues are non-blocking modeling choices regarding temporal guards and notification representation."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC002-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC002-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "info",
+        "category": "semantic",
+        "code": "EQUIVALENT_CONTROL_FLOW_DECOMPOSITION",
+        "message": "The decision node 'Can severity be determined?' is an equivalent control-flow decomposition of the exception scenario SCN-UC002-EXC-001, which starts from STEP-UC002-002. The 'no' branch correctly leads to STEP-UC002-003 (flag claim for additional information) and the failure final state. This is a non-blocking modeling choice, not a semantic contradiction.",
+        "element_ids": [
+          "ADN-UC002-003",
+          "STEP-UC002-002",
+          "STEP-UC002-003"
+        ],
+        "blocking": false
+      },
+      {
+        "id": "VI-002",
+        "severity": "info",
+        "category": "trace",
+        "code": "SYSTEM_ACTION_TRACE",
+        "message": "The system action 'Persist severity and review route assignments' (ADN-UC002-005) is not a direct UC step but is supported by system story SS-003, which explicitly assigns the system responsibility to persist triage decisions. This is a supported system-level action, not an unsupported business assumption.",
+        "element_ids": [
+          "ADN-UC002-005",
+          "SS-003"
+        ],
+        "blocking": false
+      }
+    ],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram preserves the main success scenario (review claim, assign severity and route), the exception scenario (flag for additional information when severity cannot be determined), and the success/failure postconditions. The decision node is an equivalent control-flow decomposition of the exception start point, and the system persistence action is grounded in SS-003. No UC step is omitted or contradicted, and no unsupported business action is added. Accept."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_generator_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": false,
+    "issues": [
+      {
+        "id": "VI-001",
+        "severity": "error",
+        "category": "trace",
+        "code": "activity_edge_untraced",
+        "message": "Edge ADE-UC003-001 must link to UC step(s) or be marked unsupported",
+        "element_ids": [
+          "ADE-UC003-001"
+        ],
+        "blocking": true
+      }
+    ],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 0,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_repair_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_schema",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_deterministic",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_critic_parse",
+    "details": {}
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "activity_llm_critic",
+    "details": {
+      "decision": "accept",
+      "summary": "The activity diagram faithfully represents UC-003: the main success path (STEP-UC003-001) is captured by the policyholder request action and the system retrieve/display action, and the exception scenario (STEP-UC003-002, claim not found) is captured by the decision node and error-display action. No UC steps are omitted or contradicted, and no unsupported business actions are introduced. The decision node 'Claim found?' is a reasonable control-flow decomposition of the precondition that a claim exists and the exception branch, not an added business assumption."
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "repair_limit",
+    "details": {
+      "attempt": 1,
+      "max": 2
+    }
+  },
+  {
+    "passed": true,
+    "issues": [],
+    "validator_name": "e2e_trace",
+    "details": {
+      "requirement_atomization": {
+        "passed": true,
+        "fr_count": 6,
+        "atom_count": 6
+      },
+      "unique_ids": {
+        "passed": true
+      },
+      "fr_coverage": {
+        "passed": true,
+        "covered": [
+          "FR-001",
+          "FR-002",
+          "FR-003",
+          "FR-004",
+          "FR-005",
+          "FR-006"
+        ]
+      },
+      "trace_link_contracts": {
+        "passed": true
+      },
+      "declared_trace_bidirectionality": {
+        "passed": true,
+        "expected_relations": 107,
+        "actual_relations": 107
+      },
+      "trace_coverage_thresholds": {
+        "passed": true,
+        "uc_supported": 22,
+        "uc_total": 22,
+        "uc_ratio": 1.0,
+        "activity_supported": 56,
+        "activity_total": 56,
+        "activity_ratio": 1.0
+      },
+      "trace_integrity": {
+        "passed": true
+      }
+    }
+  }
+]

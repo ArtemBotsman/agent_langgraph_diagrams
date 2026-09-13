@@ -1,0 +1,18 @@
+flowchart TD
+  %% activity:AD-UC005 uc:UC-005
+  subgraph PART-UC005-001["Recipient"]
+  ADN-UC005-002{"Delivery confirmed or damage reported?"}
+  ADN-UC005-003["Confirm delivery"]
+  ADN-UC005-004["Report damage"]
+  end
+  subgraph PART-UC005-002["System"]
+  ADN-UC005-005["Record confirmation or report"]
+  end
+  ADN-UC005-001(("start"))
+  ADN-UC005-006(("end"))
+  ADN-UC005-001 --> ADN-UC005-002
+  ADN-UC005-002 -->|"confirm"| ADN-UC005-003
+  ADN-UC005-002 -->|"report"| ADN-UC005-004
+  ADN-UC005-003 --> ADN-UC005-005
+  ADN-UC005-004 --> ADN-UC005-005
+  ADN-UC005-005 --> ADN-UC005-006

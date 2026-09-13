@@ -1,0 +1,22 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Data Subject"]
+  ADN-UC001-001(("start"))
+  ADN-UC001-002["Request export of personal data"]
+  end
+  subgraph PART-UC001-002["System"]
+  ADN-UC001-003["Require recent identity verification"]
+  ADN-UC001-004{"Recent identity verification?"}
+  ADN-UC001-005["Record export request"]
+  ADN-UC001-006["Reject export request"]
+  ADN-UC001-007(("end"))
+  end
+  subgraph PART-UC001-003["Identity Verification Service"]
+  end
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 -->|"yes"| ADN-UC001-005
+  ADN-UC001-004 -->|"no"| ADN-UC001-006
+  ADN-UC001-005 --> ADN-UC001-007
+  ADN-UC001-006 --> ADN-UC001-007

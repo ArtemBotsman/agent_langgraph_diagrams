@@ -1,0 +1,30 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Source Service"]
+  ADN-UC002-002["Collect data from registered source services"]
+  end
+  subgraph PART-UC002-002["Notification Service"]
+  ADN-UC002-010["Send time-limited download notification to data subject"]
+  end
+  subgraph PART-UC002-003["Export System"]
+  ADN-UC002-001(("start"))
+  ADN-UC002-003{"All source services available?"}
+  ADN-UC002-004["Record unavailable sources without silent omission"]
+  ADN-UC002-005{"Proceed with collected data"}
+  ADN-UC002-006["Create encrypted archive from collected data"]
+  ADN-UC002-007{"Archive creation successful?"}
+  ADN-UC002-008["Record failure and inform data subject without exposing archive content"]
+  ADN-UC002-009(("end"))
+  ADN-UC002-011(("end"))
+  end
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 -->|"No"| ADN-UC002-004
+  ADN-UC002-003 -->|"Yes"| ADN-UC002-005
+  ADN-UC002-004 --> ADN-UC002-005
+  ADN-UC002-005 --> ADN-UC002-006
+  ADN-UC002-006 --> ADN-UC002-007
+  ADN-UC002-007 -->|"No"| ADN-UC002-008
+  ADN-UC002-007 -->|"Yes"| ADN-UC002-010
+  ADN-UC002-008 --> ADN-UC002-009
+  ADN-UC002-010 --> ADN-UC002-011

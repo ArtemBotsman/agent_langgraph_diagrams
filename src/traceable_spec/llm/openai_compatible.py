@@ -223,13 +223,25 @@ class OpenAICompatibleLLMClient:
     ) -> str:
         self._check_budget()
         requested_model = model or self.config.model
+        provider = self.config.provider.casefold()
+        request_messages = messages
+        if provider == "openai":
+            request_messages = [
+                {
+                    **message,
+                    "role": "developer" if message.get("role") == "system" else message["role"],
+                }
+                for message in messages
+            ]
         payload: dict[str, Any] = {
             "model": requested_model,
-            "messages": messages,
-            "max_tokens": self.config.max_output_tokens,
+            "messages": request_messages,
             "stream": False,
         }
-        provider = self.config.provider.casefold()
+        if provider == "openai":
+            payload["max_completion_tokens"] = self.config.max_output_tokens
+        else:
+            payload["max_tokens"] = self.config.max_output_tokens
         if provider == "deepseek":
             payload["thinking"] = {
                 "type": "enabled" if self.config.thinking_enabled else "disabled"
@@ -241,7 +253,11 @@ class OpenAICompatibleLLMClient:
             payload["reasoning_format"] = "hidden"
         elif self.config.reasoning_effort is not None:
             payload["reasoning_effort"] = self.config.reasoning_effort
-        if temperature is not None:
+        openai_reasoning_without_temperature = (
+            provider == "openai"
+            and self.config.reasoning_effort not in {None, "none"}
+        )
+        if temperature is not None and not openai_reasoning_without_temperature:
             payload["temperature"] = temperature
         if response_format is not None:
             payload["response_format"] = response_format

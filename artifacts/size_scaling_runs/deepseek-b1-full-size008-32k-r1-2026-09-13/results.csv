@@ -1,0 +1,3 @@
+case_id,completion_tokens,condition,end_to_end_success,error_type,estimated_cost_usd,fr_count,latency_ms,llm_calls,message,nfr_count,project_name,prompt_tokens,repeat_id,run_status,size_group,size_label_ru,total_tokens
+SCALE-008,32000,B1_ONESHOT,0.0,LLMOutputTruncatedError,0.040838400000000004,16,80031.296,1,LLM output was truncated at max_output_tokens=32000,14,Бронирование столов и рассадка в ресторане,8128,1,failed,G2_GROWING,увеличенные,40128
+SCALE-008,68770,FULL,0.0,LLMBudgetExceededError,0.12660210000000002,16,206232.548,29,Local LLM call-count budget exhausted,14,Бронирование столов и рассадка в ресторане,146927,1,failed,G2_GROWING,увеличенные,215697

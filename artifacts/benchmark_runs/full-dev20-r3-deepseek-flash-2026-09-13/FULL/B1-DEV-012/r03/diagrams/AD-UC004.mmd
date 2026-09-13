@@ -1,0 +1,30 @@
+flowchart TD
+  %% activity:AD-UC004 uc:UC-004
+  subgraph PART-UC004-001["Recipient"]
+  ADN-UC004-002["Recipient confirms successful delivery of the parcel"]
+  ADN-UC004-003["Recipient reports damage to the parcel"]
+  end
+  subgraph PART-UC004-002["System"]
+  ADN-UC004-004{"Recipient action valid and authorized?"}
+  ADN-UC004-005["System records the delivery confirmation and updates the parcel status"]
+  ADN-UC004-006["System records the damage report and updates the parcel status"]
+  ADN-UC004-007["System acknowledges the confirmation"]
+  ADN-UC004-008["System acknowledges the damage report"]
+  ADN-UC004-009["System rejects the action and returns an error"]
+  end
+  ADN-UC004-001(("start"))
+  ADN-UC004-010{"Merge"}
+  ADN-UC004-011(("end"))
+  ADN-UC004-001 --> ADN-UC004-002
+  ADN-UC004-001 --> ADN-UC004-003
+  ADN-UC004-002 --> ADN-UC004-004
+  ADN-UC004-003 --> ADN-UC004-004
+  ADN-UC004-004 -->|"valid and authorized, delivery confirmation"| ADN-UC004-005
+  ADN-UC004-004 -->|"valid and authorized, damage report"| ADN-UC004-006
+  ADN-UC004-004 -->|"invalid or unauthorized"| ADN-UC004-009
+  ADN-UC004-005 --> ADN-UC004-007
+  ADN-UC004-006 --> ADN-UC004-008
+  ADN-UC004-007 --> ADN-UC004-010
+  ADN-UC004-008 --> ADN-UC004-010
+  ADN-UC004-009 --> ADN-UC004-010
+  ADN-UC004-010 --> ADN-UC004-011

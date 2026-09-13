@@ -1,0 +1,24 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Policyholder"]
+  ADN-UC001-002["Identify active policy"]
+  ADN-UC001-003["Report loss date, location, and description"]
+  ADN-UC001-004["Upload supporting evidence"]
+  end
+  subgraph PART-UC001-002["System"]
+  ADN-UC001-005["Validate report completeness"]
+  ADN-UC001-006{"Report complete?"}
+  ADN-UC001-007["Prompt for missing information"]
+  ADN-UC001-008["Create claim number"]
+  end
+  ADN-UC001-001(("start"))
+  ADN-UC001-009(("end"))
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 --> ADN-UC001-005
+  ADN-UC001-005 --> ADN-UC001-006
+  ADN-UC001-006 -->|"incomplete"| ADN-UC001-007
+  ADN-UC001-006 -->|"complete"| ADN-UC001-008
+  ADN-UC001-007 --> ADN-UC001-003
+  ADN-UC001-008 --> ADN-UC001-009

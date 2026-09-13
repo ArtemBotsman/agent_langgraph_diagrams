@@ -1,0 +1,18 @@
+flowchart TD
+  %% activity:AD-UC005 uc:UC-005
+  subgraph PART-UC005-001["Mediator"]
+  ADN-UC005-001(("start"))
+  ADN-UC005-002["Record decision or accept settlement"]
+  end
+  subgraph PART-UC005-002["System"]
+  ADN-UC005-003["Detect recorded decision or mutual settlement"]
+  ADN-UC005-004{"Closure condition met?"}
+  ADN-UC005-005["Close dispute and notify both parties"]
+  ADN-UC005-006(("end"))
+  end
+  ADN-UC005-001 --> ADN-UC005-002
+  ADN-UC005-002 --> ADN-UC005-003
+  ADN-UC005-003 --> ADN-UC005-004
+  ADN-UC005-004 -->|"yes"| ADN-UC005-005
+  ADN-UC005-004 -->|"no"| ADN-UC005-006
+  ADN-UC005-005 --> ADN-UC005-006

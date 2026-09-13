@@ -1,0 +1,19 @@
+flowchart TD
+  %% activity:AD-UC006 uc:UC-006
+  subgraph PART-UC006-001["System"]
+  ADN-UC006-001(("start"))
+  ADN-UC006-002["Detect final decision or accepted settlement"]
+  ADN-UC006-003{"Final decision or accepted settlement exists?"}
+  ADN-UC006-004["Close dispute"]
+  ADN-UC006-006(("end"))
+  ADN-UC006-007(("end"))
+  end
+  subgraph PART-UC006-002["Notification Service"]
+  ADN-UC006-005["Notify both parties"]
+  end
+  ADN-UC006-001 --> ADN-UC006-002
+  ADN-UC006-002 --> ADN-UC006-003
+  ADN-UC006-003 -->|"yes"| ADN-UC006-004
+  ADN-UC006-003 -->|"no"| ADN-UC006-007
+  ADN-UC006-004 --> ADN-UC006-005
+  ADN-UC006-005 --> ADN-UC006-006

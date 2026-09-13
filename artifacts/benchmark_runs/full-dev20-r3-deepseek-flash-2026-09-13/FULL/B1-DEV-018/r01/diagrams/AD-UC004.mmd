@@ -1,0 +1,18 @@
+flowchart TD
+  %% activity:AD-UC004 uc:UC-004
+  subgraph PART-UC004-001["Scheduler"]
+  ADN-UC004-002["Detect archive time limit expired"]
+  end
+  subgraph PART-UC004-002["System"]
+  ADN-UC004-003{"Deletion succeeds?"}
+  ADN-UC004-004["Delete archive"]
+  ADN-UC004-005["Record deletion failure for follow-up"]
+  end
+  ADN-UC004-001(("start"))
+  ADN-UC004-006(("end"))
+  ADN-UC004-001 --> ADN-UC004-002
+  ADN-UC004-002 --> ADN-UC004-003
+  ADN-UC004-003 -->|"success"| ADN-UC004-004
+  ADN-UC004-003 -->|"failure"| ADN-UC004-005
+  ADN-UC004-004 --> ADN-UC004-006
+  ADN-UC004-005 --> ADN-UC004-006

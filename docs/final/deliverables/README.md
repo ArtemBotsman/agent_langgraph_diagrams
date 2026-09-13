@@ -10,6 +10,9 @@
 - `AgentLangGraph_external_comparison_DEV3_portable_2026-09-11.zip` —
   рекомендуемый переносимый пакет внешнего эксперимента: инструкции, три
   DEV-входа, prompt Claude, точная схема и каталоги для ответов.
+- `AgentLangGraph_claude_opus_5_DEV20_2026-09-11.zip` — основной
+  пакет сравнения Claude Opus 5: единый runbook с полным prompt,
+  20 DEV-входов без gold-разметки и машиночитаемая схема ответа.
 
 Числа в презентации и отчёте получены из сохранённых JSON-результатов в
 `artifacts/benchmark_runs/` и сводки

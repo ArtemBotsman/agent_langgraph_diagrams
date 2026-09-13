@@ -1,0 +1,15 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Staff"]
+  ADN-UC003-002["Select reservation to modify"]
+  ADN-UC003-003["Enter new reservation details"]
+  end
+  subgraph PART-UC003-002["System"]
+  ADN-UC003-004["Update reservation"]
+  end
+  ADN-UC003-001(("start"))
+  ADN-UC003-005(("end"))
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 --> ADN-UC003-004
+  ADN-UC003-004 --> ADN-UC003-005

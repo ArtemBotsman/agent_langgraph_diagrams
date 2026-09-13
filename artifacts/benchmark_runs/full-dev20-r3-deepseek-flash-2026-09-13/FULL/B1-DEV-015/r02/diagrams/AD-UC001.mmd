@@ -1,0 +1,32 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Policyholder"]
+  ADN-UC001-002["Policyholder identifies an active policy."]
+  ADN-UC001-003["Policyholder reports loss date, location, and description."]
+  ADN-UC001-004["Policyholder uploads supporting evidence."]
+  ADN-UC001-013["Policyholder uploads supporting evidence in a later session."]
+  end
+  subgraph PART-UC001-002["System"]
+  ADN-UC001-005{"Evidence malware scan result?"}
+  ADN-UC001-006["System detects malware in uploaded evidence and rejects the file."]
+  ADN-UC001-008["System validates the report is complete and creates a claim number."]
+  ADN-UC001-009{"Report complete?"}
+  ADN-UC001-010["System determines the report is incomplete and does not create a claim number."]
+  end
+  ADN-UC001-001(("start"))
+  ADN-UC001-007(("end"))
+  ADN-UC001-011(("end"))
+  ADN-UC001-012(("end"))
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 --> ADN-UC001-005
+  ADN-UC001-005 -->|"malware detected"| ADN-UC001-006
+  ADN-UC001-005 -->|"clean"| ADN-UC001-008
+  ADN-UC001-006 --> ADN-UC001-007
+  ADN-UC001-008 --> ADN-UC001-009
+  ADN-UC001-009 -->|"incomplete"| ADN-UC001-010
+  ADN-UC001-009 -->|"complete"| ADN-UC001-012
+  ADN-UC001-010 --> ADN-UC001-011
+  ADN-UC001-013 --> ADN-UC001-005
+  ADN-UC001-004 -->|"later session"| ADN-UC001-013

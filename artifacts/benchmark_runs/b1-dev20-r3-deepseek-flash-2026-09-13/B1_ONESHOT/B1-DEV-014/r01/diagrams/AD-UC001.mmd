@@ -1,0 +1,15 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Житель"]
+  ADN-UC001-002["Ввод адреса, категории и описания"]
+  ADN-UC001-003["Прикрепление фотографии"]
+  end
+  subgraph PART-UC001-002["Система"]
+  ADN-UC001-004["Сохранение заявки"]
+  end
+  ADN-UC001-001(("start"))
+  ADN-UC001-005(("end"))
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 --> ADN-UC001-005

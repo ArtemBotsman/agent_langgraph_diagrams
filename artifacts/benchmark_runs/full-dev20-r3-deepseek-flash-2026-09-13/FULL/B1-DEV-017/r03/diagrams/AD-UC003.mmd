@@ -1,0 +1,24 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Mediator"]
+  ADN-UC003-002["Mediator accesses the dispute and reviews order history and evidence."]
+  ADN-UC003-003{"Conflict of interest?"}
+  ADN-UC003-004["System denies access and logs the attempt."]
+  ADN-UC003-006{"Propose settlement or record decision?"}
+  ADN-UC003-007["Mediator proposes a settlement."]
+  ADN-UC003-008["Mediator records a decision."]
+  end
+  ADN-UC003-001(("start"))
+  ADN-UC003-005(("end"))
+  ADN-UC003-009{"Merge"}
+  ADN-UC003-010(("end"))
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 -->|"conflict of interest declared"| ADN-UC003-004
+  ADN-UC003-003 -->|"no conflict of interest"| ADN-UC003-006
+  ADN-UC003-004 --> ADN-UC003-005
+  ADN-UC003-006 -->|"propose settlement"| ADN-UC003-007
+  ADN-UC003-006 -->|"record decision"| ADN-UC003-008
+  ADN-UC003-007 --> ADN-UC003-009
+  ADN-UC003-008 --> ADN-UC003-009
+  ADN-UC003-009 --> ADN-UC003-010

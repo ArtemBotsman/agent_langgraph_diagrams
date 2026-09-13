@@ -1,0 +1,29 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Student"]
+  ADN-UC002-002["Student requests enrollment in a selected course."]
+  end
+  subgraph PART-UC002-002["System"]
+  ADN-UC002-003["System checks course prerequisites."]
+  ADN-UC002-004{"Prerequisites satisfied?"}
+  ADN-UC002-005["System detects unmet prerequisites and rejects enrollment with a prerequisite error."]
+  ADN-UC002-007["System checks remaining capacity."]
+  ADN-UC002-008{"Capacity available?"}
+  ADN-UC002-009["System detects no remaining capacity and rejects enrollment with a capacity error."]
+  ADN-UC002-011["System enrolls the student and updates capacity."]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-006(("end"))
+  ADN-UC002-010(("end"))
+  ADN-UC002-012(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 --> ADN-UC002-004
+  ADN-UC002-004 -->|"prerequisites not met"| ADN-UC002-005
+  ADN-UC002-004 -->|"prerequisites satisfied"| ADN-UC002-007
+  ADN-UC002-005 --> ADN-UC002-006
+  ADN-UC002-007 --> ADN-UC002-008
+  ADN-UC002-008 -->|"no remaining capacity"| ADN-UC002-009
+  ADN-UC002-008 -->|"capacity available"| ADN-UC002-011
+  ADN-UC002-009 --> ADN-UC002-010
+  ADN-UC002-011 --> ADN-UC002-012

@@ -1,0 +1,59 @@
+{
+  "scope": "SCALE-003; same saved candidates; method-blinded pointwise judging",
+  "methods": [
+    {
+      "method": "B0_RULE",
+      "formal_e2e": true,
+      "DeepSeek": {
+        "score": 0.10000000000000003,
+        "repeats": 2,
+        "model": "deepseek-flash",
+        "run": "deepseek-b0-size-pilot-r2-v2-2026-09-13"
+      },
+      "GPT-5.5": {
+        "score": 0.15000000000000002,
+        "repeats": 1,
+        "model": "gpt-5.5-2026-04-23",
+        "run": "gpt55-b0-size003-low-r1-v2-2026-09-13"
+      },
+      "candidate_sha256": "94d1abad8207dcd71021649a3feb469ce419bc7174fb51464d2f45793b39c94d"
+    },
+    {
+      "method": "B1_ONESHOT",
+      "formal_e2e": false,
+      "DeepSeek": {
+        "score": 0.7749999999999999,
+        "repeats": 2,
+        "model": "deepseek-flash",
+        "run": "deepseek-b1-size003-judge-r2-2026-09-13"
+      },
+      "GPT-5.5": {
+        "score": 0.7125,
+        "repeats": 1,
+        "model": "gpt-5.5-2026-04-23",
+        "run": "gpt55-b1-size003-low-r1-v2-2026-09-13"
+      },
+      "candidate_sha256": "ebed6543efae6cdc7ee9d2bb76fa41bd460589b62b0b923fdc88421f5517bd99"
+    },
+    {
+      "method": "FULL",
+      "formal_e2e": true,
+      "DeepSeek": {
+        "score": 0.78125,
+        "repeats": 2,
+        "model": "deepseek-flash",
+        "run": "deepseek-full-size003-judge-r2-v2-2026-09-13"
+      },
+      "GPT-5.5": {
+        "score": 0.7625,
+        "repeats": 1,
+        "model": "gpt-5.5-2026-04-23",
+        "run": "gpt55-full-size003-low-r1-v2-2026-09-13"
+      },
+      "candidate_sha256": "9548f2840dc9c677bdc8157b110561df568ff81eaf54c331a162f966766ba70c"
+    }
+  ],
+  "same_method_order": true,
+  "mean_absolute_score_difference": 0.043749999999999976,
+  "claim_limit": "One case, DeepSeek n=2 and GPT-5.5 n=1 per candidate; descriptive cross-judge pilot, not a generator comparison or final statistic."
+}

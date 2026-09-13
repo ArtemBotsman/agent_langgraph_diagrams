@@ -1,0 +1,47 @@
+{
+  "package_version": "1.0.0",
+  "created_at_utc": "2026-09-11T12:49:20.989978+00:00",
+  "case_ids": [
+    "B1-DEV-002",
+    "B1-DEV-010",
+    "B1-DEV-020"
+  ],
+  "split": "development",
+  "recommended_repeats": 3,
+  "execution_rule": "one fresh conversation per case and repeat",
+  "output_contract": "OneShotGenerationArtifact",
+  "files": [
+    {
+      "path": "README_RU.md",
+      "sha256": "e00e6945365ef68fd8524dd82b12fff27b566f2fb29b178aba9bf59b54095aba"
+    },
+    {
+      "path": "inputs/pilot_dev3/B1-DEV-002.json",
+      "sha256": "4666c27bd411c910aeda5ac1d447cd531ac386822a0f5634821ba0c238ee102d"
+    },
+    {
+      "path": "inputs/pilot_dev3/B1-DEV-010.json",
+      "sha256": "e5edddabd95330411527f38e1efc53790c032135571e5935345abbc2fd60afd7"
+    },
+    {
+      "path": "inputs/pilot_dev3/B1-DEV-020.json",
+      "sha256": "c2e4d30d5695137219177847808f4ec4f83bddbabdf5bd190b5fa5e0c582465a"
+    },
+    {
+      "path": "inputs/pilot_dev3/pilot_dev3_inputs.json",
+      "sha256": "98b31e3431ed20089771eb57b5b0e4bd7f3074cf82397645d73c9546d830bb6f"
+    },
+    {
+      "path": "prompt/CLAUDE_OR_GPT_ONESHOT_PROMPT_RU.md",
+      "sha256": "bc220bc9ab6d9f041ab6fea8c1892af5f69fc9b5c8da87f1e04255234ef070d4"
+    },
+    {
+      "path": "responses/README.md",
+      "sha256": "6e9f642b534da2431ef56cd8bdc4f853c557343e49ec9bc588f9031399353bdd"
+    },
+    {
+      "path": "schema/one_shot_generation_artifact.schema.json",
+      "sha256": "bf5daf4e8f1ac7289395290b33066345eedde9f1773819c33c7528b190b4c225"
+    }
+  ]
+}

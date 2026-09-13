@@ -1,0 +1,20 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Policyholder"]
+  ADN-UC003-002["Policyholder requests to view claim status"]
+  end
+  subgraph PART-UC003-002["System"]
+  ADN-UC003-003["System retrieves the claim status"]
+  ADN-UC003-004{"Claim status retrieved?"}
+  ADN-UC003-005["System displays the claim status to the policyholder"]
+  ADN-UC003-006["System informs the policyholder that the claim status cannot be retrieved"]
+  end
+  ADN-UC003-001(("start"))
+  ADN-UC003-007(("end"))
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 --> ADN-UC003-004
+  ADN-UC003-004 -->|"Claim status retrieved"| ADN-UC003-005
+  ADN-UC003-004 -->|"Claim status not retrieved"| ADN-UC003-006
+  ADN-UC003-005 --> ADN-UC003-007
+  ADN-UC003-006 --> ADN-UC003-007

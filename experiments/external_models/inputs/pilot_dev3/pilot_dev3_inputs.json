@@ -1,0 +1,71 @@
+[
+  {
+    "case_id": "B1-DEV-002",
+    "title": "Регистрация на мероприятие",
+    "complexity": "simple",
+    "language": "ru",
+    "specification_req": {
+      "project_task": "Создать приложение регистрации участников мероприятия.",
+      "project_name": "Event Signup",
+      "project_goal": "Собирать подтвержденные регистрации без ручного ввода организатором.",
+      "project_description": "Посетитель просматривает мероприятие, заполняет форму и получает подтверждение.",
+      "functional_requirements": [
+        "Посетитель просматривает описание мероприятия.",
+        "Посетитель отправляет имя и email для регистрации.",
+        "Система не допускает повторную регистрацию одного email."
+      ],
+      "non_functional_requirements": [
+        "Интерфейс должен быть доступен на русском языке.",
+        "Email не должен попадать в журналы приложения в открытом виде."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-010",
+    "title": "Запись на лабораторное оборудование",
+    "complexity": "medium",
+    "language": "ru",
+    "specification_req": {
+      "project_task": "Создать сервис резервирования лабораторного оборудования.",
+      "project_name": "LabSlot",
+      "project_goal": "Исключить пересечения и неподготовленные запуски оборудования.",
+      "project_description": "Исследователь резервирует установку, указывает проект и подтверждает наличие обучения по безопасности.",
+      "functional_requirements": [
+        "Исследователь просматривает доступность установки.",
+        "Исследователь указывает проект и временной интервал.",
+        "Система проверяет действующее обучение по безопасности.",
+        "Ответственный сотрудник одобряет заявки на особо опасное оборудование.",
+        "Система отменяет неподтвержденную заявку после истечения срока."
+      ],
+      "non_functional_requirements": [
+        "Журнал бронирований и одобрений должен храниться пять лет."
+      ]
+    }
+  },
+  {
+    "case_id": "B1-DEV-020",
+    "title": "Appointment triage with missing rule",
+    "complexity": "hard",
+    "language": "en",
+    "specification_req": {
+      "project_task": "Build an online symptom triage and appointment routing service.",
+      "project_name": "Triage Route",
+      "project_goal": "Route non-emergency requests while identifying cases needing urgent help.",
+      "project_description": "A patient answers questions; the service gives a routing recommendation and schedules eligible requests.",
+      "functional_requirements": [
+        "A patient selects a symptom category.",
+        "The patient answers category-specific questions.",
+        "The system displays an emergency warning when configured red flags are present.",
+        "The system recommends a care route for non-emergency answers.",
+        "The patient books an offered appointment.",
+        "A clinician reviews submitted answers before the appointment.",
+        "The patient can correct answers before clinician review."
+      ],
+      "non_functional_requirements": [
+        "The service must state that its output is not a diagnosis.",
+        "The requirements do not provide the red-flag rule set.",
+        "Sensitive answers must be accessible only to the patient and assigned clinician."
+      ]
+    }
+  }
+]

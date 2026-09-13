@@ -1,0 +1,19 @@
+flowchart TD
+  %% activity:AD-UC004 uc:UC-004
+  subgraph PART-UC004-001["Student"]
+  ADN-UC004-002["Student requests to drop a future course"]
+  end
+  subgraph PART-UC004-002["System"]
+  ADN-UC004-003["System validates the drop request"]
+  ADN-UC004-004{"Drop request valid?"}
+  ADN-UC004-005["System removes the student from the course and updates capacity"]
+  end
+  ADN-UC004-001(("start"))
+  ADN-UC004-006(("end"))
+  ADN-UC004-007(("end"))
+  ADN-UC004-001 --> ADN-UC004-002
+  ADN-UC004-002 --> ADN-UC004-003
+  ADN-UC004-003 --> ADN-UC004-004
+  ADN-UC004-004 -->|"valid"| ADN-UC004-005
+  ADN-UC004-004 -->|"invalid"| ADN-UC004-007
+  ADN-UC004-005 --> ADN-UC004-006

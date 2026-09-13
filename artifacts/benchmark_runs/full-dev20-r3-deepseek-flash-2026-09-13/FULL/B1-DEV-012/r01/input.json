@@ -1,0 +1,17 @@
+{
+  "project_task": "Create a parcel tracking and delivery confirmation service.",
+  "project_name": "Parcel Track",
+  "project_goal": "Give senders and recipients a reliable parcel status.",
+  "project_description": "Carrier events update parcel status; the recipient confirms delivery or reports a problem.",
+  "functional_requirements": [
+    "A sender creates a shipment with recipient details.",
+    "A carrier posts parcel scan events.",
+    "The system derives the current parcel status from accepted events.",
+    "A recipient views the current status.",
+    "A recipient confirms delivery or reports damage."
+  ],
+  "non_functional_requirements": [
+    "Duplicate carrier events must be idempotent.",
+    "Tracking history must be retained for one year."
+  ]
+}

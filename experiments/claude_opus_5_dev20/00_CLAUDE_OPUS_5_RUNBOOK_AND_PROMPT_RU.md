@@ -1,0 +1,1040 @@
+# Эксперимент Claude Opus 5: инструкция и точный prompt
+
+## Цель
+
+Проверить, как Claude Opus 5 справляется с той же задачей, которую
+решает AgentLangGraph: из одного `SpecificationReq` сформировать Use Cases
+(варианты использования), User Stories (пользовательские истории), System
+Stories (системные истории), Activity Diagrams (диаграммы активности) и
+исходные связи для полной трассировки.
+
+В пакете находятся 20 development-кейсов. Gold-эталоны, hidden-кейсы и
+API-ключи в пакет не входят.
+
+## Что этот пакет запускает
+
+Пакет задаёт воспроизводимый протокол прямого запуска внешней модели: точный
+prompt, входы, JSON Schema результата и правила сохранения ответов. Способ
+обращения к Claude (веб-интерфейс, внутренний сервис лаборатории или API) выбирает
+исполнитель, потому что адрес сервиса и учётные данные в пакет намеренно не
+включены. Для самой генерации установка AgentLangGraph не требуется.
+
+Для автоматического расчёта общих метрик нужен основной репозиторий
+AgentLangGraph: в нём находится скрипт импорта сохранённых ответов.
+
+## Что передать Claude для одного запуска
+
+1. Один файл `inputs/B1-DEV-XXX.json`.
+2. Весь раздел «Точный prompt» из этого файла.
+
+Каждый кейс и каждый повтор запускаются в новом диалоге без истории. Текст
+prompt и входной JSON между повторами не меняются. Если интерфейс позволяет,
+устанавливается `temperature=0`; иначе фиксируется, что параметр не был доступен.
+
+## Сколько запусков делать
+
+1. Сначала pilot (пилот): `B1-DEV-002`, `B1-DEV-010`, `B1-DEV-020`, по три повтора.
+   Получится 9 ответов. Этот этап проверяет совместимость формата.
+2. После успешного импорта pilot запустить все 20 development-кейсов по три
+   повтора. Для DEV20 это 60 ответов.
+3. Hidden-часть на этапе разработки не запускать.
+
+## Как сохранить ответы
+
+Сохраняется исходный JSON без ручной коррекции:
+
+```text
+responses/B1-DEV-001/r01.json
+responses/B1-DEV-001/r02.json
+responses/B1-DEV-001/r03.json
+...
+```
+
+Если ответ не соответствует JSON Schema (схеме JSON), он всё равно сохраняется как
+результат запуска. Нельзя вручную менять ID, трассировку или содержание. Рядом
+можно сохранить `r01.meta.json` с точным model ID (идентификатором модели), токенами,
+задержкой и стоимостью, если они доступны.
+
+## Где находятся скрипты
+
+- запуск AgentLangGraph на GPT: `scripts/run_benchmark_experiment.py`;
+- импорт и оценка ответов Claude: `scripts/evaluate_external_model_outputs.py`.
+
+Оба скрипта запускаются из корня клонированного репозитория AgentLangGraph.
+Для GPT-5.5 нужен OpenAI-compatible endpoint (совместимая точка API). Локальный
+`.env` на сервере заполняется без передачи ключа в репозиторий:
+
+```dotenv
+LLM_PROVIDER=gpt-5.5
+LLM_API_BASE=<адрес OpenAI-compatible API>
+LLM_MODEL=<точный ID модели>
+LLM_API_KEY_ENV=GPT55_API_KEY
+GPT55_API_KEY=<секретный ключ>
+```
+
+Сначала выполняется пилот на трёх кейсах:
+
+```bash
+poetry install --with evaluation
+poetry run python scripts/run_benchmark_experiment.py \
+  --condition B1_ONESHOT \
+  --condition FULL \
+  --split development \
+  --case-id B1-DEV-002 \
+  --case-id B1-DEV-010 \
+  --case-id B1-DEV-020 \
+  --repeats 3 \
+  --allow-live \
+  --semantic-backend multilingual \
+  --allow-model-download \
+  --max-live-calls 180 \
+  --max-live-tokens 1600000 \
+  --experiment-id external-gpt-5-5-dev3-r3
+```
+
+После успешного пилота параметры `--case-id` заменяются на `--all-cases`, а
+лимиты увеличиваются с учётом квот используемого сервиса. Точное имя провайдера,
+model ID, фактические токены, задержка и стоимость сохраняются вместе с
+результатами.
+
+Команда импорта запускается из корня репозитория:
+
+```bash
+poetry run python scripts/evaluate_external_model_outputs.py \
+  --model-label claude-opus-5 \
+  --package-dir experiments/claude_opus_5_dev20 \
+  --semantic-backend multilingual \
+  --allow-model-download \
+  --experiment-id external-claude-opus-5-dev20-r3
+```
+
+## Что будет сравниваться
+
+Ответы Claude проходят тот же parser (разборщик), Pydantic-схемы, детерминированные
+валидаторы, TraceManifest (манифест трассировки), Mermaid renderer (рендерер) и
+evaluator (оценщик), что и `B1_ONESHOT`. Это делает формат и метрики сопоставимыми.
+
+Фиксируются `E2E success` (сквозной успех), Actor/Use Case/Milestone/Branch/Trace
+F1, доля неподтверждённых элементов, стабильность повторов, токены, задержка и
+стоимость. Невалидный или обрезанный ответ учитывается как неудачный запуск.
+
+---
+
+## Точный prompt
+
+# Prompt для прямой генерации полного набора артефактов
+
+Ты выполняешь задачу системного анализа требований. На вход тебе передан один
+JSON-файл `SpecificationReq`. По нему сформируй полный набор Use Cases, User
+Stories, System Stories и одну activity-диаграмму для каждого Use Case.
+
+Верни только один JSON-объект без Markdown, пояснений и блоков ```.
+
+Правила:
+
+1. Присвой функциональным требованиям ID `FR-001`, `FR-002`, ... по порядку во
+   входном массиве. Нефункциональным требованиям присвой `NFR-001`, ... .
+2. Не теряй требования и не добавляй бизнес-правила, которых нет во входе.
+3. Выдели акторов и Use Cases по бизнес-целям, а не по словам предложения.
+4. Для каждого Use Case сформируй основной, альтернативные и исключительные
+   сценарии, если они следуют из требований.
+5. Каждый Use Case обязан содержать `source_fr_ids`. Каждый шаг сценария обязан
+   содержать `source_fr_ids`.
+6. Для каждого Use Case создай ровно одну `ActivityDiagram`. Каждый action и
+   decision node обязан иметь `related_step_ids`. Каждое ребро обязано иметь
+   `related_step_ids` на тот шаг, переход к которому оно выражает.
+7. Диаграмма обязана иметь ровно один initial node, достижимый final node и
+   guard на исходящих рёбрах decision node.
+8. Идентификаторы должны точно соответствовать шаблонам JSON Schema:
+   `ACT-001`, `UC-001`, `STEP-UC001-001`, `AD-UC001`, `ADN-UC001-001`,
+   `ADE-UC001-001`, `PART-UC001-001`.
+9. Поле `mermaid_source` оставь `null`: Mermaid будет построен единым
+   детерминированным renderer после проверки структуры.
+10. Поле `trace_manifest.links` верни пустым массивом. Полная двусторонняя
+    трассировка будет построена единым детерминированным алгоритмом из
+    `source_fr_ids`, `source_nfr_ids`, `use_case_id` и `related_step_ids`.
+11. Если информации недостаточно, запиши это в `missing_information`. Не
+    подменяй неизвестные данные предположениями.
+12. Ответ должен пройти приложенную JSON Schema без дополнительных полей.
+
+JSON Schema результата:
+
+```json
+{
+  "$defs": {
+    "ActivityDiagram": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^AD-UC\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "use_case_id": {
+          "pattern": "^UC-\\d{3,}$",
+          "title": "Use Case Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "partitions": {
+          "items": {
+            "$ref": "#/$defs/ActivityPartition"
+          },
+          "title": "Partitions",
+          "type": "array"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/ActivityNode"
+          },
+          "minItems": 2,
+          "title": "Nodes",
+          "type": "array"
+        },
+        "edges": {
+          "items": {
+            "$ref": "#/$defs/ActivityEdge"
+          },
+          "title": "Edges",
+          "type": "array"
+        },
+        "mermaid_source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mermaid Source"
+        }
+      },
+      "required": [
+        "id",
+        "use_case_id",
+        "name",
+        "nodes"
+      ],
+      "title": "ActivityDiagram",
+      "type": "object"
+    },
+    "ActivityEdge": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^ADE-UC\\d{3,}-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "source_node_id": {
+          "title": "Source Node Id",
+          "type": "string"
+        },
+        "target_node_id": {
+          "title": "Target Node Id",
+          "type": "string"
+        },
+        "guard": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Guard"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        },
+        "related_step_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Step Ids",
+          "type": "array"
+        },
+        "unsupported": {
+          "default": false,
+          "title": "Unsupported",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "source_node_id",
+        "target_node_id"
+      ],
+      "title": "ActivityEdge",
+      "type": "object"
+    },
+    "ActivityNode": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^ADN-UC\\d{3,}-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/ActivityNodeKind"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "partition_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Partition Id"
+        },
+        "related_step_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Step Ids",
+          "type": "array"
+        },
+        "unsupported": {
+          "default": false,
+          "title": "Unsupported",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "name"
+      ],
+      "title": "ActivityNode",
+      "type": "object"
+    },
+    "ActivityNodeKind": {
+      "enum": [
+        "initial",
+        "final",
+        "action",
+        "decision",
+        "merge",
+        "fork",
+        "join",
+        "object"
+      ],
+      "title": "ActivityNodeKind",
+      "type": "string"
+    },
+    "ActivityPartition": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^PART-UC\\d{3,}-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "actor_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Actor Id"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "ActivityPartition",
+      "type": "object"
+    },
+    "Actor": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^ACT-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "is_primary": {
+          "default": false,
+          "title": "Is Primary",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Actor",
+      "type": "object"
+    },
+    "ElementRefType": {
+      "enum": [
+        "fr",
+        "fr_atom",
+        "nfr",
+        "uc",
+        "us",
+        "ss",
+        "step",
+        "actor",
+        "activity",
+        "activity_node",
+        "activity_edge",
+        "precondition",
+        "postcondition"
+      ],
+      "title": "ElementRefType",
+      "type": "string"
+    },
+    "MissingInformation": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^MI-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "related_element_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Element Ids",
+          "type": "array"
+        },
+        "blocks_generation": {
+          "default": false,
+          "title": "Blocks Generation",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "description"
+      ],
+      "title": "MissingInformation",
+      "type": "object"
+    },
+    "Postcondition": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^POST-[A-Z0-9]+-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "outcome": {
+          "enum": [
+            "success",
+            "failure"
+          ],
+          "title": "Outcome",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "outcome"
+      ],
+      "title": "Postcondition",
+      "type": "object"
+    },
+    "Precondition": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^PRE-[A-Z0-9]+-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "title": "Precondition",
+      "type": "object"
+    },
+    "RequirementCoverageStatus": {
+      "enum": [
+        "covered",
+        "partially_covered",
+        "uncovered",
+        "out_of_scope",
+        "conflicting"
+      ],
+      "title": "RequirementCoverageStatus",
+      "type": "string"
+    },
+    "Scenario": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^SCN-UC\\d{3,}-[A-Z]+-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/$defs/ScenarioKind"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/ScenarioStep"
+          },
+          "minItems": 1,
+          "title": "Steps",
+          "type": "array"
+        },
+        "start_from_step_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start From Step Id"
+        },
+        "rejoins_step_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rejoins Step Id"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "name",
+        "steps"
+      ],
+      "title": "Scenario",
+      "type": "object"
+    },
+    "ScenarioKind": {
+      "enum": [
+        "main",
+        "alternative",
+        "exception"
+      ],
+      "title": "ScenarioKind",
+      "type": "string"
+    },
+    "ScenarioStep": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^STEP-UC\\d{3,}-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "order": {
+          "minimum": 1,
+          "title": "Order",
+          "type": "integer"
+        },
+        "actor_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Actor Id"
+        },
+        "action": {
+          "title": "Action",
+          "type": "string"
+        },
+        "expected_result": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Result"
+        },
+        "source_fr_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Fr Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "order",
+        "action"
+      ],
+      "title": "ScenarioStep",
+      "type": "object"
+    },
+    "SystemStory": {
+      "additionalProperties": false,
+      "description": "System-side responsibility that realizes part of a Use Case.\n\nNot a scenario step. Distinct from UserStory: focuses on system behaviour,\nnot stakeholder phrasing.",
+      "properties": {
+        "id": {
+          "pattern": "^SS-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "system_action": {
+          "title": "System Action",
+          "type": "string"
+        },
+        "responsibility": {
+          "title": "Responsibility",
+          "type": "string"
+        },
+        "use_case_id": {
+          "pattern": "^UC-\\d{3,}$",
+          "title": "Use Case Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "system_action",
+        "responsibility",
+        "use_case_id"
+      ],
+      "title": "SystemStory",
+      "type": "object"
+    },
+    "TraceLink": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^TL-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "source_type": {
+          "$ref": "#/$defs/ElementRefType"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "target_type": {
+          "$ref": "#/$defs/ElementRefType"
+        },
+        "target_id": {
+          "title": "Target Id",
+          "type": "string"
+        },
+        "link_type": {
+          "$ref": "#/$defs/TraceLinkType"
+        },
+        "origin": {
+          "$ref": "#/$defs/TraceOrigin"
+        },
+        "rationale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rationale"
+        }
+      },
+      "required": [
+        "id",
+        "source_type",
+        "source_id",
+        "target_type",
+        "target_id",
+        "link_type",
+        "origin"
+      ],
+      "title": "TraceLink",
+      "type": "object"
+    },
+    "TraceLinkType": {
+      "enum": [
+        "fr_to_atom",
+        "atom_to_uc",
+        "atom_to_step",
+        "fr_to_uc",
+        "fr_to_step",
+        "uc_to_us",
+        "uc_to_ss",
+        "step_to_activity_node",
+        "step_to_activity_edge",
+        "uc_to_activity",
+        "nfr_to_uc",
+        "unsupported"
+      ],
+      "title": "TraceLinkType",
+      "type": "string"
+    },
+    "TraceManifest": {
+      "additionalProperties": false,
+      "description": "Single store for trace links. Indexes are derived, not duplicated.",
+      "properties": {
+        "links": {
+          "items": {
+            "$ref": "#/$defs/TraceLink"
+          },
+          "title": "Links",
+          "type": "array"
+        }
+      },
+      "title": "TraceManifest",
+      "type": "object"
+    },
+    "TraceOrigin": {
+      "enum": [
+        "llm",
+        "deterministic",
+        "human",
+        "repair"
+      ],
+      "title": "TraceOrigin",
+      "type": "string"
+    },
+    "UnsupportedAssumption": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^UA-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "related_element_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Related Element Ids",
+          "type": "array"
+        },
+        "justified": {
+          "default": false,
+          "title": "Justified",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "description"
+      ],
+      "title": "UnsupportedAssumption",
+      "type": "object"
+    },
+    "UseCase": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^UC-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "goal": {
+          "title": "Goal",
+          "type": "string"
+        },
+        "primary_actor_id": {
+          "title": "Primary Actor Id",
+          "type": "string"
+        },
+        "secondary_actor_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Secondary Actor Ids",
+          "type": "array"
+        },
+        "trigger": {
+          "title": "Trigger",
+          "type": "string"
+        },
+        "preconditions": {
+          "items": {
+            "$ref": "#/$defs/Precondition"
+          },
+          "title": "Preconditions",
+          "type": "array"
+        },
+        "success_postconditions": {
+          "items": {
+            "$ref": "#/$defs/Postcondition"
+          },
+          "title": "Success Postconditions",
+          "type": "array"
+        },
+        "failure_postconditions": {
+          "items": {
+            "$ref": "#/$defs/Postcondition"
+          },
+          "title": "Failure Postconditions",
+          "type": "array"
+        },
+        "main_success_scenario": {
+          "$ref": "#/$defs/Scenario"
+        },
+        "alternative_scenarios": {
+          "items": {
+            "$ref": "#/$defs/Scenario"
+          },
+          "title": "Alternative Scenarios",
+          "type": "array"
+        },
+        "exception_scenarios": {
+          "items": {
+            "$ref": "#/$defs/Scenario"
+          },
+          "title": "Exception Scenarios",
+          "type": "array"
+        },
+        "user_stories": {
+          "items": {
+            "$ref": "#/$defs/UserStory"
+          },
+          "title": "User Stories",
+          "type": "array"
+        },
+        "system_stories": {
+          "items": {
+            "$ref": "#/$defs/SystemStory"
+          },
+          "title": "System Stories",
+          "type": "array"
+        },
+        "source_fr_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Source Fr Ids",
+          "type": "array"
+        },
+        "source_nfr_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Nfr Ids",
+          "type": "array"
+        },
+        "missing_information": {
+          "items": {
+            "$ref": "#/$defs/MissingInformation"
+          },
+          "title": "Missing Information",
+          "type": "array"
+        },
+        "unsupported_assumptions": {
+          "items": {
+            "$ref": "#/$defs/UnsupportedAssumption"
+          },
+          "title": "Unsupported Assumptions",
+          "type": "array"
+        },
+        "human_readable_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Human Readable Text"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "goal",
+        "primary_actor_id",
+        "trigger",
+        "main_success_scenario",
+        "source_fr_ids"
+      ],
+      "title": "UseCase",
+      "type": "object"
+    },
+    "UseCaseSet": {
+      "additionalProperties": false,
+      "properties": {
+        "actors": {
+          "items": {
+            "$ref": "#/$defs/Actor"
+          },
+          "title": "Actors",
+          "type": "array"
+        },
+        "use_cases": {
+          "items": {
+            "$ref": "#/$defs/UseCase"
+          },
+          "title": "Use Cases",
+          "type": "array"
+        },
+        "fr_coverage": {
+          "additionalProperties": {
+            "$ref": "#/$defs/RequirementCoverageStatus"
+          },
+          "title": "Fr Coverage",
+          "type": "object"
+        }
+      },
+      "title": "UseCaseSet",
+      "type": "object"
+    },
+    "UserStory": {
+      "additionalProperties": false,
+      "description": "Actor-facing need: As a <role>, I want <capability>, so that <benefit>.\n\nNot a scenario step. Links to a Use Case via TraceManifest (uc_to_us).",
+      "properties": {
+        "id": {
+          "pattern": "^US-\\d{3,}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "capability": {
+          "title": "Capability",
+          "type": "string"
+        },
+        "benefit": {
+          "title": "Benefit",
+          "type": "string"
+        },
+        "use_case_id": {
+          "pattern": "^UC-\\d{3,}$",
+          "title": "Use Case Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "capability",
+        "benefit",
+        "use_case_id"
+      ],
+      "title": "UserStory",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "B1 payload: complete semantic artifacts returned by exactly one LLM call.",
+  "properties": {
+    "use_case_set": {
+      "$ref": "#/$defs/UseCaseSet"
+    },
+    "activity_diagrams": {
+      "items": {
+        "$ref": "#/$defs/ActivityDiagram"
+      },
+      "title": "Activity Diagrams",
+      "type": "array"
+    },
+    "trace_manifest": {
+      "$ref": "#/$defs/TraceManifest"
+    }
+  },
+  "required": [
+    "use_case_set",
+    "activity_diagrams"
+  ],
+  "title": "OneShotGenerationArtifact",
+  "type": "object"
+}
+```
+

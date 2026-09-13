@@ -1,0 +1,4 @@
+{
+  "error_type": "LLMOutputTruncatedError",
+  "message": "LLM output was truncated at max_output_tokens=32000"
+}

@@ -30,5 +30,12 @@ def test_sqlite_checkpointer_recovers_pipeline_state(tmp_path: Path) -> None:
         graph.invoke({"request": sample_request()}, config=config)
         snapshot = graph.get_state(config)
         assert snapshot.values["specification"].status == PipelineStatus.SUCCESS
-        assert len(list(graph.get_state_history(config))) >= 2
+        assert snapshot.values["next_activity_index"] == 1
+        history = list(graph.get_state_history(config))
+        assert len(history) >= 2
+        assert any(
+            state.values.get("next_activity_index") == 1
+            and len(state.values.get("activity_results") or []) == 1
+            for state in history
+        )
     assert checkpoint_path.exists()

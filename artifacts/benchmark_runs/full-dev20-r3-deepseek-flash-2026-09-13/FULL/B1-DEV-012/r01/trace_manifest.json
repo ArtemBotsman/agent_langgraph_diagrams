@@ -1,0 +1,1524 @@
+{
+  "links": [
+    {
+      "id": "TL-001",
+      "source_type": "fr_atom",
+      "source_id": "FRA-001-001",
+      "target_type": "step",
+      "target_id": "STEP-UC001-001",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-002",
+      "source_type": "fr_atom",
+      "source_id": "FRA-001-001",
+      "target_type": "step",
+      "target_id": "STEP-UC001-002",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-003",
+      "source_type": "fr_atom",
+      "source_id": "FRA-001-001",
+      "target_type": "step",
+      "target_id": "STEP-UC001-003",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-004",
+      "source_type": "fr_atom",
+      "source_id": "FRA-001-001",
+      "target_type": "step",
+      "target_id": "STEP-UC001-004",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-005",
+      "source_type": "fr_atom",
+      "source_id": "FRA-001-001",
+      "target_type": "step",
+      "target_id": "STEP-UC001-005",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-006",
+      "source_type": "fr_atom",
+      "source_id": "FRA-002-001",
+      "target_type": "step",
+      "target_id": "STEP-UC002-001",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-007",
+      "source_type": "fr_atom",
+      "source_id": "FRA-002-001",
+      "target_type": "step",
+      "target_id": "STEP-UC002-002",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-008",
+      "source_type": "fr_atom",
+      "source_id": "FRA-002-001",
+      "target_type": "step",
+      "target_id": "STEP-UC002-003",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-009",
+      "source_type": "fr_atom",
+      "source_id": "FRA-002-001",
+      "target_type": "step",
+      "target_id": "STEP-UC002-004",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-010",
+      "source_type": "fr_atom",
+      "source_id": "FRA-002-001",
+      "target_type": "step",
+      "target_id": "STEP-UC002-005",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-011",
+      "source_type": "fr_atom",
+      "source_id": "FRA-002-001",
+      "target_type": "step",
+      "target_id": "STEP-UC002-006",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-012",
+      "source_type": "fr_atom",
+      "source_id": "FRA-003-001",
+      "target_type": "step",
+      "target_id": "STEP-UC002-003",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-013",
+      "source_type": "fr_atom",
+      "source_id": "FRA-003-001",
+      "target_type": "step",
+      "target_id": "STEP-UC003-002",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-014",
+      "source_type": "fr_atom",
+      "source_id": "FRA-003-001",
+      "target_type": "step",
+      "target_id": "STEP-UC004-002",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-015",
+      "source_type": "fr_atom",
+      "source_id": "FRA-003-001",
+      "target_type": "step",
+      "target_id": "STEP-UC004-004",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-016",
+      "source_type": "fr_atom",
+      "source_id": "FRA-004-001",
+      "target_type": "step",
+      "target_id": "STEP-UC003-001",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-017",
+      "source_type": "fr_atom",
+      "source_id": "FRA-004-001",
+      "target_type": "step",
+      "target_id": "STEP-UC003-002",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-018",
+      "source_type": "fr_atom",
+      "source_id": "FRA-004-001",
+      "target_type": "step",
+      "target_id": "STEP-UC003-003",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-019",
+      "source_type": "fr_atom",
+      "source_id": "FRA-004-001",
+      "target_type": "step",
+      "target_id": "STEP-UC003-004",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-020",
+      "source_type": "fr_atom",
+      "source_id": "FRA-005-001",
+      "target_type": "step",
+      "target_id": "STEP-UC004-001",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-021",
+      "source_type": "fr_atom",
+      "source_id": "FRA-005-001",
+      "target_type": "step",
+      "target_id": "STEP-UC004-002",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-022",
+      "source_type": "fr_atom",
+      "source_id": "FRA-005-001",
+      "target_type": "step",
+      "target_id": "STEP-UC004-003",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-023",
+      "source_type": "fr_atom",
+      "source_id": "FRA-005-001",
+      "target_type": "step",
+      "target_id": "STEP-UC004-004",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-024",
+      "source_type": "fr_atom",
+      "source_id": "FRA-005-001",
+      "target_type": "step",
+      "target_id": "STEP-UC004-005",
+      "link_type": "atom_to_step",
+      "origin": "deterministic",
+      "rationale": "Atomic step source is explicit."
+    },
+    {
+      "id": "TL-025",
+      "source_type": "fr_atom",
+      "source_id": "FRA-001-001",
+      "target_type": "uc",
+      "target_id": "UC-001",
+      "link_type": "atom_to_uc",
+      "origin": "deterministic",
+      "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+    },
+    {
+      "id": "TL-026",
+      "source_type": "fr_atom",
+      "source_id": "FRA-002-001",
+      "target_type": "uc",
+      "target_id": "UC-002",
+      "link_type": "atom_to_uc",
+      "origin": "deterministic",
+      "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+    },
+    {
+      "id": "TL-027",
+      "source_type": "fr_atom",
+      "source_id": "FRA-003-001",
+      "target_type": "uc",
+      "target_id": "UC-002",
+      "link_type": "atom_to_uc",
+      "origin": "deterministic",
+      "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+    },
+    {
+      "id": "TL-028",
+      "source_type": "fr_atom",
+      "source_id": "FRA-003-001",
+      "target_type": "uc",
+      "target_id": "UC-003",
+      "link_type": "atom_to_uc",
+      "origin": "deterministic",
+      "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+    },
+    {
+      "id": "TL-029",
+      "source_type": "fr_atom",
+      "source_id": "FRA-003-001",
+      "target_type": "uc",
+      "target_id": "UC-004",
+      "link_type": "atom_to_uc",
+      "origin": "deterministic",
+      "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+    },
+    {
+      "id": "TL-030",
+      "source_type": "fr_atom",
+      "source_id": "FRA-004-001",
+      "target_type": "uc",
+      "target_id": "UC-003",
+      "link_type": "atom_to_uc",
+      "origin": "deterministic",
+      "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+    },
+    {
+      "id": "TL-031",
+      "source_type": "fr_atom",
+      "source_id": "FRA-005-001",
+      "target_type": "uc",
+      "target_id": "UC-004",
+      "link_type": "atom_to_uc",
+      "origin": "deterministic",
+      "rationale": "Requirement atom inherits the explicit FR-to-UC assignment."
+    },
+    {
+      "id": "TL-032",
+      "source_type": "fr",
+      "source_id": "FR-001",
+      "target_type": "fr_atom",
+      "target_id": "FRA-001-001",
+      "link_type": "fr_to_atom",
+      "origin": "deterministic",
+      "rationale": "Atom extracted conservatively from its parent functional requirement."
+    },
+    {
+      "id": "TL-033",
+      "source_type": "fr",
+      "source_id": "FR-002",
+      "target_type": "fr_atom",
+      "target_id": "FRA-002-001",
+      "link_type": "fr_to_atom",
+      "origin": "deterministic",
+      "rationale": "Atom extracted conservatively from its parent functional requirement."
+    },
+    {
+      "id": "TL-034",
+      "source_type": "fr",
+      "source_id": "FR-003",
+      "target_type": "fr_atom",
+      "target_id": "FRA-003-001",
+      "link_type": "fr_to_atom",
+      "origin": "deterministic",
+      "rationale": "Atom extracted conservatively from its parent functional requirement."
+    },
+    {
+      "id": "TL-035",
+      "source_type": "fr",
+      "source_id": "FR-004",
+      "target_type": "fr_atom",
+      "target_id": "FRA-004-001",
+      "link_type": "fr_to_atom",
+      "origin": "deterministic",
+      "rationale": "Atom extracted conservatively from its parent functional requirement."
+    },
+    {
+      "id": "TL-036",
+      "source_type": "fr",
+      "source_id": "FR-005",
+      "target_type": "fr_atom",
+      "target_id": "FRA-005-001",
+      "link_type": "fr_to_atom",
+      "origin": "deterministic",
+      "rationale": "Atom extracted conservatively from its parent functional requirement."
+    },
+    {
+      "id": "TL-037",
+      "source_type": "fr",
+      "source_id": "FR-001",
+      "target_type": "step",
+      "target_id": "STEP-UC001-001",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-038",
+      "source_type": "fr",
+      "source_id": "FR-001",
+      "target_type": "step",
+      "target_id": "STEP-UC001-002",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-039",
+      "source_type": "fr",
+      "source_id": "FR-001",
+      "target_type": "step",
+      "target_id": "STEP-UC001-003",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-040",
+      "source_type": "fr",
+      "source_id": "FR-001",
+      "target_type": "step",
+      "target_id": "STEP-UC001-004",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-041",
+      "source_type": "fr",
+      "source_id": "FR-001",
+      "target_type": "step",
+      "target_id": "STEP-UC001-005",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-042",
+      "source_type": "fr",
+      "source_id": "FR-002",
+      "target_type": "step",
+      "target_id": "STEP-UC002-001",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-043",
+      "source_type": "fr",
+      "source_id": "FR-002",
+      "target_type": "step",
+      "target_id": "STEP-UC002-002",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-044",
+      "source_type": "fr",
+      "source_id": "FR-002",
+      "target_type": "step",
+      "target_id": "STEP-UC002-003",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-045",
+      "source_type": "fr",
+      "source_id": "FR-002",
+      "target_type": "step",
+      "target_id": "STEP-UC002-004",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-046",
+      "source_type": "fr",
+      "source_id": "FR-002",
+      "target_type": "step",
+      "target_id": "STEP-UC002-005",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-047",
+      "source_type": "fr",
+      "source_id": "FR-002",
+      "target_type": "step",
+      "target_id": "STEP-UC002-006",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-048",
+      "source_type": "fr",
+      "source_id": "FR-003",
+      "target_type": "step",
+      "target_id": "STEP-UC002-003",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-049",
+      "source_type": "fr",
+      "source_id": "FR-003",
+      "target_type": "step",
+      "target_id": "STEP-UC003-002",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-050",
+      "source_type": "fr",
+      "source_id": "FR-003",
+      "target_type": "step",
+      "target_id": "STEP-UC004-002",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-051",
+      "source_type": "fr",
+      "source_id": "FR-003",
+      "target_type": "step",
+      "target_id": "STEP-UC004-004",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-052",
+      "source_type": "fr",
+      "source_id": "FR-004",
+      "target_type": "step",
+      "target_id": "STEP-UC003-001",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-053",
+      "source_type": "fr",
+      "source_id": "FR-004",
+      "target_type": "step",
+      "target_id": "STEP-UC003-002",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-054",
+      "source_type": "fr",
+      "source_id": "FR-004",
+      "target_type": "step",
+      "target_id": "STEP-UC003-003",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-055",
+      "source_type": "fr",
+      "source_id": "FR-004",
+      "target_type": "step",
+      "target_id": "STEP-UC003-004",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-056",
+      "source_type": "fr",
+      "source_id": "FR-005",
+      "target_type": "step",
+      "target_id": "STEP-UC004-001",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-057",
+      "source_type": "fr",
+      "source_id": "FR-005",
+      "target_type": "step",
+      "target_id": "STEP-UC004-002",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-058",
+      "source_type": "fr",
+      "source_id": "FR-005",
+      "target_type": "step",
+      "target_id": "STEP-UC004-003",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-059",
+      "source_type": "fr",
+      "source_id": "FR-005",
+      "target_type": "step",
+      "target_id": "STEP-UC004-004",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-060",
+      "source_type": "fr",
+      "source_id": "FR-005",
+      "target_type": "step",
+      "target_id": "STEP-UC004-005",
+      "link_type": "fr_to_step",
+      "origin": "deterministic",
+      "rationale": "Step-level requirement source is explicit."
+    },
+    {
+      "id": "TL-061",
+      "source_type": "fr",
+      "source_id": "FR-001",
+      "target_type": "uc",
+      "target_id": "UC-001",
+      "link_type": "fr_to_uc",
+      "origin": "deterministic",
+      "rationale": "Use Case explicitly declares this functional requirement as a source."
+    },
+    {
+      "id": "TL-062",
+      "source_type": "fr",
+      "source_id": "FR-002",
+      "target_type": "uc",
+      "target_id": "UC-002",
+      "link_type": "fr_to_uc",
+      "origin": "deterministic",
+      "rationale": "Use Case explicitly declares this functional requirement as a source."
+    },
+    {
+      "id": "TL-063",
+      "source_type": "fr",
+      "source_id": "FR-003",
+      "target_type": "uc",
+      "target_id": "UC-002",
+      "link_type": "fr_to_uc",
+      "origin": "deterministic",
+      "rationale": "Use Case explicitly declares this functional requirement as a source."
+    },
+    {
+      "id": "TL-064",
+      "source_type": "fr",
+      "source_id": "FR-003",
+      "target_type": "uc",
+      "target_id": "UC-003",
+      "link_type": "fr_to_uc",
+      "origin": "deterministic",
+      "rationale": "Use Case explicitly declares this functional requirement as a source."
+    },
+    {
+      "id": "TL-065",
+      "source_type": "fr",
+      "source_id": "FR-003",
+      "target_type": "uc",
+      "target_id": "UC-004",
+      "link_type": "fr_to_uc",
+      "origin": "deterministic",
+      "rationale": "Use Case explicitly declares this functional requirement as a source."
+    },
+    {
+      "id": "TL-066",
+      "source_type": "fr",
+      "source_id": "FR-004",
+      "target_type": "uc",
+      "target_id": "UC-003",
+      "link_type": "fr_to_uc",
+      "origin": "deterministic",
+      "rationale": "Use Case explicitly declares this functional requirement as a source."
+    },
+    {
+      "id": "TL-067",
+      "source_type": "fr",
+      "source_id": "FR-005",
+      "target_type": "uc",
+      "target_id": "UC-004",
+      "link_type": "fr_to_uc",
+      "origin": "deterministic",
+      "rationale": "Use Case explicitly declares this functional requirement as a source."
+    },
+    {
+      "id": "TL-068",
+      "source_type": "nfr",
+      "source_id": "NFR-001",
+      "target_type": "uc",
+      "target_id": "UC-002",
+      "link_type": "nfr_to_uc",
+      "origin": "deterministic",
+      "rationale": "Use Case explicitly declares this non-functional requirement as a source."
+    },
+    {
+      "id": "TL-069",
+      "source_type": "nfr",
+      "source_id": "NFR-002",
+      "target_type": "uc",
+      "target_id": "UC-003",
+      "link_type": "nfr_to_uc",
+      "origin": "deterministic",
+      "rationale": "Use Case explicitly declares this non-functional requirement as a source."
+    },
+    {
+      "id": "TL-070",
+      "source_type": "step",
+      "source_id": "STEP-UC001-001",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-001",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-071",
+      "source_type": "step",
+      "source_id": "STEP-UC001-001",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-002",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-072",
+      "source_type": "step",
+      "source_id": "STEP-UC001-001",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-003",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-073",
+      "source_type": "step",
+      "source_id": "STEP-UC001-002",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-003",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-074",
+      "source_type": "step",
+      "source_id": "STEP-UC001-002",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-004",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-075",
+      "source_type": "step",
+      "source_id": "STEP-UC001-002",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-005",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-076",
+      "source_type": "step",
+      "source_id": "STEP-UC001-002",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-007",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-077",
+      "source_type": "step",
+      "source_id": "STEP-UC001-003",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-007",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-078",
+      "source_type": "step",
+      "source_id": "STEP-UC001-003",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-010",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-079",
+      "source_type": "step",
+      "source_id": "STEP-UC001-003",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-011",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-080",
+      "source_type": "step",
+      "source_id": "STEP-UC001-004",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-006",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-081",
+      "source_type": "step",
+      "source_id": "STEP-UC001-004",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-008",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-082",
+      "source_type": "step",
+      "source_id": "STEP-UC001-005",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-008",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-083",
+      "source_type": "step",
+      "source_id": "STEP-UC001-005",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC001-009",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-084",
+      "source_type": "step",
+      "source_id": "STEP-UC002-001",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC002-001",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-085",
+      "source_type": "step",
+      "source_id": "STEP-UC002-001",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC002-002",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-086",
+      "source_type": "step",
+      "source_id": "STEP-UC002-002",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC002-003",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-087",
+      "source_type": "step",
+      "source_id": "STEP-UC002-002",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC002-005",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-088",
+      "source_type": "step",
+      "source_id": "STEP-UC002-003",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC002-009",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-089",
+      "source_type": "step",
+      "source_id": "STEP-UC002-004",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC002-004",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-090",
+      "source_type": "step",
+      "source_id": "STEP-UC002-005",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC002-004",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-091",
+      "source_type": "step",
+      "source_id": "STEP-UC002-005",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC002-008",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-092",
+      "source_type": "step",
+      "source_id": "STEP-UC002-006",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC002-006",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-093",
+      "source_type": "step",
+      "source_id": "STEP-UC002-006",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC002-007",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-094",
+      "source_type": "step",
+      "source_id": "STEP-UC002-006",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC002-010",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-095",
+      "source_type": "step",
+      "source_id": "STEP-UC003-001",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC003-001",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-096",
+      "source_type": "step",
+      "source_id": "STEP-UC003-001",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC003-002",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-097",
+      "source_type": "step",
+      "source_id": "STEP-UC003-001",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC003-003",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-098",
+      "source_type": "step",
+      "source_id": "STEP-UC003-002",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC003-005",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-099",
+      "source_type": "step",
+      "source_id": "STEP-UC003-003",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC003-005",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-100",
+      "source_type": "step",
+      "source_id": "STEP-UC003-003",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC003-006",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-101",
+      "source_type": "step",
+      "source_id": "STEP-UC003-004",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC003-004",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-102",
+      "source_type": "step",
+      "source_id": "STEP-UC003-004",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC003-007",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-103",
+      "source_type": "step",
+      "source_id": "STEP-UC004-001",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC004-001",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-104",
+      "source_type": "step",
+      "source_id": "STEP-UC004-001",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC004-002",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-105",
+      "source_type": "step",
+      "source_id": "STEP-UC004-002",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC004-003",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-106",
+      "source_type": "step",
+      "source_id": "STEP-UC004-002",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC004-005",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-107",
+      "source_type": "step",
+      "source_id": "STEP-UC004-003",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC004-007",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-108",
+      "source_type": "step",
+      "source_id": "STEP-UC004-003",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC004-008",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-109",
+      "source_type": "step",
+      "source_id": "STEP-UC004-004",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC004-009",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-110",
+      "source_type": "step",
+      "source_id": "STEP-UC004-005",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC004-004",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-111",
+      "source_type": "step",
+      "source_id": "STEP-UC004-005",
+      "target_type": "activity_edge",
+      "target_id": "ADE-UC004-006",
+      "link_type": "step_to_activity_edge",
+      "origin": "deterministic",
+      "rationale": "Activity edge explicitly references a scenario step."
+    },
+    {
+      "id": "TL-112",
+      "source_type": "step",
+      "source_id": "STEP-UC001-001",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC001-002",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-113",
+      "source_type": "step",
+      "source_id": "STEP-UC001-001",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC001-003",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-114",
+      "source_type": "step",
+      "source_id": "STEP-UC001-002",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC001-004",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-115",
+      "source_type": "step",
+      "source_id": "STEP-UC001-002",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC001-005",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-116",
+      "source_type": "step",
+      "source_id": "STEP-UC001-002",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC001-006",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-117",
+      "source_type": "step",
+      "source_id": "STEP-UC001-003",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC001-009",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-118",
+      "source_type": "step",
+      "source_id": "STEP-UC001-003",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC001-010",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-119",
+      "source_type": "step",
+      "source_id": "STEP-UC001-004",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC001-006",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-120",
+      "source_type": "step",
+      "source_id": "STEP-UC001-004",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC001-007",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-121",
+      "source_type": "step",
+      "source_id": "STEP-UC001-005",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC001-008",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-122",
+      "source_type": "step",
+      "source_id": "STEP-UC002-001",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC002-002",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-123",
+      "source_type": "step",
+      "source_id": "STEP-UC002-002",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC002-003",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-124",
+      "source_type": "step",
+      "source_id": "STEP-UC002-002",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC002-004",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-125",
+      "source_type": "step",
+      "source_id": "STEP-UC002-003",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC002-006",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-126",
+      "source_type": "step",
+      "source_id": "STEP-UC002-005",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC002-005",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-127",
+      "source_type": "step",
+      "source_id": "STEP-UC002-006",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC002-007",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-128",
+      "source_type": "step",
+      "source_id": "STEP-UC002-006",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC002-008",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-129",
+      "source_type": "step",
+      "source_id": "STEP-UC003-001",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC003-002",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-130",
+      "source_type": "step",
+      "source_id": "STEP-UC003-001",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC003-003",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-131",
+      "source_type": "step",
+      "source_id": "STEP-UC003-002",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC003-004",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-132",
+      "source_type": "step",
+      "source_id": "STEP-UC003-003",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC003-005",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-133",
+      "source_type": "step",
+      "source_id": "STEP-UC003-004",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC003-003",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-134",
+      "source_type": "step",
+      "source_id": "STEP-UC003-004",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC003-006",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-135",
+      "source_type": "step",
+      "source_id": "STEP-UC004-001",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC004-002",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-136",
+      "source_type": "step",
+      "source_id": "STEP-UC004-002",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC004-004",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-137",
+      "source_type": "step",
+      "source_id": "STEP-UC004-003",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC004-006",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-138",
+      "source_type": "step",
+      "source_id": "STEP-UC004-004",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC004-007",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-139",
+      "source_type": "step",
+      "source_id": "STEP-UC004-005",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC004-003",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-140",
+      "source_type": "step",
+      "source_id": "STEP-UC004-005",
+      "target_type": "activity_node",
+      "target_id": "ADN-UC004-005",
+      "link_type": "step_to_activity_node",
+      "origin": "deterministic",
+      "rationale": "Activity node explicitly references a scenario step."
+    },
+    {
+      "id": "TL-141",
+      "source_type": "uc",
+      "source_id": "UC-001",
+      "target_type": "activity",
+      "target_id": "AD-UC001",
+      "link_type": "uc_to_activity",
+      "origin": "deterministic",
+      "rationale": "Activity diagram declares its source Use Case."
+    },
+    {
+      "id": "TL-142",
+      "source_type": "uc",
+      "source_id": "UC-002",
+      "target_type": "activity",
+      "target_id": "AD-UC002",
+      "link_type": "uc_to_activity",
+      "origin": "deterministic",
+      "rationale": "Activity diagram declares its source Use Case."
+    },
+    {
+      "id": "TL-143",
+      "source_type": "uc",
+      "source_id": "UC-003",
+      "target_type": "activity",
+      "target_id": "AD-UC003",
+      "link_type": "uc_to_activity",
+      "origin": "deterministic",
+      "rationale": "Activity diagram declares its source Use Case."
+    },
+    {
+      "id": "TL-144",
+      "source_type": "uc",
+      "source_id": "UC-004",
+      "target_type": "activity",
+      "target_id": "AD-UC004",
+      "link_type": "uc_to_activity",
+      "origin": "deterministic",
+      "rationale": "Activity diagram declares its source Use Case."
+    },
+    {
+      "id": "TL-145",
+      "source_type": "uc",
+      "source_id": "UC-001",
+      "target_type": "ss",
+      "target_id": "SS-001",
+      "link_type": "uc_to_ss",
+      "origin": "deterministic",
+      "rationale": "System story belongs to the Use Case declared in its contract."
+    },
+    {
+      "id": "TL-146",
+      "source_type": "uc",
+      "source_id": "UC-002",
+      "target_type": "ss",
+      "target_id": "SS-002",
+      "link_type": "uc_to_ss",
+      "origin": "deterministic",
+      "rationale": "System story belongs to the Use Case declared in its contract."
+    },
+    {
+      "id": "TL-147",
+      "source_type": "uc",
+      "source_id": "UC-003",
+      "target_type": "ss",
+      "target_id": "SS-003",
+      "link_type": "uc_to_ss",
+      "origin": "deterministic",
+      "rationale": "System story belongs to the Use Case declared in its contract."
+    },
+    {
+      "id": "TL-148",
+      "source_type": "uc",
+      "source_id": "UC-004",
+      "target_type": "ss",
+      "target_id": "SS-004",
+      "link_type": "uc_to_ss",
+      "origin": "deterministic",
+      "rationale": "System story belongs to the Use Case declared in its contract."
+    },
+    {
+      "id": "TL-149",
+      "source_type": "uc",
+      "source_id": "UC-001",
+      "target_type": "us",
+      "target_id": "US-001",
+      "link_type": "uc_to_us",
+      "origin": "deterministic",
+      "rationale": "User story belongs to the Use Case declared in its contract."
+    },
+    {
+      "id": "TL-150",
+      "source_type": "uc",
+      "source_id": "UC-002",
+      "target_type": "us",
+      "target_id": "US-002",
+      "link_type": "uc_to_us",
+      "origin": "deterministic",
+      "rationale": "User story belongs to the Use Case declared in its contract."
+    },
+    {
+      "id": "TL-151",
+      "source_type": "uc",
+      "source_id": "UC-003",
+      "target_type": "us",
+      "target_id": "US-003",
+      "link_type": "uc_to_us",
+      "origin": "deterministic",
+      "rationale": "User story belongs to the Use Case declared in its contract."
+    },
+    {
+      "id": "TL-152",
+      "source_type": "uc",
+      "source_id": "UC-004",
+      "target_type": "us",
+      "target_id": "US-004",
+      "link_type": "uc_to_us",
+      "origin": "deterministic",
+      "rationale": "User story belongs to the Use Case declared in its contract."
+    }
+  ]
+}

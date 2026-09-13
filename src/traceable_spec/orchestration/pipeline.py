@@ -3,7 +3,7 @@
 Flow:
   normalize requirements
   -> Use Cases subgraph
-  -> activity model per UC (sequential in scaffold; parallelization later)
+  -> one checkpointable Activity subgraph invocation per UC
   -> end-to-end trace validation
   -> deterministic UC text + Mermaid already produced in subgraphs
   -> evaluator
@@ -79,6 +79,7 @@ def _normalize_requirements(state: PipelineGraphState) -> dict[str, Any]:
         "trace_manifest": TraceManifest(links=[]),
         "validation_reports": [],
         "activity_results": [],
+        "next_activity_index": 0,
         "status": PipelineStatus.PARTIAL,
     }
 
@@ -108,42 +109,46 @@ def _run_use_cases_factory(deps: PipelineDeps) -> NodeFn:
     return _run_use_cases
 
 
-def _run_activities_factory(deps: PipelineDeps) -> NodeFn:
+def _run_next_activity_factory(deps: PipelineDeps) -> NodeFn:
+    """Run exactly one Activity subgraph so LangGraph can checkpoint progress."""
+
     compiled = build_activity_diagram_graph(deps.activity_nodes)
 
-    def _run_activities(state: PipelineGraphState) -> dict[str, Any]:
+    def _run_next_activity(state: PipelineGraphState) -> dict[str, Any]:
         request = state["request"]
         if not isinstance(request, SpecificationRequest):
             raise TypeError("request must be normalized before the activity stage")
         use_case_set = state.get("use_case_set")
         if use_case_set is None or state.get("status") == PipelineStatus.FAILED:
             return {
-                "activity_results": [],
+                "activity_results": list(state.get("activity_results") or []),
                 "status": PipelineStatus.FAILED,
                 "failure_reason": state.get("failure_reason")
                 or "Skipping activity generation: Use Case stage failed",
             }
 
-        results = []
+        index = int(state.get("next_activity_index") or 0)
+        if index >= len(use_case_set.use_cases):
+            return {"next_activity_index": index}
+
+        results = list(state.get("activity_results") or [])
         reports = list(state.get("validation_reports") or [])
         merged_links = list((state.get("trace_manifest") or TraceManifest()).links)
-
-        # Sequential now; parallel map-reduce over UCs is a later increment.
-        for use_case in use_case_set.use_cases:
-            out = compiled.invoke(
-                {
-                    "use_case": use_case,
-                    "actors": use_case_set.actors,
-                    "max_repair_attempts": state.get("max_repair_attempts")
-                    or request.max_repair_attempts,
-                    "trace_manifest": TraceManifest(links=list(merged_links)),
-                }
-            )
-            activity_result = activity_result_from_state(out)
-            results.append(activity_result)
-            reports.extend(activity_result.validation_reports)
-            if out.get("trace_manifest") is not None:
-                merged_links = list(out["trace_manifest"].links)
+        use_case = use_case_set.use_cases[index]
+        out = compiled.invoke(
+            {
+                "use_case": use_case,
+                "actors": use_case_set.actors,
+                "max_repair_attempts": state.get("max_repair_attempts")
+                or request.max_repair_attempts,
+                "trace_manifest": TraceManifest(links=list(merged_links)),
+            }
+        )
+        activity_result = activity_result_from_state(out)
+        results.append(activity_result)
+        reports.extend(activity_result.validation_reports)
+        if out.get("trace_manifest") is not None:
+            merged_links = list(out["trace_manifest"].links)
 
         diagrams = [item.activity_diagram for item in results if item.activity_diagram is not None]
         merged_manifest = materialize_trace_manifest(
@@ -156,13 +161,39 @@ def _run_activities_factory(deps: PipelineDeps) -> NodeFn:
         status = PipelineStatus.FAILED if any_failed else PipelineStatus.SUCCESS
         return {
             "activity_results": results,
+            "next_activity_index": index + 1,
             "trace_manifest": merged_manifest,
             "validation_reports": reports,
             "status": status,
             "failure_reason": "One or more activity diagrams failed" if any_failed else None,
         }
 
-    return _run_activities
+    return _run_next_activity
+
+
+def _route_after_use_cases(
+    state: PipelineGraphState,
+) -> str:
+    use_case_set = state.get("use_case_set")
+    if state.get("status") == PipelineStatus.FAILED:
+        return "validate_e2e_trace"
+    if use_case_set is None or not use_case_set.use_cases:
+        return "validate_e2e_trace"
+    return "run_next_activity"
+
+
+def _route_after_activity(
+    state: PipelineGraphState,
+) -> str:
+    if state.get("status") == PipelineStatus.FAILED:
+        return "validate_e2e_trace"
+    use_case_set = state.get("use_case_set")
+    if use_case_set is None:
+        return "validate_e2e_trace"
+    next_index = int(state.get("next_activity_index") or 0)
+    if next_index < len(use_case_set.use_cases):
+        return "run_next_activity"
+    return "validate_e2e_trace"
 
 
 def _validate_e2e_trace(state: PipelineGraphState) -> dict[str, Any]:
@@ -244,15 +275,29 @@ def build_pipeline_graph(
 
     builder.add_node("normalize_requirements", _normalize_requirements)
     builder.add_node("run_use_cases", _run_use_cases_factory(deps))
-    builder.add_node("run_activities", _run_activities_factory(deps))
+    builder.add_node("run_next_activity", _run_next_activity_factory(deps))
     builder.add_node("validate_e2e_trace", _validate_e2e_trace)
     builder.add_node("run_evaluator", _run_evaluator)
     builder.add_node("finalize_pipeline", _finalize_pipeline)
 
     builder.add_edge(START, "normalize_requirements")
     builder.add_edge("normalize_requirements", "run_use_cases")
-    builder.add_edge("run_use_cases", "run_activities")
-    builder.add_edge("run_activities", "validate_e2e_trace")
+    builder.add_conditional_edges(
+        "run_use_cases",
+        _route_after_use_cases,
+        {
+            "run_next_activity": "run_next_activity",
+            "validate_e2e_trace": "validate_e2e_trace",
+        },
+    )
+    builder.add_conditional_edges(
+        "run_next_activity",
+        _route_after_activity,
+        {
+            "run_next_activity": "run_next_activity",
+            "validate_e2e_trace": "validate_e2e_trace",
+        },
+    )
     builder.add_edge("validate_e2e_trace", "run_evaluator")
     builder.add_edge("run_evaluator", "finalize_pipeline")
     builder.add_edge("finalize_pipeline", END)

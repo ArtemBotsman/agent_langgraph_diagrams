@@ -1,0 +1,2 @@
+actor_f1,branch_f1,case_id,completion_tokens,complexity,condition,end_to_end_success,error_type,estimated_cost_usd,hallucination_rate,language,latency_ms,llm_calls,message,milestone_f1,prompt_tokens,repair_attempts,repeat_id,run_status,semantic_composite,split,stability_multi_run,total_tokens,trace_f1,uc_f1
+0.0,0.0,B1-DEV-002,0,simple,FULL,0.0,RuntimeError,,1.0,ru,1116.294,1,OpenAI-compatible LLM call failed,0.0,0,0,1,failed,0.0,development,,0,0.0,0.0

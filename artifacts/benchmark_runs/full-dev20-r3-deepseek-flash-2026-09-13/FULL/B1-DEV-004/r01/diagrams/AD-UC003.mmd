@@ -1,0 +1,20 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Lab Assistant"]
+  ADN-UC003-002["Select checked-out device to be returned"]
+  ADN-UC003-004["Record return and note device condition"]
+  end
+  subgraph PART-UC003-002["System"]
+  ADN-UC003-003{"Device checked out?"}
+  ADN-UC003-005["Mark device as available and confirm transaction"]
+  ADN-UC003-006["Notify lab assistant that device is not checked out"]
+  end
+  ADN-UC003-001(("start"))
+  ADN-UC003-007(("end"))
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 -->|"Device is checked out"| ADN-UC003-004
+  ADN-UC003-003 -->|"Device is not checked out"| ADN-UC003-006
+  ADN-UC003-004 --> ADN-UC003-005
+  ADN-UC003-005 --> ADN-UC003-007
+  ADN-UC003-006 --> ADN-UC003-007

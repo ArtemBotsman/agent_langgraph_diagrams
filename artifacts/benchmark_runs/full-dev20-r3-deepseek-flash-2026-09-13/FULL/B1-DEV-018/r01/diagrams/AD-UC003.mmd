@@ -1,0 +1,23 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Data Subject"]
+  ADN-UC003-001(("start"))
+  ADN-UC003-002["Follow time-limited download notification"]
+  ADN-UC003-003{"Link expired?"}
+  ADN-UC003-004["Deny download and inform data subject that link expired"]
+  ADN-UC003-005["Re-authenticate"]
+  ADN-UC003-006{"Re-authentication successful?"}
+  ADN-UC003-007["Deny download and inform data subject"]
+  ADN-UC003-008["Download archive"]
+  ADN-UC003-009(("end"))
+  end
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 -->|"expired"| ADN-UC003-004
+  ADN-UC003-003 -->|"not expired"| ADN-UC003-005
+  ADN-UC003-005 --> ADN-UC003-006
+  ADN-UC003-006 -->|"failure"| ADN-UC003-007
+  ADN-UC003-006 -->|"success"| ADN-UC003-008
+  ADN-UC003-008 --> ADN-UC003-009
+  ADN-UC003-004 --> ADN-UC003-009
+  ADN-UC003-007 --> ADN-UC003-009

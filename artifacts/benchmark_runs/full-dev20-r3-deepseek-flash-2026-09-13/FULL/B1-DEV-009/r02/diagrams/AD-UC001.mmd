@@ -1,0 +1,20 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Guest"]
+  ADN-UC001-002["Guest enters party size and date"]
+  end
+  subgraph PART-UC001-002["System"]
+  ADN-UC001-003["System checks table availability against capacity"]
+  ADN-UC001-004{"Available times found?"}
+  ADN-UC001-005["System displays available times to the guest"]
+  ADN-UC001-006["System informs the guest that no times are available"]
+  end
+  ADN-UC001-001(("start"))
+  ADN-UC001-007(("end"))
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 -->|"available times found"| ADN-UC001-005
+  ADN-UC001-004 -->|"no available times"| ADN-UC001-006
+  ADN-UC001-005 --> ADN-UC001-007
+  ADN-UC001-006 --> ADN-UC001-007

@@ -1,0 +1,18 @@
+flowchart TD
+  %% activity:AD-UC002 uc:UC-002
+  subgraph PART-UC002-001["Manager"]
+  ADN-UC002-002["Review expense claim"]
+  ADN-UC002-003{"Approve or reject?"}
+  ADN-UC002-004["Approve claim"]
+  ADN-UC002-005["Reject claim"]
+  end
+  ADN-UC002-001(("start"))
+  ADN-UC002-006{"Merge"}
+  ADN-UC002-007(("end"))
+  ADN-UC002-001 --> ADN-UC002-002
+  ADN-UC002-002 --> ADN-UC002-003
+  ADN-UC002-003 -->|"approved"| ADN-UC002-004
+  ADN-UC002-003 -->|"rejected"| ADN-UC002-005
+  ADN-UC002-004 --> ADN-UC002-006
+  ADN-UC002-005 --> ADN-UC002-006
+  ADN-UC002-006 --> ADN-UC002-007

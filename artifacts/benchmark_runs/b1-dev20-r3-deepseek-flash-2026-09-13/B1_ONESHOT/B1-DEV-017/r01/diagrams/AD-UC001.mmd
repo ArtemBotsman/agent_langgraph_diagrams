@@ -1,0 +1,15 @@
+flowchart TD
+  %% activity:AD-UC001 uc:UC-001
+  subgraph PART-UC001-001["Buyer"]
+  ADN-UC001-001(("start"))
+  ADN-UC001-002["Select eligible order and initiate dispute"]
+  ADN-UC001-003["Select reason and requested outcome"]
+  end
+  subgraph PART-UC001-002["System"]
+  ADN-UC001-004["Create dispute and record reason and requested outcome"]
+  ADN-UC001-005(("end"))
+  end
+  ADN-UC001-001 --> ADN-UC001-002
+  ADN-UC001-002 --> ADN-UC001-003
+  ADN-UC001-003 --> ADN-UC001-004
+  ADN-UC001-004 --> ADN-UC001-005

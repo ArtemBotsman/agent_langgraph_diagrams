@@ -1,0 +1,18 @@
+{
+  "project_task": "Create an insurance claim intake and triage workflow.",
+  "project_name": "Claim Intake",
+  "project_goal": "Collect complete loss reports and route them for review.",
+  "project_description": "A policyholder reports a loss, uploads evidence, and receives a case number; an adjuster triages it.",
+  "functional_requirements": [
+    "A policyholder identifies an active policy.",
+    "The policyholder reports loss date, location, and description.",
+    "The policyholder uploads supporting evidence.",
+    "The system creates a claim number for a complete report.",
+    "An adjuster assigns a severity and review route.",
+    "The policyholder views claim status."
+  ],
+  "non_functional_requirements": [
+    "Uploaded evidence must be malware-scanned.",
+    "Sensitive claim data must be encrypted in transit and at rest."
+  ]
+}

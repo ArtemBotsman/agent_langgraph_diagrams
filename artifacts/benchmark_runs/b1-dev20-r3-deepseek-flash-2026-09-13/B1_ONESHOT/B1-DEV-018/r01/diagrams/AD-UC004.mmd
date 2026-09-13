@@ -1,0 +1,9 @@
+flowchart TD
+  %% activity:AD-UC004 uc:UC-004
+  subgraph PART-UC004-001["System"]
+  ADN-UC004-001(("start"))
+  ADN-UC004-002["Delete archive after expiry"]
+  ADN-UC004-003(("end"))
+  end
+  ADN-UC004-001 --> ADN-UC004-002
+  ADN-UC004-002 --> ADN-UC004-003

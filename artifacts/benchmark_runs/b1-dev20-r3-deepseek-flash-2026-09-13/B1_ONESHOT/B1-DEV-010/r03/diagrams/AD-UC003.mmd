@@ -1,0 +1,13 @@
+flowchart TD
+  %% activity:AD-UC003 uc:UC-003
+  subgraph PART-UC003-001["Ответственный сотрудник"]
+  ADN-UC003-002["Рассмотрение заявки"]
+  ADN-UC003-003["Одобрение заявки"]
+  end
+  subgraph PART-UC003-002["Система"]
+  end
+  ADN-UC003-001(("start"))
+  ADN-UC003-004(("end"))
+  ADN-UC003-001 --> ADN-UC003-002
+  ADN-UC003-002 --> ADN-UC003-003
+  ADN-UC003-003 --> ADN-UC003-004

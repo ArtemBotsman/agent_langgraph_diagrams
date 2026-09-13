@@ -1,0 +1,278 @@
+{
+  "scope": "frozen synthetic DEV20; hidden unopened",
+  "metadata": {
+    "source_sha256": {
+      "B0_RULE": "6348fde9ee3bf48cda5948c6fc5092cc681524e9c6165fbe1e3c811c9d99cc24",
+      "B1_ONESHOT": "02d90c7247701e5a841e1d7952e0af0fbb517161cd6723ae4099b6b6b26b5954",
+      "FULL": "0ddc936dd2148d871bd422254c985a1476856a90ebf860023f6541a87d8a7983"
+    },
+    "benchmark_cases_sha256": "af8dc532d4d283db43687850213e5795ca227c0d6d054327727462e0ab170917",
+    "semantic_similarity_backend": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "case_count": 20,
+    "repeats_per_case": 3,
+    "run_count_per_method": 60,
+    "bootstrap_seed": 20260913,
+    "bootstrap_resamples": 50000
+  },
+  "method_summaries": [
+    {
+      "method": "B0_RULE",
+      "runs": 60,
+      "parsed_runs": 60,
+      "truncated_runs": 0,
+      "e2e_successes": 60.0,
+      "e2e_rate": 1.0,
+      "e2e_ci_95": [
+        1.0,
+        1.0
+      ],
+      "strict_case_successes": 20,
+      "strict_case_success_rate": 1.0,
+      "strict_case_wilson_ci_95": [
+        0.8388748419471806,
+        1.0
+      ],
+      "semantic_mean": 0.40808880799283276,
+      "semantic_ci_95": [
+        0.3553331284943127,
+        0.4634920962615815
+      ],
+      "semantic_mean_parsed_outputs": 0.40808880799283276,
+      "activity_trace_mean": 1.0,
+      "activity_trace_ci_95": [
+        1.0,
+        1.0
+      ],
+      "mean_tokens": 0.0,
+      "total_tokens": 0.0,
+      "mean_latency_seconds": 0.0009968833333333334,
+      "mean_llm_calls": 0.0,
+      "mean_repair_attempts": 0.0,
+      "estimated_total_cost_usd": 0.0,
+      "estimated_mean_cost_usd": 0.0
+    },
+    {
+      "method": "B1_ONESHOT",
+      "runs": 60,
+      "parsed_runs": 51,
+      "truncated_runs": 9,
+      "e2e_successes": 2.0,
+      "e2e_rate": 0.03333333333333333,
+      "e2e_ci_95": [
+        0.0,
+        0.08333333333333333
+      ],
+      "strict_case_successes": 0,
+      "strict_case_success_rate": 0.0,
+      "strict_case_wilson_ci_95": [
+        0.0,
+        0.16112515805281938
+      ],
+      "semantic_mean": 0.5945804653762218,
+      "semantic_ci_95": [
+        0.526220803175989,
+        0.6574876253317437
+      ],
+      "semantic_mean_parsed_outputs": 0.6995064298543786,
+      "activity_trace_mean": 0.777563454233299,
+      "activity_trace_ci_95": [
+        0.6831588948083055,
+        0.8599597457102734
+      ],
+      "mean_tokens": 10564.95,
+      "total_tokens": 633897.0,
+      "mean_latency_seconds": 15.527948566666666,
+      "mean_llm_calls": 1.0,
+      "mean_repair_attempts": 0.0,
+      "estimated_total_cost_usd": 0.5123223,
+      "estimated_mean_cost_usd": 0.008538705
+    },
+    {
+      "method": "FULL",
+      "runs": 60,
+      "parsed_runs": 60,
+      "truncated_runs": 0,
+      "e2e_successes": 60.0,
+      "e2e_rate": 1.0,
+      "e2e_ci_95": [
+        1.0,
+        1.0
+      ],
+      "strict_case_successes": 20,
+      "strict_case_success_rate": 1.0,
+      "strict_case_wilson_ci_95": [
+        0.8388748419471806,
+        1.0
+      ],
+      "semantic_mean": 0.6927015841241104,
+      "semantic_ci_95": [
+        0.6560721600064766,
+        0.7266842783603515
+      ],
+      "semantic_mean_parsed_outputs": 0.6927015841241104,
+      "activity_trace_mean": 1.0,
+      "activity_trace_ci_95": [
+        1.0,
+        1.0
+      ],
+      "mean_tokens": 62046.38333333333,
+      "total_tokens": 3722783.0,
+      "mean_latency_seconds": 57.12453945,
+      "mean_llm_calls": 11.816666666666666,
+      "mean_repair_attempts": 3.55,
+      "estimated_total_cost_usd": 2.0762663999999997,
+      "estimated_mean_cost_usd": 0.03460444
+    }
+  ],
+  "complexity_summaries": [
+    {
+      "method": "B0_RULE",
+      "complexity": "simple",
+      "case_count": 6,
+      "run_count": 18,
+      "e2e_rate": 1.0,
+      "semantic_mean": 0.5425595238095238,
+      "mean_tokens": 0.0,
+      "mean_latency_seconds": 0.0009653888888888889
+    },
+    {
+      "method": "B0_RULE",
+      "complexity": "medium",
+      "case_count": 9,
+      "run_count": 27,
+      "e2e_rate": 1.0,
+      "semantic_mean": 0.35925213675213674,
+      "mean_tokens": 0.0,
+      "mean_latency_seconds": 0.000951074074074074
+    },
+    {
+      "method": "B0_RULE",
+      "complexity": "hard",
+      "case_count": 5,
+      "run_count": 15,
+      "e2e_rate": 1.0,
+      "semantic_mean": 0.3346299572460563,
+      "mean_tokens": 0.0,
+      "mean_latency_seconds": 0.0011171333333333333
+    },
+    {
+      "method": "B1_ONESHOT",
+      "complexity": "simple",
+      "case_count": 6,
+      "run_count": 18,
+      "e2e_rate": 0.0,
+      "semantic_mean": 0.6747432659932661,
+      "mean_tokens": 8801.111111111111,
+      "mean_latency_seconds": 11.81080188888889
+    },
+    {
+      "method": "B1_ONESHOT",
+      "complexity": "medium",
+      "case_count": 9,
+      "run_count": 27,
+      "e2e_rate": 0.037037037037037035,
+      "semantic_mean": 0.5778068104178617,
+      "mean_tokens": 11023.037037037036,
+      "mean_latency_seconds": 16.707540814814816
+    },
+    {
+      "method": "B1_ONESHOT",
+      "complexity": "hard",
+      "case_count": 5,
+      "run_count": 15,
+      "e2e_rate": 0.06666666666666667,
+      "semantic_mean": 0.528577683560817,
+      "mean_tokens": 11857.0,
+      "mean_latency_seconds": 17.865258533333332
+    },
+    {
+      "method": "FULL",
+      "complexity": "simple",
+      "case_count": 6,
+      "run_count": 18,
+      "e2e_rate": 1.0,
+      "semantic_mean": 0.6923393658810326,
+      "mean_tokens": 37878.333333333336,
+      "mean_latency_seconds": 35.372914888888886
+    },
+    {
+      "method": "FULL",
+      "complexity": "medium",
+      "case_count": 9,
+      "run_count": 27,
+      "e2e_rate": 1.0,
+      "semantic_mean": 0.6895164769192689,
+      "mean_tokens": 69992.81481481482,
+      "mean_latency_seconds": 64.22536455555556
+    },
+    {
+      "method": "FULL",
+      "complexity": "hard",
+      "case_count": 5,
+      "run_count": 15,
+      "e2e_rate": 1.0,
+      "semantic_mean": 0.6988694389845185,
+      "mean_tokens": 76744.46666666666,
+      "mean_latency_seconds": 70.44500373333334
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "name": "full_vs_b1_e2e",
+      "left_method": "FULL",
+      "right_method": "B1_ONESHOT",
+      "metric": "end_to_end_success",
+      "case_count": 20,
+      "left_mean": 1.0,
+      "right_mean": 0.03333333333333333,
+      "mean_paired_difference": 0.9666666666666667,
+      "paired_difference_ci_95": [
+        0.9166666666666667,
+        1.0
+      ],
+      "exact_sign_flip_pvalue": 1.9073486328125e-06,
+      "positive_case_differences": 20,
+      "negative_case_differences": 0,
+      "ties": 0,
+      "holm_adjusted_pvalue": 5.7220458984375e-06
+    },
+    {
+      "name": "full_vs_b0_semantic",
+      "left_method": "FULL",
+      "right_method": "B0_RULE",
+      "metric": "semantic_composite",
+      "case_count": 20,
+      "left_mean": 0.6927015841241104,
+      "right_mean": 0.40808880799283276,
+      "mean_paired_difference": 0.2846127761312776,
+      "paired_difference_ci_95": [
+        0.22409630913814624,
+        0.3421796390921979
+      ],
+      "exact_sign_flip_pvalue": 3.814697265625e-06,
+      "positive_case_differences": 19,
+      "negative_case_differences": 1,
+      "ties": 0,
+      "holm_adjusted_pvalue": 7.62939453125e-06
+    },
+    {
+      "name": "full_vs_b1_semantic",
+      "left_method": "FULL",
+      "right_method": "B1_ONESHOT",
+      "metric": "semantic_composite",
+      "case_count": 20,
+      "left_mean": 0.6927015841241104,
+      "right_mean": 0.5945804653762218,
+      "mean_paired_difference": 0.09812111874788856,
+      "paired_difference_ci_95": [
+        0.02906919602838539,
+        0.1743119506876068
+      ],
+      "exact_sign_flip_pvalue": 0.015729904174804688,
+      "positive_case_differences": 14,
+      "negative_case_differences": 6,
+      "ties": 0,
+      "holm_adjusted_pvalue": 0.015729904174804688
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "error_type": "RuntimeError",
+  "message": "OpenAI-compatible LLM call failed"
+}

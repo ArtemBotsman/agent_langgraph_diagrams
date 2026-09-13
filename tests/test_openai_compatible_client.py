@@ -152,6 +152,51 @@ def test_client_uses_provider_specific_reasoning_fields(
     assert absent not in observed
 
 
+def test_openai_reasoning_request_uses_modern_chat_fields() -> None:
+    observed: dict[str, object] = {}
+
+    def transport(
+        url: str,
+        headers: dict[str, str],
+        body: bytes,
+        timeout: float,
+    ) -> tuple[int, bytes]:
+        del url, headers, timeout
+        observed.update(json.loads(body))
+        response = {
+            "model": "gpt-5.5-2026-04-23",
+            "choices": [{"message": {"content": "{}"}, "finish_reason": "stop"}],
+            "usage": {"prompt_tokens": 1, "completion_tokens": 1, "total_tokens": 2},
+        }
+        return 200, json.dumps(response).encode()
+
+    client = OpenAICompatibleLLMClient(
+        _config(
+            provider="openai",
+            model="gpt-5.5-2026-04-23",
+            reasoning_effort="medium",
+            max_output_tokens=2400,
+        ),
+        transport=transport,
+    )
+    client.complete(
+        messages=[
+            {"role": "system", "content": "Return JSON"},
+            {"role": "user", "content": "Evaluate"},
+        ],
+        temperature=0,
+        response_format={"type": "json_object"},
+    )
+
+    assert observed["max_completion_tokens"] == 2400
+    assert "max_tokens" not in observed
+    assert observed["reasoning_effort"] == "medium"
+    assert "temperature" not in observed
+    messages = observed["messages"]
+    assert isinstance(messages, list)
+    assert messages[0]["role"] == "developer"
+
+
 def test_client_retries_429_and_keeps_sanitized_attempt_history() -> None:
     attempts = 0
     sleeps: list[float] = []

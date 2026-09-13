@@ -1,0 +1,23 @@
+flowchart TD
+  %% activity:AD-UC004 uc:UC-004
+  subgraph PART-UC004-001["Recipient"]
+  ADN-UC004-002["Recipient selects the option to confirm delivery for the parcel."]
+  ADN-UC004-006["Recipient selects the option to report damage and provides details."]
+  end
+  subgraph PART-UC004-002["System"]
+  ADN-UC004-003{"Shipment state valid for confirmation?"}
+  ADN-UC004-004["System updates the parcel status to 'Delivered'."]
+  ADN-UC004-005["System rejects the action and displays an error."]
+  ADN-UC004-007["System updates the parcel status to 'Damaged' and notifies relevant parties."]
+  end
+  ADN-UC004-001(("start"))
+  ADN-UC004-008(("end"))
+  ADN-UC004-001 --> ADN-UC004-002
+  ADN-UC004-002 --> ADN-UC004-003
+  ADN-UC004-003 -->|"valid"| ADN-UC004-004
+  ADN-UC004-003 -->|"invalid"| ADN-UC004-005
+  ADN-UC004-004 --> ADN-UC004-008
+  ADN-UC004-005 --> ADN-UC004-008
+  ADN-UC004-002 -->|"report damage"| ADN-UC004-006
+  ADN-UC004-006 --> ADN-UC004-007
+  ADN-UC004-007 --> ADN-UC004-008
