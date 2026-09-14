@@ -166,7 +166,7 @@ partition, FR вне UC, неизвестный step и unsupported без об�
 ## Что разместить на слайде
 
 - Слева: три определения B0/B1/FULL одной строкой.
-- В центре: `docs/obsidian_vault/assets/09_baseline_comparison.png`.
+- В центре: `artifacts/research_summary_2026-09-09/baseline_comparison.png`.
 - Справа: вывод «B1 лучше по candidate semantic composite, но 0/2 E2E; FULL
   исправил формальные ошибки и получил 2/2 E2E».
 - Подвал: «DEV-001, n=2 на условие; hidden untouched; вывод — пилотный».

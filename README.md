@@ -1,67 +1,96 @@
-# Agent NIR — Traceable Use Case & Activity Diagram Pipeline
+# Генерация трассируемых Use Cases и Activity Diagrams
 
-Проект НИР — трассируемый конвейер вариантов использования и диаграмм активности.
+Система превращает функциональные и нефункциональные требования к приложению в
+структурированные варианты использования, пользовательские и системные истории,
+Activity Diagrams (диаграммы активности) в Mermaid и отчёт о качестве.
 
-Исследовательский каркас (Python 3.11+, LangGraph, Pydantic v2) для генерации
-структурированных Use Cases и activity-диаграмм по функциональным требованиям
-с проверяемой трассировкой и ограниченным repair-loop.
+Главное отличие от обычного запроса к LLM — каждый полученный элемент можно
+проверить и связать с исходным требованием. Если результат нарушает схему,
+структуру диаграммы или правила трассировки, система не скрывает ошибку:
+валидаторы отклоняют результат, а ограниченный корректирующий цикл пытается его
+исправить.
 
-> **Статус (2026-09-13):** в системе два агента: `Use Case Agent` (агент
-> вариантов использования) и `Activity Diagram Agent` (агент диаграмм
-> активности). Реализованы модели, графы, валидаторы, Mermaid-renderer
-> (рендерер диаграмм), benchmark/evaluator (тестовый набор и оценщик) и
-> OpenAI-compatible adapter (совместимый клиент LLM), live Activity path,
-> bounded repair, SQLite persistence, единый CLI и offline CI. Repeated DEV-001
-> pilot выполнен: FULL 2/2 E2E, one-shot 0/2. B0 завершён на DEV20 (60/60).
-> На DEV-002/010/020 выполнено прямое сравнение пяти конфигураций; после
-> уточнения доказательного контракта критика FULL завершил 3/3, B1 и вариант
-> без исправления — 0/3.
-> Добавлены offline verification, error analysis и приватное opt-in сохранение
-> raw evidence. Полный B1/FULL DEV20, эксперты и hidden ещё не завершены.
-> На входе из 8 ФТ выполнен отдельный blind DeepSeek judge: B0 — 0,100/E2E
-> 100%, B1 — 0,775/E2E 0%, FULL — 0,781/E2E 100%. Это подтверждает, что
-> смысловая LLM-оценка и формальные валидаторы нужны одновременно.
+## Какую задачу решает проект
 
-## С чего начать
+Статический анализ строит диаграммы по уже существующему коду, но не может
+восстановить будущие пользовательские сценарии из бизнес-требований. Прямой
+запрос к LLM понимает смысл требований, однако может пропустить требование,
+добавить неподтверждённый шаг или вернуть формально некорректный граф.
 
-Для первого знакомства откройте
-[`docs/obsidian_vault/00_НАЧАТЬ_ЗДЕСЬ.md`](docs/obsidian_vault/00_НАЧАТЬ_ЗДЕСЬ.md).
-Папку `docs/obsidian_vault/` можно открыть отдельно в Obsidian (программе для
-связанных заметок): там есть карта каталогов, схемы агентов, индекс всех 30
-входов, вопросы для защиты, правила DeepSeek и план будущей презентации.
-Полная развиваемая версия описания находится в
-[`10_ГЛАВНЫЙ_ДОКУМЕНТ_ПРОЕКТА.md`](docs/obsidian_vault/10_ГЛАВНЫЙ_ДОКУМЕНТ_ПРОЕКТА.md);
-исходный подробный текст не сокращён.
+В этом проекте используются два специализированных агента и корневой
+orchestrator (оркестратор):
 
-## Входной контракт
-
-Внешний вход pipeline согласован с научным руководителем и представлен
-`SpecificationReq` (`TypedDict`):
-
-```python
-class SpecificationReq(TypedDict):
-    project_task: str
-    project_name: str
-    project_goal: str
-    project_description: str
-    functional_requirements: list[str]
-    non_functional_requirements: list[str]
+```text
+SpecificationReq (запрос с требованиями)
+        ↓
+нормализация и присвоение FR/NFR-идентификаторов
+        ↓
+Use Case Agent (агент вариантов использования)
+        ↓
+проверка схемы, критика и ограниченное исправление
+        ↓
+Activity Diagram Agent (агент диаграмм активности)
+        ↓
+проверка графа, трассировки и Mermaid
+        ↓
+Use Cases + stories + diagrams + TraceManifest + quality report
 ```
 
-Первый узел корневого LangGraph детерминированно преобразует строки требований
-в внутренний `SpecificationRequest`: `FR-001`, `FR-002`, ... и `NFR-001`, ... .
-Поле `project_task` сохраняется и передаётся в UC generator/critic/repair prompts.
+- `Use Case Agent` формирует акторов, варианты использования, основные и
+  альтернативные сценарии, user stories (пользовательские истории) и system
+  stories (системные истории).
+- `Activity Diagram Agent` строит графы действий по утверждённым сценариям.
+- Orchestrator передаёт состояние между агентами, запускает проверки и
+  ограничивает количество повторных исправлений.
+- Детерминированные валидаторы проверяют схемы, ссылки, достижимость узлов,
+  ветвления и происхождение элементов без дополнительного LLM-вызова.
 
-## Быстрый старт
+Пример диаграммы, полученной полным pipeline (конвейером):
+
+![Пример Activity Diagram](artifacts/benchmark_runs/full-critic-v2-dev3-deepseek-flash-2026-09-11/FULL/B1-DEV-002/r01/diagrams/AD-UC001.png)
+
+## Входные данные
+
+CLI (интерфейс командной строки) принимает JSON со следующими полями:
+
+```json
+{
+  "project_task": "Подготовить аналитические артефакты приложения",
+  "project_name": "Event Signup",
+  "project_goal": "Автоматизировать регистрацию на мероприятия",
+  "project_description": "Сервис публикации мероприятий и регистрации участников",
+  "functional_requirements": [
+    "Организатор может опубликовать мероприятие с ограничением вместимости",
+    "Участник может зарегистрироваться на открытое мероприятие"
+  ],
+  "non_functional_requirements": [
+    "95% запросов регистрации должны обрабатываться не более чем за 2 секунды"
+  ]
+}
+```
+
+Готовый вход для демонстрации находится в
+[`examples/event_signup_specification_req.json`](examples/event_signup_specification_req.json).
+
+## Быстрый запуск без API-ключа
+
+Требования к окружению:
+
+- Python 3.11 или новее;
+- Poetry (менеджер зависимостей Python);
+- Git.
+
+Клонирование и установка:
 
 ```bash
-cd Agent
+git clone https://github.com/ArtemBotsman/agent_langgraph_diagrams.git
+cd agent_langgraph_diagrams
 poetry install --with evaluation
-poetry run pytest
-poetry run python -c "from traceable_spec.orchestration import compile_pipeline; compile_pipeline(); print('ok')"
 ```
 
-Один полный offline-запуск с упаковкой всех артефактов:
+Первый запуск выполняется в режиме `B0_RULE`. Это воспроизводимый
+детерминированный ориентир: он не обращается к LLM и позволяет проверить
+установку, контракты и сохранение артефактов.
 
 ```bash
 poetry run traceable-spec \
@@ -70,128 +99,169 @@ poetry run traceable-spec \
   --mode B0_RULE
 ```
 
-Для реального двухагентного пути замените режим на `FULL` и явно добавьте
-`--allow-live --env-file .env`. Команда и содержимое result bundle (пакета
-результатов) подробно описаны в `docs/release/REPRODUCIBILITY_AND_DEMO.md`.
+Каталог результата должен быть новым или пустым. После запуска в нём появятся:
 
-Полный локальный quality gate (контроль качества), не выполняющий сетевых LLM-
-вызовов:
+- `input.json` — точная копия входа;
+- `generated_specification.json` — полный структурированный результат;
+- `use_cases/` — человекочитаемые описания вариантов использования;
+- `stories/` — пользовательские и системные истории;
+- `activity_diagrams/` — исходники Mermaid;
+- `trace_manifest.json` — прямые и обратные связи требований с результатом;
+- `validation_reports.json` — результаты формальных проверок;
+- `quality_report.md` — сводный отчёт о качестве;
+- `run_manifest.json` — режим запуска, версии и контрольные хеши.
+
+## Запуск полного двухагентного pipeline
+
+Скопируйте безопасный пример настроек:
+
+```bash
+cp .env.example .env
+```
+
+В `.env` укажите провайдера, точный идентификатор модели и API-ключ. Файл
+`.env` уже добавлен в `.gitignore` и не должен попадать в Git.
+
+Пример для DeepSeek:
+
+```dotenv
+LLM_PROVIDER=deepseek
+LLM_API_BASE=https://api.deepseek.com
+LLM_MODEL=deepseek-flash
+LLM_API_KEY_ENV=DEEPSEEK_API_KEY
+DEEPSEEK_API_KEY=ваш_ключ
+```
+
+Запуск:
+
+```bash
+poetry run traceable-spec \
+  examples/event_signup_specification_req.json \
+  artifacts/single_runs/event-signup-full \
+  --mode FULL \
+  --allow-live \
+  --env-file .env
+```
+
+Флаг `--allow-live` подтверждает, что разрешены сетевые и потенциально платные
+LLM-вызовы. Лимиты числа вызовов, токенов, повторов и предполагаемой стоимости
+задаются в `.env`. Без этого флага полный сетевой запуск не начинается.
+
+Безопасные конфигурации без ключей находятся в
+[`configs/providers/`](configs/providers/). Поддерживаются OpenAI-compatible
+API (совместимые с форматом OpenAI) и Anthropic API.
+
+## Проверка реализации
+
+Основной набор автоматических тестов:
+
+```bash
+poetry run pytest -q
+```
+
+Полный локальный quality gate (контроль качества), не выполняющий платных
+запросов:
 
 ```bash
 poetry check --lock
 poetry run ruff check .
 poetry run mypy src
-poetry run pytest
+poetry run pytest -q
 poetry run python scripts/validate_synthetic_benchmark.py
 poetry run python scripts/freeze_synthetic_benchmark.py
 poetry run python scripts/run_validator_mutation_suite.py --check-existing
-poetry run python scripts/verify_saved_experiment.py \
-  artifacts/benchmark_runs/b0-dev20-r3-2026-09-09
-poetry run python scripts/verify_saved_experiment.py \
-  artifacts/benchmark_runs/repeated-b0-b1-full-dev001-2026-09-09
-poetry build
 ```
 
-Тот же набор автоматически выполняется GitHub Actions из
-`.github/workflows/ci.yml`. Ключи провайдеров в CI не требуются.
+Те же проверки запускаются в GitHub Actions. API-ключи для них не нужны.
 
-## Структура
+## Воспроизведение эксперимента
+
+Benchmark (тестовый набор) содержит 30 синтетических `SpecificationReq`:
+20 development-кейсов и 10 отделённых hidden-кейсов. Входы различаются языком
+и сложностью. Gold-разметка задаёт ожидаемых акторов, варианты использования,
+смысловые этапы сценариев, ветвления и связи `FR → UC`.
+
+Безопасный повтор B0 на открытой development-части:
+
+```bash
+poetry run python scripts/run_benchmark_experiment.py \
+  --condition B0_RULE \
+  --split development \
+  --all-cases \
+  --repeats 3 \
+  --experiment-id b0-dev20-reproduction
+```
+
+Повторная проверка уже сохранённого эксперимента не вызывает LLM:
+
+```bash
+poetry run python scripts/verify_saved_experiment.py \
+  artifacts/benchmark_runs/b0-dev20-r3-2026-09-09
+```
+
+Оценщик разделяет:
+
+- смысловое качество: `Actor F1`, `Use Case F1`, `Milestone F1`, `Branch F1`,
+  `Trace F1`;
+- формальную корректность: соответствие схемам, структура Activity-графа и
+  полнота трассировки;
+- надёжность и эффективность: `E2E success`, стабильность повторов, задержка,
+  токены и стоимость.
+
+Сохранённые JSON/CSV-результаты и графики находятся в [`artifacts/`](artifacts/).
+Методика — в
+[`docs/benchmark/BENCHMARK_AND_METRICS_V0_1.md`](docs/benchmark/BENCHMARK_AND_METRICS_V0_1.md),
+а сравнение подходов — в
+[`docs/research/TECHNOLOGY_PROJECT_COMPARISON_2026_09_11.md`](docs/research/TECHNOLOGY_PROJECT_COMPARISON_2026_09_11.md).
+
+## Структура репозитория
 
 ```text
 src/traceable_spec/
 ├── agents/
-│   ├── use_case/              # Use Case Agent: graph + prompts
-│   └── activity/              # Activity Diagram Agent: graph + prompts
-├── orchestration/             # root pipeline + SQLite persistence/resume
-├── reference_methods/         # B0 rules + B1 one-shot baselines
-├── entities.py                # Pydantic contracts + TypedDict state
-├── traceability.py            # FR → atom → UC → step → activity trace
-├── validators/                # deterministic quality gates
-├── evaluation/                # benchmark metrics
-├── llm/                       # OpenAI-compatible provider adapter
-└── mermaid/                   # deterministic diagram renderer
+│   ├── use_case/          # агент вариантов использования
+│   └── activity/          # агент диаграмм активности
+├── orchestration/         # корневой граф и сохранение состояния
+├── validators/            # детерминированные проверки
+├── reference_methods/     # B0 и прямой B1 для сравнения
+├── evaluation/            # метрики и анализ результатов
+├── llm/                   # адаптеры провайдеров
+├── mermaid/               # генерация Mermaid
+├── entities.py            # Pydantic-модели данных
+└── traceability.py        # связи FR → UC → step → diagram
+
+benchmark/                 # 30 размеченных тестовых входов
+configs/providers/         # примеры конфигураций без секретов
+examples/                  # демонстрационный вход
+scripts/                   # запуск и воспроизведение экспериментов
+tests/                     # автоматические тесты
+artifacts/                 # сохранённые результаты и графики
+docs/                      # архитектура, методика и итоговые материалы
 ```
 
-Старые импорты `traceable_spec.graph`, `use_cases_graph`,
-`activity_diagram_graph`, `persistence` и `baselines` оставлены как короткий
-compatibility layer (слой совместимости). Новую логику нужно искать в папках
-`agents/`, `orchestration/` и `reference_methods/`.
+## Ограничения
 
-На верхнем уровне:
+- Результат LLM зависит от модели и настроек генерации; поэтому сохраняются
+  точные конфигурации, хеши и несколько повторов.
+- Формальный `E2E PASS` означает прохождение заявленных валидаторов, но не
+  гарантирует идеальное понимание бизнес-смысла. Для итоговой оценки применяется
+  также gold-разметка и экспертная рубрика.
+- Mermaid используется как проверяемое сценарное представление Activity
+  Diagram, а не как полный строгий профиль UML 2.x.
+- Hidden-часть нельзя использовать для настройки системы до финального
+  зафиксированного эксперимента.
 
-- `benchmark/` — 30 cases (кейсов), DEV20/hidden10, freeze и формы экспертов;
-- `configs/providers/` — безопасные примеры DeepSeek, OpenAI и Groq/Qwen без
-  ключей;
-- `scripts/` — воспроизводимые эксперименты и построение графиков;
-- `artifacts/` — результаты запусков;
-- `docs/` — архитектура, исследование, материалы руководителю и Obsidian;
-- `tests/` — автоматические проверки.
+## Материалы технологического проекта
 
-Дополнительно подготовлен input-only benchmark масштабируемости из 20 проектов
-и четырёх диапазонов от 6 до 74 ФТ. Он запускается через
-`scripts/run_size_scaling_experiment.py`; методика и первый B0-результат
-описаны в `docs/research/SIZE_SCALING_BENCHMARK_2026_09_13.md`. Входы временно
-не публикуются, пока не зафиксировано разрешение научного руководителя.
-Отдельный DeepSeek LLM-judge pilot, его ограничения и стоимость описаны в
-`docs/research/DEEPSEEK_LLM_JUDGE_PILOT_2026_09_13.md`.
+- [Технический отчёт, PDF](docs/final/deliverables/AgentLangGraph_technology_report_final_2026-09-11.pdf)
+- [Презентация проекта, PPTX](docs/final/deliverables/AgentLangGraph_technology_project_resit_v2_2026-09-11.pptx)
+- [Описание архитектуры](docs/architecture/SYSTEM_DESIGN_V0_1.md)
+- [Инструкция воспроизводимости](docs/release/REPRODUCIBILITY_AND_DEMO.md)
 
-## Текущая и предлагаемая модель
+## Безопасность и лицензия
 
-Новые live-прогоны выполнены с `deepseek-flash` через
-`https://api.deepseek.com`; legacy-идентификатор `deepseek-v4-flash`
-использовался в первых сохранённых пилотах. Профиль `qwen/qwen3.8-27b` через Groq подготовлен в
-`configs/providers/groq-qwen.env.example`, но не запускался: локальный
-`GROQ_API_KEY` пока отсутствует. Эти результаты нельзя смешивать в одну группу.
+Секреты хранятся только в локальных `.env`-файлах. В публичных результатах
+сохраняются метаданные, токены, стоимость и хеши запросов/ответов, но не API-
+ключи. Перед каждым коммитом следует проверять, что `.env` не отслеживается Git.
 
-OpenAI API key не определяет модель автоматически. Для него подготовлен
-ignored файл `.env.openai`: ключ вставляется только локально, затем доступные
-model IDs выводятся без печати секрета:
-
-```bash
-poetry run python scripts/list_available_models.py \
-  --env-file .env.openai --contains gpt
-```
-
-Выбранный точный ID записывается в `LLM_MODEL`, после чего сначала выполняется
-один ограниченный compatibility test с текущим Chat Completions adapter.
-
-## Границы этапа
-
-- Выполнены repeated pilot на DEV-001 и диагностическое сравнение на трёх
-  репрезентативных DEV-кейсах. Они доказывают работу validation/repair, но ещё
-  не критерий ≥90% на всём DEV.
-- B0 отдельно выполнен на всём DEV20: 60/60 технических завершений, semantic
-  0,408 с bootstrap 95% CI `[0,356; 0,463]`, 0 LLM-токенов.
-- `semantic_composite` является candidate dashboard metric; внешние expert
-  scores и supervisor approval не имитируются.
-- Hidden gold отделён и не использовался для live tuning.
-- Старые проекты используются только как архитектурный reference (ориентир),
-  их код не копируется без проверки лицензии.
-
-## Лицензия
-
-Код проекта опубликован по MIT License, согласованной с полем `license = "MIT"`
-в `pyproject.toml`. Возможность публикации синтетического benchmark и hidden-
-части всё равно требует отдельного подтверждения научного руководителя.
-
-## Документация
-
-См. `docs/research/TECHNOLOGY_PROJECT_COMPARISON_2026_09_11.md`,
-`docs/research/BASELINES_AND_LIVE_EVIDENCE_2026_09_09.md`,
-`docs/research/DEEPSEEK_LLM_JUDGE_PILOT_2026_09_13.md`,
-`docs/benchmark/BENCHMARK_AND_METRICS_V0_1.md` и
-`docs/architecture/SYSTEM_DESIGN_V0_1.md`. Итоговый текст, доклад и протокол
-завершения эксперимента находятся в `docs/final/`. Ссылки на готовые DOCX,
-PDF, PPTX и XLSX собраны в
-`docs/obsidian_vault/19_ФИНАЛЬНЫЙ_ПАКЕТ_ОТЧЕТ_ПРЕЗЕНТАЦИЯ_И_ЭКСПЕРИМЕНТ.md`.
-Публикационные копии доступны прямо в репозитории:
-
-- [рекомендуемая презентация для пересдачи](docs/final/deliverables/AgentLangGraph_technology_project_resit_v2_2026-09-11.pptx);
-- [технологический отчёт PDF](docs/final/deliverables/AgentLangGraph_technology_report_final_2026-09-11.pdf);
-- [пакет Claude Opus 5 для полного DEV20](docs/final/deliverables/AgentLangGraph_claude_opus_5_DEV20_2026-09-11.zip).
-
-Для сопоставимого запуска сильной внешней модели подготовлены
-[`SpecificationReq`-входы, точная JSON-схема и единый prompt](experiments/claude_opus_5_dev20/00_CLAUDE_OPUS_5_RUNBOOK_AND_PROMPT_RU.md).
-Ответы GPT/Claude импортируются через тот же контракт, Mermaid renderer и
-evaluator; инструкция для руководителя находится в
-[`CLAUDE_OPUS_5_EXPERIMENT.md`](docs/supervisor_review/CLAUDE_OPUS_5_EXPERIMENT.md).
+Исходный код распространяется по [MIT License](LICENSE).

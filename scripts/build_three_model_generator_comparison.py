@@ -14,13 +14,6 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "artifacts" / "three_model_generator_comparison_2026-09-13"
-VAULT_ASSET = (
-    ROOT
-    / "docs"
-    / "obsidian_vault"
-    / "assets"
-    / "30_three_model_generator_comparison.svg"
-)
 CASE_ID = "B1-DEV-002"
 
 SOURCES = [
@@ -305,7 +298,7 @@ def _write_markdown(result: dict[str, Any]) -> None:
             "",
             result["claim_limit"],
             "",
-            "![Три модели — три повтора](../../docs/obsidian_vault/assets/30_three_model_generator_comparison.svg)",
+            "![Три модели — три повтора](three_model_generator_comparison.svg)",
             "",
         ]
     )
@@ -324,8 +317,6 @@ def main() -> None:
     OUTPUT.joinpath("three_model_generator_comparison.svg").write_text(
         svg, encoding="utf-8"
     )
-    VAULT_ASSET.parent.mkdir(parents=True, exist_ok=True)
-    VAULT_ASSET.write_text(svg, encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

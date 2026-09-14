@@ -24,13 +24,6 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = ROOT / "artifacts" / "final_dev20_statistical_evidence_2026-09-13"
 DOC_PATH = ROOT / "docs" / "research" / "DEV20_FINAL_STATISTICAL_EVIDENCE_2026_09_13.md"
-VAULT_DOC_PATH = (
-    ROOT
-    / "docs"
-    / "obsidian_vault"
-    / "28_DEV20_ФИНАЛЬНОЕ_СТАТИСТИЧЕСКОЕ_СРАВНЕНИЕ.md"
-)
-VAULT_ASSET = ROOT / "docs" / "obsidian_vault" / "assets" / "28_dev20_final_comparison.svg"
 
 SOURCES = {
     "B0_RULE": ROOT
@@ -617,11 +610,8 @@ def main() -> None:
     _write_csv(OUTPUT_DIR / "paired_comparisons.csv", comparisons)
     svg = _svg(summaries, comparisons)
     OUTPUT_DIR.joinpath("dev20_final_comparison.svg").write_text(svg, encoding="utf-8")
-    VAULT_ASSET.parent.mkdir(parents=True, exist_ok=True)
-    VAULT_ASSET.write_text(svg, encoding="utf-8")
     document = _build_document(summaries, comparisons, complexity_summaries, metadata)
     DOC_PATH.write_text(document, encoding="utf-8")
-    VAULT_DOC_PATH.write_text(document, encoding="utf-8")
     OUTPUT_DIR.joinpath("ANALYSIS_RU.md").write_text(document, encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2))
 

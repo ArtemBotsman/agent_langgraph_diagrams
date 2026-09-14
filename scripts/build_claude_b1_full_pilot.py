@@ -14,7 +14,6 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "artifacts" / "claude_b1_full_pilot_2026-09-13"
-VAULT_ASSET = ROOT / "docs" / "obsidian_vault" / "assets" / "31_claude_b1_full_pilot.svg"
 
 SOURCES = [
     {
@@ -147,7 +146,7 @@ def _write_report(result: dict[str, Any]) -> None:
             "- FULL повысил stability с 0,869 до 0,994 и уменьшил proxy лишних элементов с 0,511 до 0,389, но потребовал больше вызовов и токенов.",
             "- Средняя серия завершена. Полный платный benchmark запускается только после предварительной фиксации выборки, бюджета и правила остановки.",
             "",
-            "![Claude B1 и FULL](../../docs/obsidian_vault/assets/31_claude_b1_full_pilot.svg)",
+            "![Claude B1 и FULL](claude_b1_full_pilot.svg)",
             "",
         ]
     )
@@ -224,8 +223,6 @@ def main() -> None:
     _write_report(result)
     svg = _svg(result)
     (OUTPUT / "claude_b1_full_pilot.svg").write_text(svg, encoding="utf-8")
-    VAULT_ASSET.parent.mkdir(parents=True, exist_ok=True)
-    VAULT_ASSET.write_text(svg, encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

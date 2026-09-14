@@ -21,7 +21,7 @@ OUT = (
     / "deliverables"
     / "AgentLangGraph_technology_report_final_2026-09-11.docx"
 )
-ASSETS = ROOT / "docs" / "obsidian_vault" / "assets"
+ASSETS = ROOT / "docs" / "final" / "assets"
 
 NAVY = "17365D"
 BLUE = "2F75B5"

@@ -31,4 +31,4 @@
 
 Descriptive pilot on one simple DEV case, not final statistical evidence. The result motivates the next preregistered comparison on a medium DEV case.
 
-![Три модели — три повтора](../../docs/obsidian_vault/assets/30_three_model_generator_comparison.svg)
+![Три модели — три повтора](three_model_generator_comparison.svg)

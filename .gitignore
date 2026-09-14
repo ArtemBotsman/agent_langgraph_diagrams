@@ -30,6 +30,16 @@ venv/
 .vscode/
 *.swp
 .DS_Store
+AGENTS.md
+
+# Local working notes and handoff materials
+docs/obsidian_vault/
+docs/supervisor_review/
+docs/defense/
+docs/plan/
+docs/final/DEFENSE_SPEECH_*.md
+docs/final/REHEARSAL_CHECKLIST.md
+docs/final/deliverables/experiments/
 
 # Experiment outputs (generated later)
 artifacts/runs/
@@ -38,6 +48,10 @@ artifacts/llm_judge_runs/
 artifacts/**/checkpoints.sqlite
 .private_experiment_evidence/
 .private_evidence/
+docs/final/deliverables/*.zip
+docs/final/deliverables/AgentLangGraph_technology_project_resit_2026-09-11.pptx
+docs/final/deliverables/AgentLangGraph_technology_project_submission_2026-09-11.pptx
+docs/final/deliverables/AgentLangGraph_technology_report_final_2026-09-11.docx
 benchmark/size_scaling_v1/inputs/*.json
 experiments/size_scaling_external/responses/**/*.json
 experiments/external_models/responses/**/*.json

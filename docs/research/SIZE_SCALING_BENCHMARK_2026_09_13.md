@@ -106,7 +106,7 @@ pipeline при росте размера проекта от 5–10 до 50–7
 - импорт внешних ответов: `scripts/evaluate_size_scaling_outputs.py`;
 - генерация отчёта: `scripts/build_size_scaling_report.py`;
 - результаты: `artifacts/size_scaling_runs/size-scaling-b0-r3-2026-09-13/`;
-- рисунок для слайда: `docs/obsidian_vault/assets/25_size_scaling_b0.png`.
+- рисунок для слайда: `artifacts/size_scaling_runs/size-scaling-b0-r3-2026-09-13/size_scaling_b0.png`.
 
 ## Что вынести на слайд
 

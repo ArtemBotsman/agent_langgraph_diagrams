@@ -66,7 +66,7 @@ poetry run python scripts/verify_saved_experiment.py \
 poetry build
 ```
 
-Expected current result: 56 tests, 30/30 benchmark cases valid, frozen hashes
+Expected current result: 82 tests, 30/30 benchmark cases valid, frozen hashes
 unchanged, 15/15 declared mutation classes detected, wheel and sdist built.
 
 ## Saved-result verification and error analysis
@@ -114,8 +114,8 @@ The same runner now defines two variants of the developed system:
   limit to zero, so the first rejected result becomes a controlled failure.
 
 Together with `FULL`, these are the required three internal configurations.
-They are implemented and tested but not yet executed on DEV because they use
-paid calls. B0/B1 remain comparison baselines, not internal component variants.
+They are implemented, tested and executed on three representative DEV cases.
+B0/B1 remain comparison baselines, not internal component variants.
 
 ## Staged paid-run budget
 

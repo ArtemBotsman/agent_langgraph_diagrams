@@ -11,7 +11,6 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 RUNS = ROOT / "artifacts" / "llm_judge_runs"
 OUTPUT = ROOT / "artifacts" / "cross_model_judge_comparison_2026-09-13"
-VAULT_ASSET = ROOT / "docs" / "obsidian_vault" / "assets" / "29_deepseek_gpt55_judge_comparison.svg"
 
 RUNS_BY_METHOD = {
     "B0_RULE": {
@@ -184,8 +183,6 @@ def main() -> None:
     )
     svg = _svg(result)
     OUTPUT.joinpath("deepseek_gpt55_judge_comparison.svg").write_text(svg, encoding="utf-8")
-    VAULT_ASSET.parent.mkdir(parents=True, exist_ok=True)
-    VAULT_ASSET.write_text(svg, encoding="utf-8")
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

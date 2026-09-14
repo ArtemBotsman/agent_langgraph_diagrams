@@ -21,7 +21,6 @@ B0_DEV_RESULT = (
     ROOT / "artifacts" / "benchmark_runs" / "b0-dev20-r3-2026-09-09" / "results.json"
 )
 OUTPUT_DIR = ROOT / "artifacts" / "research_summary_2026-09-09"
-VAULT_ASSETS = ROOT / "docs" / "obsidian_vault" / "assets"
 
 
 def _condition_rows(result: dict[str, Any], condition: str) -> list[dict[str, Any]]:
@@ -280,7 +279,6 @@ def _write_b0_dev_results(result: dict[str, Any]) -> None:
         encoding="utf-8",
     )
     _write_b0_dev_svg(case_rows, OUTPUT_DIR / "b0_dev20_quality.svg")
-    _write_b0_dev_svg(case_rows, VAULT_ASSETS / "13_b0_dev20_quality.svg")
 
 
 def main() -> None:
@@ -289,7 +287,6 @@ def main() -> None:
         _condition_summary(result, condition) for condition in ("B0_RULE", "B1_ONESHOT", "FULL")
     ]
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    VAULT_ASSETS.mkdir(parents=True, exist_ok=True)
     with (OUTPUT_DIR / "baseline_comparison.csv").open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
         writer.writeheader()
@@ -299,7 +296,6 @@ def main() -> None:
         encoding="utf-8",
     )
     _write_comparison_svg(rows, OUTPUT_DIR / "baseline_comparison.svg")
-    _write_comparison_svg(rows, VAULT_ASSETS / "09_baseline_comparison.svg")
     if B0_DEV_RESULT.exists():
         _write_b0_dev_results(json.loads(B0_DEV_RESULT.read_text(encoding="utf-8")))
     print(json.dumps(rows, ensure_ascii=False, indent=2))

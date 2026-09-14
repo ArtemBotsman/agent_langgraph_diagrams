@@ -14,7 +14,6 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "artifacts" / "technology_project_evidence_2026-09-11"
-VAULT_ASSETS = ROOT / "docs" / "obsidian_vault" / "assets"
 
 BEFORE_PATH = (
     ROOT
@@ -214,7 +213,6 @@ def main() -> None:
     after_full = rows[2]
 
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    VAULT_ASSETS.mkdir(parents=True, exist_ok=True)
     with (OUTPUT / "method_comparison_dev3.csv").open(
         "w", encoding="utf-8", newline=""
     ) as handle:
@@ -246,9 +244,7 @@ def main() -> None:
         encoding="utf-8",
     )
     _write_quality_svg(rows, OUTPUT / "method_comparison_dev3.svg")
-    _write_quality_svg(rows, VAULT_ASSETS / "20_method_comparison_dev3.svg")
     _write_before_after_svg(before_full, after_full, OUTPUT / "critic_before_after.svg")
-    _write_before_after_svg(before_full, after_full, VAULT_ASSETS / "21_critic_before_after.svg")
     print(json.dumps(payload, ensure_ascii=False, indent=2))
 
 
