@@ -17,7 +17,6 @@ from docx.shared import Cm, Pt, RGBColor
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
-DELIVERABLES = ROOT / "docs" / "final" / "deliverables"
 BUILD = ROOT / ".codex_build" / "report_gost_2026_09_16"
 ASSETS = BUILD / "assets"
 
@@ -781,7 +780,11 @@ def build_report(output: Path, toc_pages: dict[str, int] | None = None) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, default=DELIVERABLES / "AgentLangGraph_technology_report_GOST_2026-09-16.docx")
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=BUILD / "AgentLangGraph_technology_report_GOST_2026-09-16.docx",
+    )
     parser.add_argument("--toc-pages", type=Path)
     return parser.parse_args()
 

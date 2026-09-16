@@ -61,7 +61,7 @@ artifacts/statistical_readiness_2026-09-16/revalidated/
 docs/final/deliverables/*.zip
 docs/final/deliverables/AgentLangGraph_technology_project_resit_2026-09-11.pptx
 docs/final/deliverables/AgentLangGraph_technology_project_submission_2026-09-11.pptx
-docs/final/deliverables/AgentLangGraph_technology_report_final_2026-09-11.docx
+docs/final/deliverables/*.docx
 benchmark/size_scaling_v1/inputs/*.json
 benchmark/size_scaling_v1/gold_candidate.json
 benchmark/size_scaling_v1/gold_freeze_record.json

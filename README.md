@@ -253,8 +253,8 @@ docs/                      # архитектура, методика и ито�
 
 ## Материалы технологического проекта
 
-- [Технический отчёт, PDF](docs/final/deliverables/AgentLangGraph_technology_report_final_2026-09-11.pdf)
-- [Презентация проекта, PPTX](docs/final/deliverables/AgentLangGraph_technology_project_resit_v2_2026-09-11.pptx)
+- [Технический отчёт по ГОСТ, PDF](docs/final/deliverables/AgentLangGraph_technology_report_GOST_2026-09-16.pdf)
+- [Презентация защиты, PPTX](docs/final/deliverables/AgentLangGraph_NIR_defense_2026-09-16.pptx)
 - [Описание архитектуры](docs/architecture/SYSTEM_DESIGN_V0_1.md)
 - [Инструкция воспроизводимости](docs/release/REPRODUCIBILITY_AND_DEMO.md)
 
