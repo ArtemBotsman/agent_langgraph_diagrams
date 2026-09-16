@@ -41,6 +41,12 @@ def set_repeat_table_header(row) -> None:
     tr_pr.append(tbl_header)
 
 
+def set_row_cant_split(row) -> None:
+    """Keep a logical table row on one page in the rendered report."""
+    tr_pr = row._tr.get_or_add_trPr()
+    tr_pr.append(OxmlElement("w:cantSplit"))
+
+
 def set_cell_shading(cell, fill: str) -> None:
     tc_pr = cell._tc.get_or_add_tcPr()
     shd = tc_pr.find(qn("w:shd"))
@@ -218,6 +224,7 @@ def add_table(
     table.autofit = False
     header = table.rows[0]
     set_repeat_table_header(header)
+    set_row_cant_split(header)
     for col, value in enumerate(headers):
         cell = header.cells[col]
         set_cell_shading(cell, GRAY)
@@ -233,7 +240,9 @@ def add_table(
         if widths:
             cell.width = Cm(widths[col])
     for row_idx, values in enumerate(rows, 1):
-        cells = table.add_row().cells
+        row = table.add_row()
+        set_row_cant_split(row)
+        cells = row.cells
         for col, value in enumerate(values):
             cell = cells[col]
             cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
@@ -360,37 +369,37 @@ def build_bar_chart(path: Path, title: str, labels: Sequence[str], series: Seque
 def build_dev20_figure(path: Path) -> None:
     build_bar_chart(path, "Один вызов LLM и полный граф на DEV20 × 3",
         ["Акторы", "Варианты\nиспользования", "Этапы", "Ветвления", "Трассировка", "E2E"],
-        [("Один вызов LLM", [0.7099206,0.8466667,0.2490361,0.3144444,0.835,0.0333333], "white", True),
-         ("Полный граф", [0.8139683,0.9703896,0.2705340,0.4517857,0.9630379,1.0], "#666666", False)],
+        [("Один вызов LLM", [0.7099206,0.8466667,0.2490361,0.3144444,0.835,0.0333333], "#2F80ED", False),
+         ("Полный граф", [0.8139683,0.9703896,0.2705340,0.4517857,0.9630379,1.0], "#F2994A", False)],
         y_label="Значение, 0–1")
 
 
 def build_trace_counts_figure(path: Path) -> None:
     build_bar_chart(path, "Связи ФТ → варианты использования: микроагрегация",
         ["Верные\nсвязи (TP)", "Лишние\nсвязи (FP)", "Пропущенные\nсвязи (FN)"],
-        [("Один вызов LLM", [250,6,65], "white", True), ("Полный граф", [302,14,13], "#666666", False)],
+        [("Один вызов LLM", [250,6,65], "#2F80ED", False), ("Полный граф", [302,14,13], "#F2994A", False)],
         y_label="Число связей", max_value=330, value_fmt="int")
 
 
 def build_scaling_figure(path: Path) -> None:
     build_bar_chart(path, "Устойчивость при росте числа функциональных требований",
         ["6–10 ФТ", "12–19 ФТ", "24–48 ФТ", "54–74 ФТ"],
-        [("Один вызов LLM", [1.0,0.8,0.0,0.0], "white", True), ("Полный граф", [1.0,1.0,1.0,0.8], "#666666", False)],
+        [("Один вызов LLM", [1.0,0.8,0.0,0.0], "#2F80ED", False), ("Полный граф", [1.0,1.0,1.0,0.8], "#F2994A", False)],
         y_label="Доля проектов E2E", value_fmt="fraction5")
 
 
 def build_critic_figure(path: Path) -> None:
     build_bar_chart(path, "Постоянный критик: DEV20 × 3",
         ["Акторы", "Варианты\nиспользования", "Этапы", "Ветвления", "Трассировка", "E2E"],
-        [("Без критика", [0.812143,0.988485,0.270434,0.417817,0.965674,1.0], "white", True),
-         ("Полный граф", [0.813968,0.970390,0.270534,0.451786,0.963038,1.0], "#666666", False)],
+        [("Без критика", [0.812143,0.988485,0.270434,0.417817,0.965674,1.0], "#27AE60", False),
+         ("Полный граф", [0.813968,0.970390,0.270534,0.451786,0.963038,1.0], "#F2994A", False)],
         y_label="Среднее, 0–1")
 
 
 def build_cross_model_figure(path: Path) -> None:
     build_bar_chart(path, "Переносимость на трёх моделях: один простой проект",
         ["DeepSeek", "GPT-5.5", "Claude Opus 5"],
-        [("Один вызов LLM", [0.0,1.0,1.0], "white", True), ("Полный граф", [1.0,1.0,1.0], "#666666", False)],
+        [("Один вызов LLM", [0.0,1.0,1.0], "#2F80ED", False), ("Полный граф", [1.0,1.0,1.0], "#F2994A", False)],
         y_label="Доля E2E, n = 3", value_fmt="fraction3")
 
 
@@ -398,11 +407,11 @@ def build_figures() -> dict[str, Path]:
     ASSETS.mkdir(parents=True, exist_ok=True)
     paths = {
         "architecture": ASSETS / "01_architecture_bw.png",
-        "dev20": ASSETS / "02_dev20_metrics_bw.png",
-        "trace_counts": ASSETS / "03_trace_counts_bw.png",
-        "scaling": ASSETS / "04_scaling_e2e_bw.png",
-        "critic": ASSETS / "05_critic_bw.png",
-        "models": ASSETS / "06_cross_model_bw.png",
+        "dev20": ASSETS / "02_dev20_metrics_color.png",
+        "trace_counts": ASSETS / "03_trace_counts_color.png",
+        "scaling": ASSETS / "04_scaling_e2e_color.png",
+        "critic": ASSETS / "05_critic_color.png",
+        "models": ASSETS / "06_cross_model_color.png",
     }
     build_architecture_figure(paths["architecture"])
     build_dev20_figure(paths["dev20"])

@@ -16,10 +16,9 @@ from docx.shared import Cm, Inches, Pt, RGBColor
 ROOT = Path(__file__).resolve().parents[1]
 OUT = (
     ROOT
-    / "docs"
-    / "final"
-    / "deliverables"
-    / "AgentLangGraph_technology_report_final_2026-09-11.docx"
+    / ".codex_build"
+    / "legacy_report"
+    / "AgentLangGraph_technology_report_legacy.docx"
 )
 ASSETS = ROOT / "docs" / "final" / "assets"
 
