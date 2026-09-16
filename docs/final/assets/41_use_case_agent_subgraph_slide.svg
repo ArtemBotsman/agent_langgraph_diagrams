@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2000" height="1040" viewBox="0 0 2000 1040">
+  <defs>
+    <style>
+      .title { font: 700 48px Arial, Helvetica, sans-serif; fill: #132238; }
+      .subtitle { font: 400 22px Arial, Helvetica, sans-serif; fill: #52657d; }
+      .box-title { font: 700 25px Arial, Helvetica, sans-serif; fill: #132238; }
+      .box-text { font: 400 19px Arial, Helvetica, sans-serif; fill: #26384f; }
+      .small { font: 400 16px Arial, Helvetica, sans-serif; fill: #52657d; }
+      .edge-label { font: 700 16px Arial, Helvetica, sans-serif; fill: #315f96; }
+      .edge { fill: none; stroke: #4d6684; stroke-width: 4; }
+      .edge-blue { fill: none; stroke: #2f6fb0; stroke-width: 4; }
+      .edge-green { fill: none; stroke: #2b8a5e; stroke-width: 4; }
+      .edge-red { fill: none; stroke: #b64b4b; stroke-width: 4; }
+    </style>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#4d6684"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#2f6fb0"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#2b8a5e"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#b64b4b"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="2000" height="1040" fill="#ffffff"/>
+
+  <text x="70" y="72" class="title">Агент 1: из требований в проверяемые сценарии</text>
+  <text x="70" y="110" class="subtitle">Смысл формирует LLM; схема, ссылки и предел исправлений контролируются программно</text>
+
+  <!-- Main pipeline -->
+  <rect x="70" y="205" width="250" height="230" rx="24" fill="#f4f7fb" stroke="#9eb0c6" stroke-width="3"/>
+  <text x="95" y="250" class="box-title">SpecificationReq</text>
+  <text x="95" y="292" class="box-text">задача и цель</text>
+  <text x="95" y="326" class="box-text">описание проекта</text>
+  <text x="95" y="360" class="box-text">FR / NFR с ID</text>
+  <text x="95" y="405" class="small">Входной запрос с требованиями</text>
+
+  <rect x="390" y="205" width="260" height="230" rx="24" fill="#e9f2ff" stroke="#4b86d1" stroke-width="3"/>
+  <text x="420" y="250" class="box-title">LLM-генератор</text>
+  <text x="420" y="292" class="box-text">акторы и цели</text>
+  <text x="420" y="326" class="box-text">Use Cases</text>
+  <text x="420" y="360" class="box-text">сценарии и истории</text>
+  <text x="420" y="405" class="small">Создаёт JSON по схеме</text>
+
+  <rect x="720" y="175" width="300" height="290" rx="24" fill="#f4f7fb" stroke="#7289a5" stroke-width="3"/>
+  <text x="750" y="220" class="box-title">Формальные проверки</text>
+  <text x="750" y="264" class="box-text">Pydantic-схема</text>
+  <text x="750" y="298" class="box-text">ID и ссылки</text>
+  <text x="750" y="332" class="box-text">покрытие FR</text>
+  <text x="750" y="366" class="box-text">дубли и пропуски</text>
+  <text x="750" y="414" class="small">Без вызова LLM</text>
+
+  <rect x="1070" y="205" width="260" height="230" rx="24" fill="#f0ecfb" stroke="#7665b8" stroke-width="3"/>
+  <text x="1100" y="250" class="box-title">LLM-критик</text>
+  <text x="1100" y="292" class="box-text">пропуск требования</text>
+  <text x="1100" y="326" class="box-text">противоречие</text>
+  <text x="1100" y="360" class="box-text">неподтверждённое правило</text>
+  <text x="1100" y="405" class="small">Проверяет бизнес-смысл</text>
+
+  <polygon points="1490,205 1610,320 1490,435 1370,320" fill="#fff7df" stroke="#bc8a2e" stroke-width="3"/>
+  <text x="1490" y="301" text-anchor="middle" class="box-title">Есть</text>
+  <text x="1490" y="334" text-anchor="middle" class="box-title">блокирующие</text>
+  <text x="1490" y="367" text-anchor="middle" class="box-title">ошибки?</text>
+
+  <!-- Main arrows -->
+  <path d="M320 320 H380" class="edge"/>
+  <polygon points="380,320 362,309 362,331" fill="#4d6684"/>
+  <path d="M650 320 H710" class="edge"/>
+  <polygon points="710,320 692,309 692,331" fill="#4d6684"/>
+  <path d="M1020 320 H1060" class="edge"/>
+  <polygon points="1060,320 1042,309 1042,331" fill="#4d6684"/>
+  <path d="M1330 320 H1360" class="edge"/>
+  <polygon points="1360,320 1342,309 1342,331" fill="#4d6684"/>
+
+  <!-- Accepted output -->
+  <path d="M1610 320 H1690" class="edge-green"/>
+  <polygon points="1690,320 1672,309 1672,331" fill="#2b8a5e"/>
+  <text x="1638" y="292" class="edge-label" fill="#2b8a5e">нет</text>
+  <rect x="1700" y="155" width="250" height="330" rx="24" fill="#e9f8f0" stroke="#36a46f" stroke-width="3"/>
+  <text x="1825" y="202" text-anchor="middle" class="box-title">Принято</text>
+  <text x="1825" y="236" text-anchor="middle" class="box-title">UseCaseSet</text>
+  <text x="1728" y="282" class="box-text">акторы</text>
+  <text x="1728" y="316" class="box-text">варианты использования</text>
+  <text x="1728" y="350" class="box-text">покрытие FR</text>
+  <text x="1728" y="384" class="box-text">истории</text>
+  <text x="1728" y="418" class="box-text">TraceManifest (связи)</text>
+  <text x="1728" y="458" class="small">Вход для Activity Agent</text>
+
+  <!-- Formal error route to decision -->
+  <path d="M870 465 V535 H1490 V435" class="edge-blue"/>
+  <polygon points="1490,435 1479,453 1501,453" fill="#2f6fb0"/>
+  <text x="900" y="520" class="edge-label">формальная ошибка — критик не вызывается</text>
+
+  <!-- Repair loop -->
+  <path d="M1490 435 V595 H1245" class="edge-blue"/>
+  <polygon points="1245,595 1263,584 1263,606" fill="#2f6fb0"/>
+  <text x="1515" y="525" class="edge-label">да, остались попытки</text>
+  <rect x="930" y="570" width="315" height="185" rx="24" fill="#fff4d8" stroke="#bc8a2e" stroke-width="3"/>
+  <text x="960" y="616" class="box-title">Точечное исправление</text>
+  <text x="960" y="659" class="box-text">список ошибок + ID</text>
+  <text x="960" y="693" class="box-text">текущий UseCaseSet</text>
+  <text x="960" y="727" class="small">Не более 2 попыток</text>
+  <path d="M930 662 H870 V465" class="edge-blue"/>
+  <polygon points="870,465 859,483 881,483" fill="#2f6fb0"/>
+  <text x="695" y="650" class="edge-label">повторная проверка</text>
+
+  <!-- Failure route -->
+  <path d="M1610 385 H1645 V650 H1690" class="edge-red"/>
+  <polygon points="1690,650 1672,639 1672,661" fill="#b64b4b"/>
+  <text x="1625" y="610" text-anchor="end" class="edge-label" fill="#b64b4b">лимит исчерпан</text>
+  <rect x="1700" y="570" width="250" height="160" rx="24" fill="#fff0f0" stroke="#c65b5b" stroke-width="3"/>
+  <text x="1825" y="620" text-anchor="middle" class="box-title">Завершение</text>
+  <text x="1825" y="654" text-anchor="middle" class="box-title">с ошибкой</text>
+  <text x="1728" y="700" class="small">Причина сохранена в отчёте</text>
+
+  <!-- Data contract strip -->
+  <rect x="70" y="825" width="1880" height="145" rx="22" fill="#f7f9fc" stroke="#c4cfdd" stroke-width="2"/>
+  <text x="100" y="870" class="box-title">Структура результата</text>
+  <text x="100" y="913" class="box-text">Use Case: актор · цель · триггер · предусловия · основной / альтернативный / ошибочный путь · постусловия · ID источников</text>
+  <rect x="100" y="934" width="1310" height="32" rx="8" fill="#e9f2ff"/>
+  <text x="116" y="957" class="small">ScenarioStep (шаг): актор → действие → ожидаемый результат → исходное FR</text>
+  <text x="1460" y="957" class="small">Проверяемый объект, а не произвольный текст</text>
+</svg>

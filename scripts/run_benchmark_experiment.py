@@ -27,7 +27,10 @@ from traceable_spec.llm.factory import (
     create_instrumented_client,
     provider_config_from_env,
 )
-from traceable_spec.orchestration.component_variants import live_pipeline_deps_without_critics
+from traceable_spec.orchestration.component_variants import (
+    live_pipeline_deps_without_critics,
+    live_pipeline_deps_without_rule_feedback,
+)
 from traceable_spec.orchestration.persistence import open_sqlite_checkpointer, thread_config
 from traceable_spec.orchestration.pipeline import compile_live_pipeline, compile_pipeline
 from traceable_spec.reference_methods import run_one_shot_baseline, run_rule_based_baseline
@@ -42,6 +45,8 @@ CONDITIONS = (
     "FULL",
     "FULL_NO_CRITIC",
     "FULL_NO_REPAIR",
+    "FULL_REPAIR_1",
+    "FULL_NO_RULE_FEEDBACK",
 )
 SEMANTIC_BACKENDS = ("lexical", "multilingual")
 
@@ -141,24 +146,34 @@ def _run_condition(
         if client is None:
             raise RuntimeError("B1_ONESHOT requires a live client")
         specification = run_one_shot_baseline(request, client)
-    elif condition in {"FULL", "FULL_NO_CRITIC", "FULL_NO_REPAIR"}:
+    elif condition in {
+        "FULL",
+        "FULL_NO_CRITIC",
+        "FULL_NO_REPAIR",
+        "FULL_REPAIR_1",
+        "FULL_NO_RULE_FEEDBACK",
+    }:
         if client is None:
             raise RuntimeError(f"{condition} requires a live client")
         graph_request = request
-        if condition == "FULL_NO_REPAIR":
+        if condition in {"FULL_NO_REPAIR", "FULL_REPAIR_1"}:
             graph_request = normalize_specification_req(request).model_copy(
-                update={"max_repair_attempts": 0}
+                update={"max_repair_attempts": 0 if condition == "FULL_NO_REPAIR" else 1}
             )
         checkpoint_path = run_dir / "checkpoints.sqlite"
         with open_sqlite_checkpointer(checkpoint_path) as checkpointer:
-            graph = (
-                compile_pipeline(
+            if condition == "FULL_NO_CRITIC":
+                graph = compile_pipeline(
                     live_pipeline_deps_without_critics(client),
                     checkpointer=checkpointer,
                 )
-                if condition == "FULL_NO_CRITIC"
-                else compile_live_pipeline(client, checkpointer=checkpointer)
-            )
+            elif condition == "FULL_NO_RULE_FEEDBACK":
+                graph = compile_pipeline(
+                    live_pipeline_deps_without_rule_feedback(client),
+                    checkpointer=checkpointer,
+                )
+            else:
+                graph = compile_live_pipeline(client, checkpointer=checkpointer)
             state = graph.invoke(
                 {"request": graph_request},
                 config=thread_config(f"{case['case_id']}-{condition}-r{repeat_id:02d}"),

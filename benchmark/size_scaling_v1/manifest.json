@@ -302,5 +302,10 @@
       "rough_input_tokens_chars_div_4": 6612,
       "sha256": "3565845c8f4808cef4409b58c5ac0cd53aa16b0ed0b02ccd84d903614880c19a"
     }
-  ]
+  ],
+  "gold_candidate_available_local": true,
+  "gold_candidate_sha256": "f5e729074ec9c3d48c12f257dd20ef0134b18f8a26868a1a0796d68b9cd20270",
+  "gold_candidate_frozen_at_utc": "2026-09-15T19:28:54.811202+00:00",
+  "gold_candidate_status": "author_candidate_requires_two_independent_reviews",
+  "scientific_frozen": false
 }

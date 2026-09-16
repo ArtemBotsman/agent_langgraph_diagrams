@@ -2,7 +2,10 @@ from __future__ import annotations
 
 from traceable_spec.agents.activity.graph import default_activity_nodes
 from traceable_spec.llm.scripted import ScriptedLLMClient
-from traceable_spec.orchestration.component_variants import live_pipeline_deps_without_critics
+from traceable_spec.orchestration.component_variants import (
+    live_pipeline_deps_without_critics,
+    live_pipeline_deps_without_rule_feedback,
+)
 from traceable_spec.testing.fixtures import sample_use_case_set
 
 
@@ -35,3 +38,20 @@ def test_activity_preparation_preserves_zero_repair_limit() -> None:
     )
 
     assert result["max_repair_attempts"] == 0
+
+
+def test_no_rule_feedback_variant_keeps_posthoc_measurement_separate() -> None:
+    client = ScriptedLLMClient({})
+    deps = live_pipeline_deps_without_rule_feedback(client)
+
+    uc_result = deps.use_case_nodes.validate_uc_deterministic({"validation_reports": []})
+    activity_result = deps.activity_nodes.validate_activity_deterministic(
+        {"use_case": sample_use_case_set().use_cases[0], "validation_reports": []}
+    )
+
+    assert uc_result["deterministic_report"].passed
+    assert activity_result["deterministic_report"].passed
+    assert "rule_feedback_component_variant_disabled" in (
+        uc_result["deterministic_report"].validator_name
+    )
+    assert client.calls == []

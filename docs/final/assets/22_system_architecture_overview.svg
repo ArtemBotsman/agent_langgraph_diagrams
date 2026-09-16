@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#215F9A"/>
+    </marker>
+    <style>
+      .title { font: 700 40px Arial, sans-serif; fill: #17243A; }
+      .subtitle { font: 400 23px Arial, sans-serif; fill: #526178; }
+      .section { font: 700 25px Arial, sans-serif; fill: #17243A; }
+      .box-title { font: 700 24px Arial, sans-serif; fill: #17243A; }
+      .box-label { font: 700 15px Arial, sans-serif; fill: #215F9A; letter-spacing: 1px; }
+      .body { font: 400 18px Arial, sans-serif; fill: #35435A; }
+      .small { font: 400 16px Arial, sans-serif; fill: #526178; }
+      .arrow-label { font: 600 15px Arial, sans-serif; fill: #526178; }
+      .box { fill: #FFFFFF; stroke: #B8C3D1; stroke-width: 2; rx: 12; }
+      .agent { fill: #EAF2FC; stroke: #215F9A; stroke-width: 3; rx: 12; }
+      .soft { fill: #F3F6F9; stroke: #CFD7E1; stroke-width: 2; rx: 10; }
+      .output { fill: #EAF6EF; stroke: #52936D; stroke-width: 2; rx: 10; }
+      .research { fill: #FBF7EA; stroke: #A78438; stroke-width: 2; rx: 10; }
+      .line { stroke: #215F9A; stroke-width: 3; fill: none; marker-end: url(#arrow); }
+      .thin { stroke: #7C8A9E; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1920" height="1080" fill="#FFFFFF"/>
+  <text x="70" y="72" class="title">Общая архитектура решения</text>
+  <text x="70" y="108" class="subtitle">Проверяемый этап после аналитика и до кодера</text>
+
+  <text x="70" y="158" class="section">Рабочий контур</text>
+
+  <rect x="70" y="190" width="250" height="205" class="box"/>
+  <text x="92" y="220" class="box-label">ВХОД</text>
+  <text x="92" y="255" class="box-title">SpecificationReq</text>
+  <text x="92" y="292" class="body">задача, название, цель</text>
+  <text x="92" y="322" class="body">описание проекта</text>
+  <text x="92" y="352" class="body">ФТ и НФТ</text>
+
+  <path d="M320 292 H375" class="line"/>
+  <polygon points="375,292 357,281 357,303" fill="#215F9A"/>
+
+  <rect x="380" y="190" width="235" height="205" class="soft"/>
+  <text x="402" y="220" class="box-label">ДЕТЕРМИНИРОВАННЫЙ КОД</text>
+  <text x="402" y="255" class="box-title">Нормализация</text>
+  <text x="402" y="292" class="body">FR-001… / NFR-001…</text>
+  <text x="402" y="322" class="body">атомизация списков</text>
+  <text x="402" y="352" class="body">стабильные ссылки</text>
+
+  <path d="M615 292 H670" class="line"/>
+  <polygon points="670,292 652,281 652,303" fill="#215F9A"/>
+
+  <rect x="675" y="175" width="350" height="250" class="agent"/>
+  <text x="698" y="207" class="box-label">АГЕНТ 1 · LANGGRAPH</text>
+  <text x="698" y="242" class="box-title">Use Case Agent</text>
+  <text x="698" y="278" class="body">акторы и границы процессов</text>
+  <text x="698" y="308" class="body">main / alternative / exception</text>
+  <text x="698" y="338" class="body">user stories / system stories</text>
+  <rect x="698" y="360" width="304" height="45" class="soft"/>
+  <text x="716" y="388" class="small">generate → checks → critic → repair</text>
+
+  <text x="1038" y="258" class="arrow-label">каждый UC</text>
+  <path d="M1025 292 H1110" class="line"/>
+  <polygon points="1110,292 1092,281 1092,303" fill="#215F9A"/>
+
+  <rect x="1115" y="175" width="350" height="250" class="agent"/>
+  <text x="1138" y="207" class="box-label">АГЕНТ 2 · LANGGRAPH</text>
+  <text x="1138" y="242" class="box-title">Activity Agent</text>
+  <text x="1138" y="278" class="body">partitions, nodes, edges</text>
+  <text x="1138" y="308" class="body">guards и related_step_ids</text>
+  <text x="1138" y="338" class="body">одна Activity-модель на UC</text>
+  <rect x="1138" y="360" width="304" height="45" class="soft"/>
+  <text x="1156" y="388" class="small">generate → checks → critic → repair</text>
+
+  <path d="M1465 292 H1520" class="line"/>
+  <polygon points="1520,292 1502,281 1502,303" fill="#215F9A"/>
+
+  <rect x="1525" y="190" width="325" height="205" class="soft"/>
+  <text x="1547" y="220" class="box-label">ПРОВЕРКА И УПАКОВКА</text>
+  <text x="1547" y="255" class="box-title">Финальный gate</text>
+  <text x="1547" y="292" class="body">Mermaid renderer</text>
+  <text x="1547" y="322" class="body">E2E trace validation</text>
+  <text x="1547" y="352" class="body">evaluator + result bundle</text>
+
+  <rect x="380" y="452" width="1085" height="78" fill="#EDF3FA" stroke="#215F9A" stroke-width="2" rx="8"/>
+  <text x="405" y="482" class="box-title">Корневой orchestrator</text>
+  <text x="405" y="512" class="body">Управляет порядком, запуском Activity для каждого UC, лимитами repair, состоянием и ошибками — это не третий смысловой агент</text>
+  <path d="M497 452 V407" class="thin"/>
+  <path d="M850 452 V425" class="thin"/>
+  <path d="M1290 452 V425" class="thin"/>
+
+  <text x="70" y="590" class="section">Выходные артефакты</text>
+  <rect x="70" y="620" width="330" height="130" class="output"/>
+  <text x="92" y="654" class="box-title">UseCaseSet + Stories</text>
+  <text x="92" y="687" class="body">actors, UC, сценарии</text>
+  <text x="92" y="717" class="body">user/system stories</text>
+
+  <rect x="430" y="620" width="330" height="130" class="output"/>
+  <text x="452" y="654" class="box-title">Activity + Mermaid</text>
+  <text x="452" y="687" class="body">типизированная модель</text>
+  <text x="452" y="717" class="body">Mermaid source, SVG/PNG</text>
+
+  <rect x="790" y="620" width="330" height="130" class="output"/>
+  <text x="812" y="654" class="box-title">TraceManifest</text>
+  <text x="812" y="687" class="body">FR ↔ UC ↔ step</text>
+  <text x="812" y="717" class="body">step ↔ node / edge</text>
+
+  <rect x="1150" y="620" width="330" height="130" class="output"/>
+  <text x="1172" y="654" class="box-title">Quality report</text>
+  <text x="1172" y="687" class="body">validation issues, metrics</text>
+  <text x="1172" y="717" class="body">latency, tokens, cost</text>
+
+  <rect x="1510" y="620" width="340" height="130" class="output"/>
+  <text x="1532" y="654" class="box-title">Persistence</text>
+  <text x="1532" y="687" class="body">SQLite checkpoints</text>
+  <text x="1532" y="717" class="body">воспроизводимый result bundle</text>
+
+  <text x="70" y="812" class="section">Контур исследования</text>
+
+  <rect x="70" y="842" width="485" height="170" class="research"/>
+  <text x="92" y="875" class="box-title">Benchmark</text>
+  <text x="92" y="908" class="body">30 синтетических text-to-app кейсов</text>
+  <text x="92" y="938" class="body">DEV20 / hidden10 + gold-разметка</text>
+  <text x="92" y="968" class="body">20 входов, 4 группы размера, 6–74 ФТ</text>
+  <text x="92" y="995" class="small">Второй набор пока без gold: только scale/formal/cost</text>
+
+  <path d="M555 927 H660" class="line"/>
+  <polygon points="660,927 642,916 642,938" fill="#215F9A"/>
+
+  <rect x="665" y="842" width="485" height="170" class="agent"/>
+  <text x="687" y="875" class="box-title">Сравнение методов</text>
+  <text x="687" y="912" class="body">B1: один прямой вызов LLM</text>
+  <text x="687" y="942" class="body">FULL: полный двухагентный граф</text>
+  <text x="687" y="972" class="small">Одинаковые вход, модель, provider, schema, evaluator</text>
+
+  <path d="M1150 927 H1255" class="line"/>
+  <polygon points="1255,927 1237,916 1237,938" fill="#215F9A"/>
+
+  <rect x="1260" y="842" width="590" height="170" class="research"/>
+  <text x="1282" y="875" class="box-title">Метрики</text>
+  <text x="1282" y="908" class="body">Actor / UC / Milestone / Branch / Trace F1</text>
+  <text x="1282" y="938" class="body">E2E success · trace coverage · stability</text>
+  <text x="1282" y="968" class="body">latency · tokens · cost</text>
+
+  <text x="70" y="1050" class="small">LLM интерпретирует смысл. Python отвечает за структуру, ссылки, маршруты, лимиты и рендеринг.</text>
+</svg>

@@ -1,0 +1,708 @@
+{
+  "scope": "frozen DEV20; hidden unopened",
+  "methods": {
+    "ONE_SHOT": "Один вызов LLM",
+    "FULL": "Полный граф"
+  },
+  "metadata": {
+    "source_sha256": {
+      "ONE_SHOT": "02d90c7247701e5a841e1d7952e0af0fbb517161cd6723ae4099b6b6b26b5954",
+      "FULL": "0ddc936dd2148d871bd422254c985a1476856a90ebf860023f6541a87d8a7983"
+    },
+    "benchmark_cases_sha256": "af8dc532d4d283db43687850213e5795ca227c0d6d054327727462e0ab170917",
+    "project_count": 20,
+    "repeats_per_project": 3,
+    "attempts_per_method": 60,
+    "bootstrap_seed": 20260915,
+    "bootstrap_resamples": 50000,
+    "failure_policy": "failed attempt remains in denominator; missing task metrics = 0"
+  },
+  "metric_summary": [
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "actor_f1",
+      "project_macro_mean": 0.709920634920635,
+      "ci_95_low": 0.6068253968253968,
+      "ci_95_high": 0.8099206349206348,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "actor_f1",
+      "project_macro_mean": 0.813968253968254,
+      "ci_95_low": 0.7442857142857143,
+      "ci_95_high": 0.879761904761905,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "uc_f1",
+      "project_macro_mean": 0.8466666666666667,
+      "ci_95_low": 0.7466666666666666,
+      "ci_95_high": 0.9333333333333333,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "uc_f1",
+      "project_macro_mean": 0.9703896103896104,
+      "ci_95_low": 0.9222943722943724,
+      "ci_95_high": 1.0,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "milestone_f1",
+      "project_macro_mean": 0.24903614721917297,
+      "ci_95_low": 0.1988226887005062,
+      "ci_95_high": 0.2967542375641281,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "milestone_f1",
+      "project_macro_mean": 0.27053399119468446,
+      "ci_95_low": 0.2137077397117038,
+      "ci_95_high": 0.32366552716705965,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "branch_f1",
+      "project_macro_mean": 0.3144444444444444,
+      "ci_95_low": 0.18833333333333332,
+      "ci_95_high": 0.45555555555555544,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "branch_f1",
+      "project_macro_mean": 0.4517857142857143,
+      "ci_95_low": 0.30392857142857144,
+      "ci_95_high": 0.6058343253968255,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "trace_f1",
+      "project_macro_mean": 0.835,
+      "ci_95_low": 0.7333333333333334,
+      "ci_95_high": 0.925,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "trace_f1",
+      "project_macro_mean": 0.9630379424497072,
+      "ci_95_low": 0.9293750000000001,
+      "ci_95_high": 0.9901324166030049,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "fr_coverage",
+      "project_macro_mean": 0.85,
+      "ci_95_low": 0.7499999999999999,
+      "ci_95_high": 0.9333333333333333,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "fr_coverage",
+      "project_macro_mean": 1.0,
+      "ci_95_low": 1.0,
+      "ci_95_high": 1.0,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "fr_activity_coverage",
+      "project_macro_mean": 0.85,
+      "ci_95_low": 0.7499999999999999,
+      "ci_95_high": 0.9333333333333333,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "fr_activity_coverage",
+      "project_macro_mean": 1.0,
+      "ci_95_low": 1.0,
+      "ci_95_high": 1.0,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "activity_element_trace_coverage",
+      "project_macro_mean": 0.777563454233299,
+      "ci_95_low": 0.6838650558095725,
+      "ci_95_high": 0.8606361857067951,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "activity_element_trace_coverage",
+      "project_macro_mean": 1.0,
+      "ci_95_low": 1.0,
+      "ci_95_high": 1.0,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "activity_structural_validity",
+      "project_macro_mean": 0.03333333333333333,
+      "ci_95_low": 0.0,
+      "ci_95_high": 0.08333333333333333,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "activity_structural_validity",
+      "project_macro_mean": 1.0,
+      "ci_95_low": 1.0,
+      "ci_95_high": 1.0,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "end_to_end_success",
+      "project_macro_mean": 0.03333333333333333,
+      "ci_95_low": 0.0,
+      "ci_95_high": 0.08333333333333333,
+      "project_count": 20,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "end_to_end_success",
+      "project_macro_mean": 1.0,
+      "ci_95_low": 1.0,
+      "ci_95_high": 1.0,
+      "project_count": 20,
+      "attempt_count": 60
+    }
+  ],
+  "paired_statistics": [
+    {
+      "metric": "actor_f1",
+      "full_minus_one_shot": 0.10404761904761906,
+      "ci_95_low": 0.013809523809523808,
+      "ci_95_high": 0.20603174603174607,
+      "p_value": 0.0498046875,
+      "full_better_projects": 7,
+      "one_shot_better_projects": 5,
+      "ties": 8,
+      "project_count": 20,
+      "holm_adjusted_p_value": 0.1494140625
+    },
+    {
+      "metric": "uc_f1",
+      "full_minus_one_shot": 0.12372294372294375,
+      "ci_95_low": 0.017532467532467556,
+      "ci_95_high": 0.2333333333333333,
+      "p_value": 0.05078125,
+      "full_better_projects": 8,
+      "one_shot_better_projects": 1,
+      "ties": 11,
+      "project_count": 20,
+      "holm_adjusted_p_value": 0.1494140625
+    },
+    {
+      "metric": "milestone_f1",
+      "full_minus_one_shot": 0.021497843975511487,
+      "ci_95_low": -0.01348640053006223,
+      "ci_95_high": 0.05747081741362244,
+      "p_value": 0.2609844207763672,
+      "full_better_projects": 13,
+      "one_shot_better_projects": 7,
+      "ties": 0,
+      "project_count": 20,
+      "holm_adjusted_p_value": 0.2609844207763672
+    },
+    {
+      "metric": "branch_f1",
+      "full_minus_one_shot": 0.13734126984126985,
+      "ci_95_low": 0.024761904761904763,
+      "ci_95_high": 0.26694543650793656,
+      "p_value": 0.030517578125,
+      "full_better_projects": 12,
+      "one_shot_better_projects": 3,
+      "ties": 5,
+      "project_count": 20,
+      "holm_adjusted_p_value": 0.1220703125
+    },
+    {
+      "metric": "trace_f1",
+      "full_minus_one_shot": 0.12803794244970715,
+      "ci_95_low": 0.03976074293353705,
+      "ci_95_high": 0.2235143875732111,
+      "p_value": 0.0126953125,
+      "full_better_projects": 9,
+      "one_shot_better_projects": 2,
+      "ties": 9,
+      "project_count": 20,
+      "holm_adjusted_p_value": 0.0888671875
+    },
+    {
+      "metric": "fr_coverage",
+      "full_minus_one_shot": 0.15000000000000002,
+      "ci_95_low": 0.06666666666666668,
+      "ci_95_high": 0.25000000000000006,
+      "p_value": 0.015625,
+      "full_better_projects": 7,
+      "one_shot_better_projects": 0,
+      "ties": 13,
+      "project_count": 20,
+      "holm_adjusted_p_value": 0.09375
+    },
+    {
+      "metric": "fr_activity_coverage",
+      "full_minus_one_shot": 0.15000000000000002,
+      "ci_95_low": 0.06666666666666668,
+      "ci_95_high": 0.25000000000000006,
+      "p_value": 0.015625,
+      "full_better_projects": 7,
+      "one_shot_better_projects": 0,
+      "ties": 13,
+      "project_count": 20,
+      "holm_adjusted_p_value": 0.09375
+    },
+    {
+      "metric": "activity_element_trace_coverage",
+      "full_minus_one_shot": 0.222436545766701,
+      "ci_95_low": 0.14036164996078357,
+      "ci_95_high": 0.3171107546764212,
+      "p_value": 1.9073486328125e-06,
+      "full_better_projects": 20,
+      "one_shot_better_projects": 0,
+      "ties": 0,
+      "project_count": 20,
+      "holm_adjusted_p_value": 1.9073486328125e-05
+    },
+    {
+      "metric": "activity_structural_validity",
+      "full_minus_one_shot": 0.9666666666666667,
+      "ci_95_low": 0.9166666666666667,
+      "ci_95_high": 1.0,
+      "p_value": 1.9073486328125e-06,
+      "full_better_projects": 20,
+      "one_shot_better_projects": 0,
+      "ties": 0,
+      "project_count": 20,
+      "holm_adjusted_p_value": 1.9073486328125e-05
+    },
+    {
+      "metric": "end_to_end_success",
+      "full_minus_one_shot": 0.9666666666666667,
+      "ci_95_low": 0.9166666666666667,
+      "ci_95_high": 1.0,
+      "p_value": 1.9073486328125e-06,
+      "full_better_projects": 20,
+      "one_shot_better_projects": 0,
+      "ties": 0,
+      "project_count": 20,
+      "holm_adjusted_p_value": 1.9073486328125e-05
+    }
+  ],
+  "parsed_output_sensitivity": [
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "actor_f1",
+      "parsed_attempts": 51,
+      "mean": 0.8352007469654529
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "uc_f1",
+      "parsed_attempts": 51,
+      "mean": 0.996078431372549
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "milestone_f1",
+      "parsed_attempts": 51,
+      "mean": 0.2929837026107917
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "metric": "branch_f1",
+      "parsed_attempts": 51,
+      "mean": 0.36993464052287583
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "actor_f1",
+      "parsed_attempts": 60,
+      "mean": 0.813968253968254
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "uc_f1",
+      "parsed_attempts": 60,
+      "mean": 0.9703896103896104
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "milestone_f1",
+      "parsed_attempts": 60,
+      "mean": 0.27053399119468446
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "metric": "branch_f1",
+      "parsed_attempts": 60,
+      "mean": 0.4517857142857143
+    }
+  ],
+  "error_analysis": [
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "category": "Полностью успешный запуск",
+      "count": 2,
+      "share": 0.03333333333333333,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "category": "Ответ обрезан по лимиту",
+      "count": 9,
+      "share": 0.15,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "category": "Сетевая/транспортная ошибка",
+      "count": 0,
+      "share": 0.0,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "category": "Ошибка схемы данных",
+      "count": 0,
+      "share": 0.0,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "category": "Некорректная структура Activity",
+      "count": 49,
+      "share": 0.8166666666666667,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "category": "Ошибка сквозной трассировки",
+      "count": 0,
+      "share": 0.0,
+      "attempt_count": 60
+    },
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "category": "Прочий E2E-провал",
+      "count": 0,
+      "share": 0.0,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "category": "Полностью успешный запуск",
+      "count": 60,
+      "share": 1.0,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "category": "Ответ обрезан по лимиту",
+      "count": 0,
+      "share": 0.0,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "category": "Сетевая/транспортная ошибка",
+      "count": 0,
+      "share": 0.0,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "category": "Ошибка схемы данных",
+      "count": 0,
+      "share": 0.0,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "category": "Некорректная структура Activity",
+      "count": 0,
+      "share": 0.0,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "category": "Ошибка сквозной трассировки",
+      "count": 0,
+      "share": 0.0,
+      "attempt_count": 60
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "category": "Прочий E2E-провал",
+      "count": 0,
+      "share": 0.0,
+      "attempt_count": 60
+    }
+  ],
+  "operational_metrics": [
+    {
+      "method": "ONE_SHOT",
+      "method_ru": "Один вызов LLM",
+      "median_latency_seconds": 16.072792500000002,
+      "p95_latency_seconds": 20.67916565,
+      "mean_tokens": 10564.95,
+      "mean_llm_calls": 1.0,
+      "total_cost_usd": 0.4131689999999999,
+      "mean_cost_usd": 0.006886149999999998
+    },
+    {
+      "method": "FULL",
+      "method_ru": "Полный граф",
+      "median_latency_seconds": 56.280056,
+      "p95_latency_seconds": 90.56659704999997,
+      "mean_tokens": 62046.38333333333,
+      "mean_llm_calls": 11.816666666666666,
+      "total_cost_usd": 2.076266400000001,
+      "mean_cost_usd": 0.03460444000000002
+    }
+  ],
+  "dataset_passport": [
+    {
+      "complexity": "simple",
+      "projects": 6,
+      "fr_min": 3,
+      "fr_max": 3,
+      "gold_uc_median": 1.0,
+      "gold_milestones": 25,
+      "gold_branches": 4,
+      "gold_trace_links": 18
+    },
+    {
+      "complexity": "medium",
+      "projects": 9,
+      "fr_min": 5,
+      "fr_max": 6,
+      "gold_uc_median": 3,
+      "gold_milestones": 72,
+      "gold_branches": 13,
+      "gold_trace_links": 47
+    },
+    {
+      "complexity": "hard",
+      "projects": 5,
+      "fr_min": 7,
+      "fr_max": 8,
+      "gold_uc_median": 3,
+      "gold_milestones": 53,
+      "gold_branches": 10,
+      "gold_trace_links": 40
+    }
+  ],
+  "size_benchmark_preflight": [
+    {
+      "case_id": "SCALE-001",
+      "size_group": "G1_SMALL",
+      "fr_count": 6,
+      "condition": "B1_ONESHOT",
+      "e2e_success": 1.0,
+      "milestone_f1": 0.5263157894736842,
+      "branch_f1": 0.0,
+      "trace_f1": 1.0,
+      "fr_coverage": 1.0,
+      "activity_element_trace_coverage": 1.0,
+      "llm_calls": 1,
+      "total_tokens": 21488,
+      "latency_seconds": 38.506578000000005,
+      "estimated_cost_usd": 0.020356799999999998,
+      "outcome": "E2E успешно"
+    },
+    {
+      "case_id": "SCALE-001",
+      "size_group": "G1_SMALL",
+      "fr_count": 6,
+      "condition": "FULL",
+      "e2e_success": 1.0,
+      "milestone_f1": 0.5263157894736842,
+      "branch_f1": 0.0,
+      "trace_f1": 1.0,
+      "fr_coverage": 1.0,
+      "activity_element_trace_coverage": 1.0,
+      "llm_calls": 18,
+      "total_tokens": 135440,
+      "latency_seconds": 127.861394,
+      "estimated_cost_usd": 0.08002230000000002,
+      "outcome": "E2E успешно"
+    },
+    {
+      "case_id": "SCALE-010",
+      "size_group": "G2_GROWING",
+      "fr_count": 19,
+      "condition": "B1_ONESHOT",
+      "e2e_success": 0.0,
+      "milestone_f1": 0.37499999999999994,
+      "branch_f1": 0.16,
+      "trace_f1": 0.9473684210526315,
+      "fr_coverage": 1.0,
+      "activity_element_trace_coverage": 0.9358490566037736,
+      "llm_calls": 1,
+      "total_tokens": 43912,
+      "latency_seconds": 88.373684,
+      "estimated_cost_usd": 0.0450975,
+      "outcome": "формальный провал"
+    },
+    {
+      "case_id": "SCALE-010",
+      "size_group": "G2_GROWING",
+      "fr_count": 19,
+      "condition": "FULL",
+      "e2e_success": 0.0,
+      "milestone_f1": 0.0,
+      "branch_f1": 0.0,
+      "trace_f1": 0.0,
+      "fr_coverage": 0.0,
+      "activity_element_trace_coverage": 0.0,
+      "llm_calls": 45,
+      "total_tokens": 266342,
+      "latency_seconds": 243.704926,
+      "estimated_cost_usd": 0.15265319999999996,
+      "outcome": "транспортная ошибка"
+    },
+    {
+      "case_id": "SCALE-015",
+      "size_group": "G3_MEDIUM",
+      "fr_count": 48,
+      "condition": "B1_ONESHOT",
+      "e2e_success": 0.0,
+      "milestone_f1": 0.0,
+      "branch_f1": 0.0,
+      "trace_f1": 0.0,
+      "fr_coverage": 0.0,
+      "activity_element_trace_coverage": 0.0,
+      "llm_calls": 1,
+      "total_tokens": 79908,
+      "latency_seconds": 161.208459,
+      "estimated_cost_usd": 0.08295480000000001,
+      "outcome": "ответ обрезан"
+    },
+    {
+      "case_id": "SCALE-015",
+      "size_group": "G3_MEDIUM",
+      "fr_count": 48,
+      "condition": "FULL",
+      "e2e_success": 0.0,
+      "milestone_f1": 0.5303030303030304,
+      "branch_f1": 0.3809523809523809,
+      "trace_f1": 1.0,
+      "fr_coverage": 1.0,
+      "activity_element_trace_coverage": 1.0,
+      "llm_calls": 127,
+      "total_tokens": 664058,
+      "latency_seconds": 595.720649,
+      "estimated_cost_usd": 0.3666479999999999,
+      "outcome": "артефакты созданы; финальная проверка не пройдена"
+    },
+    {
+      "case_id": "SCALE-020",
+      "size_group": "G4_LARGE",
+      "fr_count": 74,
+      "condition": "B1_ONESHOT",
+      "e2e_success": 0.0,
+      "milestone_f1": 0.0,
+      "branch_f1": 0.0,
+      "trace_f1": 0.0,
+      "fr_coverage": 0.0,
+      "activity_element_trace_coverage": 0.0,
+      "llm_calls": 1,
+      "total_tokens": 86013,
+      "latency_seconds": 160.62102,
+      "estimated_cost_usd": 0.08478630000000001,
+      "outcome": "ответ обрезан"
+    },
+    {
+      "case_id": "SCALE-020",
+      "size_group": "G4_LARGE",
+      "fr_count": 74,
+      "condition": "FULL",
+      "e2e_success": 0.0,
+      "milestone_f1": 0.5836909871244635,
+      "branch_f1": 0.4736842105263158,
+      "trace_f1": 0.9864864864864865,
+      "fr_coverage": 1.0,
+      "activity_element_trace_coverage": 1.0,
+      "llm_calls": 181,
+      "total_tokens": 876604,
+      "latency_seconds": 779.9604810000001,
+      "estimated_cost_usd": 0.47573939999999926,
+      "outcome": "артефакты созданы; финальная проверка не пройдена"
+    }
+  ]
+}

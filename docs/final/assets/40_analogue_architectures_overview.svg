@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <style>
+      .title { font: 700 42px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 20px Arial, sans-serif; fill: #475569; }
+      .group { font: 700 22px Arial, sans-serif; fill: #0f172a; }
+      .name { font: 700 20px Arial, sans-serif; fill: #0f172a; }
+      .label { font: 400 16px Arial, sans-serif; fill: #334155; }
+      .small { font: 400 14px Arial, sans-serif; fill: #64748b; }
+      .flow { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.5; rx: 7; }
+      .item { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; rx: 10; }
+      .groupbox { fill: #f8fafc; stroke: #94a3b8; stroke-width: 1.5; rx: 14; }
+      .accent { fill: #eff6ff; stroke: #2563eb; stroke-width: 2; rx: 12; }
+      .arrow { stroke: #334155; stroke-width: 1.5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="900" fill="#ffffff"/>
+  <text x="70" y="70" class="title">Аналоги различаются исходными данными и назначением</text>
+  <text x="70" y="108" class="subtitle">Не вся система, которая рисует диаграмму, решает задачу перехода от требований к проверяемым сценариям до написания кода</text>
+
+  <rect x="55" y="145" width="710" height="535" class="groupbox"/>
+  <text x="85" y="185" class="group">1. Анализ существующего кода</text>
+  <text x="85" y="212" class="small">Вход появляется после реализации программного продукта</text>
+
+  <rect x="85" y="240" width="650" height="125" class="item"/>
+  <text x="105" y="275" class="name">Pyreverse</text>
+  <rect x="105" y="292" width="130" height="38" class="flow"/><text x="170" y="316" text-anchor="middle" class="label">Python-код</text>
+  <line x1="245" y1="311" x2="298" y2="311" class="arrow"/>
+  <rect x="310" y="292" width="188" height="38" class="flow"/><text x="404" y="316" text-anchor="middle" class="label">статический анализ</text>
+  <line x1="508" y1="311" x2="558" y2="311" class="arrow"/>
+  <rect x="570" y="292" width="145" height="38" class="flow"/><text x="642" y="316" text-anchor="middle" class="label">UML классов</text>
+  <text x="105" y="348" class="small">Классы, пакеты и зависимости; бизнес-сценарии из требований не выводит.</text>
+
+  <rect x="85" y="382" width="650" height="125" class="item"/>
+  <text x="105" y="417" class="name">GitDiagram</text>
+  <rect x="105" y="434" width="150" height="38" class="flow"/><text x="180" y="458" text-anchor="middle" class="label">GitHub-репозиторий</text>
+  <line x1="265" y1="453" x2="303" y2="453" class="arrow"/>
+  <rect x="315" y="434" width="210" height="38" class="flow"/><text x="420" y="458" text-anchor="middle" class="label">LLM + проверка графа</text>
+  <line x1="535" y1="453" x2="568" y2="453" class="arrow"/>
+  <rect x="580" y="434" width="135" height="38" class="flow"/><text x="647" y="458" text-anchor="middle" class="label">Mermaid-карта</text>
+  <text x="105" y="490" class="small">Интерактивная архитектура репозитория со ссылками на файлы.</text>
+
+  <rect x="85" y="524" width="650" height="125" class="item"/>
+  <text x="105" y="559" class="name">DeepWiki / DeepWiki-Open</text>
+  <rect x="105" y="576" width="150" height="38" class="flow"/><text x="180" y="600" text-anchor="middle" class="label">Git-репозиторий</text>
+  <line x1="265" y1="595" x2="303" y2="595" class="arrow"/>
+  <rect x="315" y="576" width="210" height="38" class="flow"/><text x="420" y="600" text-anchor="middle" class="label">индекс + RAG + LLM</text>
+  <line x1="535" y1="595" x2="568" y2="595" class="arrow"/>
+  <rect x="580" y="576" width="135" height="38" class="flow"/><text x="647" y="600" text-anchor="middle" class="label">Wiki + схемы</text>
+  <text x="105" y="632" class="small">Документирует и объясняет уже существующую кодовую базу.</text>
+
+  <rect x="795" y="145" width="750" height="260" class="groupbox"/>
+  <text x="825" y="185" class="group">2. Структура уже формализована</text>
+  <text x="825" y="212" class="small">Инструменты отображают заданную модель, но не интерпретируют ФТ/НФТ</text>
+
+  <text x="825" y="258" class="name">Mermaid CLI</text>
+  <rect x="825" y="276" width="160" height="40" class="flow"/><text x="905" y="301" text-anchor="middle" class="label">Mermaid-текст</text>
+  <line x1="995" y1="296" x2="1050" y2="296" class="arrow"/>
+  <rect x="1062" y="276" width="170" height="40" class="flow"/><text x="1147" y="301" text-anchor="middle" class="label">рендерер</text>
+  <line x1="1242" y1="296" x2="1297" y2="296" class="arrow"/>
+  <rect x="1309" y="276" width="185" height="40" class="flow"/><text x="1401" y="301" text-anchor="middle" class="label">SVG / PNG / PDF</text>
+
+  <text x="825" y="350" class="name">Structurizr DSL</text>
+  <text x="1042" y="350" class="label">C4-модель и связи → представления Context / Container / Component</text>
+
+  <rect x="795" y="425" width="750" height="255" class="groupbox"/>
+  <text x="825" y="465" class="group">3. Сопоставимый вход: естественный язык</text>
+  <text x="825" y="492" class="small">Эти подходы способны работать до кода</text>
+
+  <rect x="825" y="520" width="690" height="64" class="item"/>
+  <text x="845" y="547" class="name">Прямой запрос к LLM</text>
+  <text x="845" y="571" class="label">SpecificationReq → один общий prompt → UC + Activity + трассировка</text>
+
+  <rect x="825" y="598" width="690" height="64" class="item"/>
+  <text x="845" y="625" class="name">Универсальные агентные среды</text>
+  <text x="845" y="649" class="label">задача → модель ↔ инструменты ↔ файлы/среда → результат</text>
+
+  <rect x="55" y="710" width="1490" height="130" class="accent"/>
+  <text x="85" y="750" class="group">Вывод для сравнения</text>
+  <text x="85" y="783" class="label">Кодовые анализаторы и рендереры — полезные смежные решения, но они не заменяют этап до кодогенерации.</text>
+  <text x="85" y="812" class="label">Главный экспериментальный аналог: один прямой вызов той же LLM с тем же SpecificationReq.</text>
+  <text x="1530" y="865" text-anchor="end" class="small">Источники: Pylint, GitDiagram, DeepWiki-Open, Mermaid, Structurizr, Anthropic, OpenAI</text>
+</svg>

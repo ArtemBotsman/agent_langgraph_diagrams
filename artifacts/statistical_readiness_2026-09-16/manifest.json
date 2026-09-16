@@ -1,0 +1,7 @@
+{
+  "suite": "statistical_readiness_2026-09-16",
+  "llm_calls_performed_by_builder": 0,
+  "gold_status": "author_candidate_requires_two_independent_reviews",
+  "corrected_preflight_sha256": "dca9fc0524a8a221e89411c3420c829d6c69ee860eab592ece7a05bbef913f6b",
+  "protocol_sha256": "4aa8e815efc007b8b904424f2d50d8ce2c5bfd80a8cdde8e1fad79668ea3a782"
+}

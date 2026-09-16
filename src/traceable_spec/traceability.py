@@ -220,7 +220,8 @@ def materialize_trace_manifest(
     from the normal typed references.
     """
 
-    declared = declared_relations(request, use_case_set, diagrams)
+    diagram_items = list(diagrams)
+    declared = declared_relations(request, use_case_set, diagram_items)
     links: list[TraceLink] = [
         TraceLink(
             id=f"TL-{index:03d}",
@@ -234,10 +235,47 @@ def materialize_trace_manifest(
         )
         for index, relation in enumerate(declared, start=1)
     ]
+    known_by_type: dict[ElementRefType, set[str]] = {
+        ElementRefType.FR: {item.id for item in request.functional_requirements},
+        ElementRefType.FR_ATOM: {
+            atom.id
+            for requirement in request.functional_requirements
+            for atom in requirement.atoms
+        },
+        ElementRefType.NFR: {item.id for item in request.non_functional_requirements},
+        ElementRefType.ACTOR: {item.id for item in use_case_set.actors},
+        ElementRefType.UC: {item.id for item in use_case_set.use_cases},
+        ElementRefType.US: {
+            item.id for use_case in use_case_set.use_cases for item in use_case.user_stories
+        },
+        ElementRefType.SS: {
+            item.id for use_case in use_case_set.use_cases for item in use_case.system_stories
+        },
+        ElementRefType.STEP: {
+            item.id for use_case in use_case_set.use_cases for item in iter_use_case_steps(use_case)
+        },
+        ElementRefType.PRECONDITION: {
+            item.id for use_case in use_case_set.use_cases for item in use_case.preconditions
+        },
+        ElementRefType.POSTCONDITION: {
+            item.id
+            for use_case in use_case_set.use_cases
+            for item in [*use_case.success_postconditions, *use_case.failure_postconditions]
+        },
+        ElementRefType.ACTIVITY: {item.id for item in diagram_items},
+        ElementRefType.ACTIVITY_NODE: {
+            node.id for item in diagram_items for node in item.nodes
+        },
+        ElementRefType.ACTIVITY_EDGE: {
+            edge.id for item in diagram_items for edge in item.edges
+        },
+    }
     unsupported = [
         link
         for link in (existing or TraceManifest()).links
         if link.link_type == TraceLinkType.UNSUPPORTED
+        and link.source_id in known_by_type.get(link.source_type, set())
+        and link.target_id in known_by_type.get(link.target_type, set())
     ]
     for link in unsupported:
         links.append(link.model_copy(update={"id": f"TL-{len(links) + 1:03d}"}))

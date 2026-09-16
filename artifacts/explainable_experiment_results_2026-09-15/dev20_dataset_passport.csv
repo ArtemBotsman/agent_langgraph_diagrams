@@ -1,0 +1,4 @@
+complexity,projects,fr_min,fr_max,gold_uc_median,gold_milestones,gold_branches,gold_trace_links
+simple,6,3,3,1.0,25,4,18
+medium,9,5,6,3,72,13,47
+hard,5,7,8,3,53,10,40

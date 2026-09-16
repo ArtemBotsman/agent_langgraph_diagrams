@@ -20,6 +20,18 @@ def test_rule_based_baseline_is_reproducible_and_traceable() -> None:
         metric for metric in first.evaluation_report.metrics if metric.name == "fr_coverage"
     )
     assert coverage.value == 1.0
+    fr_activity_coverage = next(
+        metric
+        for metric in first.evaluation_report.metrics
+        if metric.name == "fr_activity_coverage"
+    )
+    assert fr_activity_coverage.value == 1.0
+    trace_manifest_validity = next(
+        metric
+        for metric in first.evaluation_report.metrics
+        if metric.name == "trace_manifest_validity"
+    )
+    assert trace_manifest_validity.value == 1.0
 
 
 def test_sqlite_checkpointer_recovers_pipeline_state(tmp_path: Path) -> None:

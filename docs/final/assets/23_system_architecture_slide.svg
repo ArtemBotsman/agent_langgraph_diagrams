@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <style>
+    .title { font: 700 46px Arial, sans-serif; fill: #17243A; }
+    .subtitle { font: 400 25px Arial, sans-serif; fill: #526178; }
+    .label { font: 700 17px Arial, sans-serif; fill: #215F9A; letter-spacing: 1px; }
+    .box-title { font: 700 27px Arial, sans-serif; fill: #17243A; }
+    .body { font: 400 22px Arial, sans-serif; fill: #35435A; }
+    .small { font: 400 20px Arial, sans-serif; fill: #526178; }
+    .box { fill: #FFFFFF; stroke: #B8C3D1; stroke-width: 2.5; rx: 12; }
+    .code { fill: #F3F6F9; stroke: #B8C3D1; stroke-width: 2.5; rx: 12; }
+    .agent { fill: #EAF2FC; stroke: #215F9A; stroke-width: 3; rx: 12; }
+    .root { fill: #EDF3FA; stroke: #215F9A; stroke-width: 2.5; rx: 10; }
+    .research { fill: #FBF7EA; stroke: #A78438; stroke-width: 2.5; rx: 12; }
+    .line { stroke: #215F9A; stroke-width: 4; fill: none; }
+  </style>
+
+  <rect width="1920" height="1080" fill="#FFFFFF"/>
+  <text x="70" y="76" class="title">Общая архитектура: два агента и проверяемый поток данных</text>
+  <text x="70" y="118" class="subtitle">Этап после аналитика и до кодера · LLM понимает смысл, Python контролирует структуру и связи</text>
+
+  <rect x="70" y="190" width="260" height="300" class="box"/>
+  <text x="95" y="225" class="label">ВХОД</text>
+  <text x="95" y="267" class="box-title">SpecificationReq</text>
+  <text x="95" y="305" class="small">(входная спецификация)</text>
+  <text x="95" y="357" class="body">задача и цель</text>
+  <text x="95" y="393" class="body">описание проекта</text>
+  <text x="95" y="429" class="body">списки ФТ и НФТ</text>
+
+  <path d="M330 340 H382" class="line"/>
+  <polygon points="382,340 360,326 360,354" fill="#215F9A"/>
+
+  <rect x="387" y="190" width="250" height="300" class="code"/>
+  <text x="412" y="225" class="label">PYTHON</text>
+  <text x="412" y="267" class="box-title">Нормализация</text>
+  <text x="412" y="321" class="body">FR-001…</text>
+  <text x="412" y="357" class="body">NFR-001…</text>
+  <text x="412" y="413" class="body">стабильные ID</text>
+  <text x="412" y="449" class="body">атомизация списков</text>
+
+  <path d="M637 340 H689" class="line"/>
+  <polygon points="689,340 667,326 667,354" fill="#215F9A"/>
+
+  <rect x="694" y="170" width="350" height="340" class="agent"/>
+  <text x="720" y="207" class="label">АГЕНТ 1 · LANGGRAPH</text>
+  <text x="720" y="250" class="box-title">Use Case Agent</text>
+  <text x="720" y="286" class="small">(агент сценариев)</text>
+  <text x="720" y="337" class="body">акторы и Use Cases</text>
+  <text x="720" y="373" class="body">основной и альтернативные пути</text>
+  <text x="720" y="409" class="body">user/system stories</text>
+  <rect x="720" y="442" width="298" height="46" class="code"/>
+  <text x="738" y="472" class="small">generate → check → critic → repair</text>
+
+  <text x="1058" y="304" class="small">каждый UC</text>
+  <path d="M1044 340 H1096" class="line"/>
+  <polygon points="1096,340 1074,326 1074,354" fill="#215F9A"/>
+
+  <rect x="1101" y="170" width="350" height="340" class="agent"/>
+  <text x="1127" y="207" class="label">АГЕНТ 2 · LANGGRAPH</text>
+  <text x="1127" y="250" class="box-title">Activity Agent</text>
+  <text x="1127" y="286" class="small">(агент диаграмм)</text>
+  <text x="1127" y="337" class="body">дорожки, узлы и рёбра</text>
+  <text x="1127" y="373" class="body">условия переходов</text>
+  <text x="1127" y="409" class="body">связи с шагами UC</text>
+  <rect x="1127" y="442" width="298" height="46" class="code"/>
+  <text x="1145" y="472" class="small">generate → check → critic → repair</text>
+
+  <path d="M1451 340 H1503" class="line"/>
+  <polygon points="1503,340 1481,326 1481,354" fill="#215F9A"/>
+
+  <rect x="1508" y="190" width="342" height="300" class="code"/>
+  <text x="1533" y="225" class="label">ВЫХОД И КОНТРОЛЬ</text>
+  <text x="1533" y="267" class="box-title">Пакет артефактов</text>
+  <text x="1533" y="321" class="body">UseCaseSet + Stories</text>
+  <text x="1533" y="357" class="body">Activity + Mermaid</text>
+  <text x="1533" y="393" class="body">TraceManifest</text>
+  <text x="1533" y="429" class="body">E2E + quality report</text>
+
+  <rect x="387" y="555" width="1064" height="116" class="root"/>
+  <text x="418" y="596" class="box-title">Корневой orchestrator (управляющий граф)</text>
+  <text x="418" y="637" class="body">Порядок этапов · Activity для каждого UC · лимит исправлений · состояние · явная ошибка</text>
+  <path d="M512 555 V505" class="line"/>
+  <polygon points="512,505 498,527 526,527" fill="#215F9A"/>
+  <path d="M869 555 V515" class="line"/>
+  <polygon points="869,515 855,537 883,537" fill="#215F9A"/>
+  <path d="M1276 555 V515" class="line"/>
+  <polygon points="1276,515 1262,537 1290,537" fill="#215F9A"/>
+
+  <text x="70" y="748" class="box-title">Контур исследования</text>
+
+  <rect x="70" y="785" width="480" height="205" class="research"/>
+  <text x="96" y="825" class="label">ДАННЫЕ</text>
+  <text x="96" y="867" class="box-title">Два benchmark-набора</text>
+  <text x="96" y="911" class="body">30 синтетических: DEV20/hidden10 + gold</text>
+  <text x="96" y="949" class="body">20 входов: 4 группы, 6–74 ФТ, без gold</text>
+
+  <path d="M550 888 H650" class="line"/>
+  <polygon points="650,888 628,874 628,902" fill="#215F9A"/>
+
+  <rect x="655" y="785" width="550" height="205" class="agent"/>
+  <text x="681" y="825" class="label">ЭКСПЕРИМЕНТ</text>
+  <text x="681" y="867" class="box-title">B1 one-shot ↔ FULL</text>
+  <text x="681" y="911" class="body">один прямой вызов ↔ полный граф</text>
+  <text x="681" y="949" class="body">одинаковые вход, модель, schema, evaluator</text>
+
+  <path d="M1205 888 H1305" class="line"/>
+  <polygon points="1305,888 1283,874 1283,902" fill="#215F9A"/>
+
+  <rect x="1310" y="785" width="540" height="205" class="research"/>
+  <text x="1336" y="825" class="label">ОЦЕНКА</text>
+  <text x="1336" y="867" class="box-title">Качество · надёжность · цена</text>
+  <text x="1336" y="911" class="body">Actor/UC/Milestone/Branch/Trace F1</text>
+  <text x="1336" y="949" class="body">E2E · время · токены · стоимость</text>
+
+  <text x="70" y="1042" class="subtitle">Два смысловых агента. Корневой orchestrator не является третьим агентом.</text>
+</svg>

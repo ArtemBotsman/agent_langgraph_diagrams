@@ -1,0 +1,29 @@
+{
+  "created_from_saved_results": true,
+  "paid_llm_calls_performed_by_builder": 0,
+  "excluded_from_main_analysis": [
+    "B0_RULE",
+    "semantic_composite",
+    "LLM-as-a-judge",
+    "Pyreverse as a direct baseline"
+  ],
+  "files": [
+    "01_size_status_gost.png",
+    "01_size_status_gost.svg",
+    "02_size_quality_gost.png",
+    "02_size_quality_gost.svg",
+    "03_size_resources_gost.png",
+    "03_size_resources_gost.svg",
+    "04_component_contribution_gost.png",
+    "04_component_contribution_gost.svg",
+    "05_cross_model_quality_gost.png",
+    "05_cross_model_quality_gost.svg",
+    "06_cross_model_cost_gost.png",
+    "06_cross_model_cost_gost.svg",
+    "ANALYSIS_RU.md",
+    "component_contribution.csv",
+    "cross_model_comparison.csv",
+    "manifest.json",
+    "size_scaling_6_19_48_74.csv"
+  ]
+}

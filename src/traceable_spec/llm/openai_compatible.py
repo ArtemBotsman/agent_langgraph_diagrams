@@ -8,8 +8,10 @@ not persist API keys or raw prompts/responses. Network calls only happen when
 from __future__ import annotations
 
 import hashlib
+import http.client
 import json
 import os
+import socket
 import time
 import urllib.error
 import urllib.request
@@ -51,6 +53,16 @@ Transport = Callable[[str, dict[str, str], bytes, float], tuple[int, bytes]]
 Sleep = Callable[[float], None]
 
 _RETRYABLE_HTTP_STATUSES = {408, 409, 425, 429, 500, 502, 503, 504}
+_RETRYABLE_TRANSPORT_ERRORS = (
+    urllib.error.URLError,
+    TimeoutError,
+    socket.timeout,
+    http.client.IncompleteRead,
+    http.client.RemoteDisconnected,
+    ConnectionAbortedError,
+    ConnectionResetError,
+    BrokenPipeError,
+)
 
 
 def _parse_retry_after(value: str | None) -> float | None:
@@ -355,7 +367,7 @@ class OpenAICompatibleLLMClient:
                         exc.headers.get("Retry-After") if exc.headers is not None else None
                     ),
                 )
-            except (LLMHTTPStatusError, urllib.error.URLError, TimeoutError) as exc:
+            except (LLMHTTPStatusError, *_RETRYABLE_TRANSPORT_ERRORS) as exc:
                 last_error = exc
                 if isinstance(exc, LLMHTTPStatusError) and exc.response_body is not None:
                     self._write_raw_capture(
@@ -365,7 +377,7 @@ class OpenAICompatibleLLMClient:
             except (RuntimeError, KeyError, ValueError) as exc:
                 last_error = exc
 
-            retryable = isinstance(last_error, urllib.error.URLError | TimeoutError)
+            retryable = isinstance(last_error, _RETRYABLE_TRANSPORT_ERRORS)
             status_code: int | None = None
             retry_after_seconds: float | None = None
             if isinstance(last_error, LLMHTTPStatusError):

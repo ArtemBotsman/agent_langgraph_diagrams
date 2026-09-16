@@ -36,6 +36,7 @@ from traceable_spec.testing.fixtures import (
     sample_uc_trace_manifest,
     sample_use_case_set,
 )
+from traceable_spec.traceability import materialize_trace_manifest
 from traceable_spec.use_cases_graph import compile_use_cases_graph
 from traceable_spec.validators import (
     validate_activity_structure,
@@ -136,6 +137,52 @@ def test_dangling_trace_links() -> None:
     )
     assert not report.passed
     assert any(issue.code == "dangling_trace_target" for issue in report.issues)
+
+
+def test_trace_materialization_drops_stale_unsupported_links_after_repair() -> None:
+    request = sample_request()
+    use_case_set = sample_use_case_set()
+    diagram = sample_activity_diagram()
+    valid_target = diagram.nodes[1].id
+    existing = TraceManifest(
+        links=[
+            TraceLink(
+                id="TL-901",
+                source_type=ElementRefType.STEP,
+                source_id="STEP-UC001-001",
+                target_type=ElementRefType.ACTIVITY_NODE,
+                target_id=valid_target,
+                link_type=TraceLinkType.UNSUPPORTED,
+                origin=TraceOrigin.LLM,
+                rationale="Still present after repair",
+            ),
+            TraceLink(
+                id="TL-902",
+                source_type=ElementRefType.STEP,
+                source_id="STEP-UC001-001",
+                target_type=ElementRefType.ACTIVITY_EDGE,
+                target_id="ADE-UC001-999",
+                link_type=TraceLinkType.UNSUPPORTED,
+                origin=TraceOrigin.LLM,
+                rationale="Removed by repair",
+            ),
+        ]
+    )
+
+    manifest = materialize_trace_manifest(
+        request,
+        use_case_set,
+        [diagram],
+        existing=existing,
+    )
+
+    unsupported_targets = {
+        link.target_id
+        for link in manifest.links
+        if link.link_type == TraceLinkType.UNSUPPORTED
+    }
+    assert valid_target in unsupported_targets
+    assert "ADE-UC001-999" not in unsupported_targets
 
 
 def test_uncovered_fr() -> None:

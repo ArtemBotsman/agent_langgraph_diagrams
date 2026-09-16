@@ -1,0 +1,8 @@
+track,condition,purpose,projects,repeats
+primary,B1_ONESHOT,прямой вызов той же модели,20,3
+primary,FULL_REPAIR_2,полный граф,20,3
+component,FULL_REPAIR_0,вклад исправления: 0 попыток,20,3
+component,FULL_REPAIR_1,вклад исправления: 1 попытка,20,3
+component,FULL_NO_CRITIC,вклад LLM-критика,20,3
+component,FULL_NO_RULE_FEEDBACK,вклад обратной связи формальных правил,20,3
+robustness,ONE_SHOT_AND_FULL_GPT55_CLAUDE,переносимость между моделями на замороженном поднаборе,fixed_subset,3

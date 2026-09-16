@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import http.client
 import json
 import stat
 from pathlib import Path
@@ -232,6 +233,35 @@ def test_client_retries_429_and_keeps_sanitized_attempt_history() -> None:
         }
     ]
     assert "rate limit details" not in json.dumps(client.calls)
+
+
+def test_client_retries_incomplete_http_body() -> None:
+    attempts = 0
+    sleeps: list[float] = []
+
+    def transport(*_: object) -> tuple[int, bytes]:
+        nonlocal attempts
+        attempts += 1
+        if attempts == 1:
+            raise http.client.IncompleteRead(b"")
+        response = {
+            "model": "test-model",
+            "choices": [{"message": {"content": "{}"}, "finish_reason": "stop"}],
+            "usage": {"prompt_tokens": 1, "completion_tokens": 1, "total_tokens": 2},
+        }
+        return 200, json.dumps(response).encode()
+
+    client = OpenAICompatibleLLMClient(
+        _config(max_retries=1),
+        transport=transport,
+        sleep=sleeps.append,
+    )
+
+    assert client.complete(messages=[{"role": "user", "content": "x"}]) == "{}"
+    assert attempts == 2
+    assert sleeps == [0.5]
+    assert client.calls[0]["retry_events"][0]["error_type"] == "IncompleteRead"
+    assert client.calls[0]["retry_events"][0]["retryable"] is True
 
 
 def test_client_does_not_retry_authentication_error() -> None:

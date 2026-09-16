@@ -1,0 +1,9 @@
+method,method_ru,metric,parsed_attempts,mean
+ONE_SHOT,Один вызов LLM,actor_f1,51,0.8352007469654529
+ONE_SHOT,Один вызов LLM,uc_f1,51,0.996078431372549
+ONE_SHOT,Один вызов LLM,milestone_f1,51,0.2929837026107917
+ONE_SHOT,Один вызов LLM,branch_f1,51,0.36993464052287583
+FULL,Полный граф,actor_f1,60,0.813968253968254
+FULL,Полный граф,uc_f1,60,0.9703896103896104
+FULL,Полный граф,milestone_f1,60,0.27053399119468446
+FULL,Полный граф,branch_f1,60,0.4517857142857143

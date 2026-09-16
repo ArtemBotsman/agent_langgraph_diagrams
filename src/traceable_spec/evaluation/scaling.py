@@ -81,11 +81,21 @@ def summarize_scaling_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
         successful = [row for row in current if float(row.get("end_to_end_success", 0)) == 1.0]
         unique_cases = {str(row["case_id"]) for row in current}
         hashes_by_case: dict[str, set[str]] = {}
+        semantic_values_by_case: dict[str, list[float]] = {}
         for row in current:
             digest = row.get("output_sha256")
             if digest:
                 hashes_by_case.setdefault(str(row["case_id"]), set()).add(str(digest))
+            if row.get("semantic_composite") is not None:
+                semantic_values_by_case.setdefault(str(row["case_id"]), []).append(
+                    float(row["semantic_composite"])
+                )
         stable_cases = sum(1 for hashes in hashes_by_case.values() if len(hashes) == 1)
+        semantic_stability = [
+            max(0.0, 1.0 - (max(values) - min(values)))
+            for values in semantic_values_by_case.values()
+            if len(values) >= 2
+        ]
         summaries.append(
             {
                 "condition": condition,
@@ -102,12 +112,20 @@ def summarize_scaling_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "activity_element_trace_coverage": _mean(
                     current, "activity_element_trace_coverage"
                 ),
+                "actor_f1": _mean(current, "actor_f1"),
+                "uc_f1": _mean(current, "uc_f1"),
+                "milestone_recall": _mean(current, "milestone_recall"),
+                "branch_recall": _mean(current, "branch_recall"),
+                "trace_f1": _mean(current, "trace_f1"),
+                "semantic_composite": _mean(current, "semantic_composite"),
+                "hallucination_rate": _mean(current, "hallucination_rate"),
                 "mean_fr_count": _mean(current, "fr_count"),
                 "mean_nfr_count": _mean(current, "nfr_count"),
                 "mean_latency_ms": _mean(current, "latency_ms"),
                 "median_latency_ms": _median(current, "latency_ms"),
                 "mean_llm_calls": _mean(current, "llm_calls"),
                 "mean_total_tokens": _mean(current, "total_tokens"),
+                "mean_estimated_cost_usd": _mean(current, "estimated_cost_usd"),
                 "mean_repair_attempts": _mean(current, "repair_attempts"),
                 "mean_use_case_count": _mean(current, "use_case_count"),
                 "mean_activity_diagram_count": _mean(current, "activity_diagram_count"),
@@ -117,6 +135,9 @@ def summarize_scaling_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
                 "mean_output_bytes": _mean(current, "output_bytes"),
                 "repeat_exact_match_rate": (
                     stable_cases / len(hashes_by_case) if hashes_by_case else None
+                ),
+                "mean_semantic_stability": (
+                    mean(semantic_stability) if semantic_stability else None
                 ),
             }
         )

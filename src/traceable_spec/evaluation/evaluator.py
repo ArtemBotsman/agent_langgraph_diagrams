@@ -34,20 +34,27 @@ def evaluate_specification(spec: GeneratedSpecification) -> EvaluationReport:
     """Compute automatic structural/trace metrics from GeneratedSpecification."""
     metrics: list[MetricResult] = []
 
-    schema_ok = all(
-        report.validator_name.endswith("schema") is False or report.passed
-        for report in spec.validation_reports
+    # Measure the final bundle, not failed intermediate attempts that were later
+    # repaired. Historical validation reports remain available for error analysis.
+    expected_activity_ids = (
+        {item.id for item in spec.use_case_set.use_cases} if spec.use_case_set else set()
     )
-    # Prefer explicit schema reports
-    schema_reports = [r for r in spec.validation_reports if "schema" in r.validator_name]
-    if schema_reports:
-        schema_ok = all(r.passed for r in schema_reports)
+    final_activity_ids = {
+        item.use_case_id
+        for item in spec.activity_results
+        if item.activity_diagram is not None
+    }
+    schema_ok = spec.use_case_set is not None and expected_activity_ids == final_activity_ids
     metrics.append(
         _metric(
             "schema_validity",
             1.0 if schema_ok else 0.0,
             higher_is_better=True,
-            notes="Share of schema validators that passed",
+            notes=(
+                "1 if the final typed bundle contains a UseCaseSet and one typed Activity "
+                "artifact for every final Use Case; repaired intermediate parse failures "
+                "do not invalidate the final bundle"
+            ),
         )
     )
 
@@ -126,6 +133,34 @@ def evaluate_specification(spec: GeneratedSpecification) -> EvaluationReport:
         )
     )
 
+    step_ids_by_fr: dict[str, set[str]] = {fr_id: set() for fr_id in fr_ids}
+    activity_step_ids: set[str] = set()
+    for link in spec.trace_manifest.links:
+        if link.link_type == TraceLinkType.FR_TO_STEP and link.source_id in step_ids_by_fr:
+            step_ids_by_fr[link.source_id].add(link.target_id)
+        elif link.link_type in {
+            TraceLinkType.STEP_TO_ACTIVITY_NODE,
+            TraceLinkType.STEP_TO_ACTIVITY_EDGE,
+        }:
+            activity_step_ids.add(link.source_id)
+    frs_reaching_activity = {
+        fr_id
+        for fr_id, step_ids in step_ids_by_fr.items()
+        if step_ids & activity_step_ids
+    }
+    metrics.append(
+        _metric(
+            "fr_activity_coverage",
+            len(frs_reaching_activity) / len(fr_ids) if fr_ids else 0.0,
+            higher_is_better=True,
+            unit="ratio",
+            notes=(
+                "|FRs connected to at least one Activity node or edge through a scenario "
+                "step| / |FRs|"
+            ),
+        )
+    )
+
     activity_ok = 0
     mermaid_ok = 0
     for result in spec.activity_results:
@@ -171,6 +206,15 @@ def evaluate_specification(spec: GeneratedSpecification) -> EvaluationReport:
         report for report in spec.validation_reports if report.validator_name == "e2e_trace"
     ]
     e2e_details = coverage_reports[-1].details if coverage_reports else {}
+    trace_manifest_validity = bool(coverage_reports and coverage_reports[-1].passed)
+    metrics.append(
+        _metric(
+            "trace_manifest_validity",
+            1.0 if trace_manifest_validity else 0.0,
+            higher_is_better=True,
+            notes="1 if the final end-to-end trace validator passed, otherwise 0",
+        )
+    )
     for metric_name, detail_name in (
         ("uc_element_trace_coverage", "uc_ratio"),
         ("activity_element_trace_coverage", "activity_ratio"),
@@ -197,18 +241,26 @@ def evaluate_specification(spec: GeneratedSpecification) -> EvaluationReport:
             unit="ratio",
         )
     )
-    blocking_issue_codes = {
-        issue.code
-        for report in spec.validation_reports
-        for issue in report.issues
-        if issue.blocking
-    }
+    # Intermediate failures are repair evidence, not unresolved final defects.
+    # Successful bundles therefore have zero remaining blocking classes. For a
+    # failed bundle retain all recorded classes to support diagnosis.
+    blocking_issue_codes = (
+        set()
+        if spec.status == PipelineStatus.SUCCESS
+        else {
+            issue.code
+            for report in spec.validation_reports
+            for issue in report.issues
+            if issue.blocking
+        }
+    )
     metrics.append(
         _metric(
             "blocking_error_classes",
             len(blocking_issue_codes),
             higher_is_better=False,
             unit="count",
+            notes="Unresolved blocking classes in the final bundle; repaired history excluded",
         )
     )
 

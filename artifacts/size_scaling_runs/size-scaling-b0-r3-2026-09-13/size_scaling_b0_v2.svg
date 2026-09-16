@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+<rect width="1280" height="720" fill="#ffffff"/>
+<style>text{font-family:Arial,sans-serif;fill:#172033}.title{font-size:28px;font-weight:700}.sub{font-size:15px;fill:#586174}.axis{font-size:13px;fill:#586174}.value{font-size:15px;font-weight:700}.call{font-size:19px;font-weight:700}.card{font-size:23px;font-weight:700}.cardSub{font-size:13px;fill:#586174}</style>
+<text x="64" y="54" class="title">B0 без LLM: 20 проектов разного размера</text>
+<text x="64" y="86" class="sub">Заранее заданные правила · 20 проектов × 3 запуска · 60/60 формально завершено</text>
+<text x="64" y="133" class="value">4 группы по размеру проекта (числу ФТ)</text>
+<text x="680" y="133" class="value">Время B0 растёт примерно линейно</text>
+<line x1="64" y1="465" x2="564" y2="465" stroke="#cad1dc"/>
+<line x1="680" y1="465" x2="1216" y2="465" stroke="#cad1dc"/>
+<line x1="680" y1="165" x2="680" y2="465" stroke="#cad1dc"/>
+<text x="1216" y="157" text-anchor="end" class="sub">≈ +0,058 мс на 1 ФТ · линейная модель объясняет 98,6% разброса</text>
+<rect x="81" y="431.9" width="74" height="33.1" rx="4" fill="#2667a8"/>
+<text x="118.0" y="421.9" text-anchor="middle" class="value">8,0 ФТ</text>
+<text x="118.0" y="492" text-anchor="middle" class="value">Малые</text>
+<text x="118.0" y="513" text-anchor="middle" class="axis">5–10 ФТ</text>
+<rect x="198" y="399.6" width="74" height="65.4" rx="4" fill="#2f7d75"/>
+<text x="235.0" y="389.6" text-anchor="middle" class="value">15,8 ФТ</text>
+<text x="235.0" y="492" text-anchor="middle" class="value">Увеличенные</text>
+<text x="235.0" y="513" text-anchor="middle" class="axis">11–20 ФТ</text>
+<rect x="315" y="315.9" width="74" height="149.1" rx="4" fill="#8a6d2f"/>
+<text x="352.0" y="305.9" text-anchor="middle" class="value">36,0 ФТ</text>
+<text x="352.0" y="492" text-anchor="middle" class="value">Средние</text>
+<text x="352.0" y="513" text-anchor="middle" class="axis">21–50 ФТ</text>
+<rect x="432" y="200.0" width="74" height="265.0" rx="4" fill="#874c62"/>
+<text x="469.0" y="190.0" text-anchor="middle" class="value">64,0 ФТ</text>
+<text x="469.0" y="492" text-anchor="middle" class="value">Большие</text>
+<text x="469.0" y="513" text-anchor="middle" class="axis">51–75 ФТ</text>
+<line x1="680" y1="440.9" x2="1216" y2="185.5" stroke="#8aa9c8" stroke-width="3" stroke-dasharray="8 7"/>
+<circle cx="722.9" cy="401.3" r="5" fill="#2667a8"/>
+<circle cx="730.0" cy="411.0" r="5" fill="#2667a8"/>
+<circle cx="737.2" cy="419.5" r="5" fill="#2667a8"/>
+<circle cx="744.3" cy="414.5" r="5" fill="#2667a8"/>
+<circle cx="751.5" cy="407.0" r="5" fill="#2667a8"/>
+<circle cx="765.8" cy="403.6" r="5" fill="#2667a8"/>
+<circle cx="780.1" cy="397.3" r="5" fill="#2667a8"/>
+<circle cx="794.3" cy="392.1" r="5" fill="#2667a8"/>
+<circle cx="808.6" cy="376.5" r="5" fill="#2667a8"/>
+<circle cx="815.8" cy="381.0" r="5" fill="#2667a8"/>
+<circle cx="851.5" cy="363.1" r="5" fill="#2667a8"/>
+<circle cx="894.4" cy="342.8" r="5" fill="#2667a8"/>
+<circle cx="937.3" cy="329.1" r="5" fill="#2667a8"/>
+<circle cx="980.2" cy="269.1" r="5" fill="#2667a8"/>
+<circle cx="1023.0" cy="287.3" r="5" fill="#2667a8"/>
+<circle cx="1065.9" cy="258.0" r="5" fill="#2667a8"/>
+<circle cx="1101.7" cy="240.4" r="5" fill="#2667a8"/>
+<circle cx="1137.4" cy="220.6" r="5" fill="#2667a8"/>
+<circle cx="1173.1" cy="205.1" r="5" fill="#2667a8"/>
+<circle cx="1208.9" cy="190.0" r="5" fill="#2667a8"/>
+<text x="680.0" y="493" text-anchor="middle" class="axis">0</text>
+<text x="858.7" y="493" text-anchor="middle" class="axis">25</text>
+<text x="1037.3" y="493" text-anchor="middle" class="axis">50</text>
+<text x="1216.0" y="493" text-anchor="middle" class="axis">75</text>
+<line x1="675" y1="465.0" x2="1216" y2="465.0" stroke="#edf0f5"/>
+<text x="668" y="470.0" text-anchor="end" class="axis">0 мс</text>
+<line x1="675" y1="347.0" x2="1216" y2="347.0" stroke="#edf0f5"/>
+<text x="668" y="352.0" text-anchor="end" class="axis">2 мс</text>
+<line x1="675" y1="229.0" x2="1216" y2="229.0" stroke="#edf0f5"/>
+<text x="668" y="234.0" text-anchor="end" class="axis">4 мс</text>
+<text x="948.0" y="515" text-anchor="middle" class="axis">Функциональные требования, шт.</text>
+<line x1="64" y1="540" x2="1216" y2="540" stroke="#cad1dc"/>
+<rect x="64" y="565" width="250" height="76" rx="8" fill="#eef8f3"/>
+<text x="84" y="596" class="card" fill="#247a55">60/60</text>
+<text x="84" y="621" class="cardSub">формально завершено</text>
+<rect x="331" y="565" width="250" height="76" rx="8" fill="#eef4fb"/>
+<text x="351" y="596" class="card" fill="#2667a8">менее 5 мс</text>
+<text x="351" y="621" class="cardSub">даже при 74 ФТ</text>
+<rect x="598" y="565" width="618" height="76" rx="8" fill="#faf3e5"/>
+<text x="618" y="594" class="value">Ограничение: 74 ФТ → 1 UC → 76 элементов линейной диаграммы</text>
+<text x="618" y="621" class="cardSub">Формальное завершение не доказывает смысловую полноту и удобство диаграммы.</text>
+<text x="64" y="676" class="call">Вывод: B0 — нижний ориентир времени и стоимости для сравнения с LLM-подходами.</text>
+<text x="64" y="704" class="axis">ФТ — функциональное требование · UC — сценарий использования · LLM — большая языковая модель</text>
+<text x="1216" y="704" text-anchor="end" class="axis">size_scaling_v1 · 2026-09-13</text>
+</svg>

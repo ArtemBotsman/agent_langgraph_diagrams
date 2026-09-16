@@ -31,6 +31,9 @@ venv/
 *.swp
 .DS_Store
 AGENTS.md
+.codex_build/
+.chart-data-*/
+~$*.docx
 
 # Local working notes and handoff materials
 docs/obsidian_vault/
@@ -46,6 +49,13 @@ artifacts/runs/
 artifacts/tmp/
 artifacts/llm_judge_runs/
 artifacts/**/checkpoints.sqlite
+# Raw paid runs and supervisor benchmark outputs stay local. Public evidence is
+# exported as aggregate CSV/JSON reports and figures in the curated folders.
+artifacts/benchmark_runs/no-critic-dev20-r3-deepseek-flash-2026-09-16*/
+artifacts/size_scaling_runs/scale010-full-checkpoint-recovery-2026-09-16/
+artifacts/size_scaling_runs/size-final-g*-b1-full-r1-2026-09-16/
+artifacts/size_scaling_runs/size-scaling-gold-*/
+artifacts/statistical_readiness_2026-09-16/revalidated/
 .private_experiment_evidence/
 .private_evidence/
 docs/final/deliverables/*.zip
@@ -53,6 +63,9 @@ docs/final/deliverables/AgentLangGraph_technology_project_resit_2026-09-11.pptx
 docs/final/deliverables/AgentLangGraph_technology_project_submission_2026-09-11.pptx
 docs/final/deliverables/AgentLangGraph_technology_report_final_2026-09-11.docx
 benchmark/size_scaling_v1/inputs/*.json
+benchmark/size_scaling_v1/gold_candidate.json
+benchmark/size_scaling_v1/gold_freeze_record.json
+benchmark/size_scaling_v1/expert_review/
 experiments/size_scaling_external/responses/**/*.json
 experiments/external_models/responses/**/*.json
 *.log

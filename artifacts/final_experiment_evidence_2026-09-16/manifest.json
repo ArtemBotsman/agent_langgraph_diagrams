@@ -1,0 +1,15 @@
+{
+  "size_sources": [
+    "artifacts/size_scaling_runs/size-final-g1-b1-full-r1-2026-09-16/results.json",
+    "artifacts/size_scaling_runs/size-final-g2-b1-full-r1-2026-09-16/results.json",
+    "artifacts/size_scaling_runs/size-final-g3-b1-full-r1-2026-09-16/results.json",
+    "artifacts/size_scaling_runs/size-final-g4-b1-full-r1-2026-09-16/results.json"
+  ],
+  "full_dev20_source": "artifacts/benchmark_runs/full-dev20-r3-deepseek-flash-2026-09-13/results.json",
+  "no_critic_source": "artifacts/benchmark_runs/no-critic-dev20-r3-deepseek-flash-2026-09-16-resumed/results.json",
+  "gold_status": "author_candidate_requires_two_independent_reviews",
+  "hidden_test_used": false,
+  "bootstrap_iterations": 50000,
+  "semantic_failure_policy": "missing output is reported separately, not converted to F1=0",
+  "critic_comparison_limit": "FULL and FULL_NO_CRITIC use the same benchmark/model/prompts/schema but were preserved from different code revisions; causal attribution is preliminary."
+}

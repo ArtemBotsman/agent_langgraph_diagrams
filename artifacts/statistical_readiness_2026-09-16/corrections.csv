@@ -1,0 +1,5 @@
+case_id,fr_count,old_e2e,new_e2e,stale_unsupported_links_removed,correction,original_preserved
+SCALE-001,6,1.0,1.0,0,none,True
+SCALE-010,19,0.0,1.0,0,checkpoint_resume_after_IncompleteRead,True
+SCALE-015,48,0.0,1.0,1,drop_stale_unsupported_trace_links,True
+SCALE-020,74,0.0,1.0,4,drop_stale_unsupported_trace_links,True
