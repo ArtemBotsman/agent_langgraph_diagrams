@@ -14,7 +14,8 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, Image
+from public_report_figures import charts
 from pypdf import PdfReader, PdfWriter
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -56,6 +57,13 @@ def f(value, digits=3):
     return 'NA' if value is None else f'{value:.{digits}f}'.replace('.', ',')
 
 def generated(name):
+    if name == 'architecture_image':
+        return [Image(str(ROOT/'docs/final/figures/architecture.png'), width=WIDTH, height=WIDTH*720/1280), Spacer(1, 15)]
+    if name.startswith('figure_'):
+        result = []
+        for chart in charts(name[7:], DATA):
+            result.extend([chart, Spacer(1, 12)])
+        return result
     if name == 'roles':
         return table([
             ['Граф', 'Генератор', 'Критик', 'Редактор'],

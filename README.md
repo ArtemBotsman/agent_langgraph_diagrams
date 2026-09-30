@@ -12,7 +12,7 @@ TraceManifest. Пакет предназначен для разработчик
 
 ## Актуальные материалы
 
-- [Обновлённый технический отчёт, PDF](docs/final/deliverables/AgentLangGraph_technology_report_GOST.pdf).
+- [Обновлённый технический отчёт с графиками, PDF](docs/final/deliverables/AgentLangGraph_technology_report_GOST.pdf).
 - [Числовые результаты, JSON](docs/final/results/results_snapshot.json).
 - [Условия и происхождение данных](docs/final/results/README.md).
 - [Изменения после замечаний комиссии](docs/final/CHANGES_AND_REVIEW.md).
