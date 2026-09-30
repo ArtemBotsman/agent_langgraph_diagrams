@@ -12,6 +12,7 @@ from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import cm
+from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak, Table, TableStyle, Image
@@ -57,6 +58,10 @@ def f(value, digits=3):
     return 'NA' if value is None else f'{value:.{digits}f}'.replace('.', ',')
 
 def generated(name):
+    if name.startswith('supplied_'):
+        path = ROOT/'docs/final/figures'/f'{name}.png'
+        width, height = ImageReader(str(path)).getSize()
+        return [Image(str(path), width=WIDTH, height=WIDTH*height/width), Spacer(1, 15)]
     if name == 'architecture_image':
         return [Image(str(ROOT/'docs/final/figures/architecture.png'), width=WIDTH, height=WIDTH*720/1280), Spacer(1, 15)]
     if name.startswith('figure_'):
