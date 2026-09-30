@@ -12,7 +12,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from traceable_spec.llm.openai_compatible import (
     LLMBudgetExceededError,
@@ -21,6 +21,7 @@ from traceable_spec.llm.openai_compatible import (
     _parse_retry_after,
 )
 from traceable_spec.llm.protocol import LLMNotConfiguredError
+from traceable_spec.llm.streaming import anthropic_response
 from traceable_spec.prompts.use_cases import detect_llm_role
 
 Transport = Callable[[str, dict[str, str], bytes, float], tuple[int, bytes]]
@@ -64,6 +65,7 @@ class AnthropicConfig:
     reasoning_effort: str | None = "low"
     telemetry_path: Path | None = None
     raw_capture_dir: Path | None = None
+    streaming: bool = False
 
     @classmethod
     def from_env(cls) -> AnthropicConfig:
@@ -85,12 +87,8 @@ class AnthropicConfig:
             anthropic_version=os.environ.get("ANTHROPIC_VERSION", "2023-06-01"),
             timeout_seconds=float(os.environ.get("LLM_TIMEOUT_SECONDS", "600")),
             max_retries=int(os.environ.get("LLM_MAX_RETRIES", "1")),
-            retry_base_delay_seconds=float(
-                os.environ.get("LLM_RETRY_BASE_DELAY_SECONDS", "1")
-            ),
-            max_retry_delay_seconds=float(
-                os.environ.get("LLM_MAX_RETRY_DELAY_SECONDS", "30")
-            ),
+            retry_base_delay_seconds=float(os.environ.get("LLM_RETRY_BASE_DELAY_SECONDS", "1")),
+            max_retry_delay_seconds=float(os.environ.get("LLM_MAX_RETRY_DELAY_SECONDS", "30")),
             max_output_tokens=int(os.environ.get("LLM_MAX_OUTPUT_TOKENS", "12000")),
             max_calls_per_process=int(os.environ.get("LLM_MAX_CALLS_PER_PROCESS", "3")),
             max_total_tokens_per_process=int(
@@ -151,6 +149,8 @@ class AnthropicLLMClient:
         self.total_cost_usd = 0.0
 
     def _check_budget(self) -> None:
+        if any(call.get("usage_complete") is False for call in self.calls):
+            raise LLMBudgetExceededError("Unknown token usage requires review before another call")
         if len(self.calls) >= self.config.max_calls_per_process:
             raise LLMBudgetExceededError("Local LLM call-count budget exhausted")
         if self.total_tokens >= self.config.max_total_tokens_per_process:
@@ -194,9 +194,7 @@ class AnthropicLLMClient:
     ) -> str:
         self._check_budget()
         requested_model = model or self.config.model
-        system = "\n\n".join(
-            item["content"] for item in messages if item.get("role") == "system"
-        )
+        system = "\n\n".join(item["content"] for item in messages if item.get("role") == "system")
         api_messages = [
             {"role": item["role"], "content": item["content"]}
             for item in messages
@@ -207,6 +205,8 @@ class AnthropicLLMClient:
             "max_tokens": self.config.max_output_tokens,
             "messages": api_messages,
         }
+        if self.config.streaming:
+            payload["stream"] = True
         if system:
             payload["system"] = system
         requested_temperature = temperature
@@ -215,9 +215,7 @@ class AnthropicLLMClient:
             and temperature != 1
             and _requires_default_temperature(requested_model)
         )
-        effective_temperature = (
-            None if temperature_omitted_for_compatibility else temperature
-        )
+        effective_temperature = None if temperature_omitted_for_compatibility else temperature
         if effective_temperature is not None:
             payload["temperature"] = effective_temperature
         output_config: dict[str, Any] = {}
@@ -253,12 +251,14 @@ class AnthropicLLMClient:
             attempts = attempt + 1
             try:
                 status, raw = self._transport(url, headers, body, self.config.timeout_seconds)
-                self._write_raw_capture(
-                    f"{call_id}-attempt-{attempts:02d}-response.json", raw
-                )
+                self._write_raw_capture(f"{call_id}-attempt-{attempts:02d}-response.json", raw)
                 if status >= 400:
                     raise LLMHTTPStatusError(status)
-                data = json.loads(raw.decode("utf-8"))
+                data = (
+                    anthropic_response(raw)
+                    if self.config.streaming
+                    else json.loads(raw.decode("utf-8"))
+                )
                 text_blocks = [
                     str(block.get("text", ""))
                     for block in data.get("content", [])
@@ -268,25 +268,43 @@ class AnthropicLLMClient:
                 if not content:
                     raise ValueError("Anthropic response contained no text block")
                 usage = data.get("usage") or {}
-                prompt_tokens = int(usage.get("input_tokens") or 0)
-                completion_tokens = int(usage.get("output_tokens") or 0)
-                total_tokens = prompt_tokens + completion_tokens
+                counts = [
+                    usage.get("input_tokens"),
+                    usage.get("output_tokens"),
+                    usage.get("cache_read_input_tokens", 0),
+                    usage.get("cache_creation_input_tokens", 0),
+                ]
+                usage_complete = all(type(n) is int and n >= 0 for n in counts) and (
+                    cast(int, counts[0]) + cast(int, counts[2]) + cast(int, counts[3]) > 0
+                )
+                prompt_tokens = counts[0] + counts[2] + counts[3] if usage_complete else None
+                completion_tokens = counts[1] if usage_complete else None
+                total_tokens = (
+                    cast(int, prompt_tokens) + cast(int, completion_tokens)
+                    if usage_complete
+                    else None
+                )
                 estimated_cost_usd: float | None = None
                 if (
-                    self.config.input_price_usd_per_million is not None
+                    usage_complete
+                    and prompt_tokens is not None
+                    and completion_tokens is not None
+                    and self.config.input_price_usd_per_million is not None
                     and self.config.output_price_usd_per_million is not None
                 ):
                     estimated_cost_usd = (
-                        prompt_tokens * self.config.input_price_usd_per_million
+                        (prompt_tokens + counts[3]) * self.config.input_price_usd_per_million
                         + completion_tokens * self.config.output_price_usd_per_million
                     ) / 1_000_000
                     self.total_cost_usd += estimated_cost_usd
-                self.total_tokens += total_tokens
+                if total_tokens is not None:
+                    self.total_tokens += total_tokens
                 record = {
                     "call_id": call_id,
                     "provider": self.config.provider,
                     "api_base": self.config.api_base,
                     "requested_model": requested_model,
+                    "requested_max_output_tokens": self.config.max_output_tokens,
                     "resolved_model": data.get("model"),
                     "requested_temperature": requested_temperature,
                     "effective_temperature": effective_temperature,
@@ -307,10 +325,12 @@ class AnthropicLLMClient:
                     ),
                     "cached_tokens": usage.get("cache_read_input_tokens"),
                     "total_tokens": total_tokens,
+                    "usage_complete": usage_complete,
                     "estimated_cost_usd": estimated_cost_usd,
                     "stop_reason": data.get("stop_reason"),
                     "retry_events": retry_events,
-                    "status": "success",
+                    "status": "truncated" if data.get("stop_reason") == "max_tokens" else "success",
+                    "output_truncated": data.get("stop_reason") == "max_tokens",
                     "raw_capture_persisted": self.config.raw_capture_dir is not None,
                 }
                 self.calls.append(record)
@@ -368,9 +388,7 @@ class AnthropicLLMClient:
             "requested_model": requested_model,
             "requested_temperature": requested_temperature,
             "effective_temperature": effective_temperature,
-            "temperature_omitted_for_compatibility": (
-                temperature_omitted_for_compatibility
-            ),
+            "temperature_omitted_for_compatibility": (temperature_omitted_for_compatibility),
             "llm_role": llm_role,
             "call_started_utc": started.isoformat(),
             "latency_ms": round((time.perf_counter() - started_clock) * 1000, 3),

@@ -14,6 +14,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from functools import partial
 from typing import Any
 
 from langgraph.graph import END, START, StateGraph
@@ -39,6 +40,7 @@ from traceable_spec.entities import (
     TraceManifest,
     normalize_specification_req,
 )
+from traceable_spec.evaluation.contracts import V1, evaluate_contract, require_contract
 from traceable_spec.evaluation.evaluator import evaluate_specification
 from traceable_spec.llm.protocol import LLMClient
 from traceable_spec.traceability import materialize_trace_manifest
@@ -51,6 +53,7 @@ NodeFn = Callable[[PipelineGraphState], dict[str, Any]]
 class PipelineDeps:
     use_case_nodes: UseCaseNodeFns
     activity_nodes: ActivityNodeFns
+    contract_version: str = V1
 
 
 def default_pipeline_deps() -> PipelineDeps:
@@ -60,16 +63,21 @@ def default_pipeline_deps() -> PipelineDeps:
     )
 
 
-def live_pipeline_deps(client: LLMClient) -> PipelineDeps:
+def live_pipeline_deps(client: LLMClient, *, contract_version: str = V1) -> PipelineDeps:
     """Use the same provider-neutral client for both specialized agents."""
 
     return PipelineDeps(
-        use_case_nodes=use_case_nodes_with_llm(client),
-        activity_nodes=activity_nodes_with_llm(client),
+        use_case_nodes=use_case_nodes_with_llm(client, contract_version=contract_version),
+        activity_nodes=activity_nodes_with_llm(client, contract_version=contract_version),
+        contract_version=require_contract(contract_version),
     )
 
 
-def _normalize_requirements(state: PipelineGraphState) -> dict[str, Any]:
+def _normalize_requirements(
+    state: PipelineGraphState, *, contract_version: str = V1
+) -> dict[str, Any]:
+    if state.get("formal_contract", contract_version) != contract_version:
+        raise ValueError("Checkpoint/input validation contract differs from compiled graph")
     request = normalize_specification_req(state["request"])
     return {
         "request": request,
@@ -81,6 +89,7 @@ def _normalize_requirements(state: PipelineGraphState) -> dict[str, Any]:
         "activity_results": [],
         "next_activity_index": 0,
         "status": PipelineStatus.PARTIAL,
+        "formal_contract": contract_version,
     }
 
 
@@ -88,6 +97,8 @@ def _run_use_cases_factory(deps: PipelineDeps) -> NodeFn:
     compiled = build_use_cases_graph(deps.use_case_nodes)
 
     def _run_use_cases(state: PipelineGraphState) -> dict[str, Any]:
+        if state.get("formal_contract", deps.contract_version) != deps.contract_version:
+            raise ValueError("Checkpoint validation contract differs from compiled graph")
         request = state["request"]
         if not isinstance(request, SpecificationRequest):
             raise TypeError("request must be normalized before the Use Case stage")
@@ -115,6 +126,8 @@ def _run_next_activity_factory(deps: PipelineDeps) -> NodeFn:
     compiled = build_activity_diagram_graph(deps.activity_nodes)
 
     def _run_next_activity(state: PipelineGraphState) -> dict[str, Any]:
+        if state.get("formal_contract", deps.contract_version) != deps.contract_version:
+            raise ValueError("Checkpoint validation contract differs from compiled graph")
         request = state["request"]
         if not isinstance(request, SpecificationRequest):
             raise TypeError("request must be normalized before the activity stage")
@@ -137,6 +150,7 @@ def _run_next_activity_factory(deps: PipelineDeps) -> NodeFn:
         use_case = use_case_set.use_cases[index]
         out = compiled.invoke(
             {
+                "request": request,
                 "use_case": use_case,
                 "actors": use_case_set.actors,
                 "max_repair_attempts": state.get("max_repair_attempts")
@@ -196,7 +210,7 @@ def _route_after_activity(
     return "validate_e2e_trace"
 
 
-def _validate_e2e_trace(state: PipelineGraphState) -> dict[str, Any]:
+def _validate_e2e_trace(state: PipelineGraphState, *, contract_version: str = V1) -> dict[str, Any]:
     request = state["request"]
     if not isinstance(request, SpecificationRequest):
         raise TypeError("request must be normalized before trace validation")
@@ -210,7 +224,11 @@ def _validate_e2e_trace(state: PipelineGraphState) -> dict[str, Any]:
         failure_reason=state.get("failure_reason"),
         uc_repair_attempts_used=int(state.get("uc_repair_attempts_used") or 0),
     )
-    report = validate_end_to_end_trace(spec)
+    report = (
+        validate_end_to_end_trace(spec)
+        if contract_version == V1
+        else evaluate_contract(spec, contract_version)
+    )
     reports = list(state.get("validation_reports") or [])
     reports.append(report)
     status = state.get("status") or PipelineStatus.FAILED
@@ -219,7 +237,7 @@ def _validate_e2e_trace(state: PipelineGraphState) -> dict[str, Any]:
     return {"validation_reports": reports, "status": status}
 
 
-def _run_evaluator(state: PipelineGraphState) -> dict[str, Any]:
+def _run_evaluator(state: PipelineGraphState, *, contract_version: str = V1) -> dict[str, Any]:
     request = state["request"]
     if not isinstance(request, SpecificationRequest):
         raise TypeError("request must be normalized before evaluation")
@@ -233,7 +251,9 @@ def _run_evaluator(state: PipelineGraphState) -> dict[str, Any]:
         failure_reason=state.get("failure_reason"),
         uc_repair_attempts_used=int(state.get("uc_repair_attempts_used") or 0),
     )
-    evaluation = evaluate_specification(spec)
+    # V1's aggregate trace-coverage metric uses the old boundary definition.
+    # Do not relabel it as a V2 metric. Gold metrics are computed separately.
+    evaluation = evaluate_specification(spec) if contract_version == V1 else None
     spec = spec.model_copy(update={"evaluation_report": evaluation})
     return {"evaluation_report": evaluation, "specification": spec}
 
@@ -273,11 +293,19 @@ def build_pipeline_graph(
     deps = deps or default_pipeline_deps()
     builder: Any = StateGraph(PipelineGraphState)
 
-    builder.add_node("normalize_requirements", _normalize_requirements)
+    require_contract(deps.contract_version)
+    builder.add_node(
+        "normalize_requirements",
+        partial(_normalize_requirements, contract_version=deps.contract_version),
+    )
     builder.add_node("run_use_cases", _run_use_cases_factory(deps))
     builder.add_node("run_next_activity", _run_next_activity_factory(deps))
-    builder.add_node("validate_e2e_trace", _validate_e2e_trace)
-    builder.add_node("run_evaluator", _run_evaluator)
+    builder.add_node(
+        "validate_e2e_trace", partial(_validate_e2e_trace, contract_version=deps.contract_version)
+    )
+    builder.add_node(
+        "run_evaluator", partial(_run_evaluator, contract_version=deps.contract_version)
+    )
     builder.add_node("finalize_pipeline", _finalize_pipeline)
 
     builder.add_edge(START, "normalize_requirements")
@@ -317,7 +345,10 @@ def compile_live_pipeline(
     client: LLMClient,
     *,
     checkpointer: Any | None = None,
+    contract_version: str = V1,
 ) -> Any:
     """Compile the production path with live UC and Activity agent roles."""
 
-    return build_pipeline_graph(live_pipeline_deps(client), checkpointer=checkpointer)
+    return build_pipeline_graph(
+        live_pipeline_deps(client, contract_version=contract_version), checkpointer=checkpointer
+    )

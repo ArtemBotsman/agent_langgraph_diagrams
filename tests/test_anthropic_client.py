@@ -5,7 +5,52 @@ import json
 import pytest
 
 from traceable_spec.llm.anthropic import AnthropicConfig, AnthropicLLMClient
-from traceable_spec.llm.openai_compatible import LLMOutputTruncatedError
+from traceable_spec.llm.openai_compatible import LLMBudgetExceededError, LLMOutputTruncatedError
+
+
+@pytest.mark.parametrize(
+    "usage",
+    [
+        None,
+        {},
+        {"input_tokens": 0, "output_tokens": 0},
+        {"input_tokens": -1, "output_tokens": 2},
+        {"input_tokens": "3", "output_tokens": 2},
+        {"input_tokens": True, "output_tokens": 2},
+    ],
+)
+def test_anthropic_unknown_usage_is_not_a_free_call(usage):
+    def transport(*_):
+        return 200, json.dumps(
+            {
+                "content": [{"type": "text", "text": "{}"}],
+                "stop_reason": "end_turn",
+                "usage": usage,
+            }
+        ).encode()
+
+    client = AnthropicLLMClient(_config(), transport=transport)
+    assert client.complete(messages=[{"role": "user", "content": "x"}]) == "{}"
+    assert client.calls[0]["usage_complete"] is False
+    assert client.calls[0]["estimated_cost_usd"] is None
+    with pytest.raises(LLMBudgetExceededError, match="Unknown token usage"):
+        client.complete(messages=[{"role": "user", "content": "x"}])
+
+
+def test_anthropic_cached_input_can_be_the_entire_prompt():
+    def transport(*_):
+        return 200, json.dumps(
+            {
+                "content": [{"type": "text", "text": "{}"}],
+                "stop_reason": "end_turn",
+                "usage": {"input_tokens": 0, "cache_read_input_tokens": 10, "output_tokens": 2},
+            }
+        ).encode()
+
+    client = AnthropicLLMClient(_config(), transport=transport)
+    client.complete(messages=[{"role": "user", "content": "x"}])
+    assert client.calls[0]["usage_complete"] is True
+    assert client.calls[0]["total_tokens"] == 12
 
 
 def _config(**updates: object) -> AnthropicConfig:
@@ -65,7 +110,7 @@ def test_anthropic_client_builds_native_messages_request() -> None:
     assert payload["output_config"] == {"effort": "low"}
     assert "temperature" not in payload
     assert "response_format" not in payload
-    assert client.calls[0]["total_tokens"] == 15
+    assert client.calls[0]["total_tokens"] == 17
     assert client.calls[0]["reasoning_tokens"] == 1
     assert client.calls[0]["requested_temperature"] == 0
     assert client.calls[0]["effective_temperature"] is None
@@ -92,12 +137,8 @@ def test_anthropic_client_keeps_temperature_for_older_model() -> None:
         }
         return 200, json.dumps(response).encode()
 
-    client = AnthropicLLMClient(
-        _config(model="claude-haiku-4-5-20251001"), transport=transport
-    )
-    client.complete(
-        messages=[{"role": "user", "content": "Return JSON"}], temperature=0
-    )
+    client = AnthropicLLMClient(_config(model="claude-haiku-4-5-20251001"), transport=transport)
+    client.complete(messages=[{"role": "user", "content": "Return JSON"}], temperature=0)
 
     assert observed["temperature"] == 0
     assert client.calls[0]["effective_temperature"] == 0

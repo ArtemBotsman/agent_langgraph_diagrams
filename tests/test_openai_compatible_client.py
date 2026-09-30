@@ -73,6 +73,50 @@ def test_client_enforces_local_call_budget_before_transport() -> None:
         client.complete(messages=[{"role": "user", "content": "x"}])
 
 
+@pytest.mark.parametrize(
+    "usage",
+    [
+        None,
+        {},
+        {"prompt_tokens": 10, "completion_tokens": 2},
+        {"prompt_tokens": -1, "completion_tokens": 2, "total_tokens": 1},
+        {"prompt_tokens": 10, "completion_tokens": 2, "total_tokens": 99},
+        {"prompt_tokens": True, "completion_tokens": 2, "total_tokens": 3},
+        {"prompt_tokens": "10", "completion_tokens": 2, "total_tokens": 12},
+        {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
+    ],
+)
+def test_unknown_usage_preserves_content_but_is_not_free(usage, tmp_path):
+    def transport(*args):
+        return 200, json.dumps(
+            {
+                "model": "test-model",
+                "usage": usage,
+                "choices": [
+                    {"message": {"content": "returned candidate"}, "finish_reason": "stop"}
+                ],
+            }
+        ).encode()
+
+    client = OpenAICompatibleLLMClient(
+        _config(
+            input_price_usd_per_million=0.3,
+            output_price_usd_per_million=1.2,
+            raw_capture_dir=tmp_path / "raw",
+            telemetry_path=tmp_path / "calls.jsonl",
+        ),
+        transport=transport,
+    )
+    assert client.complete(messages=[{"role": "user", "content": "x"}]) == "returned candidate"
+    assert client.calls[0]["usage_complete"] is False
+    for field in ("prompt_tokens", "completion_tokens", "total_tokens", "estimated_cost_usd"):
+        assert client.calls[0][field] is None
+    assert (tmp_path / "raw/CALL-000001-attempt-01-response.json").exists()
+    with pytest.raises(LLMBudgetExceededError, match="Unknown token usage"):
+        client.complete(messages=[{"role": "user", "content": "x"}])
+    assert len(client.calls) == 1
+
+
 def test_client_enforces_configured_estimated_cost_budget() -> None:
     client = OpenAICompatibleLLMClient(
         _config(
@@ -96,20 +140,28 @@ def test_cost_budget_requires_prices_before_transport() -> None:
         client.complete(messages=[{"role": "user", "content": "x"}])
 
 
-def test_client_classifies_output_truncation_without_retry() -> None:
+@pytest.mark.parametrize("content", ["", "{", '{"valid_json": true}'])
+def test_client_classifies_output_truncation_without_retry(content: str, tmp_path) -> None:
     def transport(*_: object) -> tuple[int, bytes]:
         response = {
             "model": "test-model",
-            "choices": [{"message": {"content": ""}, "finish_reason": "length"}],
+            "choices": [{"message": {"content": content}, "finish_reason": "length"}],
             "usage": {"prompt_tokens": 5, "completion_tokens": 10, "total_tokens": 15},
         }
         return 200, json.dumps(response).encode()
 
-    client = OpenAICompatibleLLMClient(_config(max_retries=2), transport=transport)
+    telemetry = tmp_path / "calls.jsonl"
+    client = OpenAICompatibleLLMClient(
+        _config(max_retries=2, telemetry_path=telemetry), transport=transport
+    )
     with pytest.raises(LLMOutputTruncatedError):
         client.complete(messages=[{"role": "user", "content": "x"}])
     assert len(client.calls) == 1
     assert client.calls[0]["finish_reason"] == "length"
+    assert client.calls[0]["status"] == "truncated"
+    assert client.calls[0]["output_truncated"] is True
+    assert client.total_tokens == 15
+    assert json.loads(telemetry.read_text())["status"] == "truncated"
 
 
 @pytest.mark.parametrize(
@@ -318,7 +370,7 @@ def test_client_captures_raw_evidence_only_when_explicitly_enabled(tmp_path: Pat
     def transport(*_: object) -> tuple[int, bytes]:
         response = {
             "model": "test-model",
-            "choices": [{"message": {"content": "{\"accepted\":true}"}, "finish_reason": "stop"}],
+            "choices": [{"message": {"content": '{"accepted":true}'}, "finish_reason": "stop"}],
             "usage": {"prompt_tokens": 2, "completion_tokens": 3, "total_tokens": 5},
         }
         return 200, json.dumps(response).encode()

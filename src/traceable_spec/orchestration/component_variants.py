@@ -6,6 +6,7 @@ from dataclasses import replace
 from typing import Any
 
 from traceable_spec.entities import ActivityGraphState, UseCaseGraphState, ValidationReport
+from traceable_spec.evaluation.contracts import V1
 from traceable_spec.llm.protocol import LLMClient
 from traceable_spec.orchestration.pipeline import PipelineDeps, live_pipeline_deps
 
@@ -58,11 +59,14 @@ def _skip_activity_rule_feedback(state: ActivityGraphState) -> dict[str, Any]:
     }
 
 
-def live_pipeline_deps_without_critics(client: LLMClient) -> PipelineDeps:
+def live_pipeline_deps_without_critics(
+    client: LLMClient, *, contract_version: str = V1
+) -> PipelineDeps:
     """Keep generators, validators and repair but remove semantic critic calls."""
 
-    deps = live_pipeline_deps(client)
-    return PipelineDeps(
+    deps = live_pipeline_deps(client, contract_version=contract_version)
+    return replace(
+        deps,
         use_case_nodes=replace(
             deps.use_case_nodes,
             criticize_use_case_set=_skip_use_case_critic,

@@ -20,9 +20,10 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from traceable_spec.llm.protocol import LLMNotConfiguredError
+from traceable_spec.llm.streaming import openai_response
 from traceable_spec.prompts.use_cases import detect_llm_role
 
 
@@ -102,6 +103,7 @@ class OpenAICompatibleConfig:
     reasoning_effort: str | None = None
     telemetry_path: Path | None = None
     raw_capture_dir: Path | None = None
+    streaming: bool = False
 
     @classmethod
     def from_env(cls) -> OpenAICompatibleConfig:
@@ -122,12 +124,8 @@ class OpenAICompatibleConfig:
             api_key=api_key,
             timeout_seconds=float(os.environ.get("LLM_TIMEOUT_SECONDS", "90")),
             max_retries=int(os.environ.get("LLM_MAX_RETRIES", "2")),
-            retry_base_delay_seconds=float(
-                os.environ.get("LLM_RETRY_BASE_DELAY_SECONDS", "0.5")
-            ),
-            max_retry_delay_seconds=float(
-                os.environ.get("LLM_MAX_RETRY_DELAY_SECONDS", "60")
-            ),
+            retry_base_delay_seconds=float(os.environ.get("LLM_RETRY_BASE_DELAY_SECONDS", "0.5")),
+            max_retry_delay_seconds=float(os.environ.get("LLM_MAX_RETRY_DELAY_SECONDS", "60")),
             max_output_tokens=int(os.environ.get("LLM_MAX_OUTPUT_TOKENS", "8000")),
             max_calls_per_process=int(os.environ.get("LLM_MAX_CALLS_PER_PROCESS", "100")),
             max_total_tokens_per_process=int(
@@ -190,6 +188,8 @@ class OpenAICompatibleLLMClient:
         self.total_cost_usd = 0.0
 
     def _check_budget(self) -> None:
+        if any(call.get("usage_complete") is False for call in self.calls):
+            raise LLMBudgetExceededError("Unknown token usage requires review before another call")
         if len(self.calls) >= self.config.max_calls_per_process:
             raise LLMBudgetExceededError("Local LLM call-count budget exhausted")
         if self.total_tokens >= self.config.max_total_tokens_per_process:
@@ -248,8 +248,10 @@ class OpenAICompatibleLLMClient:
         payload: dict[str, Any] = {
             "model": requested_model,
             "messages": request_messages,
-            "stream": False,
+            "stream": self.config.streaming,
         }
+        if self.config.streaming:
+            payload["stream_options"] = {"include_usage": True}
         if provider == "openai":
             payload["max_completion_tokens"] = self.config.max_output_tokens
         else:
@@ -266,8 +268,7 @@ class OpenAICompatibleLLMClient:
         elif self.config.reasoning_effort is not None:
             payload["reasoning_effort"] = self.config.reasoning_effort
         openai_reasoning_without_temperature = (
-            provider == "openai"
-            and self.config.reasoning_effort not in {None, "none"}
+            provider == "openai" and self.config.reasoning_effort not in {None, "none"}
         )
         if temperature is not None and not openai_reasoning_without_temperature:
             payload["temperature"] = temperature
@@ -304,17 +305,37 @@ class OpenAICompatibleLLMClient:
                 )
                 if status >= 400:
                     raise LLMHTTPStatusError(status)
-                data = json.loads(raw.decode("utf-8"))
+                data = (
+                    openai_response(raw)
+                    if self.config.streaming
+                    else json.loads(raw.decode("utf-8"))
+                )
                 choice = data["choices"][0]
                 content = str(choice["message"]["content"])
-                usage = data.get("usage") or {}
-                prompt_tokens = int(usage.get("prompt_tokens") or 0)
-                completion_tokens = int(usage.get("completion_tokens") or 0)
-                total_tokens = int(usage.get("total_tokens") or 0)
-                self.total_tokens += total_tokens
+                usage = data.get("usage")
+                usage = usage if isinstance(usage, dict) else {}
+                counts = [
+                    usage.get(name)
+                    for name in ("prompt_tokens", "completion_tokens", "total_tokens")
+                ]
+                usage_complete = (
+                    all(type(value) is int and value >= 0 for value in counts)
+                    and cast(int, counts[0]) > 0
+                    and counts[2] == cast(int, counts[0]) + cast(int, counts[1])
+                )
+                # Missing/invalid accounting is not a free call. Keep the returned
+                # content and raw evidence, but prohibit further calls on this client.
+                prompt_tokens, completion_tokens, total_tokens = (
+                    counts if usage_complete else [None, None, None]
+                )
+                if total_tokens is not None:
+                    self.total_tokens += total_tokens
                 estimated_cost_usd: float | None = None
                 if (
-                    self.config.input_price_usd_per_million is not None
+                    usage_complete
+                    and prompt_tokens is not None
+                    and completion_tokens is not None
+                    and self.config.input_price_usd_per_million is not None
                     and self.config.output_price_usd_per_million is not None
                 ):
                     estimated_cost_usd = (
@@ -327,6 +348,9 @@ class OpenAICompatibleLLMClient:
                     "provider": self.config.provider,
                     "api_base": self.config.api_base,
                     "requested_model": requested_model,
+                    "requested_max_output_tokens": self.config.max_output_tokens,
+                    "requested_temperature": temperature,
+                    "effective_temperature": payload.get("temperature"),
                     "llm_role": llm_role,
                     "resolved_model": data.get("model"),
                     "call_started_utc": started.isoformat(),
@@ -344,10 +368,12 @@ class OpenAICompatibleLLMClient:
                         "cached_tokens"
                     ),
                     "total_tokens": total_tokens,
+                    "usage_complete": usage_complete,
                     "estimated_cost_usd": estimated_cost_usd,
                     "finish_reason": choice.get("finish_reason"),
                     "retry_events": retry_events,
-                    "status": "success",
+                    "status": "truncated" if choice.get("finish_reason") == "length" else "success",
+                    "output_truncated": choice.get("finish_reason") == "length",
                     "raw_capture_persisted": self.config.raw_capture_dir is not None,
                 }
                 self.calls.append(record)
@@ -411,14 +437,15 @@ class OpenAICompatibleLLMClient:
             "provider": self.config.provider,
             "api_base": self.config.api_base,
             "requested_model": requested_model,
+            "requested_max_output_tokens": self.config.max_output_tokens,
+            "requested_temperature": temperature,
+            "effective_temperature": payload.get("temperature"),
             "llm_role": llm_role,
             "call_started_utc": started.isoformat(),
             "latency_ms": round((time.perf_counter() - started_clock) * 1000, 3),
             "attempts": attempts,
             "http_status": (
-                last_error.status_code
-                if isinstance(last_error, LLMHTTPStatusError)
-                else None
+                last_error.status_code if isinstance(last_error, LLMHTTPStatusError) else None
             ),
             "prompt_sha256": prompt_hash,
             "status": "failed",

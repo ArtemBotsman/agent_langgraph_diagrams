@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from functools import partial
 from typing import Any, Literal
 
 from langgraph.graph import END, START, StateGraph
@@ -22,6 +23,7 @@ from traceable_spec.entities import (
     ValidationIssue,
     ValidationReport,
 )
+from traceable_spec.evaluation.contracts import V1, contract_client, validate_activity_contract
 from traceable_spec.llm.parsing import parse_json_model
 from traceable_spec.llm.protocol import LLMClient
 from traceable_spec.mermaid import render_mermaid
@@ -35,7 +37,7 @@ from traceable_spec.testing.fixtures import (
     sample_activity_trace_links,
     sample_uc_trace_manifest,
 )
-from traceable_spec.validators import validate_activity_deterministic, validate_repair_limit
+from traceable_spec.validators import validate_repair_limit
 
 NodeFn = Callable[[ActivityGraphState], dict[str, Any]]
 
@@ -102,6 +104,7 @@ def _make_generate_activity_model(client: LLMClient) -> NodeFn:
             messages=build_activity_generator_messages(
                 state["use_case"],
                 list(state.get("actors") or []),
+                request=state.get("request"),
             ),
             temperature=0,
             response_format={"type": "json_object"},
@@ -153,7 +156,9 @@ def _validate_activity_schema(state: ActivityGraphState) -> dict[str, Any]:
     return {"schema_report": report, "validation_reports": reports}
 
 
-def _validate_activity_deterministic_node(state: ActivityGraphState) -> dict[str, Any]:
+def _validate_activity_deterministic_node(
+    state: ActivityGraphState, *, contract_version: str = V1
+) -> dict[str, Any]:
     diagram = state.get("activity_diagram")
     if diagram is None:
         report = ValidationReport(
@@ -170,7 +175,7 @@ def _validate_activity_deterministic_node(state: ActivityGraphState) -> dict[str
             validator_name="activity_deterministic",
         )
     else:
-        report = validate_activity_deterministic(diagram, state["use_case"])
+        report = validate_activity_contract(diagram, state["use_case"], contract_version)
     reports = list(state.get("validation_reports") or [])
     reports.append(report)
     return {"deterministic_report": report, "validation_reports": reports}
@@ -220,6 +225,7 @@ def _make_criticize_activity_model(client: LLMClient) -> NodeFn:
                 diagram,
                 formal_reports,
                 int(state.get("repair_attempt") or 0),
+                request=state.get("request"),
             ),
             temperature=0,
             response_format={"type": "json_object"},
@@ -251,6 +257,16 @@ def _make_criticize_activity_model(client: LLMClient) -> NodeFn:
 
 
 def _decide_activity_result(state: ActivityGraphState) -> dict[str, Any]:
+    critic = state.get("critic_report")
+    if state.get("request") is not None and critic is not None and any(
+        issue.blocking and issue.code == "SOURCE_UC_CONFLICT" for issue in critic.issues
+    ):
+        # An Activity repair cannot edit the upstream UC. Do not spend its repair
+        # budget reproducing a known source conflict or inventing replacement IDs.
+        return {
+            "decision": "fail",
+            "failure_reason": "Upstream Use Case requires review against original requirements",
+        }
     empty = ValidationReport(passed=False, issues=[], validator_name="x")
     schema_ok = (state.get("schema_report") or empty).passed
     det_ok = (state.get("deterministic_report") or empty).passed
@@ -327,6 +343,7 @@ def _make_repair_activity_model(client: LLMClient) -> NodeFn:
                 state.get("activity_diagram"),
                 _collect_activity_issues(state),
                 attempt,
+                request=state.get("request"),
             ),
             temperature=0,
             response_format={"type": "json_object"},
@@ -368,7 +385,8 @@ def _finalize_activity(state: ActivityGraphState) -> dict[str, Any]:
 def _fail_activity_generation(state: ActivityGraphState) -> dict[str, Any]:
     return {
         "status": PipelineStatus.FAILED,
-        "failure_reason": "Activity generation failed after validation/repair limit",
+        "failure_reason": state.get("failure_reason")
+        or "Activity generation failed after validation/repair limit",
     }
 
 
@@ -400,14 +418,17 @@ def default_activity_nodes() -> ActivityNodeFns:
     )
 
 
-def activity_nodes_with_llm(client: LLMClient) -> ActivityNodeFns:
+def activity_nodes_with_llm(client: LLMClient, *, contract_version: str = V1) -> ActivityNodeFns:
     """Wire Activity generator, semantic critic and repair roles to a client."""
 
+    client = contract_client(client, contract_version)
     return ActivityNodeFns(
         prepare_use_case=_prepare_use_case,
         generate_activity_model=_make_generate_activity_model(client),
         validate_activity_schema=_validate_activity_schema,
-        validate_activity_deterministic=_validate_activity_deterministic_node,
+        validate_activity_deterministic=partial(
+            _validate_activity_deterministic_node, contract_version=contract_version
+        ),
         criticize_activity_model=_make_criticize_activity_model(client),
         decide_activity_result=_decide_activity_result,
         repair_activity_model=_make_repair_activity_model(client),

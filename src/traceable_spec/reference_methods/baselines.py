@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+import hashlib
+from collections.abc import Callable
+from dataclasses import dataclass
+from typing import Any
+
 from traceable_spec.entities import (
     ActivityDiagram,
     ActivityEdge,
@@ -21,6 +26,7 @@ from traceable_spec.entities import (
     ScenarioKind,
     ScenarioStep,
     SpecificationInput,
+    SpecificationRequest,
     SystemStory,
     UseCase,
     UseCaseSet,
@@ -29,11 +35,21 @@ from traceable_spec.entities import (
     ValidationReport,
     normalize_specification_req,
 )
+from traceable_spec.evaluation.contracts import (
+    V1,
+    contract_client,
+    evaluate_contract,
+    validate_activity_contract,
+    with_contract_validation,
+)
 from traceable_spec.evaluation.evaluator import evaluate_specification
 from traceable_spec.llm.parsing import parse_json_model
 from traceable_spec.llm.protocol import LLMClient
 from traceable_spec.mermaid import render_mermaid
-from traceable_spec.prompts.one_shot import build_one_shot_messages
+from traceable_spec.prompts.one_shot import (
+    build_one_shot_messages,
+    build_validator_feedback_messages,
+)
 from traceable_spec.rendering.use_case_text import render_use_case_text
 from traceable_spec.traceability import inherit_step_sources, materialize_trace_manifest
 from traceable_spec.validators import (
@@ -198,15 +214,35 @@ def run_rule_based_baseline(value: SpecificationInput) -> GeneratedSpecification
 def run_one_shot_baseline(
     value: SpecificationInput,
     client: LLMClient,
+    *,
+    common_final_validation: bool = False,
+    contract_version: str = V1,
 ) -> GeneratedSpecification:
     """B1: one LLM call, no critic and no repair, with the same typed artifacts."""
 
+    client = contract_client(client, contract_version)
     request = normalize_specification_req(value)
     text = client.complete(
         messages=build_one_shot_messages(request),
         temperature=0,
         response_format={"type": "json_object"},
     )
+    result = _evaluate_direct_response(request, text, contract_version=contract_version)
+    return (
+        with_contract_validation(result, contract_version)
+        if common_final_validation or contract_version != V1
+        else result
+    )
+
+
+def _evaluate_direct_response(
+    request: SpecificationRequest,
+    text: str,
+    *,
+    contract_version: str = V1,
+) -> GeneratedSpecification:
+    """Shared legacy B1 post-processing; no LLM calls and no Gold access."""
+
     artifact, parse_report = parse_json_model(
         OneShotGenerationArtifact,
         text,
@@ -251,7 +287,7 @@ def run_one_shot_baseline(
                 validator_name="one_shot_activity",
             )
         else:
-            report = validate_activity_deterministic(diagram, matched_use_case)
+            report = validate_activity_contract(diagram, matched_use_case, contract_version)
         reports.append(report)
         activity_results.append(
             ActivityGenerationResult(
@@ -298,7 +334,11 @@ def run_one_shot_baseline(
             else PipelineStatus.FAILED
         ),
     )
-    e2e = validate_end_to_end_trace(provisional)
+    e2e = (
+        validate_end_to_end_trace(provisional)
+        if contract_version == V1
+        else evaluate_contract(provisional, contract_version)
+    )
     reports.append(e2e)
     status = (
         PipelineStatus.SUCCESS
@@ -307,3 +347,88 @@ def run_one_shot_baseline(
     )
     result = provisional.model_copy(update={"validation_reports": reports, "status": status})
     return result.model_copy(update={"evaluation_report": evaluate_specification(result)})
+
+
+@dataclass(frozen=True)
+class FeedbackAttempt:
+    """One completed response and its checks, separate from final acceptance."""
+
+    index: int
+    response_sha256: str
+    specification: GeneratedSpecification
+
+    def to_record(self) -> dict[str, Any]:
+        """Persist typed candidates and errors, but not raw prompts/responses."""
+
+        return {
+            "attempt_index": self.index,
+            "phase": "generate" if self.index == 0 else "validator_feedback_repair",
+            "response_sha256": self.response_sha256,
+            "status": self.specification.status.value,
+            "generated_specification": self.specification.model_dump(mode="json"),
+        }
+
+
+@dataclass(frozen=True)
+class ValidatorFeedbackResult:
+    specification: GeneratedSpecification
+    attempts: tuple[FeedbackAttempt, ...]
+
+    @property
+    def repair_attempts_used(self) -> int:
+        return len(self.attempts) - 1
+
+
+def run_validator_feedback_baseline(
+    value: SpecificationInput,
+    client: LLMClient,
+    *,
+    max_repair_attempts: int = 1,
+    on_attempt: Callable[[FeedbackAttempt], None] | None = None,
+    common_final_validation: bool = False,
+    contract_version: str = V1,
+) -> ValidatorFeedbackResult:
+    """Direct whole-package generation plus 0, 1 or 2 formal-feedback repairs.
+
+    The initial prompt, schema and post-processing are identical to B1. No
+    critic, per-UC graph or Gold annotation is used. A repair is another whole
+    response, not an API retry. Transport/budget exceptions propagate; they
+    must not silently consume or reset the semantic repair budget.
+    """
+
+    if type(max_repair_attempts) is not int or not 0 <= max_repair_attempts <= 2:
+        raise ValueError("max_repair_attempts must be an integer in {0, 1, 2}")
+    client = contract_client(client, contract_version)
+    request = normalize_specification_req(value)
+    messages = build_one_shot_messages(request)
+    attempts: list[FeedbackAttempt] = []
+    for index in range(max_repair_attempts + 1):
+        text = client.complete(
+            messages=messages,
+            temperature=0,
+            response_format={"type": "json_object"},
+        )
+        specification = _evaluate_direct_response(request, text, contract_version=contract_version)
+        if common_final_validation or contract_version != V1:
+            specification = with_contract_validation(specification, contract_version)
+        attempt = FeedbackAttempt(
+            index=index,
+            response_sha256=hashlib.sha256(text.encode("utf-8")).hexdigest(),
+            specification=specification,
+        )
+        attempts.append(attempt)
+        if on_attempt is not None:
+            on_attempt(attempt)
+        if specification.status == PipelineStatus.SUCCESS or index == max_repair_attempts:
+            return ValidatorFeedbackResult(specification, tuple(attempts))
+        messages = build_validator_feedback_messages(
+            request,
+            text,
+            (
+                specification.validation_reports
+                if contract_version == V1
+                else [specification.validation_reports[-1]]
+            ),
+            repair_attempt=index + 1,
+        )
+    raise AssertionError("Unreachable: a bounded feedback loop always returns")

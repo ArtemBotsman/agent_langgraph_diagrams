@@ -13,6 +13,7 @@ from traceable_spec.entities import (
     UseCaseSet,
     ValidationReport,
 )
+from traceable_spec.prompts.source_context import SOURCE_RULES, source_context
 
 ROLE_GENERATOR = "use_case_generator"
 ROLE_CRITIC = "use_case_critic"
@@ -38,16 +39,7 @@ def detect_llm_role(messages: list[dict[str, str]]) -> str | None:
 
 
 def build_use_case_generator_messages(request: SpecificationRequest) -> list[dict[str, str]]:
-    frs = [{"id": fr.id, "text": fr.text} for fr in request.functional_requirements]
-    nfrs = [{"id": nfr.id, "text": nfr.text} for nfr in request.non_functional_requirements]
-    payload = {
-        "project_task": request.project_task,
-        "project_name": request.project_name,
-        "project_goal": request.project_goal,
-        "project_description": request.project_description,
-        "functional_requirements": frs,
-        "non_functional_requirements": nfrs,
-    }
+    payload = source_context(request)
     system = (
         "You generate a UseCaseSet and TraceManifest as a single JSON object.\n"
         "Schema keys: use_case_set, trace_manifest.\n"
@@ -57,9 +49,10 @@ def build_use_case_generator_messages(request: SpecificationRequest) -> list[dic
         "- Every scenario step should list the specific source_fr_ids it realizes.\n"
         "- TraceManifest may be empty: Python materializes links from typed references.\n"
         "- Do not invent requirements; mark unsupported assumptions explicitly "
-        "with UnsupportedAssumption and justified=true only when necessary.\n"
+        "with UnsupportedAssumption; necessity is not evidence of justification.\n"
         "- Uncovered FRs must appear in fr_coverage as uncovered/out_of_scope/"
         "conflicting.\n"
+        f"{SOURCE_RULES}\n"
         "JSON Schema: "
         f"{json.dumps(UseCaseGenerationArtifact.model_json_schema(), ensure_ascii=False)}"
     )
@@ -92,28 +85,25 @@ def build_use_case_critic_messages(
         "Return ONLY JSON matching the supplied CriticVerdict schema.\n"
         "Use only enum values declared by the schema; severity is error, warning, or info.\n"
         "Use a conservative, evidence-grounded gate. Choose repair only when at least one "
-        "concrete blocking defect is directly proved by the supplied FR text. A blocking "
+        "concrete blocking defect is directly proved by the supplied original source text. "
+        "Review project_description and NFRs too, not only the FR list. A blocking "
         "issue MUST have severity=error, blocking=true, non-empty element_ids, and a message "
-        "that names the violated FR id. Allowed blocking codes are FR_OMISSION, "
+        "that names the violated FR/NFR id or project_description. "
+        "Allowed blocking codes are FR_OMISSION, "
         "FR_CONTRADICTION, UNSUPPORTED_BUSINESS_RULE, SCENARIO_OUTCOME_MISSING, and "
-        "ACTOR_RESPONSIBILITY_CONTRADICTION. Treat wording, optional decomposition, actor "
+        "ACTOR_RESPONSIBILITY_CONTRADICTION, NFR_OMISSION, NFR_CONTRADICTION and "
+        "SOURCE_CONTRADICTION. Treat wording, optional decomposition, actor "
         "generalization, and modeling preferences as non-blocking warnings and choose accept. "
         "Do not invent a missing requirement. Return at most three issues. On a repeated review, "
         "do not introduce a new blocking criterion unless it proves a direct FR contradiction or "
         "omission. Choose accept whenever no evidence-grounded blocking issue remains.\n"
+        f"{SOURCE_RULES}\n"
         "JSON Schema: "
         f"{json.dumps(CriticVerdict.model_json_schema(), ensure_ascii=False)}"
     )
     user = {
         "review_round": review_round,
-        "specification": {
-            "project_task": request.project_task,
-            "project_name": request.project_name,
-            "project_goal": request.project_goal,
-            "functional_requirements": [
-                {"id": fr.id, "text": fr.text} for fr in request.functional_requirements
-            ],
-        },
+        "specification": source_context(request),
         "use_case_set": use_case_set.model_dump(mode="json"),
         "deterministic_validation": reports_payload,
     }
@@ -138,17 +128,13 @@ def build_use_case_repair_messages(
         "source_fr_ids. If a step legitimately depends on an FR, add that FR to the Use Case; "
         "otherwise remove it from the step.\n"
         "Fix the listed issues; keep valid FR references; do not invent FRs.\n"
+        f"{SOURCE_RULES}\n"
         "JSON Schema: "
         f"{json.dumps(UseCaseGenerationArtifact.model_json_schema(), ensure_ascii=False)}"
     )
     user = {
         "repair_attempt": repair_attempt,
-        "project_task": request.project_task,
-        "project_name": request.project_name,
-        "project_goal": request.project_goal,
-        "functional_requirements": [
-            {"id": fr.id, "text": fr.text} for fr in request.functional_requirements
-        ],
+        **source_context(request),
         "current_use_case_set": (
             None if use_case_set is None else use_case_set.model_dump(mode="json")
         ),

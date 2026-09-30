@@ -10,9 +10,11 @@ from traceable_spec.entities import (
     ActivityGenerationArtifact,
     Actor,
     CriticVerdict,
+    SpecificationRequest,
     UseCase,
     ValidationReport,
 )
+from traceable_spec.prompts.source_context import SOURCE_RULES, source_context
 
 ROLE_ACTIVITY_GENERATOR = "activity_generator"
 ROLE_ACTIVITY_CRITIC = "activity_critic"
@@ -30,6 +32,8 @@ def _contract() -> str:
 def build_activity_generator_messages(
     use_case: UseCase,
     actors: list[Actor],
+    *,
+    request: SpecificationRequest | None = None,
 ) -> list[dict[str, str]]:
     system = (
         "Generate one typed ActivityDiagram for the supplied Use Case. "
@@ -48,6 +52,9 @@ def build_activity_generator_messages(
         "use_case": use_case.model_dump(mode="json"),
         "actors": [actor.model_dump(mode="json") for actor in actors],
     }
+    if request is not None:
+        payload["original_specification"] = source_context(request)
+        system += "\n" + SOURCE_RULES
     return [
         _system(ROLE_ACTIVITY_GENERATOR, system),
         {"role": "user", "content": json.dumps(payload, ensure_ascii=False, indent=2)},
@@ -59,6 +66,8 @@ def build_activity_critic_messages(
     diagram: ActivityDiagram,
     reports: list[ValidationReport],
     review_round: int = 0,
+    *,
+    request: SpecificationRequest | None = None,
 ) -> list[dict[str, str]]:
     system = (
         "You are an Activity Diagram semantic critic, not a syntax validator. "
@@ -91,6 +100,16 @@ def build_activity_critic_messages(
             for report in reports
         ],
     }
+    if request is not None:
+        payload["original_specification"] = source_context(request)
+        system += (
+            "\n"
+            + SOURCE_RULES
+            + "If the UC itself contradicts the original source, report blocking code "
+            "SOURCE_UC_CONFLICT with the UC step ID, source reference and source quotation. "
+            "Do not conceal that conflict by reproducing it in the diagram. This requires "
+            "upstream review; an Activity repair must not invent UC step IDs."
+        )
     return [
         _system(ROLE_ACTIVITY_CRITIC, system),
         {"role": "user", "content": json.dumps(payload, ensure_ascii=False, indent=2)},
@@ -102,6 +121,8 @@ def build_activity_repair_messages(
     diagram: ActivityDiagram | None,
     issues: list[dict[str, Any]],
     repair_attempt: int,
+    *,
+    request: SpecificationRequest | None = None,
 ) -> list[dict[str, str]]:
     system = (
         "Repair one ActivityGenerationArtifact. Return ONLY valid JSON with keys "
@@ -116,6 +137,9 @@ def build_activity_repair_messages(
         "current_activity_diagram": (None if diagram is None else diagram.model_dump(mode="json")),
         "issues_to_fix": issues,
     }
+    if request is not None:
+        payload["original_specification"] = source_context(request)
+        system += "\n" + SOURCE_RULES
     return [
         _system(ROLE_ACTIVITY_REPAIR, system),
         {"role": "user", "content": json.dumps(payload, ensure_ascii=False, indent=2)},

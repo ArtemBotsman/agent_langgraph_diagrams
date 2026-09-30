@@ -617,6 +617,7 @@ class UseCaseGraphOutput(StrictModel):
 
 
 class ActivityGraphInput(StrictModel):
+    request: SpecificationRequest | None = None
     use_case: UseCase
     actors: list[Actor] = Field(default_factory=list)
     max_repair_attempts: int = Field(default=2, ge=0, le=10)
@@ -655,6 +656,7 @@ class UseCaseGraphState(TypedDict, total=False):
 
 class ActivityGraphState(TypedDict, total=False):
     use_case: Required[UseCase]
+    request: SpecificationRequest | None
     actors: list[Actor]
     activity_diagram: ActivityDiagram | None
     trace_manifest: TraceManifest
@@ -672,6 +674,7 @@ class ActivityGraphState(TypedDict, total=False):
 
 class PipelineGraphState(TypedDict, total=False):
     request: Required[SpecificationInput]
+    formal_contract: str
     normalized_frs: list[FunctionalRequirement]
     normalized_nfrs: list[NonFunctionalRequirement]
     use_case_set: UseCaseSet | None

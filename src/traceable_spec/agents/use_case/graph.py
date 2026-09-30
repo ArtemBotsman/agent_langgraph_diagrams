@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
+from functools import partial
 from typing import Any, Literal
 
 from langgraph.graph import END, START, StateGraph
@@ -26,6 +27,7 @@ from traceable_spec.entities import (
     ValidationReport,
     ensure_requirement_atoms,
 )
+from traceable_spec.evaluation.contracts import V1, contract_client, validate_uc_contract
 from traceable_spec.llm.parsing import parse_json_model
 from traceable_spec.llm.protocol import LLMClient
 from traceable_spec.prompts.use_cases import (
@@ -38,7 +40,6 @@ from traceable_spec.testing.fixtures import sample_uc_trace_manifest, sample_use
 from traceable_spec.traceability import inherit_step_sources, materialize_trace_manifest
 from traceable_spec.validators import (
     validate_repair_limit,
-    validate_use_case_set_deterministic,
 )
 
 NodeFn = Callable[[UseCaseGraphState], dict[str, Any]]
@@ -159,7 +160,9 @@ def _validate_uc_schema(state: UseCaseGraphState) -> dict[str, Any]:
     return {"schema_report": report, "validation_reports": reports}
 
 
-def _validate_uc_deterministic(state: UseCaseGraphState) -> dict[str, Any]:
+def _validate_uc_deterministic(
+    state: UseCaseGraphState, *, contract_version: str = V1
+) -> dict[str, Any]:
     use_case_set = state.get("use_case_set")
     reports = list(state.get("validation_reports") or [])
     if use_case_set is None:
@@ -179,10 +182,11 @@ def _validate_uc_deterministic(state: UseCaseGraphState) -> dict[str, Any]:
         reports.append(report)
         return {"deterministic_report": report, "validation_reports": reports}
 
-    report = validate_use_case_set_deterministic(
+    report = validate_uc_contract(
         use_case_set,
         state["request"],
         state.get("trace_manifest") or TraceManifest(),
+        contract_version,
     )
     reports.append(report)
     return {"deterministic_report": report, "validation_reports": reports}
@@ -416,13 +420,16 @@ def default_use_case_nodes() -> UseCaseNodeFns:
     )
 
 
-def use_case_nodes_with_llm(client: LLMClient) -> UseCaseNodeFns:
+def use_case_nodes_with_llm(client: LLMClient, *, contract_version: str = V1) -> UseCaseNodeFns:
     """Wire generator/critic/repair to an LLMClient (scripted fake or real adapter)."""
+    client = contract_client(client, contract_version)
     return UseCaseNodeFns(
         prepare_requirements=_prepare_requirements,
         generate_use_case_set=_make_generate_use_case_set(client),
         validate_uc_schema=_validate_uc_schema,
-        validate_uc_deterministic=_validate_uc_deterministic,
+        validate_uc_deterministic=partial(
+            _validate_uc_deterministic, contract_version=contract_version
+        ),
         criticize_use_case_set=_make_criticize_use_case_set(client),
         decide_uc_result=_decide_uc_result,
         repair_use_case_set=_make_repair_use_case_set(client),

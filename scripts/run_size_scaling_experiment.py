@@ -32,7 +32,12 @@ from traceable_spec.orchestration.component_variants import (
 )
 from traceable_spec.orchestration.persistence import open_sqlite_checkpointer, thread_config
 from traceable_spec.orchestration.pipeline import compile_live_pipeline, compile_pipeline
-from traceable_spec.reference_methods import run_one_shot_baseline, run_rule_based_baseline
+from traceable_spec.reference_methods import (
+    FeedbackAttempt,
+    run_one_shot_baseline,
+    run_rule_based_baseline,
+    run_validator_feedback_baseline,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BENCHMARK = ROOT / "benchmark" / "size_scaling_v1"
@@ -40,6 +45,8 @@ DEFAULT_OUTPUT_ROOT = ROOT / "artifacts" / "size_scaling_runs"
 CONDITIONS = (
     "B0_RULE",
     "B1_ONESHOT",
+    "B1_FEEDBACK_1",
+    "B1_FEEDBACK_2",
     "FULL",
     "FULL_NO_CRITIC",
     "FULL_NO_REPAIR",
@@ -92,12 +99,33 @@ def _run_condition(
     token_start = client.total_tokens if client is not None else 0
     cost_start = client.total_cost_usd if client is not None else 0.0
     started = time.perf_counter()
+    feedback_repairs_used = 0
     if condition == "B0_RULE":
         specification = run_rule_based_baseline(request)
     elif condition == "B1_ONESHOT":
         if client is None:
             raise RuntimeError("B1_ONESHOT requires a live client")
         specification = run_one_shot_baseline(request, client)
+    elif condition in {"B1_FEEDBACK_1", "B1_FEEDBACK_2"}:
+        if client is None:
+            raise RuntimeError(f"{condition} requires a live client")
+        # Persist each completed attempt before the next request. Never overwrite a run.
+        attempts_path = run_dir / "feedback_attempts.jsonl"
+        with attempts_path.open("x", encoding="utf-8"):
+            pass
+
+        def save_attempt(attempt: FeedbackAttempt) -> None:
+            with attempts_path.open("a", encoding="utf-8") as handle:
+                handle.write(json.dumps(attempt.to_record(), ensure_ascii=False) + "\n")
+
+        feedback = run_validator_feedback_baseline(
+            request,
+            client,
+            max_repair_attempts=1 if condition == "B1_FEEDBACK_1" else 2,
+            on_attempt=save_attempt,
+        )
+        specification = feedback.specification
+        feedback_repairs_used = feedback.repair_attempts_used
     elif condition in {
         "FULL",
         "FULL_NO_CRITIC",
@@ -150,7 +178,8 @@ def _run_condition(
             )
         ),
         "repair_attempts": specification.uc_repair_attempts_used
-        + sum(item.repair_attempts_used for item in specification.activity_results),
+        + sum(item.repair_attempts_used for item in specification.activity_results)
+        + feedback_repairs_used,
     }
     if calls:
         with (run_dir / "calls.jsonl").open("w", encoding="utf-8") as handle:
@@ -314,6 +343,13 @@ def main() -> None:
                         "provider": None if client is None else client.config.provider,
                         "api_base": None if client is None else client.config.api_base,
                         "model": None if client is None else client.config.model,
+                        "whole_package_feedback_repair_limit": (
+                            int(condition[-1]) if condition.startswith("B1_FEEDBACK_") else None
+                        ),
+                        "feedback_prompt_version": (
+                            "2026-09-25-validator-feedback-v1"
+                            if condition.startswith("B1_FEEDBACK_") else None
+                        ),
                     }
                     write_specification_bundle(
                         run_dir,

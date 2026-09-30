@@ -58,6 +58,7 @@ artifacts/size_scaling_runs/size-scaling-gold-*/
 artifacts/statistical_readiness_2026-09-16/revalidated/
 .private_experiment_evidence/
 .private_evidence/
+.private_tools/
 docs/final/deliverables/*.zip
 docs/final/deliverables/AgentLangGraph_technology_project_resit_2026-09-11.pptx
 docs/final/deliverables/AgentLangGraph_technology_project_submission_2026-09-11.pptx
